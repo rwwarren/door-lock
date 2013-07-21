@@ -22,12 +22,21 @@ public class NFCcard {
     //factory = TerminalFactory.getDefault();
     //terminals = factory.terminals().list();
     //terminal = terminals.get(0);
+    terminal.waitForCardPresent(Long.MAX_VALUE);
     card = terminal.connect("T=0");
 
   }
 
   public void disconnectCard() throws CardException{
 
+    card.disconnect(false);
+    terminal.waitForCardAbsent(Long.MAX_VALUE);
+  }
+
+  public String cardInfo(){
+    String info = new String(card.getATR().getBytes());
+    //return card.getATR().getBytes().toString();
+    return info;
   }
 
 }

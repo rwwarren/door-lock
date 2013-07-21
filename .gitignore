@@ -11,3 +11,4 @@ userPass
 *.swp
 mysqlLogin.java
 *.jar
+web/inc/mysqlUsers.php

@@ -60,7 +60,8 @@ public class dbcon {
     public void addUser(String user, String id){
       try {
         Statement selection = conn.createStatement();
-        ResultSet result = selection.executeQuery("INSERT INTO users " + /*(id, name, id_number, user_is_current, date_created)*/ "VALUES (\"\", \"" + user + "\", \" " + id + "\", TRUE, DEFAULT);");
+        /*ResultSet *///int result = selection.executeUpdate("INSERT INTO users " + /*(id, name, id_number, user_is_current, date_created)*/ "VALUES (DEFAULT, \"" + user + "\", PASSWORD(\"" + id + "\"), 1, DEFAULT);");
+        int result = selection.executeUpdate("INSERT INTO users VALUES (DEFAULT, \"" + user + "\", PASSWORD(\"" + id + "\"), 1, DEFAULT);");
       } catch (SQLException ex){
         System.out.println("SQLException: " + ex.getMessage());
       }
@@ -71,14 +72,20 @@ public class dbcon {
     public void selectUser(String user){
       try {
         Statement selection = conn.createStatement();
-        //ResultSet result = selection.executeQuery("SELECT \"" + user + "\" FROM users");
+        //ResultSet result = selection.executeQuery("SELECT PASSWORD(\"" + user + "\") FROM users");
+        /*
         System.out.println("Here are the columns in the table");
         ResultSet result = selection.executeQuery("show columns from users");
         while(result.next()){
           System.out.println(result.getString(1));
+        }*/
+        System.out.println("Here are the users");
+        ResultSet result = selection.executeQuery("select * from users where name = \"" + user + "\" and user_is_current = \"1\";");
+        while(result.next()){
+          System.out.println(result.getString(0));
         }
       } catch (SQLException ex){
-        System.out.println("SQLException: " + ex.getMessage());
+          System.out.println("SQLException: " + ex.getMessage());
       }
 
     }
