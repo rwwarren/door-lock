@@ -20,11 +20,11 @@ class dbconn {
     mysql_close($this->conn);
   }
 
-  public function connect($user){
+  public function connect($user, $pass){
 
   }
 
-  public function changePassword($newPWD){
+  public function changePassword($user, $oldpass, $newPWD){
   
   }
 

@@ -166,7 +166,7 @@ body {
 
 .login form .enviar {
     width: 240px;
-    height: 12px;
+    /*height: 12px;*/
     display: block;
     padding-top: 14px;
     padding-bottom: 14px;
