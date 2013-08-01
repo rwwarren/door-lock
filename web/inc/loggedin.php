@@ -31,7 +31,12 @@ class Loggedin extends Page {
     */
     return //"You are logged in";
       'You are logged in <a href="/logout.php">Log out</a>' .
-      "";
+        '<br>' .
+        //make it so that all users cant 
+        //do this
+        //TODO add is admin column
+        'in <a href="/users.php">Modify Users</a>'.
+        "";
   }
 
   public function getFooter(){

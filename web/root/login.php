@@ -24,8 +24,13 @@ if(isset($_POST)){
 } else {
   echo "nope";
 }
+//global $_COOKIE;
 $_POST['Username'] = session_id();
 session_start();
-echo "<br> test";
+//setcookie("TestCookie", $session_id, time()+3600,'/');
+setcookie("TestCookie", $session_id, time()+3600);
+//echo "<br> test";
+//echo "<br>" . $_COOKIE['PHPSESSID'] . "<br>" ;
+//print_r($_COOKIE);
 header("Location:http://doorlock.wrixton.net/");
 ?>

@@ -1,7 +1,7 @@
 <?php
 //dbconnection
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-require_once("mysqlUsers.php");
+require_once("$root/../inc/mysqlUsers.php");
 
 class dbconn {
   
