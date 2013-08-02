@@ -6,6 +6,8 @@ public class reader {
 
   public static void main(String[] args) throws CardException{
 
+    //TODO make it so that the cards are not all equal
+    //since kelly and mine are
     System.out.println("Here is a test of the db");
     dbcon connection = new dbcon();
     //connection.connect("read");

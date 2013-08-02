@@ -5,6 +5,8 @@ require_once("$root/../inc/template.php");
 
 class userEdit extends Page{
 
+  //$dbconn = new dbconn;
+
   public function getHeader(){
     return 'PiDuinoLock';
   }

@@ -1,4 +1,6 @@
 <?php
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+require_once("$root/../inc/dbcon.php");
   //public function login() {
     //login to site
     //$db = new dbconn;
@@ -25,12 +27,23 @@ if(isset($_POST)){
   echo "nope";
 }
 //global $_COOKIE;
+//TODO strip slahes
+//TODO other security
 $_POST['Username'] = session_id();
+$session_id = session_id();
 session_start();
 //setcookie("TestCookie", $session_id, time()+3600,'/');
+
+$dbconn = new dbconn;
+//$dbconn->close();
+$dbconn->connect("read");
+//echo $dbconn;
+
+
+
 setcookie("TestCookie", $session_id, time()+3600);
 //echo "<br> test";
 //echo "<br>" . $_COOKIE['PHPSESSID'] . "<br>" ;
 //print_r($_COOKIE);
-header("Location:http://doorlock.wrixton.net/");
+//header("Location:http://doorlock.wrixton.net/");
 ?>
