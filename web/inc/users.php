@@ -16,6 +16,9 @@ class userEdit extends Page{
       'You are logged in <a href="/logout.php">Log out</a>' .
         '<br>' .
         'Wooo user modification' .
+        //TODO select all the users if 
+        //the person is an admin
+        '' .
         //make it so that all users cant
         //do this
         //TODO add is admin column

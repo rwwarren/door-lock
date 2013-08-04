@@ -2,7 +2,10 @@
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/users.php");
 
-if (isset($_COOKIE['PHPSESSID'])){
+//TODO validate with mysql?
+//or something secure
+//maybe memchache? or like redis?
+if (isset($_COOKIE['PHPSESSID']) && isset($_COOKIE['sid']) && isset($_COOKIE['n'])){
   $page = new userEdit;
   $page->render();
 } else {
