@@ -95,6 +95,10 @@ class dbconn {
     }
   }
 
+  public function registerUser($newUser, $newPass){
+
+  }
+
 }
 
 ?>
