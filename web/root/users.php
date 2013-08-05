@@ -6,7 +6,7 @@ require_once("$root/../inc/extraFunctions.php");
 //TODO validate with mysql?
 //or something secure
 //maybe memchache? or like redis?
-if (isLoggedIn()){//isset($_COOKIE['PHPSESSID']) && isset($_COOKIE['sid']) && isset($_COOKIE['n'])){
+if (isLoggedIn()){
   $page = new userEdit;
   $page->render();
 } else {

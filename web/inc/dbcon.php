@@ -78,6 +78,7 @@ class dbconn {
     $query = "Select * from web_users";
     $results = mysql_query($query, $this->conn);
     $row = mysql_fetch_row($results, MYSQL_ASSOC);
+    return $row;
 
   }
 
@@ -86,6 +87,7 @@ class dbconn {
     $query = "Select * from web_users where name = \"" . $name . "\" and pass = PASSWORD(\"" . $oldPass . "\") ";
     $query = stripslashes($query);
     $results = mysql_query($query, $this->conn);
+    //Change so that it only finds the one
     if (sizeof($results) > 1) {
       //change the pwd
       $query = "UPDATE web_users SET pass=PASSWORD(\"" . $newPass . "\") WHERE name=\"" . $user . "\" AND pass=PASSWORD(\"" . $oldPass . "\");";

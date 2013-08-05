@@ -29,7 +29,7 @@ class Home extends Page {
   }
 
   public function getFooter(){
-    return '&copy PiDiunoLock Web Interface';
+    return '&copy PiDuinoLock Web Interface';
   }
 
 //}

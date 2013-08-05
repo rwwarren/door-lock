@@ -22,13 +22,6 @@ require_once("$root/../inc/dbcon.php");
 if(isset($_POST['Username']) && isset($_POST['Password'])){
   $user = $_POST['Username'];
   $pass = $_POST['Password'];
-  //echo $_POST['Username'];
-  //echo "<br>";
-  //echo $_POST['Password'];
-  //$_POST['Username'] = session_id();
-  //$session_id = session_id();
-  //session_start();
-  //setcookie("TestCookie", $session_id, time()+3600,'/');
 
   $user = mysql_real_escape_string($user);
   $pass = mysql_real_escape_string($pass);
@@ -40,7 +33,6 @@ if(isset($_POST['Username']) && isset($_POST['Password'])){
   //echo '<br>pass: ' . $pass;
   //$pass = $_POST['Password'];//mysql_real_escape_string($_POST['Password']);
   $dbconn->login($user, $pass);
-  //echo $dbconn;
   $dbconn->close();
   //setcookie("TestCookie", $session_id, time()+3600);
   //setcookie("sid", session_id(), time()+3600);
@@ -50,11 +42,5 @@ if(isset($_POST['Username']) && isset($_POST['Password'])){
   echo "nope";
   echo '<br>No username or password entered';
 }
-//global $_COOKIE;
-//TODO strip slahes
-//TODO other security
-//echo "<br> test";
-//echo "<br>" . $_COOKIE['PHPSESSID'] . "<br>" ;
-//print_r($_COOKIE);
-//header("Location:http://doorlock.wrixton.net/");
+
 ?>
