@@ -75,10 +75,31 @@ class dbconn {
 
   public function getUsers(){
     //selecting all the users
-    $query = "Select * from web_users";
+    //$query = "Select * from web_users";
+    $query = "Select name from web_users";
     $results = mysql_query($query, $this->conn);
-    $row = mysql_fetch_row($results, MYSQL_ASSOC);
-    return $row;
+    //$results = mysql_result($query, $this->conn);
+    //$result = mysql_result($results, 0);
+    //$row = mysql_result($results);
+    //print_r($row);
+    //$row = mysql_fetch_assoc($results);
+    //$row = mysql_fetch_array($results, MYSQL_NUM);
+    
+    //$result = array();
+    //$i = 0;
+    //while ($row = mysql_fetch_assoc($results)){
+    //print_r($row);
+    $theSize = mysql_num_rows($results);
+    $result = array();
+    for($i = 0; $i < $theSize/*sizeof($results)*/; $i++){
+      $result[$i] = mysql_result($results, $i);//$row['name'];
+      //$i++;
+    }
+    
+    //return $result;
+    
+    //return $row;
+    return $result;
 
   }
 
@@ -103,7 +124,7 @@ class dbconn {
     $query = stripslashes($query);
     $results = mysql_query($query, $this->conn);
     if (sizeof($results) < 1) {
-      $query = "INSERT INTO web_users VALUES(\"\",\"" . $newUser . "\", PASSWORD(\"" . $newPass . "\"), \"none\", 1, 1, CURRENT_TIMESTAMP(), DEFAULT);";
+      $query = "INSERT INTO web_users VALUES(\"\",\"" . $newUser . "\", PASSWORD(\"" . $newPass . "\"), \"none\", 1, 1, CURRENT_TIMESTAMP(), DEFAULT, 0);";
       $query = stripslashes($query);
       $results = mysql_query($query, $this->conn);
       echo 'Added user: ' . $newUser;

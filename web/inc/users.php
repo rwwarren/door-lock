@@ -21,7 +21,7 @@ class userEdit extends Page{
           '<br>' .
           'Wooo user modification' .
           '<br>' .
-          $also['name'] .
+          $also[0] .
           '<br>' .
           'Register a user:' .
           '<br>' .
