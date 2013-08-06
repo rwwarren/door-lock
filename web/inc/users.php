@@ -15,12 +15,17 @@ class userEdit extends Page{
       $db = new dbconn;
       $db->connect('read');
       $also = $db->getUsers();
+      print_r($also);
       return 
         'You are logged in as an admin <a href="/logout.php">Log out</a>' .
           '<br>' .
           'Wooo user modification' .
           '<br>' .
-          //$also[1] .
+          $also['name'] .
+          '<br>' .
+          'Register a user:' .
+          '<br>' .
+          'FORM with name and pwd' .
           '';
       //'yes' .
     } else {

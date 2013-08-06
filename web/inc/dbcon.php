@@ -98,7 +98,18 @@ class dbconn {
   }
 
   public function registerUser($newUser, $newPass){
-
+    //test if there already is that user
+    $query = "Select * from web_users where name = \"" . $name . "\"";
+    $query = stripslashes($query);
+    $results = mysql_query($query, $this->conn);
+    if (sizeof($results) < 1) {
+      $query = "INSERT INTO web_users VALUES(\"\",\"" . $newUser . "\", PASSWORD(\"" . $newPass . "\"), \"none\", 1, 1, CURRENT_TIMESTAMP(), DEFAULT);";
+      $query = stripslashes($query);
+      $results = mysql_query($query, $this->conn);
+      echo 'Added user: ' . $newUser;
+    } else {
+      return 'User is already a part of the system';
+    }
   }
 
 }
