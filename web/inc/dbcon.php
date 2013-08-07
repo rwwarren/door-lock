@@ -16,7 +16,7 @@ class dbconn {
   //protected $query = null;
 
   public function login($name, $password){
-    $query = "Select * from web_users where name = \"" . $name . "\" and pass = PASSWORD(\"" . $password . "\") ";
+    $query = "Select * from web_users where name = \"" . $name . "\" and pass = PASSWORD(\"" . $password . "\") and user_is_current = 1 ";
     $query = stripslashes($query);
     //echo $query;
     //$conn = $this->conn;
@@ -104,7 +104,7 @@ class dbconn {
   }
 
   public function changePassword($user, $oldPass, $newPass){
-  
+
     $query = "Select * from web_users where name = \"" . $name . "\" and pass = PASSWORD(\"" . $oldPass . "\") ";
     $query = stripslashes($query);
     $results = mysql_query($query, $this->conn);
@@ -131,6 +131,10 @@ class dbconn {
     } else {
       return 'User is already a part of the system';
     }
+  }
+
+  function removeUser($user){
+    //change isCurrent to 0
   }
 
 }
