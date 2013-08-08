@@ -239,3 +239,29 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+
+#nav {
+  height: 1em;
+  width: 100%;
+  /*
+  border-bottom: 1px solid #c8c8c8;
+  padding-bottom: .5em;
+  */
+  border-bottom: 1px solid #c8c8c8;
+  padding-bottom: .5em;
+  margin-bottom: .5em;
+}
+
+#nav ul {
+  /*
+  border-bottom: 1px solid #c8c8c8;
+  padding-bottom: .5em;
+  */
+}
+
+#nav li {
+  border-left: 1px solid #cccccc;
+  padding-left: .5em;
+  float: left;
+  padding-right: .5em;
+}
