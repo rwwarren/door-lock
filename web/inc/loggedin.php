@@ -1,13 +1,15 @@
 <?php
+require_once("$root/../inc/member.php");
+//require '../../../Predis/Autoloader.php';
+//TODO include predis
+//echo $root;
+//require("$root/../../Predis/Autoloader.php");
+//Predis\Autoloader::register();
 
-require_once("$root/../inc/template.php");
-class Loggedin extends Page {
-
-  public function getHeader(){
-    return 'PiDuinoLock';
-  }
+class Loggedin extends Member {
 
   public function getBody(){
+
     /*
     return '<section class="login">' .
         '<div class="titulo">User Login</div>' .
@@ -38,12 +40,9 @@ class Loggedin extends Page {
         //make it so that all users cant 
         //do this
         //TODO add is admin column
+        //sadf
         'in <a href="/users.php">Modify Users</a>'.
         "";
-  }
-
-  public function getFooter(){
-    return '&copy PiDuinoLock Web Interface';
   }
 
 //}

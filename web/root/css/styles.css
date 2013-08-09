@@ -260,7 +260,16 @@ table {
 }
 
 #nav li {
-  border-left: 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
+  /*border-left: 1px solid #cccccc;*/
+  padding-left: .5em;
+  float: left;
+  padding-right: .5em;
+}
+
+#nav li:last-child {
+  /*border-right: 1px solid #cccccc;*/
+  border-right: none;
   padding-left: .5em;
   float: left;
   padding-right: .5em;

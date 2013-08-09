@@ -2,10 +2,6 @@
 require_once("$root/../inc/template.php");
 class Home extends Page {
 
-  public function getHeader(){
-    return 'PiDuinoLock';
-  }
-
   public function getBody(){
     return '<section class="login">' .
         '<div class="titulo">User Login</div>' .
@@ -26,10 +22,6 @@ class Home extends Page {
       '</form>' .
       '</section>';
     //return 'This is a little test';
-  }
-
-  public function getFooter(){
-    return '&copy PiDuinoLock Web Interface';
   }
 
 }

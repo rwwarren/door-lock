@@ -2,23 +2,30 @@
 
 abstract class Page {
 
-  abstract function getHeader();
+  public function getHeader(){
+    return 'PiDuinoLock';
+  }
 
   abstract function getBody();
 
-  abstract function getFooter();
+  public function getFooter(){
+    return '&copy PiDuinoLock Web Interface';
+  }
 
   public function getNav(){
     //only have if there is
     //someone logged in
     return
+      /*
       '<div id="nav">' .
         '<ul>' .
           '<li><a href="/">Home</a></li>' .
           '<li><a href="/users.php">User Info</a></li>' .
           '<li><a href="/logout.php">Logout</a></li>' .
         '</ul>' .
-      '</div>';
+        '</div>' .
+       */
+        '';
   }
 
   final public function render(){
