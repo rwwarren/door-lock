@@ -34,7 +34,7 @@ class Loggedin extends Member {
     return //"You are logged in";
       'You are logged in <a href="/logout.php">Log out</a>' .
         '<br>' .
-        'Welcome '. $_COOKIE['n'] .
+        'Welcome '. $_SESSION['userName'] .
         '<br>' .
         //change pwd
         //make it so that all users cant 

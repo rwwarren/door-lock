@@ -1,8 +1,17 @@
 <?php
+//if (isset($_SESSION)){
+session_name('sid');
+session_start();
+//}
 
 abstract class Page {
 
   public function getHeader(){
+    /*
+    if (isset($_SESSION)){
+      session_start();
+    }
+*/
     return 'PiDuinoLock';
   }
 
@@ -33,6 +42,8 @@ abstract class Page {
       '<html>' .
       '<head>' .
         '<link rel="stylesheet" type="text/css" href="/css/styles.css" />' .
+        //'<link rel="stylesheet" type="text/css" href="/js/" />' .
+        '<script src="http://code.jquery.com/jquery-2.0.3.js"></script>' .
         '<title>' .
           $this->getHeader() .
         '</title>' .

@@ -14,13 +14,15 @@ class userEdit extends Member{
       echo '<pre>';
       print_r($also);
       echo '</pre>';
+      //session_start();
       return 
         'You are logged in as an admin <a href="/logout.php">Log out</a>' .
           '<br>' .
           'Wooo user modification' .
           '<br>' .
           //$also[0] .
-          $_COOKIE['n'] .
+          //$_COOKIE['n'] .
+          //$_SESSION['foo'] .
           '<br>' .
           'Register a user:' .
           '<br>' .

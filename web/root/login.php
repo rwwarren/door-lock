@@ -1,4 +1,6 @@
 <?php
+session_name('sid');
+session_start();
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/dbcon.php");
   //public function login() {

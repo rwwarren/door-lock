@@ -27,9 +27,13 @@ class dbconn {
     if(sizeof($row) > 1) {
       echo 'Not null';
       //print_r($row);
-      session_start();
-      setcookie("sid", session_id(), time()+3600);
-      setcookie("n", $name, time()+3600);
+      //session_start();
+      //$_SESSION['isLoggedIn'] = 1;
+      $_SESSION['userName'] = $row['name'];//$name;
+      $_SESSION['isAdmin'] = $row['isAdmin'];//$name;
+      session_write_close();
+      //setcookie("sid", session_id(), time()+3600);
+      //setcookie("n", $name, time()+3600);
       $update = "UPDATE web_users SET session_id=\"" . session_id() . "\", user_session_valid=1, session_expire=now()+3600 WHERE name=\"" . $name . "\";";
       mysql_query($update, $this->conn);
       //TODO somehow loook at the session and valid and expire later

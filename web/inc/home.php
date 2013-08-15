@@ -16,6 +16,20 @@ class Home extends Page {
         '<div id="loginSpace"> </div>' .
         //This is the button
         '<input type="submit" value="Submit" class="enviar">'.
+        //testing
+        //TODO work this with the login
+        '<a href="http://jquery.com/">jQuery</a>' .
+        '<script src="jquery.js"></script>' .
+        '<script>' .
+ 
+        '$( document ).ready(function() {' .
+          '$( "a" ).click(function( event ) {' .
+              'alert( "The link will no longer take you to jquery.com" );' .
+                  'event.preventDefault();' .
+              '});' .
+            '});' .
+ 
+        '</script>' .
         //here was ther submit
         //'<br>' .
         //'<a href="#" class="enviar">Submit</a>' .

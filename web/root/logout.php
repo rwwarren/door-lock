@@ -4,7 +4,18 @@
 //$_SESSION = array();
 //session_destroy();
 
+//@session_destroy();
+setcookie('sid', '', time()-3600);
+session_name('sid');
+session_start();
 
+/*
+session_destroy();
+session_unset(); 
+session_name('sid');
+session_start();
+*/
+//setcookie('PHPSESSID', '', time()-3600);
 //unset($_SESSION );
 /*
 session_unset(); 
@@ -12,10 +23,10 @@ session_destroy();
 session_write_close(); 
 setcookie('TestCookie','',time()-3600);
  */
-setcookie('PHPSESSID', '', time()-3600);
+//setcookie('PHPSESSID', '', time()-3600);
 //unset($_COOKIE);
-setcookie('sid', '', time()-3600);
-setcookie('n', '', time()-3600);
+//setcookie('sid', '', time()-3600);
+//setcookie('n', '', time()-3600);
 //unset($_COOKIE['sid']);
 //session_unset();
 //TODO make it so that it updates the MYSQL db and 
