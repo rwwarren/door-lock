@@ -36,11 +36,15 @@ class dbconn {
       //setcookie("n", $name, time()+3600);
       $update = "UPDATE web_users SET session_id=\"" . session_id() . "\", user_session_valid=1, session_expire=now()+3600 WHERE name=\"" . $name . "\";";
       mysql_query($update, $this->conn);
+      header("HTTP/1.0 200 Success");
+      return true; 
       //TODO somehow loook at the session and valid and expire later
     } else {
+      echo $name . ' and ' . $password;
       echo 'null sad face';
       echo '<br>Username or pwd incorrect';
       //TODO change this
+      header("HTTP/1.0 403 Error Username or Password incorrect");
       exit();
     }
     //print_r($row);

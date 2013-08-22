@@ -22,6 +22,7 @@ require_once("$root/../inc/dbcon.php");
   //}
 //TODO remove this
 if(isset($_POST['Username']) && isset($_POST['Password'])){
+  echo "This is a test";
   $user = $_POST['Username'];
   $pass = $_POST['Password'];
 
@@ -43,6 +44,8 @@ if(isset($_POST['Username']) && isset($_POST['Password'])){
 } else {
   echo "nope";
   echo '<br>No username or password entered';
+  header("HTTP/1.0 400 Username or password not entered");
+  //exit();
 }
 
 ?>

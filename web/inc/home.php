@@ -6,9 +6,10 @@ class Home extends Page {
     return '<section class="login">' .
         '<div class="titulo">User Login</div>' .
         //'<form action="#" method="post" enctype="application/x-www-form-urlencoded">' .
-        '<form action="login.php" method="post" enctype="application/x-www-form-urlencoded">' .
-        '<input type="text" required title="Username required" placeholder="Username" name="Username" data-icon="U">' .
-        '<input type="password" required title="Password required" placeholder="Password" name="Password" data-icon="x">' .
+        //'<form action="login.php" method="post" enctype="application/x-www-form-urlencoded">' .
+        '<form onsubmit="check_login(); return false" method="post" enctype="application/x-www-form-urlencoded">' .
+        '<input type="text" required title="Username required" placeholder="Username" name="Username" id="username" data-icon="U">' .
+        '<input type="password" required title="Password required" placeholder="Password" name="Password" id="password" data-icon="x">' .
         //'<div class="olvido">' .
         //        '<div class="col"><a href="#" title="Ver Carásteres">Register</a></div>' .
         //    '<div class="col"><a href="#" title="Recuperar Password">Fotgot Password?</a></div>' .
@@ -16,8 +17,10 @@ class Home extends Page {
         '<div id="loginSpace"> </div>' .
         //This is the button
         '<input type="submit" value="Submit" class="enviar">'.
+        '<div id="loginStatus"> </div>' .
         //testing
         //TODO work this with the login
+        /*
         '<a href="http://jquery.com/">jQuery</a>' .
         '<script src="jquery.js"></script>' .
         '<script>' .
@@ -30,11 +33,41 @@ class Home extends Page {
             '});' .
  
         '</script>' .
+         */
+        '<script>' .
+        '$(document).ready(function(){$(\'#username\').focus()});' .
+          'function check_login(){' .
+            '$.ajax({' .
+              'type:\'POST\',' .
+              'url:\'login.php\', ' .
+              'data: { Username: $(\'#username\').val(), Password: $(\'#password\').val()},' .
+              //'data:"username="+$(\'#username\').val()+"&password="+$(\'#password\').val(),' .
+              'statusCode: {' .
+                '200: function() {' .
+                  'window.location = \'/\';' .
+                '},' .
+                '403: function(){ ' .
+                  '$(\'#loginStatus\').css({\'color\':\'#cccccc\',\'display\':\'block\'}).html(\'Error, wrong username or password!\')' .
+                '},' . 
+                '400: function(){ ' .
+                  '$(\'#loginStatus\').css({\'color\':\'#cccccc\',\'display\':\'block\'}).html(\'Error, username or password no entered!\')' .
+                '}' . 
+              '}' . 
+              /*'success:function(response){' .
+                'if(response== true){$(\'#error\').css({\'color\':\'#0c0\',\'display\':\'block\'}).html(\'CORRECT!\')}' .
+                'else if(response==\'2\'){$(\'#error\').css({\'color\':\'red\',\'display\':\'block\'}).html(\'Login credentials incorrect!\')}' .
+                'else if(response==\'3\'){$(\'#error\').css({\'color\':\'red\',\'display\':\'block\'}).html(\'Please fill in all fields\')} ' .
+              '}' .*/
+          '});' .
+        '};' .
+        '</script>' .
         //here was ther submit
         //'<br>' .
         //'<a href="#" class="enviar">Submit</a>' .
       '</form>' .
-      '</section>';
+      '</section>' .
+        '<label class=\'error\' id=\'error\' style=\'display: none; font-size: 12px;\'></label>' .
+      '';
     //return 'This is a little test';
   }
 

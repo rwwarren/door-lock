@@ -74,10 +74,15 @@ table {
 }
 
 #loginSpace {
-  height: 40px;
+  height: 30px;
 }
 
 
+#loginStatus {
+  display: block;
+  padding-top: .3em;
+  margin-bottom: .1em;
+}
 
 
 
