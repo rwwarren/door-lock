@@ -24,6 +24,8 @@ class userEdit extends Member{
           //$_COOKIE['n'] .
           //$_SESSION['foo'] .
           '<br>' .
+          'You are ' . $_SESSION['isAdmin'] . ' admin' .
+          '<br>' .
           'Register a user:' .
           '<br>' .
           'FORM with name and pwd' .
@@ -34,6 +36,8 @@ class userEdit extends Member{
       'You are logged in <a href="/logout.php">Log out</a>' .
         '<br>' .
         'Wooo user modification' .
+        '<br>' .
+        'You are ' . $_SESSION['isAdmin'] . ' admin' .
         //TODO select all the users if 
         //the person is an admin
         '' .

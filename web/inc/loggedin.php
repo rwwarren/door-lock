@@ -1,4 +1,5 @@
 <?php
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/member.php");
 //require '../../../Predis/Autoloader.php';
 //TODO include predis
