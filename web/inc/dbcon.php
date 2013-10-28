@@ -1,7 +1,8 @@
 <?php
 //dbconnection
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-require_once("$root/../inc/mysqlUsers.php");
+//require_once("$root/../inc/mysqlUsers.php");
+require_once("mysqlUser.php");
 //getting all the errors
 ini_set('display_errors', 1);
  ini_set('log_errors', 1);
@@ -16,7 +17,7 @@ class dbconn {
   //protected $query = null;
 
   public function login($name, $password){
-    $query = "Select * from web_users where name = \"" . $name . "\" and pass = PASSWORD(\"" . $password . "\") and user_is_current = 1 ";
+    $query = "Select * from Users where Username = \"" . $name . "\" and Password = PASSWORD(\"" . $password . "\") and IsActive = 1 ";
     $query = stripslashes($query);
     //echo $query;
     //$conn = $this->conn;
@@ -29,13 +30,15 @@ class dbconn {
       //print_r($row);
       //session_start();
       //$_SESSION['isLoggedIn'] = 1;
-      $_SESSION['userName'] = $row['name'];//$name;
-      $_SESSION['isAdmin'] = $row['isAdmin'];//$name;
+      $_SESSION['userName'] = $row['Name'];//$name;
+      //TODO an admin table or something
+      //TODO left join? or just keep in the same table
+      //$_SESSION['isAdmin'] = $row['isAdmin'];//$name;
       session_write_close();
       //setcookie("sid", session_id(), time()+3600);
       //setcookie("n", $name, time()+3600);
-      $update = "UPDATE web_users SET session_id=\"" . session_id() . "\", user_session_valid=1, session_expire=now()+3600 WHERE name=\"" . $name . "\";";
-      mysql_query($update, $this->conn);
+      //$update = "UPDATE Users SET session_id=\"" . session_id() . "\", user_session_valid=1, session_expire=now()+3600 WHERE name=\"" . $name . "\";";
+      //mysql_query($update, $this->conn);
       header("HTTP/1.0 200 Success");
       return true; 
       //TODO somehow loook at the session and valid and expire later
@@ -68,9 +71,9 @@ class dbconn {
     $this->conn = mysql_connect("localhost", $sqlUser->getUser(), $sqlUser->getPass()) or die ("Could not connect to the database");
     //mysql_error();
     //echo "connected <br>";
-    $selected = mysql_select_db("reader",$this->conn) 
+    $selected = mysql_select_db("doorlock",$this->conn) 
       or die("Could not select examples");
-    /*$result = mysql_query("SELECT * from web_users;");
+    /*$result = mysql_query("SELECT * from Users;");
     while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
       //print_r($row);
     }
@@ -83,8 +86,8 @@ class dbconn {
 
   public function getUsers(){
     //selecting all the users
-    //$query = "Select * from web_users";
-    $query = "Select name from web_users";
+    //$query = "Select * from Users";
+    $query = "Select name from Users";
     $results = mysql_query($query, $this->conn);
     //$results = mysql_result($query, $this->conn);
     //$result = mysql_result($results, 0);
@@ -113,13 +116,13 @@ class dbconn {
 
   public function changePassword($user, $oldPass, $newPass){
 
-    $query = "Select * from web_users where name = \"" . $name . "\" and pass = PASSWORD(\"" . $oldPass . "\") ";
+    $query = "Select * from Users where name = \"" . $name . "\" and pass = PASSWORD(\"" . $oldPass . "\") ";
     $query = stripslashes($query);
     $results = mysql_query($query, $this->conn);
     //Change so that it only finds the one
     if (sizeof($results) > 1) {
       //change the pwd
-      $query = "UPDATE web_users SET pass=PASSWORD(\"" . $newPass . "\") WHERE name=\"" . $user . "\" AND pass=PASSWORD(\"" . $oldPass . "\");";
+      $query = "UPDATE Users SET pass=PASSWORD(\"" . $newPass . "\") WHERE name=\"" . $user . "\" AND pass=PASSWORD(\"" . $oldPass . "\");";
       //say that the pwd was now changed or not
     } else {
       echo 'not changed!';
@@ -128,11 +131,11 @@ class dbconn {
 
   public function registerUser($newUser, $newPass){
     //test if there already is that user
-    $query = "Select * from web_users where name = \"" . $name . "\"";
+    $query = "Select * from Users where name = \"" . $name . "\"";
     $query = stripslashes($query);
     $results = mysql_query($query, $this->conn);
     if (sizeof($results) < 1) {
-      $query = "INSERT INTO web_users VALUES(\"\",\"" . $newUser . "\", PASSWORD(\"" . $newPass . "\"), \"none\", 1, 1, CURRENT_TIMESTAMP(), DEFAULT, 0);";
+      $query = "INSERT INTO Users VALUES(\"\",\"" . $newUser . "\", PASSWORD(\"" . $newPass . "\"), \"none\", 1, 1, CURRENT_TIMESTAMP(), DEFAULT, 0);";
       $query = stripslashes($query);
       $results = mysql_query($query, $this->conn);
       echo 'Added user: ' . $newUser;

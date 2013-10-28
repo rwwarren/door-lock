@@ -40,7 +40,9 @@ if(isset($_POST['Username']) && isset($_POST['Password'])){
   //setcookie("TestCookie", $session_id, time()+3600);
   //setcookie("sid", session_id(), time()+3600);
   //setcookie("n", $user, time()+3600);
-  header("Location:http://doorlock.wrixton.net/");
+  //TODO get the location working again
+  //header("Location:http://doorlock.wrixton.net/");
+  header("Location:/");
 } else {
   echo "nope";
   echo '<br>No username or password entered';

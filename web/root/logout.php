@@ -32,7 +32,9 @@ setcookie('TestCookie','',time()-3600);
 //TODO make it so that it updates the MYSQL db and 
 //changes so that the session is not valid and or
 //expired and session is not valid
-header("Location:http://doorlock.wrixton.net/");
+//TODO fix the location
+//header("Location:http://doorlock.wrixton.net/");
+header("Location:/");
 //echo "Hello <br>";
 //print_r($_COOKIE);
 //echo $_COOKIE['PHPSESSID'];
