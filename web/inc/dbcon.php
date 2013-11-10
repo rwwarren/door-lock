@@ -17,6 +17,7 @@ class dbconn {
   //protected $query = null;
 
   public function login($name, $password){
+    //TODO salt the password
     $query = "Select * from Users where Username = \"" . $name . "\" and Password = PASSWORD(\"" . $password . "\") and IsActive = 1 ";
     $query = stripslashes($query);
     //echo $query;
@@ -33,7 +34,7 @@ class dbconn {
       $_SESSION['userName'] = $row['Name'];//$name;
       //TODO an admin table or something
       //TODO left join? or just keep in the same table
-      //$_SESSION['isAdmin'] = $row['isAdmin'];//$name;
+      $_SESSION['isAdmin'] = $row['IsAdmin'];//$name;
       session_write_close();
       //setcookie("sid", session_id(), time()+3600);
       //setcookie("n", $name, time()+3600);

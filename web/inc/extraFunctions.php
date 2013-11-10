@@ -3,7 +3,7 @@
   function isLoggedIn(){
     //return isset($_COOKIE['PHPSESSID']) && isset($_COOKIE['sid']) && isset($_COOKIE['n']); 
     //return isset($_session['isloggedin']) && $_session['isloggedin'] == 1;
-    return $_SESSION['userName'] !== null;
+    return isset($_SESSION['userName']) && $_SESSION['userName'] !== null;
   }
 
 

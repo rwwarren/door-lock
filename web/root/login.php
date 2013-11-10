@@ -3,6 +3,7 @@ session_name('sid');
 session_start();
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/dbcon.php");
+//require_once("$root/../inc/variables.php");
   //public function login() {
     //login to site
     //$db = new dbconn;
@@ -20,9 +21,40 @@ require_once("$root/../inc/dbcon.php");
       //jQuery / js stuff
     }*/
   //}
-//TODO remove this
-if(isset($_POST['Username']) && isset($_POST['Password'])){
+function checkHeaders(){
+  if (isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/"){
+    return true;
+  } else {
+    $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+    include("$root/../inc/variables.php");
+    $sentHeaders = getallheaders();
+    unset($sentHeaders['User-Agent']);
+    unset($sentHeaders['Host']);
+    unset($sentHeaders['Accept']);
+    unset($sentHeaders['Content-Length']);
+    unset($sentHeaders['Content-Type']);
+    if ($requiredHeaders == $sentHeaders){
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+//$sentHeaders = getallheaders();
+//unset($sentHeaders['User-Agent']);
+//unset($sentHeaders['Host']);
+//unset($sentHeaders['Accept']);
+//unset($sentHeaders['Content-Length']);
+//unset($sentHeaders['Content-Type']);
+//print_r($sentHeaders);
+
+if(isset($_POST['Username']) && isset($_POST['Password']) && checkHeaders()){
+                        //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
   echo "This is a test";
+  //print_r($_SERVER['HTTP_REFERER']);
+  //if ($_SERVER['HTTP_REFERER'] == "http://doorlock.wrixton.net/"){
+  //  echo "they equal";
+  //}
   $user = $_POST['Username'];
   $pass = $_POST['Password'];
 
