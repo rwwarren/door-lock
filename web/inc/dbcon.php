@@ -18,7 +18,8 @@ class dbconn {
 
   public function login($name, $password){
     //TODO salt the password
-    $query = "Select * from Users where Username = \"" . $name . "\" and Password = PASSWORD(\"" . $password . "\") and IsActive = 1 ";
+    include "variables.php";
+    $query = "Select * from Users where Username = \"" . $name . "\" and Password = PASSWORD(\"" . passwordEncode($password) . "\") and IsActive = 1 ";
     $query = stripslashes($query);
     //echo $query;
     //$conn = $this->conn;
