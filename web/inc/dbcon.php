@@ -18,7 +18,7 @@ class dbconn {
 
   public function login($name, $password){
     //TODO salt the password
-    include "variables.php";
+    include_once "variables.php";
     $query = "Select * from Users where Username = \"" . $name . "\" and Password = PASSWORD(\"" . passwordEncode($password) . "\") and IsActive = 1 ";
     $query = stripslashes($query);
     //echo $query;
@@ -37,6 +37,7 @@ class dbconn {
       //TODO left join? or just keep in the same table
       $_SESSION['isAdmin'] = $row['IsAdmin'];//$name;
       session_write_close();
+      //TODO check Authy here somewhere
       //setcookie("sid", session_id(), time()+3600);
       //setcookie("n", $name, time()+3600);
       //$update = "UPDATE Users SET session_id=\"" . session_id() . "\", user_session_valid=1, session_expire=now()+3600 WHERE name=\"" . $name . "\";";
@@ -118,13 +119,14 @@ class dbconn {
 
   public function changePassword($user, $oldPass, $newPass){
 
-    $query = "Select * from Users where name = \"" . $name . "\" and pass = PASSWORD(\"" . $oldPass . "\") ";
+    include_once "variables.php";
+    $query = "Select * from Users where Name = \"" . $name . "\" and Password = PASSWORD(\"" . passwordEncode($oldPass) . "\") ";
     $query = stripslashes($query);
     $results = mysql_query($query, $this->conn);
     //Change so that it only finds the one
     if (sizeof($results) > 1) {
       //change the pwd
-      $query = "UPDATE Users SET pass=PASSWORD(\"" . $newPass . "\") WHERE name=\"" . $user . "\" AND pass=PASSWORD(\"" . $oldPass . "\");";
+      $query = "UPDATE Users SET Password=PASSWORD(\"" . passwordEncode($newPass) . "\") WHERE Name=\"" . $user . "\" AND Password=PASSWORD(\"" . passwordEncode($oldPass) . "\");";
       //say that the pwd was now changed or not
     } else {
       echo 'not changed!';
@@ -137,7 +139,8 @@ class dbconn {
     $query = stripslashes($query);
     $results = mysql_query($query, $this->conn);
     if (sizeof($results) < 1) {
-      $query = "INSERT INTO Users VALUES(\"\",\"" . $newUser . "\", PASSWORD(\"" . $newPass . "\"), \"none\", 1, 1, CURRENT_TIMESTAMP(), DEFAULT, 0);";
+      include "variables.php";
+      $query = "INSERT INTO Users VALUES(DEFAULT,\"" . $personName . "\", " . $newUsername . ", PASSWORD(\"" . passwordEncode($newPass) . "\"), DEFAULT, DEFAULT, \"\", DEFAULT, DEFAULT, DEFAULT);";
       $query = stripslashes($query);
       $results = mysql_query($query, $this->conn);
       echo 'Added user: ' . $newUser;
@@ -148,6 +151,7 @@ class dbconn {
 
   function removeUser($user){
     //change isCurrent to 0
+    $query = "UPDATE Users SET IsActive = 0 WHERE Username = " . $user . "";
   }
 
 }

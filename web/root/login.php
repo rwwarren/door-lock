@@ -1,9 +1,12 @@
 <?php
+//error_reporting(E_ALL);
+//ini_set('error_reporting', E_ALL);
 session_name('sid');
 session_start();
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/dbcon.php");
-//require_once("$root/../inc/variables.php");
+require '../inc/authy-php/Authy.php';
+require_once("$root/../inc/variables.php");
   //public function login() {
     //login to site
     //$db = new dbconn;
@@ -26,7 +29,7 @@ function checkHeaders(){
     return true;
   } else {
     $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-    include("$root/../inc/variables.php");
+    //include("$root/../inc/variables.php");
     $sentHeaders = getallheaders();
     unset($sentHeaders['User-Agent']);
     unset($sentHeaders['Host']);
@@ -48,7 +51,8 @@ function checkHeaders(){
 //unset($sentHeaders['Content-Type']);
 //print_r($sentHeaders);
 
-if(isset($_POST['Username']) && isset($_POST['Password']) && checkHeaders()){
+//TODO add check headers and other functions
+if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token'])){
                         //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
   echo "This is a test";
   //print_r($_SERVER['HTTP_REFERER']);
@@ -57,24 +61,38 @@ if(isset($_POST['Username']) && isset($_POST['Password']) && checkHeaders()){
   //}
   $user = $_POST['Username'];
   $pass = $_POST['Password'];
+  $token = $_POST['Token'];
 
   $user = mysql_real_escape_string($user);
   $pass = mysql_real_escape_string($pass);
   $dbconn = new dbconn;
   //$dbconn->close();
-  $dbconn->connect("read");
-  //$user = $_POST['Username'];//mysql_real_escape_string($_POST['Username']);
-  //echo 'user: ' . $user;
-  //echo '<br>pass: ' . $pass;
-  //$pass = $_POST['Password'];//mysql_real_escape_string($_POST['Password']);
-  $dbconn->login($user, $pass);
-  $dbconn->close();
+  //TODO this is the sandbox one
+  //TODO also remove my secret key
+  //TODO add this to the database
+  //$authy_id = get from DB;
+  //TODO add this back in to the check
+  $verification = $authy_api->verifyToken("$authy_id", "$token");
+  if($verification->ok()){
+  $test = true;
+  //if($test == true){
+    echo '<br> authy token is okay';
+    $dbconn->connect("read");
+    //$user = $_POST['Username'];//mysql_real_escape_string($_POST['Username']);
+    //echo 'user: ' . $user;
+    //echo '<br>pass: ' . $pass;
+    //$pass = $_POST['Password'];//mysql_real_escape_string($_POST['Password']);
+    $dbconn->login($user, $pass);
+    $dbconn->close();
+  } else { //authy is not right
+    header("HTTP/1.0 401 Authy key wrong");
+  }
   //setcookie("TestCookie", $session_id, time()+3600);
   //setcookie("sid", session_id(), time()+3600);
   //setcookie("n", $user, time()+3600);
   //TODO get the location working again
   //header("Location:http://doorlock.wrixton.net/");
-  header("Location:/");
+  //header("Location:/");
 } else {
   echo "nope";
   echo '<br>No username or password entered';

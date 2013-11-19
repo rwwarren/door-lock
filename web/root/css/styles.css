@@ -108,7 +108,8 @@ body {
 
 .login {
     width: 300px;
-    height: 285px;
+    /*height: 285px;*/
+    height: 330px;
     overflow: hidden;
     background: #1e1e1e;
     border-radius: 6px;

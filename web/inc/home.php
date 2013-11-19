@@ -7,9 +7,11 @@ class Home extends Page {
         '<div class="titulo">User Login</div>' .
         //'<form action="#" method="post" enctype="application/x-www-form-urlencoded">' .
         //'<form action="login.php" method="post" enctype="application/x-www-form-urlencoded">' .
+        //TODO this is the one i like below
         '<form onsubmit="check_login(); return false" method="post" enctype="application/x-www-form-urlencoded">' .
         '<input type="text" required title="Username required" placeholder="Username" name="Username" id="username" data-icon="U">' .
         '<input type="password" required title="Password required" placeholder="Password" name="Password" id="password" data-icon="x">' .
+        '<input type="text" required title="Token required" placeholder="Token" name="Token" id="token" data-icon="x">' .
         //'<div class="olvido">' .
         //        '<div class="col"><a href="#" title="Ver Carásteres">Register</a></div>' .
         //    '<div class="col"><a href="#" title="Recuperar Password">Fotgot Password?</a></div>' .
@@ -40,7 +42,9 @@ class Home extends Page {
             '$.ajax({' .
               'type:\'POST\',' .
               'url:\'login.php\', ' .
-              'data: { Username: $(\'#username\').val(), Password: $(\'#password\').val()},' .
+              'data: { Username: $(\'#username\').val(), Password: $(\'#password\').val(), Token: $(\'#token\').val()},' .
+              //'data: { Username: $(\'#username\').val(), Password: $(\'#password\').val(), Token: $(\'#token\').val()},' .
+              //'data: { Username: $(\'#username\').val(), Password: $(\'#password\').val()},' .
               //'data:"username="+$(\'#username\').val()+"&password="+$(\'#password\').val(),' .
               'statusCode: {' .
                 '200: function() {' .
@@ -48,6 +52,9 @@ class Home extends Page {
                 '},' .
                 '403: function(){ ' .
                   '$(\'#loginStatus\').css({\'color\':\'#cccccc\',\'display\':\'block\'}).html(\'Error, wrong username or password!\')' .
+                '},' . 
+                '401: function(){ ' .
+                  '$(\'#loginStatus\').css({\'color\':\'#cccccc\',\'display\':\'block\'}).html(\'Error, Token invalid!\')' .
                 '},' . 
                 '400: function(){ ' .
                   '$(\'#loginStatus\').css({\'color\':\'#cccccc\',\'display\':\'block\'}).html(\'Error, username or password no entered!\')' .
