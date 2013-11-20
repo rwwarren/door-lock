@@ -9,9 +9,9 @@ class Home extends Page {
         //'<form action="login.php" method="post" enctype="application/x-www-form-urlencoded">' .
         //TODO this is the one i like below
         '<form onsubmit="check_login(); return false" method="post" enctype="application/x-www-form-urlencoded">' .
-        '<input type="text" required title="Username required" placeholder="Username" name="Username" id="username" data-icon="U">' .
+        '<input type="text" class="top" required title="Username required" placeholder="Username" name="Username" id="username" data-icon="U">' .
         '<input type="password" required title="Password required" placeholder="Password" name="Password" id="password" data-icon="x">' .
-        '<input type="text" required title="Token required" placeholder="Token" name="Token" id="token" data-icon="x">' .
+        '<input type="text" class="bottom" required title="Token required" placeholder="Token" name="Token" id="token" data-icon="x">' .
         //'<div class="olvido">' .
         //        '<div class="col"><a href="#" title="Ver Carásteres">Register</a></div>' .
         //    '<div class="col"><a href="#" title="Recuperar Password">Fotgot Password?</a></div>' .

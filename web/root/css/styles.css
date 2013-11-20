@@ -155,7 +155,7 @@ body {
     margin: 0;
 }
 
-.login form input[type=text] {
+.login form input[type=text].top {
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     border-top: #0b0b0b solid 1px;
@@ -163,10 +163,20 @@ body {
 }
 
 .login form input[type=password] {
+    /*border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;*/
+    border-top: #0b0b0b 1px solid;
+    background: #141414 10px center no-repeat;
+    /*border-bottom: #353535 1px solid;*/
+    /*background: #141414 url(http://dev.dhenriquez.com/test-img/icons/54-lock.png) 10px center no-repeat;*/
+}
+
+.login form input[type=text].bottom {
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
     border-top: #0b0b0b 1px solid;
     border-bottom: #353535 1px solid;
+    background: #141414 10px center no-repeat;
     /*background: #141414 url(http://dev.dhenriquez.com/test-img/icons/54-lock.png) 10px center no-repeat;*/
 }
 
