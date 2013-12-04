@@ -8,6 +8,8 @@
 setcookie('sid', '', time()-3600);
 session_name('sid');
 session_start();
+session_unset();
+session_destroy();
 
 /*
 session_destroy();

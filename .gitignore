@@ -4,6 +4,7 @@
 # current testing files
 test/
 otherTest/
+web/includedPackages
 
 # ignore the .something files
 .gitignore

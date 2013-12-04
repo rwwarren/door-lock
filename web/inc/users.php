@@ -15,6 +15,7 @@ class userEdit extends Member{
       print_r($also);
       echo '</pre>';
       //session_start();
+      //TODO kill mysql db connectino
       return 
         'You are logged in as an admin <a href="/logout.php">Log out</a>' .
           '<br>' .

@@ -5,7 +5,7 @@ session_name('sid');
 session_start();
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/dbcon.php");
-require '../inc/authy-php/Authy.php';
+require '../includedPackages/authy-php/Authy.php';
 require_once("$root/../inc/variables.php");
   //public function login() {
     //login to site
@@ -72,10 +72,11 @@ if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ 
   //TODO add this to the database
   //$authy_id = get from DB;
   //TODO add this back in to the check
-  $verification = $authy_api->verifyToken("$authy_id", "$token");
-  if($verification->ok()){
+  //$verification = $authy_api->verifyToken("$authy_id", "$token");
+  //if($verification->ok()){
+  //TODO above commented out to save testing hassle
   $test = true;
-  //if($test == true){
+  if($test == true){
     echo '<br> authy token is okay';
     $dbconn->connect("read");
     //$user = $_POST['Username'];//mysql_real_escape_string($_POST['Username']);

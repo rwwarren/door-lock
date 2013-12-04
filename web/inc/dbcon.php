@@ -117,6 +117,101 @@ class dbconn {
 
   }
 
+
+    //TODO change so the 3 functions are the same
+    //but with different queries
+  public function getActiveUsers(){
+    //selecting all the users
+    //$query = "Select * from Users";
+    $query = "Select name from Users where IsAdmin = 0 and IsActive = 1;";
+    $results = mysql_query($query, $this->conn);
+    //$results = mysql_result($query, $this->conn);
+    //$result = mysql_result($results, 0);
+    //$row = mysql_result($results);
+    //print_r($row);
+    //$row = mysql_fetch_assoc($results);
+    //$row = mysql_fetch_array($results, MYSQL_NUM);
+    
+    //$result = array();
+    //$i = 0;
+    //while ($row = mysql_fetch_assoc($results)){
+    //print_r($row);
+    $theSize = mysql_num_rows($results);
+    $result = array();
+    for($i = 0; $i < $theSize/*sizeof($results)*/; $i++){
+      $result[$i] = mysql_result($results, $i);//$row['name'];
+      //$i++;
+    }
+    
+    //return $result;
+    
+    //return $row;
+    return $result;
+
+  }
+
+
+  public function getInactiveUsers(){
+    //selecting all the users
+    //$query = "Select * from Users";
+    $query = "Select name from Users where IsActive = 0;";
+    $results = mysql_query($query, $this->conn);
+    //$results = mysql_result($query, $this->conn);
+    //$result = mysql_result($results, 0);
+    //$row = mysql_result($results);
+    //print_r($row);
+    //$row = mysql_fetch_assoc($results);
+    //$row = mysql_fetch_array($results, MYSQL_NUM);
+    
+    //$result = array();
+    //$i = 0;
+    //while ($row = mysql_fetch_assoc($results)){
+    //print_r($row);
+    $theSize = mysql_num_rows($results);
+    $result = array();
+    for($i = 0; $i < $theSize/*sizeof($results)*/; $i++){
+      $result[$i] = mysql_result($results, $i);//$row['name'];
+      //$i++;
+    }
+    
+    //return $result;
+    
+    //return $row;
+    return $result;
+
+  }
+
+
+  public function getAdmins(){
+    //selecting all the users
+    //$query = "Select * from Users";
+    $query = "Select name from Users where IsAdmin = 1 and IsActive = 1;";
+    $results = mysql_query($query, $this->conn);
+    //$results = mysql_result($query, $this->conn);
+    //$result = mysql_result($results, 0);
+    //$row = mysql_result($results);
+    //print_r($row);
+    //$row = mysql_fetch_assoc($results);
+    //$row = mysql_fetch_array($results, MYSQL_NUM);
+    
+    //$result = array();
+    //$i = 0;
+    //while ($row = mysql_fetch_assoc($results)){
+    //print_r($row);
+    $theSize = mysql_num_rows($results);
+    $result = array();
+    for($i = 0; $i < $theSize/*sizeof($results)*/; $i++){
+      $result[$i] = mysql_result($results, $i);//$row['name'];
+      //$i++;
+    }
+    
+    //return $result;
+    
+    //return $row;
+    return $result;
+
+  }
+
   public function changePassword($user, $oldPass, $newPass){
 
     include_once "variables.php";
@@ -133,25 +228,62 @@ class dbconn {
     }
   }
 
-  public function registerUser($newUser, $newPass){
+  public function registerUser($personName, $username, $password, $email){
     //test if there already is that user
-    $query = "Select * from Users where name = \"" . $name . "\"";
+    
+    $query = "Select name from Users where username = \"" . $username . "\";";
     $query = stripslashes($query);
+    echo $query;
     $results = mysql_query($query, $this->conn);
-    if (sizeof($results) < 1) {
-      include "variables.php";
-      $query = "INSERT INTO Users VALUES(DEFAULT,\"" . $personName . "\", " . $newUsername . ", PASSWORD(\"" . passwordEncode($newPass) . "\"), DEFAULT, DEFAULT, \"\", DEFAULT, DEFAULT, DEFAULT);";
+    mysql_error();
+    echo "<br>";
+    //$row = mysql_fetch_assoc($results);
+    //$row = mysql_fetch_row($results, MYSQL_ASSOC);
+    //$results = mysql_query($query, $this->conn);
+    //$row = mysql_fetch_row($results, MYSQL_ASSOC);
+    $rows = mysql_num_rows($results);
+    if ($rows < 1) {
+      include_once "variables.php";
+      $query = "INSERT INTO Users VALUES(DEFAULT,\"" . $personName . "\", \"" . $username . "\", PASSWORD(\"" . passwordEncode($password) . "\"), \"" . $email . "\", DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);";
+      echo $query;
       $query = stripslashes($query);
       $results = mysql_query($query, $this->conn);
-      echo 'Added user: ' . $newUser;
+      echo 'Added user: ' . $personName;
     } else {
+      print_r($results);
+    echo "<br>";
+      print_r(sizeof($results));
+    echo "<br>";
       return 'User is already a part of the system';
     }
   }
 
-  function removeUser($user){
+  public function removeUser($user){
     //change isCurrent to 0
-    $query = "UPDATE Users SET IsActive = 0 WHERE Username = " . $user . "";
+    $query = "UPDATE Users SET IsActive = 0 WHERE Username = \"" . $user . "\";";
+    $query = stripslashes($query);
+    echo $query;
+    $results = mysql_query($query, $this->conn);
+  }
+
+  //changes what type the user is
+  //like admin, user active, user inactive
+  public function changeUser($user, $type){
+    //TODO 3 different types
+  }
+
+  public function resetPassword($user){
+    //TODO sends the user an email and resets their password
+    //make a mysql table that has : userId, passLink, vaild until, isUsed
+    include_once 'extraFunctions.php';
+    $user .= '';
+    $newPassword = createTempPassword($user);
+    sendMail($name, $sendEmail, $newPassword);
+  }
+
+  public function createTempPassword($user){
+    //
+    return $newPassword;
   }
 
 }
