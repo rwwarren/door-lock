@@ -5,6 +5,7 @@
 test/
 otherTest/
 web/includedPackages
+backups/
 
 # ignore the .something files
 .gitignore
@@ -12,4 +13,5 @@ userPass
 *.swp
 mysqlLogin.java
 *.jar
-web/inc/mysqlUsers.php
+web/inc/mysqlUser.php
+web/lock_error.log
