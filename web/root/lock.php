@@ -7,8 +7,12 @@ require_once("$root/../inc/extraFunctions.php");
 //or something secure
 //maybe memchache? or like redis?
 if (isLoggedIn()){
-  $page = new lock;
-  $page->render();
+  if ($_SERVER["REQUEST_URI"] == "/lock/"){
+    $page = new lock;
+    $page->render();
+  } else {
+    header("Location:http://doorlock.wrixton.net/lock/");
+  }
 } else {
   header("Location:http://doorlock.wrixton.net/");
   exit();

@@ -1,0 +1,5 @@
+Options -Indexes FollowSymLinks
+RewriteEngine on
+RewriteRule logout.php userFunctions.php?actions=logout
+RewriteRule ^users/?$  users.php [L]
+RewriteRule ^lock/?$  lock.php [L]

@@ -14,8 +14,4 @@ if (isLoggedIn()){
   $page = new Home;
 }
 $page->render();
-//print_r($_COOKIE);
-//} catch (Exception $e) {
-//  echo 'Exception: ' . $e;
-//}
 ?>

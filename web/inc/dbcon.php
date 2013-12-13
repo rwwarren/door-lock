@@ -269,6 +269,7 @@ class dbconn {
   //like admin, user active, user inactive
   public function changeUser($user, $type){
     //TODO 3 different types
+    echo 'This is amazing';
   }
 
   public function resetPassword($user){
