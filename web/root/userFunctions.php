@@ -9,49 +9,53 @@ require_once("$root/../inc/variables.php");
 
 //if(in_array($functName,$validFunctions))
 //if(in_array($_REQUEST['test'], array('test'))){
-if(isset($_GET['action']) == 'test') {
-  registerUser();
-  //isset($_POST['personName']) && isset($_POST['name']) && isset($_POST['password']) && isset($_POST['email']
-} else if (isset($_GET['action']) == 'login'){
-  //
-  login();
-} else if (isset($_GET['actions']) == 'logout'){
-  //
-  logout();
-} else if (isset($_GET['action']) == 'registerUser'){
-  //
-  registerUser();
-} else if (isset($_GET['actions']) == 'changeUser'){
-  //
-  changeUser();
+if (isset($_GET['actions'])){
+  $type = $_GET['actions'];
+  if($type == 'test') {
+    registerUser();
+    //isset($_POST['personName']) && isset($_POST['name']) && isset($_POST['password']) && isset($_POST['email']
+  } else if ($type == 'login'){
+    login();
+  } else if ($type == 'logout'){
+    logout();
+  } else if ($type == 'registerUser'){
+    registerUser();
+  } else if ($type == 'changeUser'){
+    changeUser();
+  } else {
+    echo "You don't have permission to call that function so back off!";
+    exit();
+  }
 } else {
-  echo "You don't have permission to call that function so back off!";
+  echo "improper request";
+  header("Location:/");
   exit();
 }
 
 //add_action( 'wp_ajax_example_ajax_request', 'example_ajax_request' );
 
-
-function login(){
-  function checkHeaders(){
-    if (isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/"){
+//TODO have this is extra functions
+function checkHeaders(){
+  if (isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/"){
+    return true;
+  } else {
+    $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+    //include("$root/../inc/variables.php");
+    $sentHeaders = getallheaders();
+    unset($sentHeaders['User-Agent']);
+    unset($sentHeaders['Host']);
+    unset($sentHeaders['Accept']);
+    unset($sentHeaders['Content-Length']);
+    unset($sentHeaders['Content-Type']);
+    if ($requiredHeaders == $sentHeaders){
       return true;
     } else {
-      $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-      //include("$root/../inc/variables.php");
-      $sentHeaders = getallheaders();
-      unset($sentHeaders['User-Agent']);
-      unset($sentHeaders['Host']);
-      unset($sentHeaders['Accept']);
-      unset($sentHeaders['Content-Length']);
-      unset($sentHeaders['Content-Type']);
-      if ($requiredHeaders == $sentHeaders){
-        return true;
-      } else {
-        return false;
-      }
+      return false;
     }
   }
+}
+
+function login(){
   
   //TODO add check headers and other functions
   if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token'])){
@@ -105,8 +109,6 @@ function login(){
 }
 
 function logout(){
-  //session_name('sid');
-  //session_start();
   unset($_SESSION['userName']);
   unset($_SESSION['isAdmin']);
   session_regenerate_id(true);
@@ -121,12 +123,8 @@ function logout(){
   //changes so that the session is not valid and or
   //expired and session is not valid
   //TODO fix the location
-  //header("Location:http://doorlock.wrixton.net/");
-  
   header("Location:/");
-  
   exit();
-
 }
 
 function changeUser(){
