@@ -122,7 +122,7 @@ class dbconn {
   public function getActiveUsers(){
     //selecting all the users
     //$query = "Select * from Users";
-    $query = "Select name from Users where IsAdmin = 0 and IsActive = 1;";
+    $query = "Select username from Users where IsAdmin = 0 and IsActive = 1;";
     $results = mysql_query($query, $this->conn);
     //$results = mysql_result($query, $this->conn);
     //$result = mysql_result($results, 0);
@@ -153,7 +153,7 @@ class dbconn {
   public function getInactiveUsers(){
     //selecting all the users
     //$query = "Select * from Users";
-    $query = "Select name from Users where IsActive = 0;";
+    $query = "Select username from Users where IsActive = 0;";
     $results = mysql_query($query, $this->conn);
     //$results = mysql_result($query, $this->conn);
     //$result = mysql_result($results, 0);
@@ -184,7 +184,7 @@ class dbconn {
   public function getAdmins(){
     //selecting all the users
     //$query = "Select * from Users";
-    $query = "Select name from Users where IsAdmin = 1 and IsActive = 1;";
+    $query = "Select username from Users where IsAdmin = 1 and IsActive = 1;";
     $results = mysql_query($query, $this->conn);
     //$results = mysql_result($query, $this->conn);
     //$result = mysql_result($results, 0);
@@ -224,10 +224,11 @@ class dbconn {
       //say that the pwd was now changed or not
     } else {
       echo 'not changed!';
+      header("HTTP/1.0 401 Password Incorrect");
     }
   }
 
-  public function registerUser($personName, $username, $password, $email){
+  public function registerUser($personName, $username, $password, $email, $admin){
     //test if there already is that user
     
     $query = "Select name from Users where username = \"" . $username . "\";";
@@ -243,7 +244,7 @@ class dbconn {
     $rows = mysql_num_rows($results);
     if ($rows < 1) {
       include_once "variables.php";
-      $query = "INSERT INTO Users VALUES(DEFAULT,\"" . $personName . "\", \"" . $username . "\", PASSWORD(\"" . passwordEncode($password) . "\"), \"" . $email . "\", DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);";
+      $query = "INSERT INTO Users VALUES(DEFAULT,\"" . $personName . "\", \"" . $username . "\", PASSWORD(\"" . passwordEncode($password) . "\"), \"" . $email . "\", DEFAULT, DEFAULT, \"". $admin . "\", DEFAULT, DEFAULT);";
       echo $query;
       $query = stripslashes($query);
       $results = mysql_query($query, $this->conn);
@@ -270,12 +271,29 @@ class dbconn {
   public function changeUser($user, $type){
     //TODO 3 different types
     echo 'This is amazing';
+    if ($type == 'admin'){
+      $query = "UPDATE Users SET IsActive = 1, IsAdmin = 1 WHERE Username = \"" . $user . "\";";
+    } else if ($type == 'active'){
+      $query = "UPDATE Users SET IsActive = 1, IsAdmin = 0 WHERE Username = \"" . $user . "\";";
+    } else if($type == 'inactive'){
+      $query = "UPDATE Users SET IsActive = 0, IsAdmin = 0 WHERE Username = \"" . $user . "\";";
+    } else {
+      echo 'Type is invalid';
+      header("HTTP/1.0 400 Bad Request");
+      die();
+    }
+    $query = stripslashes($query);
+    //echo $query;
+    $results = mysql_query($query, $this->conn);
+
   }
 
-  public function resetPassword($user){
+  public function resetPassword($username, $email){
     //TODO sends the user an email and resets their password
     //make a mysql table that has : userId, passLink, vaild until, isUsed
     include_once 'extraFunctions.php';
+    //TODO
+    //some db shit
     $user .= '';
     $newPassword = createTempPassword($user);
     sendMail($name, $sendEmail, $newPassword);

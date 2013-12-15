@@ -6,15 +6,13 @@ $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/dbcon.php");
 require '../includedPackages/authy-php/Authy.php';
 require_once("$root/../inc/variables.php");
+require_once("$root/../inc/extraFunctions.php");
 
 //if(in_array($functName,$validFunctions))
 //if(in_array($_REQUEST['test'], array('test'))){
 if (isset($_GET['actions'])){
   $type = $_GET['actions'];
-  if($type == 'test') {
-    registerUser();
-    //isset($_POST['personName']) && isset($_POST['name']) && isset($_POST['password']) && isset($_POST['email']
-  } else if ($type == 'login'){
+  if ($type == 'login'){
     login();
   } else if ($type == 'logout'){
     logout();
@@ -22,9 +20,14 @@ if (isset($_GET['actions'])){
     registerUser();
   } else if ($type == 'changeUser'){
     changeUser();
+  } else if ($type == 'changePassword'){
+    changePassword();
+  } else if ($type == 'forgotPassword'){
+    forgotPassword();
   } else {
     echo "You don't have permission to call that function so back off!";
     exit();
+    header("HTTP/1.0 403 User Forbidden");
   }
 } else {
   echo "improper request";
@@ -129,17 +132,109 @@ function logout(){
 
 function changeUser(){
 
-}
-
-function registerUser(){
-  if (isset($_POST['personName']) && isset($_POST['name']) && isset($_POST['password']) && isset($_POST['email']) /*&& isAdmin()*/){
-    //asdf
-    echo 'this is done';
+  if(isset($_POST['user']) && isset($_POST['type']) && isAdmin() /*&& checkHeaders()*/){
+                          //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
+    echo "This is a test";
+    $user = $_POST['user'];
+    $type = $_POST['type'];
+  
+    $user = mysql_real_escape_string($user);
+    $dbconn = new dbconn;
+    //TODO above commented out to save testing hassle
+    $dbconn->connect("write");
+    //$dbconn->connect("read");
+    //$pass = $_POST['Password'];//mysql_real_escape_string($_POST['Password']);
+    $dbconn->changeUser($user, $type);
+    $dbconn->close();
   } else {
-    echo 'nothing returned';
+    echo "nope";
+    echo '<br>No username entered';
+    header("HTTP/1.0 403 User Forbidden");
+    //header("HTTP/1.0 No way");
+    //TODO
+    //header("Location:http://doorlock.wrixton.net/");
+    //TODO
+    //exit();
   }
 }
 
+function registerUser(){
+  if (isset($_POST['personName']) && isset($_POST['username'])&& isset($_POST['password']) && isset($_POST['email']) && isAdmin() && isset($_POST['admin'])){
+    //asdf
+    echo 'this is done';
+    print_r($_POST);
+    $personName = $_POST['personName'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $email = $_POST['email'];
+    $admin = ($_POST['admin'] == 'true' ? 1 : 0);
+
+    $personName = mysql_real_escape_string($personName);
+    $username = mysql_real_escape_string($username);
+    $password = mysql_real_escape_string($password);
+    $email = mysql_real_escape_string($email);
+    $dbconn = new dbconn;
+    $dbconn->connect("write");
+    $dbconn->registerUser($personName, $username, $password, $email, $admin);
+    $dbconn->close();
+  
+  } else {
+    print_r($_POST);
+    echo 'nothing returned';
+    header("HTTP/1.0 403 User Forbidden");
+  }
+}
+
+function changePassword(){
+  if (isset($_POST['username']) && isset($_POST['oldPassword']) && isset($_POST['newPassword']) ){
+    //asdf
+    $username = $_POST['username'];
+    $oldPassword = $_POST['oldPassword'];
+    $newPassword = $_POST['newPassword'];
+
+    $username = mysql_real_escape_string($username);
+    $oldPassword = mysql_real_escape_string($oldPassword);
+    $newPassword = mysql_real_escape_string($newPassword);
+    /*
+    $dbconn = new dbconn;
+    $dbconn->connect("write");
+    $dbconn->changePassword($username, $oldPassword, $newPassword);
+    $dbconn->close();
+    */
+  } else {
+    print_r($_POST);
+    echo 'nothing returned';
+    header("HTTP/1.0 403 User Forbidden");
+  }
+}
+
+function forgotPassword(){
+  if (isset($_POST['username']) && isset($_POST['email'])){
+    //asdf
+    /*
+    echo 'this is done';
+    print_r($_POST);
+    $personName = $_POST['personName'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $email = $_POST['email'];
+    $admin = ($_POST['admin'] == 'true' ? 1 : 0);
+
+    $personName = mysql_real_escape_string($personName);
+    $username = mysql_real_escape_string($username);
+    $password = mysql_real_escape_string($password);
+    $email = mysql_real_escape_string($email);
+    $dbconn = new dbconn;
+    $dbconn->connect("write");
+    $dbconn->resetPassword($username, $email);
+    $dbconn->close();
+     */
+  } else {
+    print_r($_POST);
+    echo 'nothing returned';
+    header("HTTP/1.0 403 User Forbidden");
+  }
+}
 //TODO maybe forgotPassword?
 
 ?>
