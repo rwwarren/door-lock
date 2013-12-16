@@ -8,8 +8,6 @@ require '../includedPackages/authy-php/Authy.php';
 require_once("$root/../inc/variables.php");
 require_once("$root/../inc/extraFunctions.php");
 
-//if(in_array($functName,$validFunctions))
-//if(in_array($_REQUEST['test'], array('test'))){
 if (isset($_GET['actions']) ){
   $type = $_GET['actions'];
   if ($type == 'login'){
@@ -150,11 +148,6 @@ function changeUser(){
     echo "nope";
     echo '<br>No username entered';
     header("HTTP/1.0 403 User Forbidden");
-    //header("HTTP/1.0 No way");
-    //TODO
-    //header("Location:http://doorlock.wrixton.net/");
-    //TODO
-    //exit();
   }
 }
 
@@ -173,10 +166,10 @@ function registerUser(){
     $username = mysql_real_escape_string($username);
     $password = mysql_real_escape_string($password);
     $email = mysql_real_escape_string($email);
-    //$dbconn = new dbconn;
-    //$dbconn->connect("write");
-    //$dbconn->registerUser($personName, $username, $password, $email, $admin);
-    //$dbconn->close();
+    $dbconn = new dbconn;
+    $dbconn->connect("write");
+    $dbconn->registerUser($personName, $username, $password, $email, $admin);
+    $dbconn->close();
   
   } else {
     print_r($_POST);
@@ -245,6 +238,5 @@ function forgotPassword(){
     header("HTTP/1.0 403 User Forbidden");
   }
 }
-//TODO maybe forgotPassword?
 
 ?>
