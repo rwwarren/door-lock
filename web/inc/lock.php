@@ -9,7 +9,7 @@ class lock extends Member {
     return //"You are logged in";
       'You are logged in <a href="/logout.php">Log out</a>' .
         '<br>' .
-        'Welcome '. $_SESSION['userName'] .
+        'Welcome '. $_SESSION['name'] .
         '<br>' .
         'This is the lock screen' . 
         "";

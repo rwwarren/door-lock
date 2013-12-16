@@ -37,13 +37,19 @@ abstract class Page {
         '';
   }
 
+  public function getScripts(){
+    return 
+      '<script src="http://code.jquery.com/jquery-2.0.3.js"></script>' .
+      '';
+  }
+
   final public function render(){
     $output = '<!DOCTYPE html>' .
       '<html>' .
       '<head>' .
         '<link rel="stylesheet" type="text/css" href="/css/styles.css" />' .
         //'<link rel="stylesheet" type="text/css" href="/js/" />' .
-        '<script src="http://code.jquery.com/jquery-2.0.3.js"></script>' .
+        $this->getScripts() .
         '<title>' .
           $this->getHeader() .
         '</title>' .

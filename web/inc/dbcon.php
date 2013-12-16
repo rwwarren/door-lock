@@ -28,10 +28,11 @@ class dbconn {
     //echo sizeof($row);
     if(sizeof($row) > 1) {
       echo 'Not null';
-      //print_r($row);
+      print_r($row);
       //session_start();
       //$_SESSION['isLoggedIn'] = 1;
-      $_SESSION['userName'] = $row['Name'];//$name;
+      $_SESSION['name'] = $row['Name'];//$name;
+      $_SESSION['username'] = $row['Username'];//$name;
       //TODO an admin table or something
       //TODO left join? or just keep in the same table
       $_SESSION['isAdmin'] = $row['IsAdmin'];//$name;
@@ -214,14 +215,19 @@ class dbconn {
   public function changePassword($user, $oldPass, $newPass){
 
     include_once "variables.php";
-    $query = "Select * from Users where Name = \"" . $name . "\" and Password = PASSWORD(\"" . passwordEncode($oldPass) . "\") ";
+    $query = "Select * from Users where Username = \"" . $user . "\" and Password = PASSWORD(\"" . passwordEncode($oldPass) . "\") ";
     $query = stripslashes($query);
     $results = mysql_query($query, $this->conn);
+    $row = mysql_fetch_row($results, MYSQL_ASSOC);
     //Change so that it only finds the one
-    if (sizeof($results) > 1) {
+    if (sizeof($row) > 1) {
       //change the pwd
-      $query = "UPDATE Users SET Password=PASSWORD(\"" . passwordEncode($newPass) . "\") WHERE Name=\"" . $user . "\" AND Password=PASSWORD(\"" . passwordEncode($oldPass) . "\");";
+      $query = "UPDATE Users SET Password=PASSWORD(\"" . passwordEncode($newPass) . "\") WHERE Username=\"" . $user . "\" AND Password=PASSWORD(\"" . passwordEncode($oldPass) . "\");";
+      //echo $query;
+      $results = mysql_query($query, $this->conn);
       //say that the pwd was now changed or not
+      //header("HTTP/1.0 200 Password Changed");
+      return 200;
     } else {
       echo 'not changed!';
       header("HTTP/1.0 401 Password Incorrect");

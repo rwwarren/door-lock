@@ -48,6 +48,7 @@ table {
 
 #container {
   width: 600px;
+  height: auto;
   margin-top: 50px;
   margin-left: auto;
   margin-right: auto;
@@ -77,6 +78,20 @@ table {
   height: 30px;
 }
 
+#elements {
+  height: auto;/*100px;*/
+  padding-top: .4em;
+  padding-bottom: .4em;
+  display: block;
+}
+
+#smallelements {
+  height: auto;/*100px;*/
+  padding-top: .4em;
+  padding-bottom: .4em;
+  display: block;
+  font-size: 70%;
+}
 
 #loginStatus {
   display: block;

@@ -10,24 +10,24 @@ require_once("$root/../inc/extraFunctions.php");
 
 //if(in_array($functName,$validFunctions))
 //if(in_array($_REQUEST['test'], array('test'))){
-if (isset($_GET['actions'])){
+if (isset($_GET['actions']) ){
   $type = $_GET['actions'];
   if ($type == 'login'){
     login();
-  } else if ($type == 'logout'){
+  } else if ($type == 'logout' && isLoggedIn()){
     logout();
-  } else if ($type == 'registerUser'){
+  } else if ($type == 'registerUser' && isLoggedIn()){
     registerUser();
-  } else if ($type == 'changeUser'){
+  } else if ($type == 'changeUser' && isLoggedIn()){
     changeUser();
-  } else if ($type == 'changePassword'){
+  } else if ($type == 'changePassword' && isLoggedIn()){
     changePassword();
   } else if ($type == 'forgotPassword'){
     forgotPassword();
   } else {
     echo "You don't have permission to call that function so back off!";
-    exit();
     header("HTTP/1.0 403 User Forbidden");
+    exit();
   }
 } else {
   echo "improper request";
@@ -173,10 +173,10 @@ function registerUser(){
     $username = mysql_real_escape_string($username);
     $password = mysql_real_escape_string($password);
     $email = mysql_real_escape_string($email);
-    $dbconn = new dbconn;
-    $dbconn->connect("write");
-    $dbconn->registerUser($personName, $username, $password, $email, $admin);
-    $dbconn->close();
+    //$dbconn = new dbconn;
+    //$dbconn->connect("write");
+    //$dbconn->registerUser($personName, $username, $password, $email, $admin);
+    //$dbconn->close();
   
   } else {
     print_r($_POST);
@@ -186,25 +186,35 @@ function registerUser(){
 }
 
 function changePassword(){
-  if (isset($_POST['username']) && isset($_POST['oldPassword']) && isset($_POST['newPassword']) ){
+  if (isset($_SESSION['username']) && isset($_POST['oldPassword']) && isset($_POST['newPassword']) ){
     //asdf
-    $username = $_POST['username'];
+    $username = $_SESSION['username'];
     $oldPassword = $_POST['oldPassword'];
     $newPassword = $_POST['newPassword'];
 
     $username = mysql_real_escape_string($username);
     $oldPassword = mysql_real_escape_string($oldPassword);
     $newPassword = mysql_real_escape_string($newPassword);
-    /*
+    echo 'got that shit in';
+    echo '<br>';
+    echo $username;
+    echo '<br>';
+    echo $oldPassword;
+    echo '<br>';
+    echo $newPassword;
     $dbconn = new dbconn;
     $dbconn->connect("write");
-    $dbconn->changePassword($username, $oldPassword, $newPassword);
+    $result = $dbconn->changePassword($username, $oldPassword, $newPassword);
     $dbconn->close();
-    */
+
+    if ($result == 200){
+      logout();
+    }
+    //header("HTTP/1.0 200 Success, Password Changed");
   } else {
     print_r($_POST);
     echo 'nothing returned';
-    header("HTTP/1.0 403 User Forbidden");
+    header("HTTP/1.0 401 User Forbidden");
   }
 }
 
