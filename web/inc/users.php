@@ -355,9 +355,9 @@ class userEdit extends Member{
           '<form>' .
           '<fieldset>' .
             '<label for="oldpassword">Old Password:</label>' .
-            '<input type="oldpassword" name="oldpassword" id="oldpassword" value="" class="text ui-widget-content ui-corner-all">' .
+            '<input type="password" name="oldpassword" id="oldpassword" value="" class="text ui-widget-content ui-corner-all">' .
             '<label for="newpassword">New Password:</label>' .
-            '<input type="newpassword" name="newpassword" id="newpassword" value="" class="text ui-widget-content ui-corner-all">' .
+            '<input type="password" name="newpassword" id="newpassword" value="" class="text ui-widget-content ui-corner-all">' .
           '</fieldset>' .
           '</form>' .
         '</div>' .

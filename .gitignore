@@ -9,7 +9,6 @@ backups/
 
 # ignore the .something files
 .gitignore
-userPass
 *.swp
 mysqlLogin.java
 *.jar

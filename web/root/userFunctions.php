@@ -41,7 +41,6 @@ function checkHeaders(){
     return true;
   } else {
     $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-    //include("$root/../inc/variables.php");
     $sentHeaders = getallheaders();
     unset($sentHeaders['User-Agent']);
     unset($sentHeaders['Host']);
@@ -57,15 +56,10 @@ function checkHeaders(){
 }
 
 function login(){
-  
   //TODO add check headers and other functions
   if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token'])){
                           //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
     echo "This is a test";
-    //print_r($_SERVER['HTTP_REFERER']);
-    //if ($_SERVER['HTTP_REFERER'] == "http://doorlock.wrixton.net/"){
-    //  echo "they equal";
-    //}
     $user = $_POST['Username'];
     $pass = $_POST['Password'];
     $token = $_POST['Token'];
@@ -86,10 +80,6 @@ function login(){
     if($test == true){
       echo '<br> authy token is okay';
       $dbconn->connect("read");
-      //$user = $_POST['Username'];//mysql_real_escape_string($_POST['Username']);
-      //echo 'user: ' . $user;
-      //echo '<br>pass: ' . $pass;
-      //$pass = $_POST['Password'];//mysql_real_escape_string($_POST['Password']);
       $dbconn->login($user, $pass);
       $dbconn->close();
     } else { //authy is not right
@@ -138,10 +128,7 @@ function changeUser(){
   
     $user = mysql_real_escape_string($user);
     $dbconn = new dbconn;
-    //TODO above commented out to save testing hassle
     $dbconn->connect("write");
-    //$dbconn->connect("read");
-    //$pass = $_POST['Password'];//mysql_real_escape_string($_POST['Password']);
     $dbconn->changeUser($user, $type);
     $dbconn->close();
   } else {
@@ -172,7 +159,6 @@ function registerUser(){
     $dbconn->close();
   
   } else {
-    print_r($_POST);
     echo 'nothing returned';
     header("HTTP/1.0 403 User Forbidden");
   }
@@ -180,7 +166,6 @@ function registerUser(){
 
 function changePassword(){
   if (isset($_SESSION['username']) && isset($_POST['oldPassword']) && isset($_POST['newPassword']) ){
-    //asdf
     $username = $_SESSION['username'];
     $oldPassword = $_POST['oldPassword'];
     $newPassword = $_POST['newPassword'];
@@ -188,13 +173,6 @@ function changePassword(){
     $username = mysql_real_escape_string($username);
     $oldPassword = mysql_real_escape_string($oldPassword);
     $newPassword = mysql_real_escape_string($newPassword);
-    echo 'got that shit in';
-    echo '<br>';
-    echo $username;
-    echo '<br>';
-    echo $oldPassword;
-    echo '<br>';
-    echo $newPassword;
     $dbconn = new dbconn;
     $dbconn->connect("write");
     $result = $dbconn->changePassword($username, $oldPassword, $newPassword);

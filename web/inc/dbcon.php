@@ -66,7 +66,7 @@ class dbconn {
   public function getUsers(){
     //selecting all the users
     //$query = "Select * from Users";
-    $query = "Select name from Users";
+    $query = "Select username from Users";
     $results = mysql_query($query, $this->conn);
     $theSize = mysql_num_rows($results);
     $result = array();

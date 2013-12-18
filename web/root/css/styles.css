@@ -91,6 +91,7 @@ table {
   padding-bottom: .4em;
   display: block;
   font-size: 70%;
+  clear: both;
 }
 
 #loginStatus {
