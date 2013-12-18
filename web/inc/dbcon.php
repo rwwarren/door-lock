@@ -13,13 +13,10 @@ class dbconn {
   
   private $conn = null;
 
-  //protected $query = null;
-
   public function login($name, $password){
     include_once "variables.php";
     $query = "Select * from Users where Username = \"" . $name . "\" and Password = PASSWORD(\"" . passwordEncode($password) . "\") and IsActive = 1 ";
     $query = stripslashes($query);
-    //$results = mysql_fetch_array($query, MYSQL_ASSOC)
     $results = mysql_query($query, $this->conn);
     $row = mysql_fetch_row($results, MYSQL_ASSOC);
     if(sizeof($row) > 1) {
@@ -30,23 +27,26 @@ class dbconn {
       //TODO left join? or just keep in the same table
       $_SESSION['isAdmin'] = $row['IsAdmin'];//$name;
       session_write_close();
-      //TODO check Authy here somewhere
-      //setcookie("sid", session_id(), time()+3600);
-      //setcookie("n", $name, time()+3600);
-      //$update = "UPDATE Users SET session_id=\"" . session_id() . "\", user_session_valid=1, session_expire=now()+3600 WHERE name=\"" . $name . "\";";
-      //mysql_query($update, $this->conn);
       header("HTTP/1.0 200 Success");
       return true; 
-      //TODO somehow loook at the session and valid and expire later
     } else {
-      echo $name . ' and ' . $password;
-      echo 'null sad face';
       echo '<br>Username or pwd incorrect';
-      //TODO change this
       header("HTTP/1.0 403 Error Username or Password incorrect");
       exit();
     }
-    //print_r($row);
+  }
+
+  public function checkAuthy($name, $token){
+    include_once "variables.php";
+    $query = "Select * from Users where Username = \"" . $name . "\" and AuthyID = \"" . $token . "\" and IsActive = 1 ";
+    $query = stripslashes($query);
+    $results = mysql_query($query, $this->conn);
+    $row = mysql_fetch_row($results, MYSQL_ASSOC);
+    if(sizeof($row) > 1) {
+      return true; 
+    } else {
+      return false;
+    }
   }
 
   public function close(){
@@ -72,27 +72,21 @@ class dbconn {
     $result = array();
     for($i = 0; $i < $theSize/*sizeof($results)*/; $i++){
       $result[$i] = mysql_result($results, $i);//$row['name'];
-      //$i++;
     }
     return $result;
-
   }
 
 
     //TODO change so the 3 functions are the same
     //but with different queries
   public function getActiveUsers(){
-    //selecting all the users
-    //$query = "Select * from Users";
     $query = "Select username from Users where IsAdmin = 0 and IsActive = 1;";
     $results = mysql_query($query, $this->conn);
     $theSize = mysql_num_rows($results);
     $result = array();
-    for($i = 0; $i < $theSize/*sizeof($results)*/; $i++){
-      $result[$i] = mysql_result($results, $i);//$row['name'];
-      //$i++;
+    for($i = 0; $i < $theSize; $i++){
+      $result[$i] = mysql_result($results, $i);
     }
-    
     return $result;
 
   }
@@ -104,9 +98,8 @@ class dbconn {
     $results = mysql_query($query, $this->conn);
     $theSize = mysql_num_rows($results);
     $result = array();
-    for($i = 0; $i < $theSize/*sizeof($results)*/; $i++){
-      $result[$i] = mysql_result($results, $i);//$row['name'];
-      //$i++;
+    for($i = 0; $i < $theSize; $i++){
+      $result[$i] = mysql_result($results, $i);
     }
     return $result;
 
@@ -118,17 +111,14 @@ class dbconn {
     $results = mysql_query($query, $this->conn);
     $theSize = mysql_num_rows($results);
     $result = array();
-    for($i = 0; $i < $theSize/*sizeof($results)*/; $i++){
-      $result[$i] = mysql_result($results, $i);//$row['name'];
-      //$i++;
+    for($i = 0; $i < $theSize; $i++){
+      $result[$i] = mysql_result($results, $i);
     }
-    
     return $result;
 
   }
 
   public function changePassword($user, $oldPass, $newPass){
-
     include_once "variables.php";
     $query = "Select * from Users where Username = \"" . $user . "\" and Password = PASSWORD(\"" . passwordEncode($oldPass) . "\") ";
     $query = stripslashes($query);
@@ -138,10 +128,7 @@ class dbconn {
     if (sizeof($row) > 1) {
       //change the pwd
       $query = "UPDATE Users SET Password=PASSWORD(\"" . passwordEncode($newPass) . "\") WHERE Username=\"" . $user . "\" AND Password=PASSWORD(\"" . passwordEncode($oldPass) . "\");";
-      //echo $query;
       $results = mysql_query($query, $this->conn);
-      //say that the pwd was now changed or not
-      //header("HTTP/1.0 200 Password Changed");
       return 200;
     } else {
       echo 'not changed!';
@@ -155,42 +142,27 @@ class dbconn {
     $query = "Select name from Users where username = \"" . $username . "\";";
     $query = stripslashes($query);
     $results = mysql_query($query, $this->conn);
-    //mysql_error();
-    echo "<br>";
-    //$row = mysql_fetch_assoc($results);
-    //$row = mysql_fetch_row($results, MYSQL_ASSOC);
-    //$results = mysql_query($query, $this->conn);
-    //$row = mysql_fetch_row($results, MYSQL_ASSOC);
     $rows = mysql_num_rows($results);
     if ($rows < 1) {
       include_once "variables.php";
       $query = "INSERT INTO Users VALUES(DEFAULT,\"" . $personName . "\", \"" . $username . "\", PASSWORD(\"" . passwordEncode($password) . "\"), \"" . $email . "\", DEFAULT, DEFAULT, \"". $admin . "\", DEFAULT, DEFAULT);";
-      echo $query;
       $query = stripslashes($query);
       $results = mysql_query($query, $this->conn);
       echo 'Added user: ' . $personName;
     } else {
-      print_r($results);
-    echo "<br>";
-      print_r(sizeof($results));
-    echo "<br>";
       return 'User is already a part of the system';
     }
   }
 
   public function removeUser($user){
-    //change isCurrent to 0
     $query = "UPDATE Users SET IsActive = 0 WHERE Username = \"" . $user . "\";";
     $query = stripslashes($query);
-    echo $query;
     $results = mysql_query($query, $this->conn);
   }
 
   //changes what type the user is
   //like admin, user active, user inactive
   public function changeUser($user, $type){
-    //TODO 3 different types
-    echo 'This is amazing';
     if ($type == 'admin'){
       $query = "UPDATE Users SET IsActive = 1, IsAdmin = 1 WHERE Username = \"" . $user . "\";";
     } else if ($type == 'active'){
@@ -203,9 +175,7 @@ class dbconn {
       die();
     }
     $query = stripslashes($query);
-    //echo $query;
     $results = mysql_query($query, $this->conn);
-
   }
 
   public function resetPassword($username, $email){

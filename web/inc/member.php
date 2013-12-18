@@ -4,8 +4,6 @@ require_once("$root/../inc/template.php");
 abstract class Member extends Page{
 
   public function getNav(){
-    //only have if there is
-    //someone logged in
     return
       '<div id="nav">' .
         '<ul>' .

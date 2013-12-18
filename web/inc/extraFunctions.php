@@ -1,16 +1,11 @@
 <?php
 
   function isLoggedIn(){
-    //return isset($_COOKIE['PHPSESSID']) && isset($_COOKIE['sid']) && isset($_COOKIE['n']); 
-    //return isset($_session['isloggedin']) && $_session['isloggedin'] == 1;
     return isset($_SESSION['username']) && $_SESSION['username'] !== null;
   }
 
-
-  //TODO Make it better in the future
   function isAdmin(){
     return isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1;
-    //return $_COOKIE['n'] == 'Ryan';
   }
 
   function sendMail($name, $sendEmail, $newPassword){
@@ -54,4 +49,25 @@
     echo 'Message has been sent';
     return $mailStatus;
   }
+
+  //function checkHeaders(){
+  //  if (isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/"){
+  //    return true;
+  //  } else {
+  //    $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+  //    include("$root/../inc/variables.php");
+  //    $sentHeaders = getallheaders();
+  //    unset($sentHeaders['User-Agent']);
+  //    unset($sentHeaders['Host']);
+  //    unset($sentHeaders['Accept']);
+  //    unset($sentHeaders['Content-Length']);
+  //    unset($sentHeaders['Content-Type']);
+  //    if ($requiredHeaders == $sentHeaders){
+  //      return true;
+  //    } else {
+  //      return false;
+  //    }
+  //  }
+  //}
+
 ?>

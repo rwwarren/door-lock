@@ -1,17 +1,10 @@
 <?php
-//if (isset($_SESSION)){
 session_name('sid');
 session_start();
-//}
 
 abstract class Page {
 
   public function getHeader(){
-    /*
-    if (isset($_SESSION)){
-      session_start();
-    }
-*/
     return 'PiDuinoLock';
   }
 
@@ -22,23 +15,12 @@ abstract class Page {
   }
 
   public function getNav(){
-    //only have if there is
-    //someone logged in
     return
-      /*
-      '<div id="nav">' .
-        '<ul>' .
-          '<li><a href="/">Home</a></li>' .
-          '<li><a href="/users.php">User Info</a></li>' .
-          '<li><a href="/logout.php">Logout</a></li>' .
-        '</ul>' .
-        '</div>' .
-       */
         '';
   }
 
   public function getScripts(){
-    return 
+    return
       '<script src="http://code.jquery.com/jquery-2.0.3.js"></script>' .
       '';
   }

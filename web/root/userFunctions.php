@@ -33,8 +33,6 @@ if (isset($_GET['actions']) ){
   exit();
 }
 
-//add_action( 'wp_ajax_example_ajax_request', 'example_ajax_request' );
-
 //TODO have this is extra functions
 function checkHeaders(){
   if (isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/"){
@@ -59,7 +57,6 @@ function login(){
   //TODO add check headers and other functions
   if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token'])){
                           //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
-    echo "This is a test";
     $user = $_POST['Username'];
     $pass = $_POST['Password'];
     $token = $_POST['Token'];
@@ -72,9 +69,12 @@ function login(){
     //TODO also remove my secret key
     //TODO add this to the database
     //$authy_id = get from DB;
+    //$dbconn->connect("read");
+    //$authyValid = $dbconn->checkAuthy($user, $token);
+    //$dbconn->close();
     //TODO add this back in to the check
     //$verification = $authy_api->verifyToken("$authy_id", "$token");
-    //if($verification->ok()){
+    //if($authyValid && $verification->ok()){
     //TODO above commented out to save testing hassle
     $test = true;
     if($test == true){
@@ -109,11 +109,6 @@ function logout(){
   setcookie('sid', '', time()-3600);
   session_name('sid');
   session_start();
-  
-  //TODO make it so that it updates the MYSQL db and 
-  //changes so that the session is not valid and or
-  //expired and session is not valid
-  //TODO fix the location
   header("Location:/");
   exit();
 }
@@ -140,9 +135,6 @@ function changeUser(){
 
 function registerUser(){
   if (isset($_POST['personName']) && isset($_POST['username'])&& isset($_POST['password']) && isset($_POST['email']) && isAdmin() && isset($_POST['admin'])){
-    //asdf
-    echo 'this is done';
-    print_r($_POST);
     $personName = $_POST['personName'];
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -157,7 +149,6 @@ function registerUser(){
     $dbconn->connect("write");
     $dbconn->registerUser($personName, $username, $password, $email, $admin);
     $dbconn->close();
-  
   } else {
     echo 'nothing returned';
     header("HTTP/1.0 403 User Forbidden");
@@ -211,7 +202,6 @@ function forgotPassword(){
     $dbconn->close();
      */
   } else {
-    print_r($_POST);
     echo 'nothing returned';
     header("HTTP/1.0 403 User Forbidden");
   }
