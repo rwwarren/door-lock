@@ -1,7 +1,5 @@
 <?php
-//dbconnection
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-//require_once("$root/../inc/mysqlUsers.php");
 require_once("mysqlUser.php");
 //getting all the errors
 ini_set('display_errors', 1);
@@ -184,7 +182,7 @@ class dbconn {
     include_once 'extraFunctions.php';
     //TODO
     //some db shit
-    $user .= '';
+    $user = '';
     $newPassword = createTempPassword($user);
     sendMail($name, $sendEmail, $newPassword);
   }
