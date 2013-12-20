@@ -8,7 +8,8 @@ require '../includedPackages/authy-php/Authy.php';
 require_once("$root/../inc/variables.php");
 require_once("$root/../inc/extraFunctions.php");
 
-if (isset($_GET['actions']) ){
+//TODO add back in comments
+if (isset($_GET['actions']) && (strpos($_SERVER["REQUEST_URI"], 'userFunctions.php') === false)){
   $type = $_GET['actions'];
   if ($type == 'login'){
     login();
@@ -20,6 +21,8 @@ if (isset($_GET['actions']) ){
     changeUser();
   } else if ($type == 'changePassword' && isLoggedIn()){
     changePassword();
+  } else if ($type == 'resetPassword'){
+    resetPassword();
   } else if ($type == 'forgotPassword'){
     forgotPassword();
   } else {
@@ -181,29 +184,41 @@ function changePassword(){
 }
 
 function forgotPassword(){
-  if (isset($_POST['username']) && isset($_POST['email'])){
-    //asdf
+  //if (isset($_POST['username']) && isset($_POST['email'])){
+  //if(isset($_POST['resetToken'])){
+  //print_r($_GET);
+  //print_r($_SERVER);
+  if(isset($_GET['resetToken'])){
+    echo $_GET['resetToken'];
+    $resetToken = $_GET['resetToken'];
+    //
+    //create the new password and make url invalid
+    //
     /*
-    echo 'this is done';
+    $dbconn = new dbconn;
+    $dbconn->connect("write");
+    $dbconn->updateResetPassword($username, $email);
+    $dbconn->close();
+     */
+  } else {
+    echo 'nothing returned';
     print_r($_POST);
-    $personName = $_POST['personName'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $email = $_POST['email'];
-    $admin = ($_POST['admin'] == 'true' ? 1 : 0);
+    print_r($_GET);
+    header("HTTP/1.0 403 User Forbidden");
+  }
+}
 
-    $personName = mysql_real_escape_string($personName);
-    $username = mysql_real_escape_string($username);
-    $password = mysql_real_escape_string($password);
-    $email = mysql_real_escape_string($email);
+function resetPassword(){
+  if (isset($_POST['username']) && isset($_POST['email'])){
+    //db 
+    //resetPassword();
+    //creates and resets the password
+    /*
     $dbconn = new dbconn;
     $dbconn->connect("write");
     $dbconn->resetPassword($username, $email);
     $dbconn->close();
      */
-  } else {
-    echo 'nothing returned';
-    header("HTTP/1.0 403 User Forbidden");
   }
 }
 

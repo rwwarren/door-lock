@@ -19,11 +19,12 @@ class dbconn {
     $row = mysql_fetch_row($results, MYSQL_ASSOC);
     if(sizeof($row) > 1) {
       echo 'Not null';
-      $_SESSION['name'] = $row['Name'];//$name;
-      $_SESSION['username'] = $row['Username'];//$name;
+      $_SESSION['name'] = $row['Name'];
+      $_SESSION['username'] = $row['Username'];
+      $_SESSION['userID'] = $row['ID'];
       //TODO an admin table or something
       //TODO left join? or just keep in the same table
-      $_SESSION['isAdmin'] = $row['IsAdmin'];//$name;
+      $_SESSION['isAdmin'] = $row['IsAdmin'];
       session_write_close();
       header("HTTP/1.0 200 Success");
       return true; 
@@ -41,7 +42,7 @@ class dbconn {
     $results = mysql_query($query, $this->conn);
     $row = mysql_fetch_row($results, MYSQL_ASSOC);
     if(sizeof($row) > 1) {
-      return true; 
+      return true;
     } else {
       return false;
     }
@@ -58,7 +59,7 @@ class dbconn {
     $sqlUser = new users($user);
     $this->conn = mysql_connect("localhost", $sqlUser->getUser(), $sqlUser->getPass()) or die ("Could not connect to the database");
     $selected = mysql_select_db("doorlock",$this->conn) 
-      or die("Could not select examples");
+      or die("Could not select a database");
   }
 
   public function getUsers(){
@@ -68,8 +69,8 @@ class dbconn {
     $results = mysql_query($query, $this->conn);
     $theSize = mysql_num_rows($results);
     $result = array();
-    for($i = 0; $i < $theSize/*sizeof($results)*/; $i++){
-      $result[$i] = mysql_result($results, $i);//$row['name'];
+    for($i = 0; $i < $theSize; $i++){
+      $result[$i] = mysql_result($results, $i);
     }
     return $result;
   }
@@ -176,21 +177,64 @@ class dbconn {
     $results = mysql_query($query, $this->conn);
   }
 
-  public function resetPassword($username, $email){
+  //TODO have reset create the new one from the url
+  //have forgot create temp url
+  public function resetPassword($username){
     //TODO sends the user an email and resets their password
     //make a mysql table that has : userId, passLink, vaild until, isUsed
     include_once 'extraFunctions.php';
+    include_once 'variables.php';
     //TODO
     //some db shit
-    $user = '';
-    $newPassword = createTempPassword($user);
-    sendMail($name, $sendEmail, $newPassword);
+    $userInfo = $this->getUserInfo($username);//get user ID somehow.....
+    //print_r($userInfo);
+    $userID = $userInfo['ID'];
+    $user = $userInfo['Name'];
+    $newPassword = createTempPassword($username);
+    echo $newPassword;
+    $this->resetPassQuery($userID, $newPassword, true);
+    //
+    //TODO: make sure the time is valid and isValid
+    //sendMail($user, $sendEmail, $newPassword);
   }
 
-  public function createTempPassword($user){
+  public function updateResetPassword($resetToken){
     //
-    return $newPassword;
   }
+
+  private function resetPassQuery($userID, $newPassword, $isValid){
+    //
+    if ($isValid){
+      //$query = 'INSERT INTO ResetURLs VALUES(DEFAULT,  "' . $userID . '", "' . $newPassword . '", DEFAULT, DEFAULT);';
+      $expireTime = date('Y-m-d H:i:s', strtotime("+2 day", time()));
+      $query = 'INSERT INTO ResetURLs VALUES(DEFAULT,  "' . $userID . '", "' . $newPassword . '", " ' . $expireTime .'", DEFAULT);';
+    } else if (!$isValid){
+      //$query = 'UDPATE ResetURLs SET isValid = 0 WHERE UserId = \'' . $userID . '\';';
+      include_once "variables.php";
+      $query = 'UDPATE ResetURLs SET isValid = 0 WHERE resetPassURL = \'' . $resetToken . '\';';
+      //TODO also
+      //$query = 'UDPATE Users SET password = \'' . passwordEncode($newPassword). '\' WHERE ID = \'' . $userID . '\';';
+    } else {
+      die('invalid parameter');
+    }
+    $query = stripslashes($query);
+    $results = mysql_query($query, $this->conn);
+    echo '<br>';
+    echo 'complete';
+  }
+
+  private function getUserInfo($username){
+    $query = "Select ID, Email, Name from Users where username = '$username' and IsActive = 1;";
+    $results = mysql_query($query, $this->conn);
+    $row = mysql_fetch_row($results, MYSQL_ASSOC);
+    //$userID = $row['ID'];
+    $userInfo = $row;
+    if (sizeof($row) < 1){
+      die("no user exists");
+    }
+    return $userInfo;
+  }
+
 
 }
 

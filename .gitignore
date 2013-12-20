@@ -2,8 +2,6 @@
 *.class
 
 # current testing files
-test/
-otherTest/
 web/includedPackages
 backups/
 

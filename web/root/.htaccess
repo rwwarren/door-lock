@@ -7,3 +7,5 @@ RewriteRule login.php userFunctions.php?actions=login
 RewriteRule register.php userFunctions.php?actions=registerUser
 RewriteRule changeUser.php userFunctions.php?actions=changeUser
 RewriteRule changePassword.php userFunctions.php?actions=changePassword
+RewriteRule resetPassword.php userFunctions.php?actions=resetPassword
+RewriteRule ^forgotPassword/([^/]*)$ userFunctions.php?actions=forgotPassword&resetToken=$1 [L]

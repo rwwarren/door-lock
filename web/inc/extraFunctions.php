@@ -28,7 +28,7 @@
     //to name
     //$name = '';
     //$sendEmail = '';
-    $mail->addAddress($email, $name);  // Add a recipient
+    $mail->addAddress($sendEmail, $name);  // Add a recipient
     
     $mail->WordWrap = 50;                                 // Set word wrap to 50 characters
     $mail->isHTML(true);                                  // Set email format to HTML
