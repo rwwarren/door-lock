@@ -191,7 +191,7 @@ class dbconn {
     $userID = $userInfo['ID'];
     $user = $userInfo['Name'];
     $newPassword = createTempPassword($username);
-    echo $newPassword;
+    //echo $newPassword;
     $this->resetPassQuery($userID, $newPassword, true);
     //
     //TODO: make sure the time is valid and isValid
@@ -200,27 +200,64 @@ class dbconn {
 
   public function updateResetPassword($resetToken){
     //
+    //$query = 'Select * From ResetURLs WHERE ResetURL = \'' . $resetToken .'\' AND isValid = 1 AND Expiration  \'' . $timenow . '\' >= CURRENT_TIMESTAMP;';
+    $query = 'Select * From ResetURLs WHERE ResetURL = \'' . $resetToken .'\' AND isValid = 1 AND Expiration >= CURRENT_TIMESTAMP;';
+    $query = stripslashes($query);
+    $results = mysql_query($query, $this->conn);
+    $row = mysql_fetch_row($results, MYSQL_ASSOC);
+    //print_r($row);
+    if (sizeof($row) > 1) {
+      return true;
+    } else {
+      return false;
+    }
+    //echo mysql_errno($this->conn) .':' . mysql_error($this->conn);
   }
 
   private function resetPassQuery($userID, $newPassword, $isValid){
     //
     if ($isValid){
       //$query = 'INSERT INTO ResetURLs VALUES(DEFAULT,  "' . $userID . '", "' . $newPassword . '", DEFAULT, DEFAULT);';
+      //TODO check if there are other reset password tokens
+      $precheckQuery = 'Select * From ResetURLs WHERE UserID = \'' . $userID .'\' AND isValid = 1;';
+      $precheckQuery = stripslashes($precheckQuery);
+      $results = mysql_query($precheckQuery, $this->conn);
+      while ($rows = mysql_fetch_row($results, MYSQL_ASSOC)){
+        print_r($rows);
+        $resetToken = $rows['ResetURL'];
+        echo $resetToken;
+        $this->invalidateResetURL($resetToken, $userID);
+        echo '<br>';
+      }
+
       $expireTime = date('Y-m-d H:i:s', strtotime("+2 day", time()));
       $query = 'INSERT INTO ResetURLs VALUES(DEFAULT,  "' . $userID . '", "' . $newPassword . '", " ' . $expireTime .'", DEFAULT);';
+      $query = stripslashes($query);
+      $results = mysql_query($query, $this->conn);
     } else if (!$isValid){
       //$query = 'UDPATE ResetURLs SET isValid = 0 WHERE UserId = \'' . $userID . '\';';
       include_once "variables.php";
-      $query = 'UDPATE ResetURLs SET isValid = 0 WHERE resetPassURL = \'' . $resetToken . '\';';
+      //TODO how do i pull this reset token??
+      $this->invalidateResetURL($resetToken, $userID);
+      //$query = 'UDPATE ResetURLs SET isValid = 0 WHERE resetPassURL = \'' . $resetToken . '\' AND UserID = \'' . $UserID . '\';';
       //TODO also
       //$query = 'UDPATE Users SET password = \'' . passwordEncode($newPassword). '\' WHERE ID = \'' . $userID . '\';';
     } else {
       die('invalid parameter');
     }
-    $query = stripslashes($query);
-    $results = mysql_query($query, $this->conn);
     echo '<br>';
     echo 'complete';
+  }
+
+  private function invalidateResetURL($resetToken, $userID){
+    //
+    $query = 'UPDATE ResetURLs SET isValid = 0 WHERE ResetURL = \'' . $resetToken . '\' AND UserID = \'' . $userID . '\';';
+    $query = stripslashes($query);
+    echo '<br>';
+    echo $query;
+    echo '<br>';
+    //echo mysql_errno($this->conn) .':' . mysql_error($this->conn);
+    $results = mysql_query($query, $this->conn);
   }
 
   private function getUserInfo($username){

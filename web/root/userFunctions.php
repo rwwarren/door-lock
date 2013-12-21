@@ -184,26 +184,27 @@ function changePassword(){
 }
 
 function forgotPassword(){
-  //if (isset($_POST['username']) && isset($_POST['email'])){
-  //if(isset($_POST['resetToken'])){
-  //print_r($_GET);
-  //print_r($_SERVER);
   if(isset($_GET['resetToken'])){
     echo $_GET['resetToken'];
     $resetToken = $_GET['resetToken'];
+    echo '<br>';
     //
     //create the new password and make url invalid
     //
-    /*
     $dbconn = new dbconn;
     $dbconn->connect("write");
-    $dbconn->updateResetPassword($username, $email);
+    $results = $dbconn->updateResetPassword($resetToken);
     $dbconn->close();
-     */
+    if ($results){
+      //
+      echo 'Found!';
+    } else {
+      echo 'error! nothing found';
+    }
   } else {
     echo 'nothing returned';
-    print_r($_POST);
-    print_r($_GET);
+    //print_r($_POST);
+    //print_r($_GET);
     header("HTTP/1.0 403 User Forbidden");
   }
 }
