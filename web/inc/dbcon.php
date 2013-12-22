@@ -192,10 +192,13 @@ class dbconn {
     $user = $userInfo['Name'];
     $newPassword = createTempPassword($username);
     //echo $newPassword;
-    $this->resetPassQuery($userID, $newPassword, true);
-    //
-    //TODO: make sure the time is valid and isValid
-    //sendMail($user, $sendEmail, $newPassword);
+    $found = $this->findUser($username, $email);
+    if ($found){
+      $this->resetPassQuery($userID, $newPassword, true);
+      //
+      //TODO: make sure the time is valid and isValid
+      sendMail($user, $email, $newPassword);
+    }
   }
 
   public function updateResetPassword($resetToken){
@@ -214,6 +217,19 @@ class dbconn {
     //echo mysql_errno($this->conn) .':' . mysql_error($this->conn);
   }
 
+  private function findUser($username, $email){
+    //
+    $query = "Select * from Users where Username = \"" . $username . "\" and Email = \"" . $email . "\" and IsActive = 1 ";
+    $query = stripslashes($query);
+    $results = mysql_query($query, $this->conn);
+    $row = mysql_fetch_row($results, MYSQL_ASSOC);
+    if(sizeof($row) > 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   private function resetPassQuery($userID, $newPassword, $isValid){
     //
     if ($isValid){
@@ -223,11 +239,11 @@ class dbconn {
       $precheckQuery = stripslashes($precheckQuery);
       $results = mysql_query($precheckQuery, $this->conn);
       while ($rows = mysql_fetch_row($results, MYSQL_ASSOC)){
-        print_r($rows);
+        //print_r($rows);
         $resetToken = $rows['ResetURL'];
-        echo $resetToken;
+        //echo $resetToken;
         $this->invalidateResetURL($resetToken, $userID);
-        echo '<br>';
+        //echo '<br>';
       }
 
       $expireTime = date('Y-m-d H:i:s', strtotime("+2 day", time()));
@@ -245,17 +261,17 @@ class dbconn {
     } else {
       die('invalid parameter');
     }
-    echo '<br>';
-    echo 'complete';
+    //echo '<br>';
+    //echo 'complete';
   }
 
   private function invalidateResetURL($resetToken, $userID){
     //
     $query = 'UPDATE ResetURLs SET isValid = 0 WHERE ResetURL = \'' . $resetToken . '\' AND UserID = \'' . $userID . '\';';
     $query = stripslashes($query);
-    echo '<br>';
-    echo $query;
-    echo '<br>';
+    //echo '<br>';
+    //echo $query;
+    //echo '<br>';
     //echo mysql_errno($this->conn) .':' . mysql_error($this->conn);
     $results = mysql_query($query, $this->conn);
   }

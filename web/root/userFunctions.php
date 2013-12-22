@@ -185,9 +185,9 @@ function changePassword(){
 
 function forgotPassword(){
   if(isset($_GET['resetToken'])){
-    echo $_GET['resetToken'];
+    //echo $_GET['resetToken'];
     $resetToken = $_GET['resetToken'];
-    echo '<br>';
+    //echo '<br>';
     //
     //create the new password and make url invalid
     //
@@ -199,6 +199,15 @@ function forgotPassword(){
       //
       //resets the password....
       echo 'Found!';
+      //
+      $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+      require_once("$root/../inc/resetpass.php");
+      //
+      $page = new ResetPage;
+      $page->render();
+      //check the reset token
+      //check the 2 passwords
+      //do the query
     } else {
       echo 'error! nothing found';
     }
@@ -216,17 +225,24 @@ function resetPassword(){
     //db 
     //resetPassword();
     //creates and resets the password
-    echo 'woohoo posted';
-    echo '<br>';
-    print_r($_POST);
-    //TODO 
+
+    //echo 'woohoo posted';
+    //echo '<br>';
+    //print_r($_POST);
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+
+    //TODO
     //something about getting an email
-    /*
+
     $dbconn = new dbconn;
     $dbconn->connect("write");
     $dbconn->resetPassword($username, $email);
     $dbconn->close();
-     */
+
+    echo 'Email sent to: ' . $email . '. Password for username: ' . $username . ' has been reset!';
+    echo '<br> Please check your email';
+    echo '<br> Click <a href="/">here</a> to go home';
   } else {
     //echo 'not working';
     header("Location:http://doorlock.wrixton.net/");

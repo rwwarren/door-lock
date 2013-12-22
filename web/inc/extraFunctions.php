@@ -1,4 +1,7 @@
 <?php
+//ini_set('error_reporting', E_ALL);
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
   function isLoggedIn(){
     return isset($_SESSION['username']) && $_SESSION['username'] !== null;
@@ -11,7 +14,9 @@
   function sendMail($name, $sendEmail, $newPassToken){
 
     include_once 'variables.php';
-    $emailVars = emailVarriables();
+    //require '../includedPackages/PHPMailer/PHPMailerAutoload.php';
+    include '../includedPackages/PHPMailer/PHPMailerAutoload.php';
+    $emailVars = emailVariables();
     $mail = new PHPMailer;
     
     $mail->isSMTP();                                      // Set mailer to use SMTP
@@ -47,7 +52,7 @@
           '';
 
     //$mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-    $mail->Body    = $body;
+    $mail->Body    = $htmlbody;
     //TODO make these say the same things
     $mail->AltBody = $altBody;
     //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
