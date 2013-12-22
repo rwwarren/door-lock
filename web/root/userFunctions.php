@@ -197,6 +197,7 @@ function forgotPassword(){
     $dbconn->close();
     if ($results){
       //
+      //resets the password....
       echo 'Found!';
     } else {
       echo 'error! nothing found';
@@ -210,16 +211,25 @@ function forgotPassword(){
 }
 
 function resetPassword(){
+  //hmmm
   if (isset($_POST['username']) && isset($_POST['email'])){
     //db 
     //resetPassword();
     //creates and resets the password
+    echo 'woohoo posted';
+    echo '<br>';
+    print_r($_POST);
+    //TODO 
+    //something about getting an email
     /*
     $dbconn = new dbconn;
     $dbconn->connect("write");
     $dbconn->resetPassword($username, $email);
     $dbconn->close();
      */
+  } else {
+    //echo 'not working';
+    header("Location:http://doorlock.wrixton.net/");
   }
 }
 

@@ -179,7 +179,7 @@ class dbconn {
 
   //TODO have reset create the new one from the url
   //have forgot create temp url
-  public function resetPassword($username){
+  public function resetPassword($username, $email){
     //TODO sends the user an email and resets their password
     //make a mysql table that has : userId, passLink, vaild until, isUsed
     include_once 'extraFunctions.php';

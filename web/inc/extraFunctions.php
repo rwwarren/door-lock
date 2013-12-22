@@ -8,14 +8,14 @@
     return isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1;
   }
 
-  function sendMail($name, $sendEmail, $newPassword){
+  function sendMail($name, $sendEmail, $newPassToken){
 
     include_once 'variables.php';
     $emailVars = emailVarriables();
     $mail = new PHPMailer;
     
     $mail->isSMTP();                                      // Set mailer to use SMTP
-    $mail->Host = 'smtp-mail.outlook.com';//';pop3.live.com';  // Specify main and backup server
+    $mail->Host = 'smtp-mail.outlook.com';              //';pop3.live.com';  // Specify main and backup server
     $mail->Port = 587;
     $mail->SMTPAuth = true;                               // Enable SMTP authentication
     $mail->Username = $emailVars['name'];                            // SMTP username
@@ -35,13 +35,27 @@
     
     $mail->Subject = 'Here is the subject';
     //$newPassword = '';
-    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+    
+    $htmlbody = 'Your password for doorlock.wrixton.net has been reset <br>' .
+          'Please click <a href="http://doorlock.wrixton.net/forgotPassword/' . $newPassToken . '">here</a>' .
+          '<br> Or please copy and paste the link below: <br>' .
+          'http://doorlock.wrixton.net/forgotPassword/' . $newPassToken .
+              '';
+
+    $altBody = 'Your password for doorlock.wrixton.net has been reset. Please copy and paste the link: ' .
+          'http://doorlock.wrixton.net/forgotPassword/' . $newPassToken .
+          '';
+
+    //$mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+    $mail->Body    = $body;
     //TODO make these say the same things
-    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+    $mail->AltBody = $altBody;
+    //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
     
     $mailStatus = $mail->send();
-    if(!$mailStatus /*!$mail->send()*/) {
-         echo 'Message could not be sent.';
+    //if(!$mailStatus /*!$mail->send()*/) {
+    if(!$mailStatus) {
+        echo 'Message could not be sent.';
         echo 'Mailer Error: ' . $mail->ErrorInfo;
         exit;
     }
