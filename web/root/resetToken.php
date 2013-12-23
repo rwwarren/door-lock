@@ -1,6 +1,5 @@
 <?php
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-require_once("$root/../inc/lock.php");
 require_once("$root/../inc/resetpass.php");
 require_once("$root/../inc/extraFunctions.php");
 
@@ -10,7 +9,7 @@ if (checkTokenValid($_GET['resetToken'])){
     $page = new ResetPage;
     $page->render();
   } else {
-    header("Location:http://doorlock.wrixton.net/lock/");
+    header("Location:http://doorlock.wrixton.net/");
   }
 } else {
   header("Location:http://doorlock.wrixton.net/");

@@ -123,7 +123,7 @@ function changeUser(){
     echo "This is a test";
     $user = $_POST['user'];
     $type = $_POST['type'];
-  
+
     $user = mysql_real_escape_string($user);
     $dbconn = new dbconn;
     $dbconn->connect("write");

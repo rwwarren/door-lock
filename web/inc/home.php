@@ -19,6 +19,7 @@ class Home extends Page {
         '<div id="loginSpace"> </div>' .
         //This is the button
         '<input type="submit" value="Submit" class="enviar">'.
+        '<p align="center"><a href="/forgotpassword.php">Forgot Password</a></p>' .
         '<div id="loginStatus"> </div>' .
         //testing
         //TODO work this with the login
