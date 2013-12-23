@@ -184,32 +184,40 @@ function changePassword(){
 }
 
 function forgotPassword(){
-  if(isset($_GET['resetToken'])){
+  if(isset($_GET['resetToken']) && isset($_POST['pass']) && isset($_POST['confirmPass']) ){
     //echo $_GET['resetToken'];
     $resetToken = $_GET['resetToken'];
+    $pass = $_POST['pass'];
+    $otherPass = $_POST['confirmPass'];
     //echo '<br>';
     //
     //create the new password and make url invalid
     //
     $dbconn = new dbconn;
     $dbconn->connect("write");
-    $results = $dbconn->updateResetPassword($resetToken);
+    $results = $dbconn->findResetToken($resetToken);
     $dbconn->close();
-    if ($results){
+    if ($results && (strcmp($pass, $otherPass) == 0)){
       //
       //resets the password....
       echo 'Found!';
+      $dbconn = new dbconn;
+      $dbconn->connect("write");
+      $userID = $dbconn->resetChangePassword($pass, $resetToken);
+      $results = $dbconn->invalidateResetURL($resetToken, $userID);
+      $dbconn->close();
       //
-      $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-      require_once("$root/../inc/resetpass.php");
+      //$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+      //require_once("$root/../inc/resetpass.php");
       //
-      $page = new ResetPage;
-      $page->render();
+      //$page = new ResetPage;
+      //$page->render();
       //check the reset token
       //check the 2 passwords
       //do the query
     } else {
       echo 'error! nothing found';
+      header("HTTP/1.0 403 User Forbidden");
     }
   } else {
     echo 'nothing returned';

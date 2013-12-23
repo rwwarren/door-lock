@@ -135,6 +135,25 @@ class dbconn {
     }
   }
 
+  public function resetChangePassword($newPass, $token){
+    include_once "variables.php";
+    $query = "Select * from ResetURLs where ResetURL = '" . $token . "';";
+    $query = stripslashes($query);
+    $results = mysql_query($query, $this->conn);
+    $row = mysql_fetch_row($results, MYSQL_ASSOC);
+    //Change so that it only finds the one
+    if (sizeof($row) > 1) {
+      //change the pwd
+      $userID = $row['UserID'];
+      $query = "UPDATE Users SET Password=PASSWORD(\"" . passwordEncode($newPass) . "\") WHERE ID=\"" . $userID . "\";";
+      $results = mysql_query($query, $this->conn);
+      return $userID;
+    } else {
+      echo 'not changed!';
+      header("HTTP/1.0 401 Password Incorrect");
+    }
+  }
+
   public function registerUser($personName, $username, $password, $email, $admin){
     //test if there already is that user
     
@@ -201,7 +220,7 @@ class dbconn {
     }
   }
 
-  public function updateResetPassword($resetToken){
+  public function findResetToken($resetToken){
     //
     //$query = 'Select * From ResetURLs WHERE ResetURL = \'' . $resetToken .'\' AND isValid = 1 AND Expiration  \'' . $timenow . '\' >= CURRENT_TIMESTAMP;';
     $query = 'Select * From ResetURLs WHERE ResetURL = \'' . $resetToken .'\' AND isValid = 1 AND Expiration >= CURRENT_TIMESTAMP;';
@@ -265,7 +284,7 @@ class dbconn {
     //echo 'complete';
   }
 
-  private function invalidateResetURL($resetToken, $userID){
+  public function invalidateResetURL($resetToken, $userID){
     //
     $query = 'UPDATE ResetURLs SET isValid = 0 WHERE ResetURL = \'' . $resetToken . '\' AND UserID = \'' . $userID . '\';';
     $query = stripslashes($query);

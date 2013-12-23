@@ -2,6 +2,8 @@
 //ini_set('error_reporting', E_ALL);
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+require_once("$root/../inc/dbcon.php");
 
   function isLoggedIn(){
     return isset($_SESSION['username']) && $_SESSION['username'] !== null;
@@ -9,6 +11,15 @@ ini_set('display_errors', '1');
 
   function isAdmin(){
     return isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1;
+  }
+
+  function checkTokenValid($resetToken){
+    //return isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1;
+    $dbconn = new dbconn;
+    $dbconn->connect("read");
+    $results = $dbconn->findResetToken($resetToken);
+    $dbconn->close();
+    return $results;
   }
 
   function sendMail($name, $sendEmail, $newPassToken){
