@@ -156,7 +156,6 @@ class dbconn {
 
   public function registerUser($personName, $username, $password, $email, $admin){
     //test if there already is that user
-    
     $query = "Select name from Users where username = \"" . $username . "\";";
     $query = stripslashes($query);
     $results = mysql_query($query, $this->conn);
@@ -206,11 +205,9 @@ class dbconn {
     //TODO
     //some db shit
     $userInfo = $this->getUserInfo($username);//get user ID somehow.....
-    //print_r($userInfo);
     $userID = $userInfo['ID'];
     $user = $userInfo['Name'];
     $newPassword = createTempPassword($username);
-    //echo $newPassword;
     $found = $this->findUser($username, $email);
     if ($found){
       $this->resetPassQuery($userID, $newPassword, true);
@@ -221,23 +218,18 @@ class dbconn {
   }
 
   public function findResetToken($resetToken){
-    //
-    //$query = 'Select * From ResetURLs WHERE ResetURL = \'' . $resetToken .'\' AND isValid = 1 AND Expiration  \'' . $timenow . '\' >= CURRENT_TIMESTAMP;';
     $query = 'Select * From ResetURLs WHERE ResetURL = \'' . $resetToken .'\' AND isValid = 1 AND Expiration >= CURRENT_TIMESTAMP;';
     $query = stripslashes($query);
     $results = mysql_query($query, $this->conn);
     $row = mysql_fetch_row($results, MYSQL_ASSOC);
-    //print_r($row);
     if (sizeof($row) > 1) {
       return true;
     } else {
       return false;
     }
-    //echo mysql_errno($this->conn) .':' . mysql_error($this->conn);
   }
 
   private function findUser($username, $email){
-    //
     $query = "Select * from Users where Username = \"" . $username . "\" and Email = \"" . $email . "\" and IsActive = 1 ";
     $query = stripslashes($query);
     $results = mysql_query($query, $this->conn);
@@ -250,9 +242,7 @@ class dbconn {
   }
 
   private function resetPassQuery($userID, $newPassword, $isValid){
-    //
     if ($isValid){
-      //$query = 'INSERT INTO ResetURLs VALUES(DEFAULT,  "' . $userID . '", "' . $newPassword . '", DEFAULT, DEFAULT);';
       //TODO check if there are other reset password tokens
       $precheckQuery = 'Select * From ResetURLs WHERE UserID = \'' . $userID .'\' AND isValid = 1;';
       $precheckQuery = stripslashes($precheckQuery);
@@ -280,18 +270,11 @@ class dbconn {
     } else {
       die('invalid parameter');
     }
-    //echo '<br>';
-    //echo 'complete';
   }
 
   public function invalidateResetURL($resetToken, $userID){
-    //
     $query = 'UPDATE ResetURLs SET isValid = 0 WHERE ResetURL = \'' . $resetToken . '\' AND UserID = \'' . $userID . '\';';
     $query = stripslashes($query);
-    //echo '<br>';
-    //echo $query;
-    //echo '<br>';
-    //echo mysql_errno($this->conn) .':' . mysql_error($this->conn);
     $results = mysql_query($query, $this->conn);
   }
 
@@ -299,7 +282,6 @@ class dbconn {
     $query = "Select ID, Email, Name from Users where username = '$username' and IsActive = 1;";
     $results = mysql_query($query, $this->conn);
     $row = mysql_fetch_row($results, MYSQL_ASSOC);
-    //$userID = $row['ID'];
     $userInfo = $row;
     if (sizeof($row) < 1){
       die("no user exists");
