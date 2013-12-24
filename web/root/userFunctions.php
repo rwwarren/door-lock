@@ -143,6 +143,7 @@ function registerUser(){
     $password = $_POST['password'];
     $email = $_POST['email'];
     $admin = ($_POST['admin'] == 'true' ? 1 : 0);
+    $authyID = $_POST['authyID'];
 
     $personName = mysql_real_escape_string($personName);
     $username = mysql_real_escape_string($username);
@@ -150,7 +151,7 @@ function registerUser(){
     $email = mysql_real_escape_string($email);
     $dbconn = new dbconn;
     $dbconn->connect("write");
-    $dbconn->registerUser($personName, $username, $password, $email, $admin);
+    $dbconn->registerUser($personName, $username, $password, $email, $admin, $authyID);
     $dbconn->close();
   } else {
     echo 'nothing returned';

@@ -154,7 +154,7 @@ class dbconn {
     }
   }
 
-  public function registerUser($personName, $username, $password, $email, $admin){
+  public function registerUser($personName, $username, $password, $email, $admin, $authyID){
     //test if there already is that user
     $query = "Select name from Users where username = \"" . $username . "\";";
     $query = stripslashes($query);
@@ -162,7 +162,13 @@ class dbconn {
     $rows = mysql_num_rows($results);
     if ($rows < 1) {
       include_once "variables.php";
-      $query = "INSERT INTO Users VALUES(DEFAULT,\"" . $personName . "\", \"" . $username . "\", PASSWORD(\"" . passwordEncode($password) . "\"), \"" . $email . "\", DEFAULT, DEFAULT, \"". $admin . "\", DEFAULT, DEFAULT);";
+      $query = "INSERT INTO Users VALUES(DEFAULT,\"" . $personName . "\", \"" . $username . "\", PASSWORD(\"" . passwordEncode($password) . "\"), \"" . $email . "\","; 
+      if (strlen($authyID) !== 0 && is_numeric($authyID)){
+        $query .= ' ' . $authyID;
+      } else {
+        $query .= " DEFAULT";
+      }
+      $query .= ", DEFAULT, \"". $admin . "\", DEFAULT, DEFAULT);";
       $query = stripslashes($query);
       $results = mysql_query($query, $this->conn);
       echo 'Added user: ' . $personName;

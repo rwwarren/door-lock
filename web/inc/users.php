@@ -101,6 +101,7 @@ class userEdit extends Member{
             'password = $( "#password" ),' .
             'username = $( "#username" ),' .
             'isAdmin = false;' .
+            'authyID = $( "#authyID" ),' .
             'allFields = $( [] ).add(\'test\'),' .
             'tips = $( ".validateTips" );' .
           
@@ -136,7 +137,7 @@ class userEdit extends Member{
           
           '$( "#dialog-form" ).dialog({' .
             'autoOpen: false,' .
-            'height: 415,' .
+            'height: 435,' .
             'width: 350,' .
             'modal: true,' .
             'buttons: {' .
@@ -155,7 +156,7 @@ class userEdit extends Member{
                 'if ( bValid ) {' .
                   '$( this ).dialog( "close" );' .
                   '$.ajax({ url: \'/register.php\',' .
-                    'data: {personName: name.val(), username: username.val(), password: password.val(), email: email.val(), admin: $(\'#isAdmin\').is(\':checked\') },' .
+                    'data: {personName: name.val(), username: username.val(), password: password.val(), email: email.val(), authyID: authyID.val(), admin: $(\'#isAdmin\').is(\':checked\') },' .
                     'type: \'post\',' .
                     'statusCode: {' .
                       '200: function() {' .
@@ -387,6 +388,8 @@ class userEdit extends Member{
           '<input type="text" name="name" id="name" value="" class="text ui-widget-content ui-corner-all">' .
           '<label for="username">Username</label>' .
           '<input type="text" name="username" id="username" value="" class="text ui-widget-content ui-corner-all">' .
+          '<label for="authyID">AuthyID</label>' .
+          '<input type="text" name="authyID" id="authyID" value="" placeholder="If none, leave blank" class="text ui-widget-content ui-corner-all">' .
           '<label for="email">Email</label>' .
           '<input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all">' .
           '<label for="password">Password</label>' .
