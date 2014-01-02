@@ -1,4 +1,5 @@
 <?php
+ini_set("session.hash_function", "sha512");
 session_name('sid');
 session_start();
 
