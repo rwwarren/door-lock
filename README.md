@@ -20,3 +20,5 @@
 # Examples:
 
 # Option Choices:
+
+1) Authy

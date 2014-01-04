@@ -5,27 +5,34 @@ session_start();
 
 abstract class Page {
 
+  //Returns a header
   public function getHeader(){
     return 'PiDuinoLock';
   }
 
+  //Needs to be defined in the children
+  //returns the html body
   abstract function getBody();
 
+  //Returns the page footer
   public function getFooter(){
     return '&copy PiDuinoLock Web Interface';
   }
 
+  //Retuns the nav bar on the page
   public function getNav(){
     return
         '';
   }
 
+  //Returns page scripts, like css and javascripts
   public function getScripts(){
     return
       '<script src="http://code.jquery.com/jquery-2.0.3.js"></script>' .
       '';
   }
 
+  //Renders the page for the client
   final public function render(){
     $output = '<!DOCTYPE html>' .
       '<html>' .

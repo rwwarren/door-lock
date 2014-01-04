@@ -11,6 +11,8 @@ class dbconn {
   
   private $conn = null;
 
+  //Queries the database for the username and password to login
+  //the user on the site
   public function login($name, $password){
     include_once "variables.php";
     $query = "Select * from Users where Username = \"" . $name . "\" and Password = PASSWORD(\"" . passwordEncode($password) . "\") and IsActive = 1 ";
@@ -35,6 +37,8 @@ class dbconn {
     }
   }
 
+  //Queries the database for the authy token and username
+  //returns true if it is found
   public function checkAuthy($name, $token){
     include_once "variables.php";
     $query = "Select * from Users where Username = \"" . $name . "\" and AuthyID = \"" . $token . "\" and IsActive = 1 ";
@@ -48,6 +52,7 @@ class dbconn {
     }
   }
 
+  //Closes the mysql database connection
   public function close(){
     if($this->conn === null) {
       die('Not Connected to a Database, can\'t disconnect');
@@ -55,6 +60,7 @@ class dbconn {
     mysql_close($this->conn);
   }
 
+  //Connects to the mysql database
   public function connect($user){
     $sqlUser = new users($user);
     $this->conn = mysql_connect("localhost", $sqlUser->getUser(), $sqlUser->getPass()) or die ("Could not connect to the database");
@@ -62,6 +68,7 @@ class dbconn {
       or die("Could not select a database");
   }
 
+  //Returnd the usernames from the database
   public function getUsers(){
     //selecting all the users
     //$query = "Select * from Users";
@@ -76,8 +83,7 @@ class dbconn {
   }
 
 
-    //TODO change so the 3 functions are the same
-    //but with different queries
+  //Returns the usernames of active users
   public function getActiveUsers(){
     $query = "Select username from Users where IsAdmin = 0 and IsActive = 1;";
     $results = mysql_query($query, $this->conn);
@@ -87,12 +93,11 @@ class dbconn {
       $result[$i] = mysql_result($results, $i);
     }
     return $result;
-
   }
 
 
+  //Returns the usernames of inactive users
   public function getInactiveUsers(){
-    //selecting all the users
     $query = "Select username from Users where IsActive = 0;";
     $results = mysql_query($query, $this->conn);
     $theSize = mysql_num_rows($results);
@@ -101,10 +106,9 @@ class dbconn {
       $result[$i] = mysql_result($results, $i);
     }
     return $result;
-
   }
 
-
+  //Returns the usernames of all the admins
   public function getAdmins(){
     $query = "Select username from Users where IsAdmin = 1 and IsActive = 1;";
     $results = mysql_query($query, $this->conn);
@@ -114,9 +118,10 @@ class dbconn {
       $result[$i] = mysql_result($results, $i);
     }
     return $result;
-
   }
 
+  //Changes the username's password if the username and password
+  //are valid
   public function changePassword($user, $oldPass, $newPass){
     include_once "variables.php";
     $query = "Select * from Users where Username = \"" . $user . "\" and Password = PASSWORD(\"" . passwordEncode($oldPass) . "\") ";
@@ -135,6 +140,8 @@ class dbconn {
     }
   }
 
+  //Finds the resetURL from the database and changes the password
+  //if there is a ResetURL
   public function resetChangePassword($newPass, $token){
     include_once "variables.php";
     $query = "Select * from ResetURLs where ResetURL = '" . $token . "';";
@@ -154,6 +161,7 @@ class dbconn {
     }
   }
 
+  //Resgisters the user with a name, username, email, and authyID
   public function registerUser($personName, $username, $password, $email, $admin, $authyID){
     //test if there already is that user
     $query = "Select name from Users where username = \"" . $username . "\";";
@@ -162,7 +170,7 @@ class dbconn {
     $rows = mysql_num_rows($results);
     if ($rows < 1) {
       include_once "variables.php";
-      $query = "INSERT INTO Users VALUES(DEFAULT,\"" . $personName . "\", \"" . $username . "\", PASSWORD(\"" . passwordEncode($password) . "\"), \"" . $email . "\","; 
+      $query = "INSERT INTO Users VALUES(DEFAULT,\"" . $personName . "\", \"" . $username . "\", PASSWORD(\"" . passwordEncode($password) . "\"), \"" . $email . "\",";
       if (strlen($authyID) !== 0 && is_numeric($authyID)){
         $query .= ' ' . $authyID;
       } else {
@@ -177,13 +185,14 @@ class dbconn {
     }
   }
 
+  //"Removes" the user by setting them to inactive
   public function removeUser($user){
     $query = "UPDATE Users SET IsActive = 0 WHERE Username = \"" . $user . "\";";
     $query = stripslashes($query);
     $results = mysql_query($query, $this->conn);
   }
 
-  //changes what type the user is
+  //Changes what type the user is
   //like admin, user active, user inactive
   public function changeUser($user, $type){
     if ($type == 'admin'){
@@ -201,15 +210,13 @@ class dbconn {
     $results = mysql_query($query, $this->conn);
   }
 
-  //TODO have reset create the new one from the url
-  //have forgot create temp url
+  //Sends the user an email with a link to reset
+  //their password
   public function resetPassword($username, $email){
     //TODO sends the user an email and resets their password
     //make a mysql table that has : userId, passLink, vaild until, isUsed
     include_once 'extraFunctions.php';
     include_once 'variables.php';
-    //TODO
-    //some db shit
     $userInfo = $this->getUserInfo($username);//get user ID somehow.....
     $userID = $userInfo['ID'];
     $user = $userInfo['Name'];
@@ -223,6 +230,7 @@ class dbconn {
     }
   }
 
+  //Checks if there is a reset token that is valid
   public function findResetToken($resetToken){
     $query = 'Select * From ResetURLs WHERE ResetURL = \'' . $resetToken .'\' AND isValid = 1 AND Expiration >= CURRENT_TIMESTAMP;';
     $query = stripslashes($query);
@@ -235,6 +243,7 @@ class dbconn {
     }
   }
 
+  //Checks if there is a user with the passed in username and email
   private function findUser($username, $email){
     $query = "Select * from Users where Username = \"" . $username . "\" and Email = \"" . $email . "\" and IsActive = 1 ";
     $query = stripslashes($query);
@@ -247,6 +256,7 @@ class dbconn {
     }
   }
 
+  //Adds a reset url into the database
   private function resetPassQuery($userID, $newPassword, $isValid){
     if ($isValid){
       //TODO check if there are other reset password tokens
@@ -254,13 +264,9 @@ class dbconn {
       $precheckQuery = stripslashes($precheckQuery);
       $results = mysql_query($precheckQuery, $this->conn);
       while ($rows = mysql_fetch_row($results, MYSQL_ASSOC)){
-        //print_r($rows);
         $resetToken = $rows['ResetURL'];
-        //echo $resetToken;
         $this->invalidateResetURL($resetToken, $userID);
-        //echo '<br>';
       }
-
       $expireTime = date('Y-m-d H:i:s', strtotime("+2 day", time()));
       $query = 'INSERT INTO ResetURLs VALUES(DEFAULT,  "' . $userID . '", "' . $newPassword . '", " ' . $expireTime .'", DEFAULT);';
       $query = stripslashes($query);
@@ -278,12 +284,14 @@ class dbconn {
     }
   }
 
+  //Invalidates the reset token
   public function invalidateResetURL($resetToken, $userID){
     $query = 'UPDATE ResetURLs SET isValid = 0 WHERE ResetURL = \'' . $resetToken . '\' AND UserID = \'' . $userID . '\';';
     $query = stripslashes($query);
     $results = mysql_query($query, $this->conn);
   }
 
+  //Returns ID, eail, and name from a username
   private function getUserInfo($username){
     $query = "Select ID, Email, Name from Users where username = '$username' and IsActive = 1;";
     $results = mysql_query($query, $this->conn);

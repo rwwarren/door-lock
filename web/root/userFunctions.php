@@ -57,6 +57,7 @@ function checkHeaders(){
   }
 }
 
+//Logs in the the user and sets session variables
 function login(){
   //TODO add check headers and other functions
   if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token'])){
@@ -72,6 +73,7 @@ function login(){
     //TODO this is the sandbox one
     //TODO also remove my secret key
     //TODO add this to the database
+    //TODO check if there is an authyID THEN: verifyAuthy
     //$authy_id = get from DB;
     //$dbconn->connect("read");
     //$authyValid = $dbconn->checkAuthy($user, $token);
@@ -89,12 +91,6 @@ function login(){
     } else { //authy is not right
       header("HTTP/1.0 401 Authy key wrong");
     }
-    //setcookie("TestCookie", $session_id, time()+3600);
-    //setcookie("sid", session_id(), time()+3600);
-    //setcookie("n", $user, time()+3600);
-    //TODO get the location working again
-    //header("Location:http://doorlock.wrixton.net/");
-    //header("Location:/");
   } else {
     echo "nope";
     echo '<br>No username or password entered';
@@ -103,11 +99,13 @@ function login(){
   }
 }
 
+//Logs out the user and destorys the session variables
+//stored by the login system
 function logout(){
   unset($_SESSION['userName']);
   unset($_SESSION['isAdmin']);
-  session_regenerate_id(true);
   $_SESSION = array();
+  session_regenerate_id(true);
   session_unset();
   session_destroy();
   setcookie('sid', '', time()-3600);
@@ -117,6 +115,7 @@ function logout(){
   exit();
 }
 
+//Changes the type of user in the database
 function changeUser(){
 
   if(isset($_POST['user']) && isset($_POST['type']) && isAdmin() /*&& checkHeaders()*/){
@@ -137,6 +136,7 @@ function changeUser(){
   }
 }
 
+//Registers a new user to the login system
 function registerUser(){
   if (isset($_POST['personName']) && isset($_POST['username'])&& isset($_POST['password']) && isset($_POST['email']) && isAdmin() && isset($_POST['admin'])){
     $personName = $_POST['personName'];
@@ -160,6 +160,7 @@ function registerUser(){
   }
 }
 
+//Changes the user's password
 function changePassword(){
   if (isset($_SESSION['username']) && isset($_POST['oldPassword']) && isset($_POST['newPassword']) ){
     $username = $_SESSION['username'];
@@ -185,6 +186,8 @@ function changePassword(){
   }
 }
 
+//Changes the password of the user based on the reset token and
+//password
 function forgotPassword(){
   if(isset($_GET['resetToken']) && isset($_POST['pass']) && isset($_POST['confirmPass']) ){
     //echo $_GET['resetToken'];
@@ -216,6 +219,7 @@ function forgotPassword(){
   }
 }
 
+//Creates a password reset URL for the given user
 function resetPassword(){
   if (isset($_POST['username']) && isset($_POST['email'])){
     $username = $_POST['username'];

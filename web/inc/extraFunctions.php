@@ -5,14 +5,17 @@ ini_set('display_errors', '1');
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/dbcon.php");
 
+  //Returns if the user is logged in
   function isLoggedIn(){
     return isset($_SESSION['username']) && $_SESSION['username'] !== null;
   }
 
+  //Returns if the user is an admin
   function isAdmin(){
     return isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1;
   }
 
+  //Returns if the reset token is valid
   function checkTokenValid($resetToken){
     //return isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1;
     $dbconn = new dbconn;
@@ -22,10 +25,11 @@ require_once("$root/../inc/dbcon.php");
     return $results;
   }
 
+  //Sends the user an email about password being reset,
+  //send the name, and reset url
   function sendMail($name, $sendEmail, $newPassToken){
 
     include_once 'variables.php';
-    //require '../includedPackages/PHPMailer/PHPMailerAutoload.php';
     include '../includedPackages/PHPMailer/PHPMailerAutoload.php';
     $emailVars = emailVariables();
     $mail = new PHPMailer;
