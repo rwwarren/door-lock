@@ -15,7 +15,9 @@
 
 3) Create a MYSQL database.
 
-4) Select different options.
+4) Create mysqlUser.php and variables.php.
+
+5) Select different options.
 
 # Examples:
 
