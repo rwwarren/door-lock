@@ -1,5 +1,7 @@
 # [PiDuino Lock] (http://doorlock.war.re/) - Electronic Deadbolt System
 
+[![Build Status](https://travis-ci.org/rwwarren/door-lock.png?branch=master)](https://travis-ci.org/rwwarren/door-lock)
+
 
 # Dependecnies:
 
