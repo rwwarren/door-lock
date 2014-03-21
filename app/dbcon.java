@@ -40,7 +40,9 @@ public class dbcon {
         } else {
           throw new IllegalArgumentException("The connection did not have a valid type passed in " + type);
         }
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/reader",
+        //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/reader",
+        //      user, pass);
+        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/doorlock",
               user, pass);
       } catch (SQLException ex) {
         System.out.println("SQLException: " + ex.getMessage());
@@ -61,7 +63,7 @@ public class dbcon {
       try {
         Statement selection = conn.createStatement();
         /*ResultSet *///int result = selection.executeUpdate("INSERT INTO users " + /*(id, name, id_number, user_is_current, date_created)*/ "VALUES (DEFAULT, \"" + user + "\", PASSWORD(\"" + id + "\"), 1, DEFAULT);");
-        int result = selection.executeUpdate("INSERT INTO users VALUES (DEFAULT, \"" + user + "\", PASSWORD(\"" + id + "\"), 1, DEFAULT);");
+        //int result = selection.executeUpdate("INSERT INTO users VALUES (DEFAULT, \"" + user + "\", PASSWORD(\"" + id + "\"), 1, DEFAULT);");
       } catch (SQLException ex){
         System.out.println("SQLException: " + ex.getMessage());
       }

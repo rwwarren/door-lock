@@ -10,8 +10,8 @@ public class reader {
     //since kelly and mine are
     System.out.println("Here is a test of the db");
     dbcon connection = new dbcon();
-    //connection.connect("read");
-    connection.connect("write");
+    connection.connect("read");
+    //connection.connect("write");
     //connection.selectUser("ryan");
     //connection.disconnect();
     NFCcard myCard = new NFCcard();
