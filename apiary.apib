@@ -1,0 +1,30 @@
+HOST: http://api.doorlock.wrixton.net/
+
+--- Door Lock ---
+
+---
+Welcome to the our sample API documentation. All comments can be written in (support [Markdown](http://daringfireball.net/projects/markdown/syntax) syntax)
+---
+
+--
+Doorlock API 
+The following is a section of resources related to the shopping cart
+--
+
+
+-- User Resources --
+
+This resource allows you to submit payment information to process your *shopping cart* items
+GET /login
+> X-DoorLock-Api-Key: 013dc561cf13d3586bfab01f69e4d7c8
+{ "username": "example", "password": "testing" }
+< 200
+{ "receipt": "/payment/receipt/1" }
+
+
+This resource allows you to submit payment information to process your *shopping cart* items
+GET /logout
+> X-DoorLock-Api-Key: 013dc561cf13d3586bfab01f69e4d7c8
+{ "cc": "12345678900", "cvc": "123", "expiry": "0112" }
+< 200
+{ "receipt": "/payment/receipt/1" }
