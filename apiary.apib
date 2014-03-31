@@ -16,21 +16,35 @@ The following is a section of resources related to the shopping cart
 -- User Resources --
 
 This resource allows you to submit payment information to process your *shopping cart* items
-### GET /login
-testing
+
+# Group Login
+Login to doorlock. Handles login and session management.
+
+## GET /login
+Returns login information, sets a cookie if the passed in data is valid.
+Also returns success = 1 for success. Returns success = 0 for fail.
 + Request (application/json)
-
-        {
-            "username": "{user}",
-            "password": {pass}
-        }
-
-+ Response 200
-    
-    + Headers
-        
-            Set-Cookie: _s_portal_session={cookie}; path=/; secure; HttpOnly
+   
+    + Headers 
+ 
+            Testing: asdf
 
     + Body
     
-            Dummy Page
+            {
+                "username": "{user}",
+                "password": "{pass}"
+            }
+
++ Response 200 (application/json)
+    
+    + Headers
+        
+            Set-Cookie: sid={cookie}; path=/;
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "success": 1
+            }
