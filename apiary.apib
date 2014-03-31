@@ -70,7 +70,6 @@ Also returns success = 1 for success. Returns success = 0 for fail.
  
             X-DoorLock-Api-Key: {Api-Key}
 
-
     + Body
     
             {
@@ -85,6 +84,15 @@ Also returns success = 1 for success. Returns success = 0 for fail.
             {
                 "Logged out": "{user}",
                 "success": 1
+            }
+
++ Response 401 (application/json)
+
+    + Body
+    
+            {
+                "Invalid API key": "{Api-Key}",
+                "success": 0
             }
 
 # Group Change Password
