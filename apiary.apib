@@ -48,3 +48,21 @@ Also returns success = 1 for success. Returns success = 0 for fail.
                 "username": "{user}",
                 "success": 1
             }
+
++ Response 401 (application/json)
+
+    + Body
+    
+            {
+                "Invalid API key": "{Api-Key}",
+                "success": 0
+            }
+            
++ Response 403 (application/json)
+
+    + Body
+    
+            {
+                "Invalid Username or Password": "{Username}",
+                "success": 0
+            }
