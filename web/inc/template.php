@@ -7,7 +7,8 @@ abstract class Page {
 
   //Returns a header
   public function getHeader(){
-    return 'PiDuinoLock';
+    //return 'PiDuinoLock';
+    return '<a href="/">PiDuinoLock</a>';
   }
 
   //Needs to be defined in the children

@@ -306,3 +306,7 @@ table {
   float: left;
   padding-right: .5em;
 }
+
+#header a{
+  text-decoration: none;
+}
