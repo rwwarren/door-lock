@@ -90,7 +90,7 @@ Also returns success = 1 for success. Returns success = 0 for fail.
 # Group Change Password
 Changes user password for the doorlock. Handles logout and session management.
 
-## GET /ChangePassword
+## POST /ChangePassword
 Returns changes the user's password.
 Also returns success = 1 for success. Returns success = 0 for fail.
 + Request (application/json)
@@ -136,3 +136,98 @@ Also returns success = 1 for success. Returns success = 0 for fail.
             }
 
             
+# Group Lock Status
+Gets current status of the lock
+
+## GET /LockStatus
+Returns changes the status of the lock.
+Also returns success = 1 for success. Returns success = 0 for fail.
++ Request (application/json)
+   
+    + Headers 
+ 
+            X-DoorLock-Api-Key: {Api-Key}
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "cookie": "{sid}",
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Status": "Unlocked",
+                "isLocked": 0,
+                "success": 1
+            }
+            
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Status": "Locked",
+                "isLocked": 1,
+                "success": 1
+            }
+
+
+# Group Lock
+Locks the doorlock.
+
+## POST /Lock
+Locks the lock.
+Also returns success = 1 for success. Returns success = 0 for fail.
++ Request (application/json)
+   
+    + Headers 
+ 
+            X-DoorLock-Api-Key: {Api-Key}
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "cookie": "{sid}"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Locked Door": "Success",
+                "success": 1
+            }
+
+# Group Unlock
+Unlocks the doorlock.
+
+## POST /Unlock
+Returns if the doorlock gets unlocked.
+Also returns success = 1 for success. Returns success = 0 for fail.
++ Request (application/json)
+   
+    + Headers 
+ 
+            X-DoorLock-Api-Key: {Api-Key}
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "cookie": "{sid}"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Unlocked Door": "Success",
+                "success": 1
+            }
