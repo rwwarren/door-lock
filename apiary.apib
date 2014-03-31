@@ -143,6 +143,43 @@ Also returns success = 1 for success. Returns success = 0 for fail.
                 "success": 0
             }
 
+# Group Forgot Password
+Changes user password for the doorlock. Handles logout and session management.
+
+## POST /ForgotPassword
+Returns changes the user's password.
+Also returns success = 1 for success. Returns success = 0 for fail.
++ Request (application/json)
+   
+    + Headers 
+ 
+            X-DoorLock-Api-Key: {Api-Key}
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "email": "{email}"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Reset Password Sent": "{user}",
+                "success": 1
+            }
+
++ Response 401 (application/json)
+
+    + Body
+    
+            {
+                "Invalid API key": "{Api-Key}",
+                "success": 0
+            }
+
             
 # Group Lock Status
 Gets current status of the lock
