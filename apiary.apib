@@ -27,7 +27,7 @@ Also returns success = 1 for success. Returns success = 0 for fail.
    
     + Headers 
  
-            Testing: asdf
+            X-DoorLock-Api-Key: {Api-Key}
 
     + Body
     
@@ -65,4 +65,35 @@ Also returns success = 1 for success. Returns success = 0 for fail.
             {
                 "Invalid Username or Password": "{Username}",
                 "success": 0
+            }
+            
+            
+            
+# Group Logout
+Logs out of the doorlock. Handles logout and session management.
+
+## GET /logout
+Returns logout information, sets a cookie if the passed in data is valid.
+Also returns success = 1 for success. Returns success = 0 for fail.
++ Request (application/json)
+   
+    + Headers 
+ 
+            X-DoorLock-Api-Key: {Api-Key}
+
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "cookie": "{sid}"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Logged out": "{user}",
+                "success": 1
             }
