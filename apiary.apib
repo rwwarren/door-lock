@@ -86,3 +86,53 @@ Also returns success = 1 for success. Returns success = 0 for fail.
                 "Logged out": "{user}",
                 "success": 1
             }
+
+# Group Change Password
+Changes user password for the doorlock. Handles logout and session management.
+
+## GET /ChangePassword
+Returns changes the user's password.
+Also returns success = 1 for success. Returns success = 0 for fail.
++ Request (application/json)
+   
+    + Headers 
+ 
+            X-DoorLock-Api-Key: {Api-Key}
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "cookie": "{sid}",
+                "old-password": "{old-password}",
+                "new-password": "{new-password}"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Changed Password": "{user}",
+                "success": 1
+            }
+
++ Response 401 (application/json)
+
+    + Body
+    
+            {
+                "Invalid API key": "{Api-Key}",
+                "success": 0
+            }
+            
++ Response 403 (application/json)
+
+    + Body
+    
+            {
+                "Invalid-Password": "{user}",
+                "success": 0
+            }
+
+            
