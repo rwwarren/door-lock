@@ -5,6 +5,11 @@ session_start();
 
 abstract class Page {
 
+  //Title
+  public function getTitle(){
+    return 'PiDuinoLock';
+  }
+
   //Returns a header
   public function getHeader(){
     //return 'PiDuinoLock';
@@ -42,7 +47,7 @@ abstract class Page {
         //'<link rel="stylesheet" type="text/css" href="/js/" />' .
         $this->getScripts() .
         '<title>' .
-          $this->getHeader() .
+          $this->getTitle() .
         '</title>' .
       '</head>' .
       '<body>'.
