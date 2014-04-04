@@ -42,8 +42,13 @@ class Home extends Page {
           'function check_login(){' .
             '$.ajax({' .
               'type:\'POST\',' .
-              'url:\'login.php\', ' .
+              //'url:\'login.php\', ' .
+              //'url:\'http://api.doorlock.wrixton.net/login/\', ' .
+              'url:\'http://api.doorlock.wrixton.net/login\', ' .
+              //'url:\'api.doorlock.wrixton.net/login\', ' .
               'data: { Username: $(\'#username\').val(), Password: $(\'#password\').val(), Token: $(\'#token\').val()},' .
+              //'crossDomain : true,' .
+              //'request.setRequestHeader("Access-Control-Allow-Origin: ", "*"),' .
               //'data: { Username: $(\'#username\').val(), Password: $(\'#password\').val(), Token: $(\'#token\').val()},' .
               //'data: { Username: $(\'#username\').val(), Password: $(\'#password\').val()},' .
               //'data:"username="+$(\'#username\').val()+"&password="+$(\'#password\').val(),' .
