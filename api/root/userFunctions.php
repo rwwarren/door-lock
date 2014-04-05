@@ -28,6 +28,8 @@ if (isset($_GET['actions']) ){
   if ($type == 'login'){
 //    $_SESSION['asdf'] = 'asdf';
 //    print_r($_SESSION);
+    //$_SESSION['username'] = 'asdf';
+    //print_r($_SESSION);
     login();
   } else if ($type == 'logout' && isLoggedIn()){
     logout();
@@ -101,7 +103,17 @@ function login(){
     if($test == true){
       echo '<br> authy token is okay';
       $dbconn->connect("read");
-      $dbconn->login($user, $pass);
+      $userInfo = $dbconn->login($user, $pass);
+      if($userInfo !== NULL){
+        $_SESSION['name'] = $userInfo['Name'];
+        $_SESSION['username'] = $userInfo['Username'];
+        $_SESSION['userID'] = $userInfo['ID'];
+        echo "<br> userInfo <br>";
+        print_r($userInfo);
+        echo "<br> session <br>";
+        print_r($_SESSION);
+        //
+      }
       $dbconn->close();
     } else { //authy is not right
       header("HTTP/1.0 401 Authy key wrong");

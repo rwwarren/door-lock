@@ -1,4 +1,10 @@
 <?php
+
+//ini_set('session.cookie_domain', '.wrixton.net');
+//session_set_cookie_params(0, '/', '.wrixton.net');
+//session_start();
+//print_r($_SESSION);
+
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("mysqlUser.php");
 //getting all the errors
@@ -21,15 +27,22 @@ class dbconn {
     $row = mysql_fetch_row($results, MYSQL_ASSOC);
     if(sizeof($row) > 1) {
       echo 'Not null';
-      $_SESSION['name'] = $row['Name'];
-      $_SESSION['username'] = $row['Username'];
-      $_SESSION['userID'] = $row['ID'];
+      $results = array();
+
+      $results['Name'] = $row['Name'];
+      $results['Username'] = $row['Username'];
+      $results['ID'] = $row['ID'];
+      print_r($results);
+      //$_SESSION['name'] = $row['Name'];
+      //$_SESSION['username'] = $row['Username'];
+      //$_SESSION['userID'] = $row['ID'];
       //TODO an admin table or something
       //TODO left join? or just keep in the same table
       $_SESSION['isAdmin'] = $row['IsAdmin'];
       session_write_close();
       header("HTTP/1.0 200 Success");
-      return true; 
+      //return true; 
+      return $results;
     } else {
       echo '<br>Username or pwd incorrect';
       header("HTTP/1.0 403 Error Username or Password incorrect");
