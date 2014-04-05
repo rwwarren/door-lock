@@ -1,6 +1,11 @@
 <?php
 ini_set("session.hash_function", "sha512");
 session_name('sid');
+
+//header("Set-Cookie: cookiename=sid; expires=Tue, 06-Jan-2009 23:39:49 GMT; path=/; domain=doorlock.wrixton.net");
+ini_set('session.cookie_domain', '.wrixton.net');
+session_set_cookie_params(0, '/', '.wrixton.net');
+
 session_start();
 
 abstract class Page {

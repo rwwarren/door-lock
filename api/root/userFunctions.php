@@ -2,6 +2,10 @@
 
 ini_set("session.hash_function", "sha512");
 session_name('sid');
+
+session_set_cookie_params(0, '/', '.wrixton.net');
+ini_set('session.cookie_domain', '.wrixton.net');
+
 session_start();
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 //echo $root . "/../../web/inc/dbcon.php";
@@ -22,6 +26,8 @@ echo "asdf";
 if (isset($_GET['actions']) ){
   $type = $_GET['actions'];
   if ($type == 'login'){
+//    $_SESSION['asdf'] = 'asdf';
+//    print_r($_SESSION);
     login();
   } else if ($type == 'logout' && isLoggedIn()){
     logout();
@@ -102,6 +108,9 @@ function login(){
     }
   } else {
     //print_r($_POST);
+      //
+      print_r($_SESSION);
+      //
     echo "nope";
     echo '<br>No username or password entered';
     header("HTTP/1.0 400 Username or password not entered");

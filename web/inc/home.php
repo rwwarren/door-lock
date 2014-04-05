@@ -3,6 +3,7 @@ require_once("$root/../inc/template.php");
 class Home extends Page {
 
   public function getBody(){
+//        print_r($_SESSION);
     return '<section class="login">' .
         '<div class="titulo">User Login</div>' .
         //'<form action="#" method="post" enctype="application/x-www-form-urlencoded">' .
@@ -80,6 +81,8 @@ class Home extends Page {
       '</form>' .
       '</section>' .
         '<label class=\'error\' id=\'error\' style=\'display: none; font-size: 12px;\'></label>' .
+        //
+        //
       '';
     //return 'This is a little test';
   }
