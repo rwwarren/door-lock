@@ -1,5 +1,8 @@
 <?php
 
+//ini_set('session.cookie_domain', '.wrixton.net');
+//session_set_cookie_params(0, '/', '.wrixton.net');
+
 ini_set("session.hash_function", "sha512");
 session_name('sid');
 session_start();
@@ -16,6 +19,7 @@ if (isset($_GET['actions']) && (strpos($_SERVER["REQUEST_URI"], 'userFunctions.p
   if ($type == 'login'){
     login();
     //$_SESSION['asdf'] = 'asdf';
+    //$_SESSION['username'] = 'asdf';
     //print_r($_SESSION);
   } else if ($type == 'logout' && isLoggedIn()){
     logout();
@@ -63,6 +67,7 @@ function checkHeaders(){
 //Logs in the the user and sets session variables
 function login(){
   //TODO add check headers and other functions
+  //$_SESSION['username'] = 'asdf';
   if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token'])){
                           //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
     $user = $_POST['Username'];
@@ -85,19 +90,25 @@ function login(){
     //$verification = $authy_api->verifyToken("$authy_id", "$token");
     //if($authyValid && $verification->ok()){
     //TODO above commented out to save testing hassle
+    //$_SESSION['username'] = 'asdf';
     $test = true;
     if($test == true){
       echo '<br> authy token is okay';
       $dbconn->connect("read");
       //$dbconn->login($user, $pass);
+      //$_SESSION['username'] = 'asdf';
+      $userInfo = array();
       $userInfo = $dbconn->login($user, $pass);
+//      $_SESSION['username'] = 'asdf';
       print_r($userInfo);
       //if($userInfo !== NULL){
         $_SESSION['name'] = $userInfo['Name'];
         $_SESSION['username'] = $userInfo['Username'];
         $_SESSION['userID'] = $userInfo['ID'];
         $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
+        session_write_close();
 
+        //$_SESSION['username'] = 'asdf';
         //echo "<br> userInfo <br>";
         //print_r($userInfo);
         echo "<br> session <br>";

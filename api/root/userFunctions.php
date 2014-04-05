@@ -28,7 +28,7 @@ if (isset($_GET['actions']) ){
   if ($type == 'login'){
 //    $_SESSION['asdf'] = 'asdf';
 //    print_r($_SESSION);
-    //$_SESSION['username'] = 'asdf';
+    $_SESSION['username'] = 'asdf';
     //print_r($_SESSION);
     login();
   //} else if ($type == 'logout' && isLoggedIn()){

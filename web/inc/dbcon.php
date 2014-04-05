@@ -31,23 +31,28 @@ class dbconn {
     $row = mysql_fetch_row($results, MYSQL_ASSOC);
     if(sizeof($row) > 1) {
       echo 'Not null';
-      $results = array();
+      //$results = array();
 
-      $results['Name'] = $row['Name'];
-      $results['Username'] = $row['Username'];
-      $results['ID'] = $row['ID'];
-      $results['IsAdmin'] = $row['IsAdmin'];
+      //$results = array_fill_keys("Name", $row['Name']);
+      //$results = array_fill_keys("Username", $row['Username']);
+      //$results = array_fill_keys("ID", $row['ID']);
+      //$results = array_fill_keys("IsAdmin", $row['IsAdmin']);
+      $userInfo['Name'] = $row['Name'];
+      $userInfo['Username'] = $row['Username'];
+      $userInfo['ID'] = $row['ID'];
+      $userInfo['IsAdmin'] = $row['IsAdmin'];
       //print_r($results);
-      $_SESSION['name'] = $row['Name'];
-      $_SESSION['username'] = $row['Username'];
-      $_SESSION['userID'] = $row['ID'];
-      //TODO an admin table or something
-      //TODO left join? or just keep in the same table
-      $_SESSION['isAdmin'] = $row['IsAdmin'];
-      session_write_close();
+//      $_SESSION['name'] = $row['Name'];
+//      $_SESSION['username'] = $row['Username'];
+//      $_SESSION['userID'] = $row['ID'];
+//      //TODO an admin table or something
+//      //TODO left join? or just keep in the same table
+//      $_SESSION['isAdmin'] = $row['IsAdmin'];
+      //session_write_close();
       header("HTTP/1.0 200 Success");
       //return true; 
-      return $results;
+      return $userInfo;
+      //return $results;
     } else {
       echo '<br>Username or pwd incorrect';
       header("HTTP/1.0 403 Error Username or Password incorrect");
