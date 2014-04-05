@@ -3,8 +3,8 @@
 ini_set("session.hash_function", "sha512");
 session_name('sid');
 
-session_set_cookie_params(0, '/', '.wrixton.net');
-ini_set('session.cookie_domain', '.wrixton.net');
+//session_set_cookie_params(0, '/', '.wrixton.net');
+//ini_set('session.cookie_domain', '.wrixton.net');
 
 session_start();
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
@@ -104,16 +104,17 @@ function login(){
       echo '<br> authy token is okay';
       $dbconn->connect("read");
       $userInfo = $dbconn->login($user, $pass);
-      if($userInfo !== NULL){
+      //if($userInfo !== NULL){
         $_SESSION['name'] = $userInfo['Name'];
         $_SESSION['username'] = $userInfo['Username'];
         $_SESSION['userID'] = $userInfo['ID'];
+        $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
         echo "<br> userInfo <br>";
         print_r($userInfo);
         echo "<br> session <br>";
         print_r($_SESSION);
         //
-      }
+      //}
       $dbconn->close();
     } else { //authy is not right
       header("HTTP/1.0 401 Authy key wrong");
@@ -133,7 +134,8 @@ function login(){
 //Logs out the user and destorys the session variables
 //stored by the login system
 function logout(){
-  unset($_SESSION['userName']);
+  //unset($_SESSION['userName']);
+  unset($_SESSION['username']);
   unset($_SESSION['isAdmin']);
   $_SESSION = array();
   session_regenerate_id(true);

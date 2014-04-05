@@ -5,6 +5,10 @@
 //session_start();
 //print_r($_SESSION);
 
+//ini_set("session.hash_function", "sha512");
+//session_name('sid');
+//session_start();
+
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("mysqlUser.php");
 //getting all the errors
@@ -32,10 +36,11 @@ class dbconn {
       $results['Name'] = $row['Name'];
       $results['Username'] = $row['Username'];
       $results['ID'] = $row['ID'];
-      print_r($results);
-      //$_SESSION['name'] = $row['Name'];
-      //$_SESSION['username'] = $row['Username'];
-      //$_SESSION['userID'] = $row['ID'];
+      $results['IsAdmin'] = $row['IsAdmin'];
+      //print_r($results);
+      $_SESSION['name'] = $row['Name'];
+      $_SESSION['username'] = $row['Username'];
+      $_SESSION['userID'] = $row['ID'];
       //TODO an admin table or something
       //TODO left join? or just keep in the same table
       $_SESSION['isAdmin'] = $row['IsAdmin'];

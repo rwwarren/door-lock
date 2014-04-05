@@ -3,7 +3,8 @@ require_once("$root/../inc/template.php");
 class Home extends Page {
 
   public function getBody(){
-//        print_r($_SESSION);
+        //print_r($_SESSION);
+        //echo $_SESSION['asdf'];
     return '<section class="login">' .
         '<div class="titulo">User Login</div>' .
         //'<form action="#" method="post" enctype="application/x-www-form-urlencoded">' .
@@ -43,9 +44,9 @@ class Home extends Page {
           'function check_login(){' .
             '$.ajax({' .
               'type:\'POST\',' .
-              //'url:\'login.php\', ' .
+              'url:\'login.php\', ' .
               //'url:\'http://api.doorlock.wrixton.net/login/\', ' .
-              'url:\'http://api.doorlock.wrixton.net/login\', ' .
+              //'url:\'http://api.doorlock.wrixton.net/login\', ' .
               //'url:\'api.doorlock.wrixton.net/login\', ' .
               'data: { Username: $(\'#username\').val(), Password: $(\'#password\').val(), Token: $(\'#token\').val()},' .
               //'crossDomain : true,' .
