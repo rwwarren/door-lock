@@ -22,7 +22,7 @@ require_once("$root/../../web/inc/variables.php");
 
 //TODO add back in comments
 //if (isset($_GET['actions']) && (strpos($_SERVER["REQUEST_URI"], 'userFunctions.php') === false)){
-echo "asdf";
+//echo "asdf";
 if (isset($_GET['actions']) ){
   $type = $_GET['actions'];
   if ($type == 'login'){
