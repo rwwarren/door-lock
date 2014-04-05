@@ -31,18 +31,20 @@ if (isset($_GET['actions']) ){
     //$_SESSION['username'] = 'asdf';
     //print_r($_SESSION);
     login();
-  } else if ($type == 'logout' && isLoggedIn()){
+  //} else if ($type == 'logout' && isLoggedIn()){
+  } else if ($type == 'logout'){
     logout();
-  } else if ($type == 'registerUser' && isLoggedIn()){
-    registerUser();
-  } else if ($type == 'changeUser' && isLoggedIn()){
-    changeUser();
-  } else if ($type == 'changePassword' && isLoggedIn()){
+  //} else if ($type == 'changePassword' && isLoggedIn()){
+  } else if ($type == 'changePassword'){
     changePassword();
-  } else if ($type == 'resetPassword'){
-    resetPassword();
   } else if ($type == 'forgotPassword'){
     forgotPassword();
+  } else if ($type == 'lockStatus'){
+    lockStatus();
+  } else if ($type == 'unlock'){
+    unlock();
+  } else if ($type == 'lock'){
+    lock();
   } else {
     echo "You don't have permission to call that function so back off!";
     header("HTTP/1.0 403 User Forbidden");
@@ -135,63 +137,20 @@ function login(){
 //stored by the login system
 function logout(){
   //unset($_SESSION['userName']);
-  unset($_SESSION['username']);
-  unset($_SESSION['isAdmin']);
-  $_SESSION = array();
-  session_regenerate_id(true);
-  session_unset();
-  session_destroy();
-  setcookie('sid', '', time()-3600);
-  session_name('sid');
-  session_start();
-  header("Location:/");
+  //unset($_SESSION['username']);
+  //unset($_SESSION['isAdmin']);
+  //$_SESSION = array();
+  //session_regenerate_id(true);
+  //session_unset();
+  //session_destroy();
+  //setcookie('sid', '', time()-3600);
+  //session_name('sid');
+  //session_start();
+  //header("Location:/");
   exit();
 }
 
 //Changes the type of user in the database
-function changeUser(){
-
-  if(isset($_POST['user']) && isset($_POST['type']) && isAdmin() /*&& checkHeaders()*/){
-                          //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
-    echo "This is a test";
-    $user = $_POST['user'];
-    $type = $_POST['type'];
-
-    $user = mysql_real_escape_string($user);
-    $dbconn = new dbconn;
-    $dbconn->connect("write");
-    $dbconn->changeUser($user, $type);
-    $dbconn->close();
-  } else {
-    echo "nope";
-    echo '<br>No username entered';
-    header("HTTP/1.0 403 User Forbidden");
-  }
-}
-
-//Registers a new user to the login system
-function registerUser(){
-  if (isset($_POST['personName']) && isset($_POST['username'])&& isset($_POST['password']) && isset($_POST['email']) && isAdmin() && isset($_POST['admin'])){
-    $personName = $_POST['personName'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $email = $_POST['email'];
-    $admin = ($_POST['admin'] == 'true' ? 1 : 0);
-    $authyID = $_POST['authyID'];
-
-    $personName = mysql_real_escape_string($personName);
-    $username = mysql_real_escape_string($username);
-    $password = mysql_real_escape_string($password);
-    $email = mysql_real_escape_string($email);
-    $dbconn = new dbconn;
-    $dbconn->connect("write");
-    $dbconn->registerUser($personName, $username, $password, $email, $admin, $authyID);
-    $dbconn->close();
-  } else {
-    echo 'nothing returned';
-    header("HTTP/1.0 403 User Forbidden");
-  }
-}
 
 //Changes the user's password
 function changePassword(){
@@ -252,24 +211,16 @@ function forgotPassword(){
   }
 }
 
-//Creates a password reset URL for the given user
-function resetPassword(){
-  if (isset($_POST['username']) && isset($_POST['email'])){
-    $username = $_POST['username'];
-    $email = $_POST['email'];
+function lockStatus(){
+  //
+}
 
-    $dbconn = new dbconn;
-    $dbconn->connect("write");
-    $dbconn->resetPassword($username, $email);
-    $dbconn->close();
+function lock(){
 
-    echo 'Email sent to: ' . $email . '. Password for username: ' . $username . ' has been reset!';
-    echo '<br> Please check your email';
-    echo '<br> Click <a href="/">here</a> to go home';
-  } else {
-    //echo 'not working';
-    header("Location:http://doorlock.wrixton.net/");
-  }
+}
+
+function unlock(){
+
 }
 
 ?>
