@@ -211,14 +211,17 @@ function forgotPassword(){
   }
 }
 
+//Returns the lock status
 function lockStatus(){
   //
 }
 
+//locks the lock
 function lock(){
 
 }
 
+//unlocks the lock
 function unlock(){
 
 }
