@@ -131,6 +131,11 @@ function login(){
     header("HTTP/1.0 400 Username or password not entered");
     //exit();
   }
+    //
+    //
+    //
+    //
+    return json_encode(array('username' => 'theUser', 'success' => '1/0' ));
 }
 
 //Logs out the user and destorys the session variables
@@ -147,6 +152,7 @@ function logout(){
   //session_name('sid');
   //session_start();
   //header("Location:/");
+  json_encode(array('Logged Out' => 'username', 'success' => '1/0'));
   exit();
 }
 
@@ -176,6 +182,7 @@ function changePassword(){
     echo 'nothing returned';
     header("HTTP/1.0 401 User Forbidden");
   }
+  return json_encode(array('Changed Password' => 'username', 'success' => '1/0'));
 }
 
 //Changes the password of the user based on the reset token and
@@ -209,21 +216,25 @@ function forgotPassword(){
     //print_r($_GET);
     header("HTTP/1.0 403 User Forbidden");
   }
+  return json_encode(array('Reset Password Sent' => 'username', 'success' => '1/0'));
 }
 
 //Returns the lock status
 function lockStatus(){
   //
+  return json_encode(array('Status' => 'Unlocked/Locked', 'isLocked' => '1/0', 'success' => '1/0'));
 }
 
 //locks the lock
 function lock(){
 
+  return json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
 }
 
 //unlocks the lock
 function unlock(){
 
+  return json_encode(array('Unlocked Door' => 'Success', 'success' => '1/0'));
 }
 
 ?>
