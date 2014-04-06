@@ -1,7 +1,14 @@
 language: php
 
+before_script:
+  - mysql -e 'create database myapp_test;'
+
 php:
 
   - 5.4
 
-script: phpunit --configuration $DB.phpunit.xml
+test:
+  adapter: mysql2
+  database: myapp_test
+  username: travis
+  encoding: utf8
