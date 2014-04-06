@@ -25,6 +25,8 @@ require_once("$root/../../web/inc/variables.php");
 //echo "asdf";
 if (isset($_GET['actions']) ){
   $type = $_GET['actions'];
+  //echo "asdfadsf \n  ";
+  //echo $type;
   if ($type == 'login'){
 //    $_SESSION['asdf'] = 'asdf';
 //    print_r($_SESSION);
@@ -74,6 +76,15 @@ function checkHeaders(){
       return false;
     }
   }
+}
+
+function UnAuthError($apiKey){
+  header("HTTP/1.0 401 Unauthorized API key invalid");
+  header('Content-Type: application/json');
+  //return json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
+  echo json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
+  exit();
+
 }
 
 //Logs in the the user and sets session variables
@@ -136,6 +147,7 @@ function login(){
     //
     //
     return json_encode(array('username' => 'theUser', 'success' => '1/0' ));
+  header("HTTP/1.0 401 Unauthorized API key invalid");
 }
 
 //Logs out the user and destorys the session variables
@@ -153,6 +165,7 @@ function logout(){
   //session_start();
   //header("Location:/");
   json_encode(array('Logged Out' => 'username', 'success' => '1/0'));
+  header("HTTP/1.0 401 Unauthorized API key invalid");
   exit();
 }
 
@@ -183,6 +196,7 @@ function changePassword(){
     header("HTTP/1.0 401 User Forbidden");
   }
   return json_encode(array('Changed Password' => 'username', 'success' => '1/0'));
+  header("HTTP/1.0 401 Unauthorized API key invalid");
 }
 
 //Changes the password of the user based on the reset token and
@@ -217,24 +231,76 @@ function forgotPassword(){
     header("HTTP/1.0 403 User Forbidden");
   }
   return json_encode(array('Reset Password Sent' => 'username', 'success' => '1/0'));
+  header("HTTP/1.0 401 Unauthorized API key invalid");
 }
 
 //Returns the lock status
 function lockStatus(){
-  //
-  return json_encode(array('Status' => 'Unlocked/Locked', 'isLocked' => '1/0', 'success' => '1/0'));
+  //if(isset($_GET['username']) && isset($_GET['cookie'])){
+  if(isset($_POST['username']) && isset($_POST['cookie'])){
+    //
+    $apiKey = '';
+    $user = '';
+    $cookie = '';
+    if($user != null && $cookie != null){
+
+      return json_encode(array('Status' => 'Unlocked/Locked', 'isLocked' => '1/0', 'success' => '1/0'));
+    } else {
+      //header("HTTP/1.0 401 Unauthorized API key invalid");
+      //header('Content-Type: application/json');
+      ////return json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
+      //echo json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
+      UnAuthError($apiKey);
+    }
+  }
+  header("HTTP/1.0 401 Unauthorized API key invalid");
 }
 
 //locks the lock
 function lock(){
+  //if(isset($_GET['username']) && isset($_GET['cookie'])){
+  if(isset($_POST['username']) && isset($_POST['cookie'])){
+    $apiKey = '';
+    $user = '';
+    $cookie = '';
+    //print_r($_POST);
+    if($user != null && $cookie != null){
 
-  return json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
+      echo "asdfasdf FEFFFF";
+      //return json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
+      echo json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
+    } else {
+      //header("HTTP/1.0 401 Unauthorized API key invalid");
+      //header('Content-Type: application/json');
+      ////return json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
+      //echo json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
+      UnAuthError($apiKey);
+    }
+  }
+  //print_r($_POST);
+  //print_r($_GET);
+  //echo "asdfasfsaf";
+  header("HTTP/1.0 401 Unauthorized API key invalid");
 }
 
 //unlocks the lock
 function unlock(){
+  //if(isset($_GET['username']) && isset($_GET['cookie'])){
+  if(isset($_POST['username']) && isset($_POST['cookie'])){
+    $apiKey = '';
+    $user = '';
+    $cookie = '';
+    if($user != null && $cookie != null){
 
-  return json_encode(array('Unlocked Door' => 'Success', 'success' => '1/0'));
+      return json_encode(array('Unlocked Door' => 'Success', 'success' => '1/0'));
+    } else {
+      //header("HTTP/1.0 401 Unauthorized API key invalid");
+      //header('Content-Type: application/json');
+      //return json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
+      UnAuthError($apiKey);
+    }
+  }
+  header("HTTP/1.0 401 Unauthorized API key invalid");
 }
 
 ?>
