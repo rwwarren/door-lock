@@ -1,45 +1,305 @@
-HOST: http://api.doorlock.wrixton.net/
+FORMAT: 1A
+HOST: http://api.doorlock.war.re/
 
---- Door Lock ---
-
----
-Welcome to the our sample API documentation. All comments can be written in (support [Markdown](http://daringfireball.net/projects/markdown/syntax) syntax)
----
-
---
-Doorlock API 
-The following is a section of resources related to the shopping cart
---
-
-List products added into your shopping-cart. (comment block again in Markdown)
-GET /shopping-cart
-< 200
-< Content-Type: application/json
-{ "items": [
-{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
-] }
-
-Save new products in your shopping cart
-POST /shopping-cart
-> Content-Type: application/json
-{ "product":"1AB23ORM", "quantity": 2 }
-< 201
-< Content-Type: application/json
-{ "status": "created", "url": "/shopping-cart/2" }
-
--- User Resources --
-
-This resource allows you to submit payment information to process your *shopping cart* items
-GET /login
-> X-DoorLock-Api-Key: 013dc561cf13d3586bfab01f69e4d7c8
-{ "username": "example", "password": "testing" }
-< 200
-{ "receipt": "/payment/receipt/1" }
+# Door Lock
+This is the API for a door lock system.
+It handles all information that is transferred to the system.
 
 
-This resource allows you to submit payment information to process your *shopping cart* items
-GET /logout
-> X-DoorLock-Api-Key: 013dc561cf13d3586bfab01f69e4d7c8
-{ "cc": "12345678900", "cvc": "123", "expiry": "0112" }
-< 200
-{ "receipt": "/payment/receipt/1" }
+# Group Login
+Login to doorlock. Handles login and session management.
+
+## GET /login
+Returns login information, sets a cookie if the passed in data is valid.
+Also returns success = 1 for success. Returns success = 0 for fail.
++ Request (application/json)
+   
+    + Headers 
+ 
+            X-DoorLock-Api-Key: {Api-Key}
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "password": "{pass}"
+            }
+
++ Response 200 (application/json)
+    
+    + Headers
+        
+            Set-Cookie: sid={cookie}; path=/;
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "success": 1
+            }
+
++ Response 401 (application/json)
+
+    + Body
+    
+            {
+                "Invalid API key": "{Api-Key}",
+                "success": 0
+            }
+            
++ Response 403 (application/json)
+
+    + Body
+    
+            {
+                "Invalid Username or Password": "{Username}",
+                "success": 0
+            }
+            
+            
+            
+# Group Logout
+Logs out of the doorlock. Handles logout and session management.
+
+## GET /logout
+Returns logout information, sets a cookie if the passed in data is valid.
+Also returns success = 1 for success. Returns success = 0 for fail.
++ Request (application/json)
+   
+    + Headers 
+ 
+            X-DoorLock-Api-Key: {Api-Key}
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "cookie": "{sid}"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Logged out": "{user}",
+                "success": 1
+            }
+
++ Response 401 (application/json)
+
+    + Body
+    
+            {
+                "Invalid API key": "{Api-Key}",
+                "success": 0
+            }
+
+# Group Change Password
+Changes user password for the doorlock. Handles logout and session management.
+
+## POST /ChangePassword
+Returns changes the user's password.
+Also returns success = 1 for success. Returns success = 0 for fail.
++ Request (application/json)
+   
+    + Headers 
+ 
+            X-DoorLock-Api-Key: {Api-Key}
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "cookie": "{sid}",
+                "old-password": "{old-password}",
+                "new-password": "{new-password}"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Changed Password": "{user}",
+                "success": 1
+            }
+
++ Response 401 (application/json)
+
+    + Body
+    
+            {
+                "Invalid API key": "{Api-Key}",
+                "success": 0
+            }
+            
++ Response 403 (application/json)
+
+    + Body
+    
+            {
+                "Invalid-Password": "{user}",
+                "success": 0
+            }
+
+# Group Forgot Password
+Resets user password for the doorlock.
+
+## POST /ForgotPassword
+Returns if password reset is sent.
+Also returns success = 1 for success. Returns success = 0 for fail.
++ Request (application/json)
+   
+    + Headers 
+ 
+            X-DoorLock-Api-Key: {Api-Key}
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "email": "{email}"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Reset Password Sent": "{user}",
+                "success": 1
+            }
+
++ Response 401 (application/json)
+
+    + Body
+    
+            {
+                "Invalid API key": "{Api-Key}",
+                "success": 0
+            }
+
+            
+# Group Lock Status
+Gets current status of the lock
+
+## GET /LockStatus
+Returns changes the status of the lock.
+Also returns success = 1 for success. Returns success = 0 for fail.
++ Request (application/json)
+   
+    + Headers 
+ 
+            X-DoorLock-Api-Key: {Api-Key}
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "cookie": "{sid}",
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Status": "Unlocked",
+                "isLocked": 0,
+                "success": 1
+            }
+            
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Status": "Locked",
+                "isLocked": 1,
+                "success": 1
+            }
+
++ Response 401 (application/json)
+
+    + Body
+    
+            {
+                "Invalid API key": "{Api-Key}",
+                "success": 0
+            }
+            
+# Group Lock
+Locks the doorlock.
+
+## POST /Lock
+Returns if the doorlock gets locked.
+Also returns success = 1 for success. Returns success = 0 for fail.
++ Request (application/json)
+   
+    + Headers 
+ 
+            X-DoorLock-Api-Key: {Api-Key}
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "cookie": "{sid}"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Locked Door": "Success",
+                "success": 1
+            }
+
++ Response 401 (application/json)
+
+    + Body
+    
+            {
+                "Invalid API key": "{Api-Key}",
+                "success": 0
+            }
+            
+# Group Unlock
+Unlocks the doorlock.
+
+## POST /Unlock
+Returns if the doorlock gets unlocked.
+Also returns success = 1 for success. Returns success = 0 for fail.
++ Request (application/json)
+   
+    + Headers 
+ 
+            X-DoorLock-Api-Key: {Api-Key}
+
+    + Body
+    
+            {
+                "username": "{user}",
+                "cookie": "{sid}"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "Unlocked Door": "Success",
+                "success": 1
+            }
++ Response 401 (application/json)
+
+    + Body
+    
+            {
+                "Invalid API key": "{Api-Key}",
+                "success": 0
+            }
+            
+            
