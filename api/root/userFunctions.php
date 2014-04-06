@@ -78,11 +78,13 @@ function checkHeaders(){
   }
 }
 
-function UnAuthError($apiKey){
+function UnAuthError($apiKey = NULL){
   header("HTTP/1.0 401 Unauthorized API key invalid");
-  header('Content-Type: application/json');
-  //return json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
-  echo json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
+  if ($apiKey !== NULL){
+    header('Content-Type: application/json');
+    //return json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
+    echo json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
+  }
   exit();
 
 }
@@ -147,7 +149,8 @@ function login(){
     //
     //
     return json_encode(array('username' => 'theUser', 'success' => '1/0' ));
-  header("HTTP/1.0 401 Unauthorized API key invalid");
+  //header("HTTP/1.0 401 Unauthorized API key invalid");
+  UnAuthError();
 }
 
 //Logs out the user and destorys the session variables
@@ -165,8 +168,9 @@ function logout(){
   //session_start();
   //header("Location:/");
   json_encode(array('Logged Out' => 'username', 'success' => '1/0'));
-  header("HTTP/1.0 401 Unauthorized API key invalid");
-  exit();
+  //header("HTTP/1.0 401 Unauthorized API key invalid");
+  UnAuthError();
+  //exit();
 }
 
 //Changes the type of user in the database
@@ -196,7 +200,8 @@ function changePassword(){
     header("HTTP/1.0 401 User Forbidden");
   }
   return json_encode(array('Changed Password' => 'username', 'success' => '1/0'));
-  header("HTTP/1.0 401 Unauthorized API key invalid");
+  //header("HTTP/1.0 401 Unauthorized API key invalid");
+  UnAuthError();
 }
 
 //Changes the password of the user based on the reset token and
@@ -231,7 +236,8 @@ function forgotPassword(){
     header("HTTP/1.0 403 User Forbidden");
   }
   return json_encode(array('Reset Password Sent' => 'username', 'success' => '1/0'));
-  header("HTTP/1.0 401 Unauthorized API key invalid");
+  //header("HTTP/1.0 401 Unauthorized API key invalid");
+  UnAuthError();
 }
 
 //Returns the lock status
@@ -253,7 +259,8 @@ function lockStatus(){
       UnAuthError($apiKey);
     }
   }
-  header("HTTP/1.0 401 Unauthorized API key invalid");
+  //header("HTTP/1.0 401 Unauthorized API key invalid");
+  UnAuthError();
 }
 
 //locks the lock
@@ -261,14 +268,20 @@ function lock(){
   //if(isset($_GET['username']) && isset($_GET['cookie'])){
   if(isset($_POST['username']) && isset($_POST['cookie'])){
     $apiKey = '';
-    $user = '';
-    $cookie = '';
+    $user = $_POST['username'];//'';
+    $cookie = $_POST['cookie'];//'';
+    //echo "user " . $user . " cookie: " . $cookie;
     //print_r($_POST);
-    if($user != null && $cookie != null){
+    $test = null;
+    //if($user !== null && $cookie !== null && $test !== NULL){
+    if($user !== null && $cookie !== null){
 
-      echo "asdfasdf FEFFFF";
+      //echo "asdfasdf FEFFFF";
       //return json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
+      header("HTTP/1.0 200 Success");
+      header('Content-Type: application/json');
       echo json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
+      exit();
     } else {
       //header("HTTP/1.0 401 Unauthorized API key invalid");
       //header('Content-Type: application/json');
@@ -280,7 +293,8 @@ function lock(){
   //print_r($_POST);
   //print_r($_GET);
   //echo "asdfasfsaf";
-  header("HTTP/1.0 401 Unauthorized API key invalid");
+  //header("HTTP/1.0 401 Unauthorized API key invalid");
+  UnAuthError();
 }
 
 //unlocks the lock
@@ -300,7 +314,8 @@ function unlock(){
       UnAuthError($apiKey);
     }
   }
-  header("HTTP/1.0 401 Unauthorized API key invalid");
+  //header("HTTP/1.0 401 Unauthorized API key invalid");
+  UnAuthError();
 }
 
 ?>
