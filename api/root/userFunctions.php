@@ -92,7 +92,8 @@ function UnAuthError($apiKey = NULL){
 //Logs in the the user and sets session variables
 function login(){
   //TODO add check headers and other functions
-  if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token'])){
+  //if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token'])){
+  if(isset($_POST['Username']) && isset($_POST['Password'])){
                           //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
     $user = $_POST['Username'];
     $pass = $_POST['Password'];
@@ -220,11 +221,11 @@ function forgotPassword(){
       //
       //resets the password....
       echo 'Found!';
-      $dbconn = new dbconn;
-      $dbconn->connect("write");
-      $userID = $dbconn->resetChangePassword($pass, $resetToken);
-      $results = $dbconn->invalidateResetURL($resetToken, $userID);
-      $dbconn->close();
+      //$dbconn = new dbconn;
+      //$dbconn->connect("write");
+      //$userID = $dbconn->resetChangePassword($pass, $resetToken);
+      //$results = $dbconn->invalidateResetURL($resetToken, $userID);
+      //$dbconn->close();
     } else {
       echo 'error! nothing found';
       header("HTTP/1.0 403 User Forbidden");
