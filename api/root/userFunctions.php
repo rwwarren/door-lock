@@ -54,8 +54,12 @@ if (isset($_GET['actions']) ){
   }
 } else {
   echo "improper request";
-  header("Location:/");
+//  header("Location:/");
   exit();
+}
+
+function isValid($apiKey){
+  //
 }
 
 //TODO have this is extra functions
@@ -275,7 +279,8 @@ function lock(){
     //print_r($_POST);
     $test = null;
     //if($user !== null && $cookie !== null && $test !== NULL){
-    if($user !== null && $cookie !== null){
+    //if($user !== null && $cookie !== null){
+    if($user !== null && $cookie !== null && isValid($apiKey)){
 
       //echo "asdfasdf FEFFFF";
       //return json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
