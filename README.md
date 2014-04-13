@@ -9,6 +9,10 @@
 
 2) PHPMailer: https://github.com/PHPMailer/PHPMailer
 
+3) Redis: http://redis.io/
+
+4) Predis: https://github.com/nrk/predis
+
 # Installation Instructions:
 
 1) Clone the repo.
