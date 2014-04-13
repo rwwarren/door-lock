@@ -1,5 +1,20 @@
 <?php
 
+//error_reporting(E_ALL);
+//ini_set('display_errors', 'On');
+
+//function instantiate(){
+require 'Predis/Autoloader.php';
+Predis\Autoloader::register();
+$client = new Predis\Client([
+//$client = new Predis_Client([
+    'scheme' => 'tcp',
+    'host'   => '127.0.0.1',
+    //'host'   => '10.0.0.1',
+    'port'   => 6379,
+]);
+//}
+
 ini_set("session.hash_function", "sha512");
 session_name('sid');
 
@@ -27,6 +42,9 @@ if (isset($_GET['actions']) ){
   $type = $_GET['actions'];
   //echo "asdfadsf \n  ";
   //echo $type;
+  //
+  //instantiate();
+  //
   if ($type == 'login'){
 //    $_SESSION['asdf'] = 'asdf';
 //    print_r($_SESSION);
@@ -59,7 +77,40 @@ if (isset($_GET['actions']) ){
 }
 
 function isValid($apiKey){
+  //$client = new Predis\Client();
+  //require 'Predis/Autoloader.php';
+  //require_once 'Predis/Autoloader.php';
+  //require '/home/pi/downloads/predis/lib/Predis/Autoloader.php';
+  //require 'predis/Autoloader.php';
+  //require 'predis/autoload.php';
+  //require_once 'predis/autoload.php';
+  //include_once 'predis/autoload.php';
+  //phpinfo();
+//  Predis\Autoloader::register();
+//  $client = new Predis\Client([
+//  //$client = new Predis_Client([
+//      'scheme' => 'tcp',
+//      'host'   => '127.0.0.1',
+//      //'host'   => '10.0.0.1',
+//      'port'   => 6379,
+//  ]);
+
+  global $client;
+//  $value = $client->hgetall('apiKeys');
+  $userID = $client->hget('apiKeys', $apiKey);
+  //print_r($value);
+//  $client = new Predis\Client();
+
+  //$value = $client->hgetall('apiKeys');
+  //$value = $client->hget('apiKeys');
+  //print_r($value);
+
+  //echo $client;
+  //-1 is the all user general one
+//  echo "asdf";
+//  exit();
   //
+  return $userID;
 }
 
 //TODO have this is extra functions
@@ -272,15 +323,23 @@ function lockStatus(){
 function lock(){
   //if(isset($_GET['username']) && isset($_GET['cookie'])){
   if(isset($_POST['username']) && isset($_POST['cookie'])){
-    $apiKey = '';
+    //$apiKey = 'asdf';
+    //$apiKey = $_HEADERS['X-DoorLock-Api-Key'];
+    $apiKey = getallheaders()['X-DoorLock-Api-Key'];
+    //echo $apiKey;
+    //print_r($apiKey);
+    //$apiKey = '3a757228dc654cd98f17cd601186ce0e';
     $user = $_POST['username'];//'';
     $cookie = $_POST['cookie'];//'';
     //echo "user " . $user . " cookie: " . $cookie;
     //print_r($_POST);
     $test = null;
+    //$userID = isValid($apiKey . "asdf");
+    $userID = isValid($apiKey);
     //if($user !== null && $cookie !== null && $test !== NULL){
     //if($user !== null && $cookie !== null){
-    if($user !== null && $cookie !== null && isValid($apiKey)){
+    //if($user !== null && $cookie !== null && isValid($apiKey)){
+    if($user !== null && $cookie !== null && $userID !== NULL){
 
       //echo "asdfasdf FEFFFF";
       //return json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
@@ -300,7 +359,7 @@ function lock(){
   //print_r($_GET);
   //echo "asdfasfsaf";
   //header("HTTP/1.0 401 Unauthorized API key invalid");
-  UnAuthError();
+  //UnAuthError();
 }
 
 //unlocks the lock
