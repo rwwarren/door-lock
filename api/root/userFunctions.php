@@ -146,65 +146,89 @@ function UnAuthError($apiKey = NULL){
 
 //Logs in the the user and sets session variables
 function login(){
-  //TODO add check headers and other functions
-  //if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token'])){
-  if(isset($_POST['Username']) && isset($_POST['Password'])){
-                          //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
-    $user = $_POST['Username'];
-    $pass = $_POST['Password'];
-    $token = $_POST['Token'];
-  
-    $user = mysql_real_escape_string($user);
-    $pass = mysql_real_escape_string($pass);
-    $dbconn = new dbconn;
-    //$dbconn->close();
-    //TODO this is the sandbox one
-    //TODO also remove my secret key
-    //TODO add this to the database
-    //TODO check if there is an authyID THEN: verifyAuthy
-    //$authy_id = get from DB;
-    //$dbconn->connect("read");
-    //$authyValid = $dbconn->checkAuthy($user, $token);
-    //$dbconn->close();
-    //TODO add this back in to the check
-    //$verification = $authy_api->verifyToken("$authy_id", "$token");
-    //if($authyValid && $verification->ok()){
-    //TODO above commented out to save testing hassle
-    $test = true;
-    if($test == true){
-      echo '<br> authy token is okay';
-      $dbconn->connect("read");
-      $userInfo = $dbconn->login($user, $pass);
-      //if($userInfo !== NULL){
-        $_SESSION['name'] = $userInfo['Name'];
-        $_SESSION['username'] = $userInfo['Username'];
-        $_SESSION['userID'] = $userInfo['ID'];
-        $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
-        echo "<br> userInfo <br>";
-        print_r($userInfo);
-        echo "<br> session <br>";
-        print_r($_SESSION);
-        //
-      //}
-      $dbconn->close();
-    } else { //authy is not right
-      header("HTTP/1.0 401 Authy key wrong");
+//  //TODO add check headers and other functions
+//  //if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token'])){
+//  if(isset($_POST['Username']) && isset($_POST['Password'])){
+//                          //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
+//    $user = $_POST['Username'];
+//    $pass = $_POST['Password'];
+//    $token = $_POST['Token'];
+//
+//    $user = mysql_real_escape_string($user);
+//    $pass = mysql_real_escape_string($pass);
+//    $dbconn = new dbconn;
+//    //$dbconn->close();
+//    //TODO this is the sandbox one
+//    //TODO also remove my secret key
+//    //TODO add this to the database
+//    //TODO check if there is an authyID THEN: verifyAuthy
+//    //$authy_id = get from DB;
+//    //$dbconn->connect("read");
+//    //$authyValid = $dbconn->checkAuthy($user, $token);
+//    //$dbconn->close();
+//    //TODO add this back in to the check
+//    //$verification = $authy_api->verifyToken("$authy_id", "$token");
+//    //if($authyValid && $verification->ok()){
+//    //TODO above commented out to save testing hassle
+//    $test = true;
+//    if($test == true){
+//      echo '<br> authy token is okay';
+//      $dbconn->connect("read");
+//      $userInfo = $dbconn->login($user, $pass);
+//      //if($userInfo !== NULL){
+//        $_SESSION['name'] = $userInfo['Name'];
+//        $_SESSION['username'] = $userInfo['Username'];
+//        $_SESSION['userID'] = $userInfo['ID'];
+//        $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
+//        echo "<br> userInfo <br>";
+//        print_r($userInfo);
+//        echo "<br> session <br>";
+//        print_r($_SESSION);
+//        //
+//      //}
+//      $dbconn->close();
+//    } else { //authy is not right
+//      header("HTTP/1.0 401 Authy key wrong");
+//      exit();
+//    }
+//  } else {
+//    //print_r($_POST);
+//      //
+//      print_r($_SESSION);
+//      //
+//    echo "nope";
+//    echo '<br>No username or password entered';
+//    header("HTTP/1.0 400 Username or password not entered");
+//    exit();
+//  }
+//    //
+//    //
+//    //
+//    //
+//    return json_encode(array('username' => 'theUser', 'success' => '1/0' ));
+//  //header("HTTP/1.0 401 Unauthorized API key invalid");
+//  UnAuthError();
+  if(isset($_POST['username']) && isset($_POST['password'])){
+    //403 error make it work correctly
+    $apiKey = isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $userID = isValid($apiKey);
+    if($username !== null && $password !== null && $userID !== NULL){
+      header("HTTP/1.0 200 Success, Logged Out");
+      header('Content-Type: application/json');
+      echo json_encode(array('username' => $username, 'success' => '1/0' ));
+      //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
+      exit();
+    } else {
+      header("HTTP/1.0 403 Forbidden");
+      header('Content-Type: application/json');
+      echo json_encode(array('Invalid Username or Password' => $username, 'success' => '0' ));
+      //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
+      exit();
+      //UnAuthError($apiKey);
     }
-  } else {
-    //print_r($_POST);
-      //
-      print_r($_SESSION);
-      //
-    echo "nope";
-    echo '<br>No username or password entered';
-    header("HTTP/1.0 400 Username or password not entered");
-    //exit();
   }
-    //
-    //
-    //
-    //
-    return json_encode(array('username' => 'theUser', 'success' => '1/0' ));
   //header("HTTP/1.0 401 Unauthorized API key invalid");
   UnAuthError();
 }
@@ -223,7 +247,20 @@ function logout(){
   //session_name('sid');
   //session_start();
   //header("Location:/");
-  json_encode(array('Logged Out' => 'username', 'success' => '1/0'));
+  if(isset($_POST['username']) && isset($_POST['cookie'])){
+    $apiKey = isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
+    $username = $_POST['username'];
+    $cookie = $_POST['cookie'];
+    $userID = isValid($apiKey);
+    if($username !== null && $cookie !== null && $userID !== NULL){
+      header("HTTP/1.0 200 Success, Logged Out");
+      header('Content-Type: application/json');
+      echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
+      exit();
+    } else {
+      UnAuthError($apiKey);
+    }
+  }
   //header("HTTP/1.0 401 Unauthorized API key invalid");
   UnAuthError();
   //exit();
@@ -233,29 +270,51 @@ function logout(){
 
 //Changes the user's password
 function changePassword(){
-  if (isset($_SESSION['username']) && isset($_POST['oldPassword']) && isset($_POST['newPassword']) ){
-    $username = $_SESSION['username'];
-    $oldPassword = $_POST['oldPassword'];
-    $newPassword = $_POST['newPassword'];
+  //if (isset($_SESSION['username']) && isset($_POST['old-password']) && isset($_POST['new-password'])
+  if (isset($_POST['username']) && isset($_POST['old-password']) && isset($_POST['new-password'])
+      && isset($_POST['cookie'])){
+    //$username = $_SESSION['username'];
+    $username = $_POST['username'];
+    $oldPassword = $_POST['old-password'];
+    $newPassword = $_POST['new-password'];
+    $cookie = $_POST['cookie'];
 
-    $username = mysql_real_escape_string($username);
-    $oldPassword = mysql_real_escape_string($oldPassword);
-    $newPassword = mysql_real_escape_string($newPassword);
-    $dbconn = new dbconn;
-    $dbconn->connect("write");
-    $result = $dbconn->changePassword($username, $oldPassword, $newPassword);
-    $dbconn->close();
-
-    if ($result == 200){
-      logout();
+    $apiKey = isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
+    //$user = $_POST['username'];
+    $userID = isValid($apiKey);
+    if($userID !== NULL){
+      //something to do with the user id
+      //and change the password
+      //unset session stuff
+      //return json_encode(array('Changed Password' => 'username', 'success' => '1/0'));
+      header("HTTP/1.0 200 Success, Password Changed");
+      header('Content-Type: application/json');
+      //echo json_encode(array('Changed Password' => 'username', 'success' => '1/0'));
+      echo json_encode(array('Changed Password' => $username, 'success' => '1/0'));
+      exit();
+    } else {
+      UnAuthError($apiKey);
+      //
     }
-    //header("HTTP/1.0 200 Success, Password Changed");
+
+    //$username = mysql_real_escape_string($username);
+    //$oldPassword = mysql_real_escape_string($oldPassword);
+    //$newPassword = mysql_real_escape_string($newPassword);
+    //$dbconn = new dbconn;
+    //$dbconn->connect("write");
+    //$result = $dbconn->changePassword($username, $oldPassword, $newPassword);
+    //$dbconn->close();
+
+    //if ($result == 200){
+    //  logout();
+    //}
+    ////header("HTTP/1.0 200 Success, Password Changed");
   } else {
     //print_r($_POST);
-    echo 'nothing returned';
-    header("HTTP/1.0 401 User Forbidden");
+    //echo 'nothing returned';
+    //header("HTTP/1.0 401 User Forbidden");
+    UnAuthError();
   }
-  return json_encode(array('Changed Password' => 'username', 'success' => '1/0'));
   //header("HTTP/1.0 401 Unauthorized API key invalid");
   UnAuthError();
 }
@@ -263,35 +322,56 @@ function changePassword(){
 //Changes the password of the user based on the reset token and
 //password
 function forgotPassword(){
-  if(isset($_GET['resetToken']) && isset($_POST['pass']) && isset($_POST['confirmPass']) ){
-    //echo $_GET['resetToken'];
-    $resetToken = $_GET['resetToken'];
-    $pass = $_POST['pass'];
-    $otherPass = $_POST['confirmPass'];
-    $dbconn = new dbconn;
-    $dbconn->connect("write");
-    $results = $dbconn->findResetToken($resetToken);
-    $dbconn->close();
-    if ($results && (strcmp($pass, $otherPass) == 0)){
-      //
-      //resets the password....
-      echo 'Found!';
-      //$dbconn = new dbconn;
-      //$dbconn->connect("write");
-      //$userID = $dbconn->resetChangePassword($pass, $resetToken);
-      //$results = $dbconn->invalidateResetURL($resetToken, $userID);
-      //$dbconn->close();
+  if(isset($_POST['username']) && isset($_POST['email'])){
+    $apiKey = isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
+    $user = $_POST['username'];
+    $email = $_POST['email'];
+    $userID = isValid($apiKey);
+    //TODO this is the more ish?
+    if($userID !== NULL){
+//  if(isset($_GET['resetToken']) && isset($_POST['pass']) && isset($_POST['confirmPass']) ){
+//    //echo $_GET['resetToken'];
+//    $resetToken = $_GET['resetToken'];
+//    $pass = $_POST['pass'];
+//    $otherPass = $_POST['confirmPass'];
+//    $dbconn = new dbconn;
+//    $dbconn->connect("write");
+//    $results = $dbconn->findResetToken($resetToken);
+//    $dbconn->close();
+    //if ($results && (strcmp($pass, $otherPass) == 0)){
+    //  //
+    //  //resets the password....
+    //  //echo 'Found!';
+    //  //$dbconn = new dbconn;
+    //  //$dbconn->connect("write");
+    //  //$userID = $dbconn->resetChangePassword($pass, $resetToken);
+    //  //$results = $dbconn->invalidateResetURL($resetToken, $userID);
+    //  //$dbconn->close();
+    //  header("HTTP/1.0 200 Success");
+    //  header('Content-Type: application/json');
+    //  return json_encode(array('Reset Password Sent' => $username, 'success' => '1/0'));
+    //} else {
+    //  echo 'error! nothing found';
+    //  header("HTTP/1.0 403 User Forbidden");
+    //  exit();
+    //}
+      header("HTTP/1.0 200 Success");
+      header('Content-Type: application/json');
+      //return json_encode(array('Reset Password Sent' => $username, 'success' => '1/0'));
+      echo json_encode(array('Reset Password Sent' => $user, 'success' => '1/0'));
+      exit();
     } else {
-      echo 'error! nothing found';
-      header("HTTP/1.0 403 User Forbidden");
+      UnAuthError($apiKey);
     }
   } else {
-    echo 'nothing returned';
+    //echo 'nothing returned';
     //print_r($_POST);
     //print_r($_GET);
-    header("HTTP/1.0 403 User Forbidden");
+    //header("HTTP/1.0 403 User Forbidden");
+    //UnAuthError($apiKey);
+    UnAuthError();
+    //exit();
   }
-  return json_encode(array('Reset Password Sent' => 'username', 'success' => '1/0'));
   //header("HTTP/1.0 401 Unauthorized API key invalid");
   UnAuthError();
 }
