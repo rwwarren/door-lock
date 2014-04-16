@@ -1,9 +1,5 @@
 <?php
 
-//error_reporting(E_ALL);
-//ini_set('display_errors', 'On');
-
-//function instantiate(){
 require 'Predis/Autoloader.php';
 Predis\Autoloader::register();
 $client = new Predis\Client([
@@ -13,7 +9,6 @@ $client = new Predis\Client([
     //'host'   => '10.0.0.1',
     'port'   => 6379,
 ]);
-//}
 
 ini_set("session.hash_function", "sha512");
 session_name('sid');
@@ -40,15 +35,8 @@ require_once("$root/../../web/inc/variables.php");
 //echo "asdf";
 if (isset($_GET['actions']) ){
   $type = $_GET['actions'];
-  //echo "asdfadsf \n  ";
-  //echo $type;
-  //
-  //instantiate();
-  //
   if ($type == 'login'){
-//    $_SESSION['asdf'] = 'asdf';
-//    print_r($_SESSION);
-    $_SESSION['username'] = 'asdf';
+    //$_SESSION['username'] = 'asdf';
     //print_r($_SESSION);
     login();
   //} else if ($type == 'logout' && isLoggedIn()){
@@ -77,24 +65,6 @@ if (isset($_GET['actions']) ){
 }
 
 function isValid($apiKey){
-  //$client = new Predis\Client();
-  //require 'Predis/Autoloader.php';
-  //require_once 'Predis/Autoloader.php';
-  //require '/home/pi/downloads/predis/lib/Predis/Autoloader.php';
-  //require 'predis/Autoloader.php';
-  //require 'predis/autoload.php';
-  //require_once 'predis/autoload.php';
-  //include_once 'predis/autoload.php';
-  //phpinfo();
-//  Predis\Autoloader::register();
-//  $client = new Predis\Client([
-//  //$client = new Predis_Client([
-//      'scheme' => 'tcp',
-//      'host'   => '127.0.0.1',
-//      //'host'   => '10.0.0.1',
-//      'port'   => 6379,
-//  ]);
-
   global $client;
 //  $value = $client->hgetall('apiKeys');
   $userID = $client->hget('apiKeys', $apiKey);
@@ -113,25 +83,25 @@ function isValid($apiKey){
   return $userID;
 }
 
-//TODO have this is extra functions
-function checkHeaders(){
-  if (isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/"){
-    return true;
-  } else {
-    $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-    $sentHeaders = getallheaders();
-    unset($sentHeaders['User-Agent']);
-    unset($sentHeaders['Host']);
-    unset($sentHeaders['Accept']);
-    unset($sentHeaders['Content-Length']);
-    unset($sentHeaders['Content-Type']);
-    if ($requiredHeaders == $sentHeaders){
-      return true;
-    } else {
-      return false;
-    }
-  }
-}
+////TODO have this is extra functions
+//function checkHeaders(){
+//  if (isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/"){
+//    return true;
+//  } else {
+//    $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+//    $sentHeaders = getallheaders();
+//    unset($sentHeaders['User-Agent']);
+//    unset($sentHeaders['Host']);
+//    unset($sentHeaders['Accept']);
+//    unset($sentHeaders['Content-Length']);
+//    unset($sentHeaders['Content-Type']);
+//    if ($requiredHeaders == $sentHeaders){
+//      return true;
+//    } else {
+//      return false;
+//    }
+//  }
+//}
 
 function UnAuthError($apiKey = NULL){
   header("HTTP/1.0 401 Unauthorized API key invalid");
