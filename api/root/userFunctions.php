@@ -3,7 +3,6 @@
 require 'Predis/Autoloader.php';
 Predis\Autoloader::register();
 $client = new Predis\Client([
-//$client = new Predis_Client([
     'scheme' => 'tcp',
     'host'   => '127.0.0.1',
     //'host'   => '10.0.0.1',
@@ -90,7 +89,6 @@ function UnAuthError($apiKey = NULL){
     echo json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
   }
   exit();
-
 }
 
 //Logs in the the user and sets session variables
@@ -162,11 +160,26 @@ function login(){
     $apiKey = isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $username = mysql_real_escape_string($username);
+    $password = mysql_real_escape_string($password);
     $userID = isValid($apiKey);
     if($username !== null && $password !== null && $userID !== NULL){
+      //
+      $dbconn = new dbconn;
+      $dbconn->connect("read");
+      $userInfo = array();
+//      $userInfo = $dbconn->login($user, $pass);
+      $userInfo = $dbconn->login($username, $password);
+        $_SESSION['name'] = $userInfo['Name'];
+        $_SESSION['username'] = $userInfo['Username'];
+        $_SESSION['userID'] = $userInfo['ID'];
+        $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
+        session_write_close();
+      //
       header("HTTP/1.0 200 Success, Logged Out");
       header('Content-Type: application/json');
-      echo json_encode(array('username' => $username, 'success' => '1/0' ));
+      //echo json_encode(array('username' => $username, 'success' => '1/0' ));
+      echo json_encode(array('username' => $username, 'success' => '1' ));
       //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
       exit();
     } else {
@@ -348,7 +361,6 @@ function lock(){
     //if($user !== null && $cookie !== null){
     //if($user !== null && $cookie !== null && isValid($apiKey)){
     if($user !== null && $cookie !== null && $userID !== NULL){
-
       //return json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
       header("HTTP/1.0 200 Success");
       header('Content-Type: application/json');

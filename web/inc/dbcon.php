@@ -30,18 +30,12 @@ class dbconn {
     $results = mysql_query($query, $this->conn);
     $row = mysql_fetch_row($results, MYSQL_ASSOC);
     if(sizeof($row) > 1) {
-      echo 'Not null';
       //$results = array();
 
-      //$results = array_fill_keys("Name", $row['Name']);
-      //$results = array_fill_keys("Username", $row['Username']);
-      //$results = array_fill_keys("ID", $row['ID']);
-      //$results = array_fill_keys("IsAdmin", $row['IsAdmin']);
       $userInfo['Name'] = $row['Name'];
       $userInfo['Username'] = $row['Username'];
       $userInfo['ID'] = $row['ID'];
       $userInfo['IsAdmin'] = $row['IsAdmin'];
-      //print_r($results);
 //      $_SESSION['name'] = $row['Name'];
 //      $_SESSION['username'] = $row['Username'];
 //      $_SESSION['userID'] = $row['ID'];
@@ -54,8 +48,10 @@ class dbconn {
       return $userInfo;
       //return $results;
     } else {
-      echo '<br>Username or pwd incorrect';
+      //echo '<br>Username or pwd incorrect';
       header("HTTP/1.0 403 Error Username or Password incorrect");
+      header('Content-Type: application/json');
+      echo json_encode(array('Invalid Username or Password' => $name, 'success' => '0' ));
       exit();
     }
   }
@@ -325,7 +321,6 @@ class dbconn {
     }
     return $userInfo;
   }
-
 
 }
 
