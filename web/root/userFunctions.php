@@ -1,8 +1,5 @@
 <?php
 
-//ini_set('session.cookie_domain', '.wrixton.net');
-//session_set_cookie_params(0, '/', '.wrixton.net');
-
 ini_set("session.hash_function", "sha512");
 session_name('sid');
 session_start();
@@ -13,14 +10,10 @@ require '../includedPackages/authy-php/Authy.php';
 require_once("$root/../inc/variables.php");
 require_once("$root/../inc/extraFunctions.php");
 
-//TODO add back in comments
 if (isset($_GET['actions']) && (strpos($_SERVER["REQUEST_URI"], 'userFunctions.php') === false)){
   $type = $_GET['actions'];
   if ($type == 'login'){
     login();
-    //$_SESSION['asdf'] = 'asdf';
-    //$_SESSION['username'] = 'asdf';
-    //print_r($_SESSION);
   } else if ($type == 'logout' && isLoggedIn()){
     logout();
   } else if ($type == 'registerUser' && isLoggedIn()){
@@ -67,7 +60,6 @@ function checkHeaders(){
 //Logs in the the user and sets session variables
 function login(){
   //TODO add check headers and other functions
-  //$_SESSION['username'] = 'asdf';
   if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token'])){
                           //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
     $user = $_POST['Username'];
@@ -99,7 +91,6 @@ function login(){
       //$_SESSION['username'] = 'asdf';
       $userInfo = array();
       $userInfo = $dbconn->login($user, $pass);
-//      $_SESSION['username'] = 'asdf';
       print_r($userInfo);
       //if($userInfo !== NULL){
         $_SESSION['name'] = $userInfo['Name'];
@@ -118,12 +109,13 @@ function login(){
       $dbconn->close();
     } else { //authy is not right
       header("HTTP/1.0 401 Authy key wrong");
+      exit();
     }
   } else {
     echo "nope";
     echo '<br>No username or password entered';
     header("HTTP/1.0 400 Username or password not entered");
-    //exit();
+    exit();
   }
 }
 
@@ -145,13 +137,11 @@ function logout(){
 
 //Changes the type of user in the database
 function changeUser(){
-
   if(isset($_POST['user']) && isset($_POST['type']) && isAdmin() /*&& checkHeaders()*/){
                           //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
-    echo "This is a test";
+    //echo "This is a test";
     $user = $_POST['user'];
     $type = $_POST['type'];
-
     $user = mysql_real_escape_string($user);
     $dbconn = new dbconn;
     $dbconn->connect("write");
@@ -211,6 +201,7 @@ function changePassword(){
     //print_r($_POST);
     echo 'nothing returned';
     header("HTTP/1.0 401 User Forbidden");
+    exit();
   }
 }
 
@@ -218,7 +209,6 @@ function changePassword(){
 //password
 function forgotPassword(){
   if(isset($_GET['resetToken']) && isset($_POST['pass']) && isset($_POST['confirmPass']) ){
-    //echo $_GET['resetToken'];
     $resetToken = $_GET['resetToken'];
     $pass = $_POST['pass'];
     $otherPass = $_POST['confirmPass'];
@@ -238,12 +228,12 @@ function forgotPassword(){
     } else {
       echo 'error! nothing found';
       header("HTTP/1.0 403 User Forbidden");
+      exit();
     }
   } else {
     echo 'nothing returned';
-    //print_r($_POST);
-    //print_r($_GET);
     header("HTTP/1.0 403 User Forbidden");
+    exit();
   }
 }
 
@@ -262,7 +252,6 @@ function resetPassword(){
     echo '<br> Please check your email';
     echo '<br> Click <a href="/">here</a> to go home';
   } else {
-    //echo 'not working';
     header("Location:http://doorlock.wrixton.net/");
   }
 }

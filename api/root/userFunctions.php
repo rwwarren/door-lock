@@ -12,8 +12,6 @@ $client = new Predis\Client([
 ini_set("session.hash_function", "sha512");
 session_name('sid');
 
-//session_set_cookie_params(0, '/', '.wrixton.net');
-//ini_set('session.cookie_domain', '.wrixton.net');
 
 session_start();
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
@@ -162,25 +160,22 @@ function login(){
 //  UnAuthError();
   if(isset($_POST['username']) && isset($_POST['password'])){
     //403 error make it work correctly
-    $apiKey = isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
+    $apiKey = getApiKey();
     $username = $_POST['username'];
     $password = $_POST['password'];
     $username = mysql_real_escape_string($username);
     $password = mysql_real_escape_string($password);
     $userID = isValid($apiKey);
     if($username !== null && $password !== null && $userID !== NULL){
-      //
       $dbconn = new dbconn;
       $dbconn->connect("read");
       $userInfo = array();
-//      $userInfo = $dbconn->login($user, $pass);
       $userInfo = $dbconn->login($username, $password);
         $_SESSION['name'] = $userInfo['Name'];
         $_SESSION['username'] = $userInfo['Username'];
         $_SESSION['userID'] = $userInfo['ID'];
         $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
         session_write_close();
-      //
       header("HTTP/1.0 200 Success, Logged Out");
       header('Content-Type: application/json');
       //echo json_encode(array('username' => $username, 'success' => '1/0' ));
@@ -213,14 +208,15 @@ function logout(){
   //session_start();
   //header("Location:/");
   if(isset($_POST['username']) && isset($_POST['cookie'])){
-    $apiKey = isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
+    $apiKey = getApiKey();
     $username = $_POST['username'];
     $cookie = $_POST['cookie'];
     $userID = isValid($apiKey);
     if($username !== null && $cookie !== null && $userID !== NULL){
       header("HTTP/1.0 200 Success, Logged Out");
       header('Content-Type: application/json');
-      echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
+      //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
+      echo json_encode(array('Logged Out' => $username, 'success' => '1'));
       exit();
     } else {
       UnAuthError($apiKey);
@@ -229,21 +225,16 @@ function logout(){
   UnAuthError();
 }
 
-//Changes the type of user in the database
-
 //Changes the user's password
 function changePassword(){
-  //if (isset($_SESSION['username']) && isset($_POST['old-password']) && isset($_POST['new-password'])
   if (isset($_POST['username']) && isset($_POST['old-password']) && isset($_POST['new-password'])
       && isset($_POST['cookie'])){
-    //$username = $_SESSION['username'];
     $username = $_POST['username'];
     $oldPassword = $_POST['old-password'];
     $newPassword = $_POST['new-password'];
     $cookie = $_POST['cookie'];
 
-    $apiKey = isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
-    //$user = $_POST['username'];
+    $apiKey = getApiKey();
     $userID = isValid($apiKey);
     if($userID !== NULL){
       //something to do with the user id
@@ -253,11 +244,12 @@ function changePassword(){
       header("HTTP/1.0 200 Success, Password Changed");
       header('Content-Type: application/json');
       //echo json_encode(array('Changed Password' => 'username', 'success' => '1/0'));
-      echo json_encode(array('Changed Password' => $username, 'success' => '1/0'));
+      //echo json_encode(array('Changed Password' => $username, 'success' => '1/0'));
+      //echo json_encode(array('Changed Password' => $username, 'success' => '1/0'));
+      echo json_encode(array('Changed Password' => $username, 'success' => '1'));
       exit();
     } else {
       UnAuthError($apiKey);
-      //
     }
 
     //$username = mysql_real_escape_string($username);
@@ -285,7 +277,7 @@ function changePassword(){
 //password
 function forgotPassword(){
   if(isset($_POST['username']) && isset($_POST['email'])){
-    $apiKey = isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
+    $apiKey = getApiKey();
     $user = $_POST['username'];
     $email = $_POST['email'];
     $userID = isValid($apiKey);
@@ -320,31 +312,31 @@ function forgotPassword(){
       header("HTTP/1.0 200 Success");
       header('Content-Type: application/json');
       //return json_encode(array('Reset Password Sent' => $username, 'success' => '1/0'));
-      echo json_encode(array('Reset Password Sent' => $user, 'success' => '1/0'));
+      //echo json_encode(array('Reset Password Sent' => $user, 'success' => '1/0'));
+      echo json_encode(array('Reset Password Sent' => $user, 'success' => '1'));
       exit();
     } else {
       UnAuthError($apiKey);
     }
-  } //else {
-  //  UnAuthError();
-  //}
+  }
   UnAuthError();
 }
 
 //Returns the lock status
 function lockStatus(){
-  //if(isset($_GET['username']) && isset($_GET['cookie'])){
   if(isset($_POST['username']) && isset($_POST['cookie'])){
-    $apiKey = isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
+    $apiKey = getApiKey();
     $user = $_POST['username'];
     $cookie = $_POST['cookie'];
     $userID = isValid($apiKey);
     if($user !== null && $cookie !== null && $userID !== NULL){
       header("HTTP/1.0 200 Success");
       header('Content-Type: application/json');
+      $lockStatus = '1/0';
 
       //return json_encode(array('Status' => 'Unlocked/Locked', 'isLocked' => '1/0', 'success' => '1/0'));
-      echo json_encode(array('Status' => 'Unlocked/Locked', 'isLocked' => '1/0', 'success' => '1/0'));
+      //echo json_encode(array('Status' => 'Unlocked/Locked', 'isLocked' => '1/0', 'success' => '1/0'));
+      echo json_encode(array('Status' => 'Unlocked/Locked', 'isLocked' => $lockStatus, 'success' => '1'));
       exit();
     } else {
       UnAuthError($apiKey);
@@ -355,22 +347,17 @@ function lockStatus(){
 
 //locks the lock
 function lock(){
-  //if(isset($_GET['username']) && isset($_GET['cookie'])){
   if(isset($_POST['username']) && isset($_POST['cookie'])){
-    //$apiKey = isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
     $apiKey = getApiKey();
-    $user = $_POST['username'];//'';
-    $cookie = $_POST['cookie'];//'';
-    //$userID = isValid($apiKey . "asdf");
+    $user = $_POST['username'];
+    $cookie = $_POST['cookie'];
     $userID = isValid($apiKey);
-    //if($user !== null && $cookie !== null && $test !== NULL){
-    //if($user !== null && $cookie !== null){
-    //if($user !== null && $cookie !== null && isValid($apiKey)){
     if($user !== null && $cookie !== null && $userID !== NULL){
       //return json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
       header("HTTP/1.0 200 Success");
       header('Content-Type: application/json');
-      echo json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
+      //echo json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
+      echo json_encode(array('Locked Door' => 'Success', 'success' => '1'));
       exit();
     } else {
       UnAuthError($apiKey);
@@ -381,9 +368,8 @@ function lock(){
 
 //unlocks the lock
 function unlock(){
-  //if(isset($_GET['username']) && isset($_GET['cookie'])){
   if(isset($_POST['username']) && isset($_POST['cookie'])){
-    $apiKey = isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
+    $apiKey = getApiKey();
     $user = $_POST['username'];
     $cookie = $_POST['cookie'];
     $userID = isValid($apiKey);
@@ -391,7 +377,8 @@ function unlock(){
       header("HTTP/1.0 200 Success");
       header('Content-Type: application/json');
       //return json_encode(array('Unlocked Door' => 'Success', 'success' => '1/0'));
-      echo json_encode(array('Unlocked Door' => 'Success', 'success' => '1/0'));
+      //echo json_encode(array('Unlocked Door' => 'Success', 'success' => '1/0'));
+      echo json_encode(array('Unlocked Door' => 'Success', 'success' => '1'));
       exit();
     } else {
       UnAuthError($apiKey);
