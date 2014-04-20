@@ -61,6 +61,11 @@ if (isset($_GET['actions']) ){
   exit();
 }
 
+function getApiKey(){
+  return isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
+}
+
+
 function isValid($apiKey){
   global $client;
 //  $value = $client->hgetall('apiKeys');
@@ -352,7 +357,8 @@ function lockStatus(){
 function lock(){
   //if(isset($_GET['username']) && isset($_GET['cookie'])){
   if(isset($_POST['username']) && isset($_POST['cookie'])){
-    $apiKey = isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
+    //$apiKey = isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
+    $apiKey = getApiKey();
     $user = $_POST['username'];//'';
     $cookie = $_POST['cookie'];//'';
     //$userID = isValid($apiKey . "asdf");
