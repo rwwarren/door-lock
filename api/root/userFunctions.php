@@ -171,12 +171,13 @@ function login(){
       $dbconn->connect("read");
       $userInfo = array();
       $userInfo = $dbconn->login($username, $password);
+      //TODO set session stuff??
         $_SESSION['name'] = $userInfo['Name'];
         $_SESSION['username'] = $userInfo['Username'];
         $_SESSION['userID'] = $userInfo['ID'];
         $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
         session_write_close();
-      header("HTTP/1.0 200 Success, Logged Out");
+      header("HTTP/1.0 200 Success, Logged In");
       header('Content-Type: application/json');
       //echo json_encode(array('username' => $username, 'success' => '1/0' ));
       echo json_encode(array('username' => $username, 'success' => '1' ));
