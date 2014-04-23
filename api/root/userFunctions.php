@@ -287,32 +287,10 @@ function forgotPassword(){
     $userID = isValid($apiKey);
     //TODO this is the more ish?
     if($userID !== NULL){
-//  if(isset($_GET['resetToken']) && isset($_POST['pass']) && isset($_POST['confirmPass']) ){
-//    //echo $_GET['resetToken'];
-//    $resetToken = $_GET['resetToken'];
-//    $pass = $_POST['pass'];
-//    $otherPass = $_POST['confirmPass'];
-//    $dbconn = new dbconn;
-//    $dbconn->connect("write");
-//    $results = $dbconn->findResetToken($resetToken);
-//    $dbconn->close();
-    //if ($results && (strcmp($pass, $otherPass) == 0)){
-    //  //
-    //  //resets the password....
-    //  //echo 'Found!';
-    //  //$dbconn = new dbconn;
-    //  //$dbconn->connect("write");
-    //  //$userID = $dbconn->resetChangePassword($pass, $resetToken);
-    //  //$results = $dbconn->invalidateResetURL($resetToken, $userID);
-    //  //$dbconn->close();
-    //  header("HTTP/1.0 200 Success");
-    //  header('Content-Type: application/json');
-    //  return json_encode(array('Reset Password Sent' => $username, 'success' => '1/0'));
-    //} else {
-    //  echo 'error! nothing found';
-    //  header("HTTP/1.0 403 User Forbidden");
-    //  exit();
-    //}
+//      $dbconn = new dbconn;
+//      $dbconn->connect("write");
+//      $dbconn->resetPassword($username, $email);
+//      $dbconn->close();
       header("HTTP/1.0 200 Success");
       header('Content-Type: application/json');
       //return json_encode(array('Reset Password Sent' => $username, 'success' => '1/0'));
