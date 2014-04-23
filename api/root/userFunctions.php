@@ -182,6 +182,7 @@ function login(){
       //echo json_encode(array('username' => $username, 'success' => '1/0' ));
       echo json_encode(array('username' => $username, 'success' => '1' ));
       //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
+      $dbconn->close();
       exit();
     } else {
       header("HTTP/1.0 403 Forbidden");
@@ -241,6 +242,7 @@ function changePassword(){
       //something to do with the user id
       //and change the password
       //unset session stuff
+      $dbconn->connect("read");
       //return json_encode(array('Changed Password' => 'username', 'success' => '1/0'));
       header("HTTP/1.0 200 Success, Password Changed");
       header('Content-Type: application/json');
@@ -248,6 +250,7 @@ function changePassword(){
       //echo json_encode(array('Changed Password' => $username, 'success' => '1/0'));
       //echo json_encode(array('Changed Password' => $username, 'success' => '1/0'));
       echo json_encode(array('Changed Password' => $username, 'success' => '1'));
+      $dbconn->close();
       exit();
     } else {
       UnAuthError($apiKey);
@@ -330,6 +333,7 @@ function lockStatus(){
     $user = $_POST['username'];
     $cookie = $_POST['cookie'];
     $userID = isValid($apiKey);
+    //is logged in?
     if($user !== null && $cookie !== null && $userID !== NULL){
       header("HTTP/1.0 200 Success");
       header('Content-Type: application/json');
@@ -353,6 +357,7 @@ function lock(){
     $user = $_POST['username'];
     $cookie = $_POST['cookie'];
     $userID = isValid($apiKey);
+    //is logged in?
     if($user !== null && $cookie !== null && $userID !== NULL){
       //return json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
       header("HTTP/1.0 200 Success");
@@ -374,6 +379,7 @@ function unlock(){
     $user = $_POST['username'];
     $cookie = $_POST['cookie'];
     $userID = isValid($apiKey);
+    //is logged in?
     if($user !== null && $cookie !== null && $userID !== NULL){
       header("HTTP/1.0 200 Success");
       header('Content-Type: application/json');
