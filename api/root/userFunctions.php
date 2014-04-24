@@ -172,16 +172,18 @@ function login(){
       $userInfo = array();
       $userInfo = $dbconn->login($username, $password);
       //TODO set session stuff??
+      if($userInfo !== null) {
         $_SESSION['name'] = $userInfo['Name'];
         $_SESSION['username'] = $userInfo['Username'];
         $_SESSION['userID'] = $userInfo['ID'];
         $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
         session_write_close();
-      header("HTTP/1.0 200 Success, Logged In");
-      header('Content-Type: application/json');
-      //echo json_encode(array('username' => $username, 'success' => '1/0' ));
-      echo json_encode(array('username' => $username, 'success' => '1' ));
-      //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
+        header("HTTP/1.0 200 Success, Logged In");
+        header('Content-Type: application/json');
+        //echo json_encode(array('username' => $username, 'success' => '1/0' ));
+        echo json_encode(array('username' => $username, 'success' => '1' ));
+        //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
+      }
       $dbconn->close();
       exit();
     } else {
@@ -243,6 +245,7 @@ function changePassword(){
       //and change the password
       //unset session stuff
       $dbconn->connect("read");
+      //$dbconn->changePassword($username, $oldPassword, $newPassword);
       //return json_encode(array('Changed Password' => 'username', 'success' => '1/0'));
       header("HTTP/1.0 200 Success, Password Changed");
       header('Content-Type: application/json');
