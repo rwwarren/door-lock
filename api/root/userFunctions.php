@@ -59,11 +59,12 @@ if (isset($_GET['actions']) ){
   exit();
 }
 
+//Returns the api key
 function getApiKey(){
   return isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
 }
 
-
+//Checks if the api key is valid
 function isValid($apiKey){
   global $client;
 //  $value = $client->hgetall('apiKeys');
@@ -83,7 +84,7 @@ function isValid($apiKey){
   return $userID;
 }
 
-
+//Returns the Unauthorized Api with headers
 function UnAuthError($apiKey = NULL){
   header("HTTP/1.0 401 Unauthorized API key invalid");
   if ($apiKey !== NULL){
@@ -96,68 +97,6 @@ function UnAuthError($apiKey = NULL){
 
 //Logs in the the user and sets session variables
 function login(){
-//  //TODO add check headers and other functions
-//  //if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token'])){
-//  if(isset($_POST['Username']) && isset($_POST['Password'])){
-//                          //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
-//    $user = $_POST['Username'];
-//    $pass = $_POST['Password'];
-//    $token = $_POST['Token'];
-//
-//    $user = mysql_real_escape_string($user);
-//    $pass = mysql_real_escape_string($pass);
-//    $dbconn = new dbconn;
-//    //$dbconn->close();
-//    //TODO this is the sandbox one
-//    //TODO also remove my secret key
-//    //TODO add this to the database
-//    //TODO check if there is an authyID THEN: verifyAuthy
-//    //$authy_id = get from DB;
-//    //$dbconn->connect("read");
-//    //$authyValid = $dbconn->checkAuthy($user, $token);
-//    //$dbconn->close();
-//    //TODO add this back in to the check
-//    //$verification = $authy_api->verifyToken("$authy_id", "$token");
-//    //if($authyValid && $verification->ok()){
-//    //TODO above commented out to save testing hassle
-//    $test = true;
-//    if($test == true){
-//      echo '<br> authy token is okay';
-//      $dbconn->connect("read");
-//      $userInfo = $dbconn->login($user, $pass);
-//      //if($userInfo !== NULL){
-//        $_SESSION['name'] = $userInfo['Name'];
-//        $_SESSION['username'] = $userInfo['Username'];
-//        $_SESSION['userID'] = $userInfo['ID'];
-//        $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
-//        echo "<br> userInfo <br>";
-//        print_r($userInfo);
-//        echo "<br> session <br>";
-//        print_r($_SESSION);
-//        //
-//      //}
-//      $dbconn->close();
-//    } else { //authy is not right
-//      header("HTTP/1.0 401 Authy key wrong");
-//      exit();
-//    }
-//  } else {
-//    //print_r($_POST);
-//      //
-//      print_r($_SESSION);
-//      //
-//    echo "nope";
-//    echo '<br>No username or password entered';
-//    header("HTTP/1.0 400 Username or password not entered");
-//    exit();
-//  }
-//    //
-//    //
-//    //
-//    //
-//    return json_encode(array('username' => 'theUser', 'success' => '1/0' ));
-//  //header("HTTP/1.0 401 Unauthorized API key invalid");
-//  UnAuthError();
   if(isset($_POST['username']) && isset($_POST['password'])){
     //403 error make it work correctly
     $apiKey = getApiKey();
@@ -200,23 +139,25 @@ function login(){
 //Logs out the user and destorys the session variables
 //stored by the login system
 function logout(){
-  //unset($_SESSION['userName']);
-  //unset($_SESSION['username']);
-  //unset($_SESSION['isAdmin']);
-  //$_SESSION = array();
-  //session_regenerate_id(true);
-  //session_unset();
-  //session_destroy();
-  //setcookie('sid', '', time()-3600);
-  //session_name('sid');
-  //session_start();
-  //header("Location:/");
   if(isset($_POST['username']) && isset($_POST['cookie'])){
     $apiKey = getApiKey();
     $username = $_POST['username'];
     $cookie = $_POST['cookie'];
     $userID = isValid($apiKey);
     if($username !== null && $cookie !== null && $userID !== NULL){
+
+      //Might work below
+      unset($_SESSION['userName']);
+      unset($_SESSION['username']);
+      unset($_SESSION['isAdmin']);
+      $_SESSION = array();
+      session_regenerate_id(true);
+      session_unset();
+      session_destroy();
+      setcookie('sid', '', time()-3600);
+      session_name('sid');
+      session_start();
+
       header("HTTP/1.0 200 Success, Logged Out");
       header('Content-Type: application/json');
       //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
@@ -258,25 +199,7 @@ function changePassword(){
     } else {
       UnAuthError($apiKey);
     }
-
-    //$username = mysql_real_escape_string($username);
-    //$oldPassword = mysql_real_escape_string($oldPassword);
-    //$newPassword = mysql_real_escape_string($newPassword);
-    //$dbconn = new dbconn;
-    //$dbconn->connect("write");
-    //$result = $dbconn->changePassword($username, $oldPassword, $newPassword);
-    //$dbconn->close();
-
-    //if ($result == 200){
-    //  logout();
-    //}
-    ////header("HTTP/1.0 200 Success, Password Changed");
-  }// else {
-    //print_r($_POST);
-    //echo 'nothing returned';
-    //header("HTTP/1.0 401 User Forbidden");
-    //UnAuthError();
- // }
+  }
   UnAuthError();
 }
 
@@ -285,7 +208,7 @@ function changePassword(){
 function forgotPassword(){
   if(isset($_POST['username']) && isset($_POST['email'])){
     $apiKey = getApiKey();
-    $user = $_POST['username'];
+    $username = $_POST['username'];
     $email = $_POST['email'];
     $userID = isValid($apiKey);
     //TODO this is the more ish?

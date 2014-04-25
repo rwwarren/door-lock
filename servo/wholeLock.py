@@ -1,3 +1,4 @@
 class wholeLock:
-  //
+  """ """
+  print "asdf"
 
