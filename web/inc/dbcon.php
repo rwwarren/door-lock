@@ -18,35 +18,29 @@ ini_set('display_errors', 1);
 
 
 class dbconn {
-  
+
   private $conn = null;
+  private $mysqli = null;
 
   //Queries the database for the username and password to login
   //the user on the site
   public function login($name, $password){
     include_once "variables.php";
-    $query = "Select * from Users where Username = \"" . $name . "\" and Password = PASSWORD(\"" . passwordEncode($password) . "\") and IsActive = 1 ";
-    $query = stripslashes($query);
-    $results = mysql_query($query, $this->conn);
-    $row = mysql_fetch_row($results, MYSQL_ASSOC);
-    if(sizeof($row) > 1) {
-      //$results = array();
-
-      $userInfo['Name'] = $row['Name'];
-      $userInfo['Username'] = $row['Username'];
-      $userInfo['ID'] = $row['ID'];
-      $userInfo['IsAdmin'] = $row['IsAdmin'];
-//      $_SESSION['name'] = $row['Name'];
-//      $_SESSION['username'] = $row['Username'];
-//      $_SESSION['userID'] = $row['ID'];
-//      //TODO an admin table or something
-//      //TODO left join? or just keep in the same table
-//      $_SESSION['isAdmin'] = $row['IsAdmin'];
-      //session_write_close();
-      header("HTTP/1.0 200 Success");
-      //return true; 
+    $password = passwordEncode($password);
+    $stmt = $this->mysqli->prepare("SELECT ID, Name, Username, IsAdmin FROM Users WHERE Username=? and Password = PASSWORD(?) and IsActive = 1 LIMIT 1");
+    $stmt->bind_param('ss', $name, $password);
+    $stmt->execute();
+    $stmt->bind_result($id, $name, $username, $isAdmin);
+    $results = $stmt->fetch();
+    //$result = array($id, $name, $username, $isAdmin);
+    if($results !== null){
+      $userInfo = array();
+      $userInfo['ID'] = $id;
+      $userInfo['Name'] = $name;
+      $userInfo['Username'] = $username;
+      $userInfo['IsAdmin'] = $isAdmin;
+      $stmt->close();
       return $userInfo;
-      //return $results;
     } else {
       //echo '<br>Username or pwd incorrect';
       header("HTTP/1.0 403 Error Username or Password incorrect");
@@ -60,11 +54,20 @@ class dbconn {
   //returns true if it is found
   public function checkAuthy($name, $token){
     include_once "variables.php";
-    $query = "Select * from Users where Username = \"" . $name . "\" and AuthyID = \"" . $token . "\" and IsActive = 1 ";
-    $query = stripslashes($query);
-    $results = mysql_query($query, $this->conn);
-    $row = mysql_fetch_row($results, MYSQL_ASSOC);
-    if(sizeof($row) > 1) {
+
+    $stmt = $this->mysqli->prepare("Select ID from Users where Username = ? and AuthyID = ? and IsActive = 1 LIMIT 1");
+    $stmt->bind_param('ss', $name, $token);
+    $stmt->execute();
+    $stmt->bind_result($id);
+    $results = $stmt->fetch();
+    $stmt->close();
+
+    //$query = "Select * from Users where Username = \"" . $name . "\" and AuthyID = \"" . $token . "\" and IsActive = 1 ";
+    //$query = stripslashes($query);
+    //$results = mysql_query($query, $this->conn);
+    //$row = mysql_fetch_row($results, MYSQL_ASSOC);
+    //if(sizeof($row) > 1) {
+    if($results !== null) {
       return true;
     } else {
       return false;
@@ -77,11 +80,18 @@ class dbconn {
       die('Not Connected to a Database, can\'t disconnect');
     }
     mysql_close($this->conn);
+    if($this->mysqli === null) {
+      die('Not Connected to a Database, can\'t disconnect');
+    }
+    $this->mysqli->close();
   }
 
   //Connects to the mysql database
   public function connect($user){
     $sqlUser = new users($user);
+    //
+    $this->mysqli = new mysqli("localhost", $sqlUser->getUser(), $sqlUser->getPass(), "doorlock");
+    //
     $this->conn = mysql_connect("localhost", $sqlUser->getUser(), $sqlUser->getPass()) or die ("Could not connect to the database");
     $selected = mysql_select_db("doorlock",$this->conn) 
       or die("Could not select a database");

@@ -56,7 +56,7 @@ class Home extends Page {
               //'data:"username="+$(\'#username\').val()+"&password="+$(\'#password\').val(),' .
               'statusCode: {' .
                 '200: function() {' .
-                  'window.location = \'/\';' .
+//                  'window.location = \'/\';' .
                 '},' .
                 '403: function(){ ' .
                   '$(\'#loginStatus\').css({\'color\':\'#cccccc\',\'display\':\'block\'}).html(\'Error, wrong username or password!\')' .
