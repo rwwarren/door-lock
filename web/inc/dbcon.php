@@ -1,21 +1,11 @@
 <?php
 
-//ini_set('session.cookie_domain', '.wrixton.net');
-//session_set_cookie_params(0, '/', '.wrixton.net');
-//session_start();
-//print_r($_SESSION);
-
-//ini_set("session.hash_function", "sha512");
-//session_name('sid');
-//session_start();
-
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("mysqlUser.php");
 //getting all the errors
 ini_set('display_errors', 1);
  ini_set('log_errors', 1);
   error_reporting(E_ALL);
-
 
 class dbconn {
 
@@ -32,13 +22,13 @@ class dbconn {
     $stmt->execute();
     $stmt->bind_result($id, $name, $username, $isAdmin);
     $results = $stmt->fetch();
-    //$result = array($id, $name, $username, $isAdmin);
     if($results !== null){
       $userInfo = array();
       $userInfo['ID'] = $id;
       $userInfo['Name'] = $name;
       $userInfo['Username'] = $username;
       $userInfo['IsAdmin'] = $isAdmin;
+      $stmt->free_result();
       $stmt->close();
       return $userInfo;
     } else {
@@ -54,19 +44,13 @@ class dbconn {
   //returns true if it is found
   public function checkAuthy($name, $token){
     include_once "variables.php";
-
     $stmt = $this->mysqli->prepare("Select ID from Users where Username = ? and AuthyID = ? and IsActive = 1 LIMIT 1");
     $stmt->bind_param('ss', $name, $token);
     $stmt->execute();
     $stmt->bind_result($id);
     $results = $stmt->fetch();
+    $stmt->free_result();
     $stmt->close();
-
-    //$query = "Select * from Users where Username = \"" . $name . "\" and AuthyID = \"" . $token . "\" and IsActive = 1 ";
-    //$query = stripslashes($query);
-    //$results = mysql_query($query, $this->conn);
-    //$row = mysql_fetch_row($results, MYSQL_ASSOC);
-    //if(sizeof($row) > 1) {
     if($results !== null) {
       return true;
     } else {
@@ -90,6 +74,7 @@ class dbconn {
   public function connect($user){
     $sqlUser = new users($user);
     //
+//    $this->mysqli = new mysqli("localhost", $sqlUser->getUser(), $sqlUser->getPass(), "doorlock") or die ("Could not connect to the database");
     $this->mysqli = new mysqli("localhost", $sqlUser->getUser(), $sqlUser->getPass(), "doorlock");
     //
     $this->conn = mysql_connect("localhost", $sqlUser->getUser(), $sqlUser->getPass()) or die ("Could not connect to the database");
@@ -100,52 +85,65 @@ class dbconn {
   //Returnd the usernames from the database
   public function getUsers(){
     //selecting all the users
-    //$query = "Select * from Users";
-    $query = "Select username from Users";
-    $results = mysql_query($query, $this->conn);
-    $theSize = mysql_num_rows($results);
+    $stmt = $this->mysqli->prepare("Select username from Users");
+    $stmt->execute();
+    $stmt->bind_result($username);
     $result = array();
-    for($i = 0; $i < $theSize; $i++){
-      $result[$i] = mysql_result($results, $i);
+    $i = 0;
+    while ($stmt->fetch()) {
+      $result[$i] = $username;
+      $i++;
     }
+    $stmt->free_result();
+    $stmt->close();
     return $result;
   }
-
 
   //Returns the usernames of active users
   public function getActiveUsers(){
-    $query = "Select username from Users where IsAdmin = 0 and IsActive = 1;";
-    $results = mysql_query($query, $this->conn);
-    $theSize = mysql_num_rows($results);
+    $stmt = $this->mysqli->prepare("Select username from Users where IsAdmin = 0 and IsActive = 1");
+    $stmt->execute();
+    $stmt->bind_result($username);
     $result = array();
-    for($i = 0; $i < $theSize; $i++){
-      $result[$i] = mysql_result($results, $i);
+    $i = 0;
+    while ($stmt->fetch()) {
+      $result[$i] = $username;
+      $i++;
     }
+    $stmt->free_result();
+    $stmt->close();
     return $result;
   }
 
-
   //Returns the usernames of inactive users
   public function getInactiveUsers(){
-    $query = "Select username from Users where IsActive = 0;";
-    $results = mysql_query($query, $this->conn);
-    $theSize = mysql_num_rows($results);
+    $stmt = $this->mysqli->prepare("Select username from Users where IsActive = 0");
+    $stmt->execute();
+    $stmt->bind_result($username);
     $result = array();
-    for($i = 0; $i < $theSize; $i++){
-      $result[$i] = mysql_result($results, $i);
+    $i = 0;
+    while ($stmt->fetch()) {
+      $result[$i] = $username;
+      $i++;
     }
+    $stmt->free_result();
+    $stmt->close();
     return $result;
   }
 
   //Returns the usernames of all the admins
   public function getAdmins(){
-    $query = "Select username from Users where IsAdmin = 1 and IsActive = 1;";
-    $results = mysql_query($query, $this->conn);
-    $theSize = mysql_num_rows($results);
+    $stmt = $this->mysqli->prepare("Select username from Users where IsAdmin = 1 and IsActive = 1");
+    $stmt->execute();
+    $stmt->bind_result($username);
     $result = array();
-    for($i = 0; $i < $theSize; $i++){
-      $result[$i] = mysql_result($results, $i);
+    $i = 0;
+    while ($stmt->fetch()) {
+      $result[$i] = $username;
+      $i++;
     }
+    $stmt->free_result();
+    $stmt->close();
     return $result;
   }
 
@@ -153,17 +151,25 @@ class dbconn {
   //are valid
   public function changePassword($user, $oldPass, $newPass){
     include_once "variables.php";
-    $query = "Select * from Users where Username = \"" . $user . "\" and Password = PASSWORD(\"" . passwordEncode($oldPass) . "\") ";
-    $query = stripslashes($query);
-    $results = mysql_query($query, $this->conn);
-    $row = mysql_fetch_row($results, MYSQL_ASSOC);
+    $oldPass = passwordEncode($oldPass);
+    $stmt = $this->mysqli->prepare("Select ID from Users where Username = ? and Password = PASSWORD(?)");
+    $stmt->bind_param('ss', $user, $oldPass);
+    $stmt->execute();
+    $result = $stmt->fetch();
+    $stmt->free_result();
     //Change so that it only finds the one
-    if (sizeof($row) > 1) {
+    if($result !== null){
       //change the pwd
-      $query = "UPDATE Users SET Password=PASSWORD(\"" . passwordEncode($newPass) . "\") WHERE Username=\"" . $user . "\" AND Password=PASSWORD(\"" . passwordEncode($oldPass) . "\");";
-      $results = mysql_query($query, $this->conn);
+      $newPass = passwordEncode($newPass);
+      $stmt->reset();
+      $stmt2 = $this->mysqli->prepare("UPDATE Users SET Password=PASSWORD(?) WHERE Username= ? AND Password=PASSWORD(?)");
+      $stmt2->bind_param('sss', $newPass, $user, $oldPass);
+      $stmt2->execute();
+      $stmt2->free_result();
+      $stmt2->close();
       return 200;
     } else {
+      $stmt->close();
       echo 'not changed!';
       header("HTTP/1.0 401 Password Incorrect");
     }
@@ -173,16 +179,20 @@ class dbconn {
   //if there is a ResetURL
   public function resetChangePassword($newPass, $token){
     include_once "variables.php";
-    $query = "Select * from ResetURLs where ResetURL = '" . $token . "';";
-    $query = stripslashes($query);
-    $results = mysql_query($query, $this->conn);
-    $row = mysql_fetch_row($results, MYSQL_ASSOC);
-    //Change so that it only finds the one
-    if (sizeof($row) > 1) {
-      //change the pwd
-      $userID = $row['UserID'];
-      $query = "UPDATE Users SET Password=PASSWORD(\"" . passwordEncode($newPass) . "\") WHERE ID=\"" . $userID . "\";";
-      $results = mysql_query($query, $this->conn);
+    $stmt = $this->mysqli->prepare("Select UserID from ResetURLs where ResetURL = ?");
+    $stmt->bind_param('s', $token);
+    $stmt->execute();
+    $stmt->bind_result($userID);
+    $stmt->fetch();
+    $stmt->free_result();
+    $stmt->close();
+    if($userID !== null) {
+      $newPass = passwordEncode($newPass);
+      $stmt = $this->mysqli->prepare("UPDATE Users SET Password=PASSWORD(?) WHERE ID= ?");
+      $stmt->bind_param('ss', $newPass, $userID);
+      $stmt->execute();
+      $stmt->free_result();
+      $stmt->close();
       return $userID;
     } else {
       echo 'not changed!';
@@ -191,14 +201,23 @@ class dbconn {
   }
 
   //Resgisters the user with a name, username, email, and authyID
+  //TODO update mysqli
   public function registerUser($personName, $username, $password, $email, $admin, $authyID){
     //test if there already is that user
-    $query = "Select name from Users where username = \"" . $username . "\";";
-    $query = stripslashes($query);
-    $results = mysql_query($query, $this->conn);
-    $rows = mysql_num_rows($results);
-    if ($rows < 1) {
+//    $query = "Select name from Users where username = \"" . $username . "\";";
+//    $query = stripslashes($query);
+//    $results = mysql_query($query, $this->conn);
+//    $rows = mysql_num_rows($results);
+    $stmt = $this->mysqli->prepare("Select ID from Users where Username = ?");
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+//    $stmt->bind_result($username);
+    $stmt->free_result();
+    $stmt->close();
+//    if ($rows < 1) {
+    if($results === null) {
       include_once "variables.php";
+      //TODO fix this part below
       $query = "INSERT INTO Users VALUES(DEFAULT,\"" . $personName . "\", \"" . $username . "\", PASSWORD(\"" . passwordEncode($password) . "\"), \"" . $email . "\",";
       if (strlen($authyID) !== 0 && is_numeric($authyID)){
         $query .= ' ' . $authyID;
@@ -216,27 +235,33 @@ class dbconn {
 
   //"Removes" the user by setting them to inactive
   public function removeUser($user){
-    $query = "UPDATE Users SET IsActive = 0 WHERE Username = \"" . $user . "\";";
-    $query = stripslashes($query);
-    $results = mysql_query($query, $this->conn);
+    $stmt = $this->mysqli->prepare("UPDATE Users SET IsActive = 0 WHERE Username = ?");
+    $stmt->bind_param('s', $user);
+    $stmt->execute();
+    $stmt->free_result();
+    $stmt->close();
   }
 
   //Changes what type the user is
   //like admin, user active, user inactive
+  //TODO update mysqli
   public function changeUser($user, $type){
     if ($type == 'admin'){
-      $query = "UPDATE Users SET IsActive = 1, IsAdmin = 1 WHERE Username = \"" . $user . "\";";
+      $query = "UPDATE Users SET IsActive = 1, IsAdmin = 1 WHERE Username = ?";
     } else if ($type == 'active'){
-      $query = "UPDATE Users SET IsActive = 1, IsAdmin = 0 WHERE Username = \"" . $user . "\";";
+      $query = "UPDATE Users SET IsActive = 1, IsAdmin = 0 WHERE Username = ?";
     } else if($type == 'inactive'){
-      $query = "UPDATE Users SET IsActive = 0, IsAdmin = 0 WHERE Username = \"" . $user . "\";";
+      $query = "UPDATE Users SET IsActive = 0, IsAdmin = 0 WHERE Username = ? ";
     } else {
       echo 'Type is invalid';
       header("HTTP/1.0 400 Bad Request");
       die();
     }
-    $query = stripslashes($query);
-    $results = mysql_query($query, $this->conn);
+    $stmt = $this->mysqli->prepare($query);
+    $stmt->bind_param('s', $user);
+    $stmt->execute();
+    $stmt->free_result();
+    $stmt->close();
   }
 
   //Sends the user an email with a link to reset
@@ -261,11 +286,14 @@ class dbconn {
 
   //Checks if there is a reset token that is valid
   public function findResetToken($resetToken){
-    $query = 'Select * From ResetURLs WHERE ResetURL = \'' . $resetToken .'\' AND isValid = 1 AND Expiration >= CURRENT_TIMESTAMP;';
-    $query = stripslashes($query);
-    $results = mysql_query($query, $this->conn);
-    $row = mysql_fetch_row($results, MYSQL_ASSOC);
-    if (sizeof($row) > 1) {
+    $stmt = $this->mysqli->prepare("Select UserID From ResetURLs WHERE ResetURL = ? AND isValid = 1 AND Expiration >= CURRENT_TIMESTAMP");
+    $stmt->bind_param('s', $resetToken);
+    $stmt->execute();
+    $stmt->bind_result($token);
+    $results = $stmt->fetch();
+    $stmt->free_result();
+    $stmt->close();
+    if($results !== null){
       return true;
     } else {
       return false;
@@ -274,11 +302,14 @@ class dbconn {
 
   //Checks if there is a user with the passed in username and email
   private function findUser($username, $email){
-    $query = "Select * from Users where Username = \"" . $username . "\" and Email = \"" . $email . "\" and IsActive = 1 ";
-    $query = stripslashes($query);
-    $results = mysql_query($query, $this->conn);
-    $row = mysql_fetch_row($results, MYSQL_ASSOC);
-    if(sizeof($row) > 1) {
+    $stmt = $this->mysqli->prepare("Select ID from Users where Username = ? and Email = ? and IsActive = 1");
+    $stmt->bind_param('ss', $username, $email);
+    $stmt->execute();
+    $stmt->bind_result($userID);
+    $results = $stmt->fetch();
+    $stmt->free_result();
+    $stmt->close();
+    if($results !== null){
       return true;
     } else {
       return false;
@@ -286,6 +317,7 @@ class dbconn {
   }
 
   //Adds a reset url into the database
+  //TODO update mysqli
   private function resetPassQuery($userID, $newPassword, $isValid){
     if ($isValid){
       //TODO check if there are other reset password tokens
@@ -315,21 +347,26 @@ class dbconn {
 
   //Invalidates the reset token
   public function invalidateResetURL($resetToken, $userID){
-    $query = 'UPDATE ResetURLs SET isValid = 0 WHERE ResetURL = \'' . $resetToken . '\' AND UserID = \'' . $userID . '\';';
-    $query = stripslashes($query);
-    $results = mysql_query($query, $this->conn);
+    $stmt = $this->mysqli->prepare("UPDATE ResetURLs SET isValid = 0 WHERE ResetURL = ? AND UserID = ?");
+    $stmt->bind_param('ss', $resetToken, $userID);
+    $stmt->execute();
+    $stmt->free_result();
+    $stmt->close();
   }
 
   //Returns ID, eail, and name from a username
   private function getUserInfo($username){
-    $query = "Select ID, Email, Name from Users where username = '$username' and IsActive = 1;";
-    $results = mysql_query($query, $this->conn);
-    $row = mysql_fetch_row($results, MYSQL_ASSOC);
-    $userInfo = $row;
-    if (sizeof($row) < 1){
+    $stmt = $this->mysqli->prepare("Select ID, Email, Name from Users where username = ? and IsActive = 1");
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $stmt->bind_result($userID, $email, $name);
+    $results = $stmt->fetch();
+    $stmt->free_result();
+    $stmt->close();
+    if($results === null) {
       die("no user exists");
     }
-    return $userInfo;
+    return array('ID' => $userID, 'Email' => $email, 'Name' => $name);
   }
 
 }

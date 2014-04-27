@@ -57,13 +57,13 @@ require_once("$root/../inc/dbcon.php");
     //$newPassword = '';
     
     $htmlbody = 'Your password for doorlock.wrixton.net has been reset <br>' .
-          'Please click <a href="http://doorlock.wrixton.net/forgotPassword/' . $newPassToken . '">here</a>' .
+          'Please click <a href="https://doorlock.wrixton.net/forgotPassword/' . $newPassToken . '">here</a>' .
           '<br> Or please copy and paste the link below: <br>' .
-          'http://doorlock.wrixton.net/forgotPassword/' . $newPassToken .
+          'https://doorlock.wrixton.net/forgotPassword/' . $newPassToken .
               '';
 
     $altBody = 'Your password for doorlock.wrixton.net has been reset. Please copy and paste the link: ' .
-          'http://doorlock.wrixton.net/forgotPassword/' . $newPassToken .
+          'https://doorlock.wrixton.net/forgotPassword/' . $newPassToken .
           '';
 
     //$mail->Body    = 'This is the HTML message body <b>in bold!</b>';
