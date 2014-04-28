@@ -6,19 +6,19 @@ require_once("$root/../inc/extraFunctions.php");
 
 class adminPage extends Member{
 
-  //TODO move this
-  public function getNav(){
-    return
-      '<div id="nav">' .
-        '<ul>' .
-          '<li><a href="/">Home</a></li>' .
-          '<li><a href="/users/">User Info</a></li>' .
-          '<li><a href="/lock/">Lock Status</a></li>' .
-          '<li><a href="/admin/">Admin</a></li>' .
-          '<li><a href="/logout.php">Logout</a></li>' .
-        '</ul>' .
-      '</div>';
-  }
+//  //TODO move this
+//  public function getNav(){
+//    return
+//      '<div id="nav">' .
+//        '<ul>' .
+//          '<li><a href="/">Home</a></li>' .
+//          '<li><a href="/users/">User Info</a></li>' .
+//          '<li><a href="/lock/">Lock Status</a></li>' .
+//          '<li><a href="/admin/">Admin</a></li>' .
+//          '<li><a href="/logout.php">Logout</a></li>' .
+//        '</ul>' .
+//      '</div>';
+//  }
 
   public function getScripts(){
     $html =
@@ -38,7 +38,7 @@ class adminPage extends Member{
       '</style>'.
       '';
 
-    if (isAdmin()) {
+//    if (isAdmin()) {
     $html .=
       //'<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">' .
       //'<script src="http://code.jquery.com/jquery-1.9.1.js"></script>' .
@@ -209,119 +209,119 @@ class adminPage extends Member{
           '}).css("font-size", "65%");' .
           '</script>' .
           '';
-    }
-    $html .=
-      ' <style>' .
-        //'body { font-size: 62.5%; }' .
-        'label, input { display:block; }' .
-        'input.text { margin-bottom:12px; width:95%; padding: .4em; }' .
-        'fieldset { padding:0; border:0; margin-top:25px; }' .
-        'h1 { font-size: 1.2em; margin: .6em 0; }' .
-        'div#users-contain { width: 350px; margin: 20px 0; font-size: 65%;}' .
-        'div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; font-size: 65%;}' .
-        'div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; font-size: 65% }' .
-        '.ui-dialog .ui-state-error { padding: .3em; }' .
-        '.validateTips { border: 1px solid transparent; padding: 0.3em; }' .
-      '</style>' .
-
-      '<script>' .
-      '$(function() {' .
-        'var oldpassword = $( "#oldpassword" ),' .
-          'newpassword = $( "#newpassword" ),' .
-         'allFields = $( [] ).add(\'test\'),' .
-          'tips = $( ".validateTips" );' .
-    
-     
-        'function updateTips( t ) {' .
-          'tips' .
-            '.text( t )' .
-            '.addClass( "ui-state-highlight" );' .
-          'setTimeout(function() {' .
-            'tips.removeClass( "ui-state-highlight", 1500 );' .
-          '}, 500 );' .
-        '}' .
-     
-        'function checkLength( o, n, min, max ) {' .
-          'if ( o.val().length > max || o.val().length < min ) {' .
-            'o.addClass( "ui-state-error" );' .
-            'updateTips( "Length of " + n + " must be between " +' .
-              'min + " and " + max + "." );' .
-            'return false;' .
-          '} else {' .
-            'return true;' .
-          '}' .
-        '}' .
-     
-        'function checkRegexp( o, regexp, n ) {' .
-          'if ( !( regexp.test( o.val() ) ) ) {' .
-            'o.addClass( "ui-state-error" );' .
-            'updateTips( n );' .
-            'return false;' .
-          '} else {' .
-            'return true;' .
-          '}' .
-        '}' .
-     
-        '$( "#password-form" ).dialog({' .
-          'autoOpen: false,' .
-          'height: 325,' .
-          'width: 350,' .
-          'modal: true,' .
-          'buttons: {' .
-            //TODO add about the post and add so it allows to the
-            //page
-            '"Change Password": function() {' .
-              'var bValid = true;' .
-              'allFields.removeClass( "ui-state-error" );' .
-     
-              'bValid = bValid && checkLength( oldpassword, "oldpassword", 3, 16 );' .
-              //bValid = bValid && checkLength( username, "username", 3, 16 );
-              //bValid = bValid && checkLength( email, "email", 6, 80 );
-              'bValid = bValid && checkLength( newpassword, "newpassword", 5, 16 );' .
-     
-              'bValid = bValid && checkRegexp( oldpassword, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );' .
-              'bValid = bValid && checkRegexp( newpassword, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );' .
-     
-              'if ( bValid ) {' .
-                '$( this ).dialog( "close" );' .
-                '$.ajax({ url: \'/changePassword.php\',' .
-                  'data:{oldPassword: oldpassword.val(), newPassword: newpassword.val() },' .
-                  'type: \'post\',' .
-                  'statusCode: {' .
-                    '200: function() {' .
-                      'document.location.href=\'/\'' .
-                    '},' .
-                    '401: function() {' .
-                      'alert("Password Incorrect");' .
-                      //window.location.reload();
-                    '},' .
-                    '403: function() {' .
-                      'alert("Error User or Password Wrong");' .
-                      //document.location.href='/'
-                    '}' .
-                  '}' .
-                '});' .
-              '}' .
-            '},'.
-            'Cancel: function() {' .
-              '$( this ).dialog( "close" );' .
-            '}' .
-          '},' .
-          'close: function() {' .
-            'allFields.val( "" ).removeClass( "ui-state-error" );' .
-          '}' .
-        //'});' .
-        '}).css("font-size", "65%");' .
-     
-        '$( "#change-pass" )' .
-          '.button()' .
-          '.click(function() {' .
-            '$( "#password-form" ).dialog( "open" );' .
-          '});' .
-      //'});' .
-        '}).css("font-size", "65%");' .
-      '</script>'.
-    '';
+//    }
+//    $html .=
+//      ' <style>' .
+//        //'body { font-size: 62.5%; }' .
+//        'label, input { display:block; }' .
+//        'input.text { margin-bottom:12px; width:95%; padding: .4em; }' .
+//        'fieldset { padding:0; border:0; margin-top:25px; }' .
+//        'h1 { font-size: 1.2em; margin: .6em 0; }' .
+//        'div#users-contain { width: 350px; margin: 20px 0; font-size: 65%;}' .
+//        'div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; font-size: 65%;}' .
+//        'div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; font-size: 65% }' .
+//        '.ui-dialog .ui-state-error { padding: .3em; }' .
+//        '.validateTips { border: 1px solid transparent; padding: 0.3em; }' .
+//      '</style>' .
+//
+//      '<script>' .
+//      '$(function() {' .
+//        'var oldpassword = $( "#oldpassword" ),' .
+//          'newpassword = $( "#newpassword" ),' .
+//         'allFields = $( [] ).add(\'test\'),' .
+//          'tips = $( ".validateTips" );' .
+//    
+//     
+//        'function updateTips( t ) {' .
+//          'tips' .
+//            '.text( t )' .
+//            '.addClass( "ui-state-highlight" );' .
+//          'setTimeout(function() {' .
+//            'tips.removeClass( "ui-state-highlight", 1500 );' .
+//          '}, 500 );' .
+//        '}' .
+//     
+//        'function checkLength( o, n, min, max ) {' .
+//          'if ( o.val().length > max || o.val().length < min ) {' .
+//            'o.addClass( "ui-state-error" );' .
+//            'updateTips( "Length of " + n + " must be between " +' .
+//              'min + " and " + max + "." );' .
+//            'return false;' .
+//          '} else {' .
+//            'return true;' .
+//          '}' .
+//        '}' .
+//     
+//        'function checkRegexp( o, regexp, n ) {' .
+//          'if ( !( regexp.test( o.val() ) ) ) {' .
+//            'o.addClass( "ui-state-error" );' .
+//            'updateTips( n );' .
+//            'return false;' .
+//          '} else {' .
+//            'return true;' .
+//          '}' .
+//        '}' .
+//     
+//        '$( "#password-form" ).dialog({' .
+//          'autoOpen: false,' .
+//          'height: 325,' .
+//          'width: 350,' .
+//          'modal: true,' .
+//          'buttons: {' .
+//            //TODO add about the post and add so it allows to the
+//            //page
+//            '"Change Password": function() {' .
+//              'var bValid = true;' .
+//              'allFields.removeClass( "ui-state-error" );' .
+//     
+//              'bValid = bValid && checkLength( oldpassword, "oldpassword", 3, 16 );' .
+//              //bValid = bValid && checkLength( username, "username", 3, 16 );
+//              //bValid = bValid && checkLength( email, "email", 6, 80 );
+//              'bValid = bValid && checkLength( newpassword, "newpassword", 5, 16 );' .
+//     
+//              'bValid = bValid && checkRegexp( oldpassword, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );' .
+//              'bValid = bValid && checkRegexp( newpassword, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );' .
+//     
+//              'if ( bValid ) {' .
+//                '$( this ).dialog( "close" );' .
+//                '$.ajax({ url: \'/changePassword.php\',' .
+//                  'data:{oldPassword: oldpassword.val(), newPassword: newpassword.val() },' .
+//                  'type: \'post\',' .
+//                  'statusCode: {' .
+//                    '200: function() {' .
+//                      'document.location.href=\'/\'' .
+//                    '},' .
+//                    '401: function() {' .
+//                      'alert("Password Incorrect");' .
+//                      //window.location.reload();
+//                    '},' .
+//                    '403: function() {' .
+//                      'alert("Error User or Password Wrong");' .
+//                      //document.location.href='/'
+//                    '}' .
+//                  '}' .
+//                '});' .
+//              '}' .
+//            '},'.
+//            'Cancel: function() {' .
+//              '$( this ).dialog( "close" );' .
+//            '}' .
+//          '},' .
+//          'close: function() {' .
+//            'allFields.val( "" ).removeClass( "ui-state-error" );' .
+//          '}' .
+//        //'});' .
+//        '}).css("font-size", "65%");' .
+//     
+//        '$( "#change-pass" )' .
+//          '.button()' .
+//          '.click(function() {' .
+//            '$( "#password-form" ).dialog( "open" );' .
+//          '});' .
+//      //'});' .
+//        '}).css("font-size", "65%");' .
+//      '</script>'.
+//    '';
   echo $html;
           
   }
@@ -423,7 +423,7 @@ class adminPage extends Member{
   }
 
   public function getBody(){
-    if (isAdmin()){
+//    if (isAdmin()){
       $db = new dbconn;
       $db->connect('read');
       $also = $db->getUsers();
@@ -449,26 +449,26 @@ class adminPage extends Member{
           'FORM with name and pwd' .
           $this->userconfig() .
           $this->registerUser() .
-          $this->changePass() .
+          //$this->changePass() .
           '';
       //'yes' .
-    } else {
-    return //"You are logged in";
-      'You are logged in <a href="/logout.php">Log out</a>' .
-        '<br>' .
-        'Wooo user modification' .
-        '<br>' .
-        'You are ' . $_SESSION['isAdmin'] . ' admin' .
-        $this->changePass() .
-        //TODO select all the users if 
-        //the person is an admin
-        '' .
-        //make it so that all users cant
-        //do this
-        //TODO add is admin column
-        //'in <a href="/users.php">Modify Users</a>'.
-        "";
-    }
+//    } else {
+//    return //"You are logged in";
+//      'You are logged in <a href="/logout.php">Log out</a>' .
+//        '<br>' .
+//        'Wooo user modification' .
+//        '<br>' .
+//        'You are ' . $_SESSION['isAdmin'] . ' admin' .
+//        $this->changePass() .
+//        //TODO select all the users if 
+//        //the person is an admin
+//        '' .
+//        //make it so that all users cant
+//        //do this
+//        //TODO add is admin column
+//        //'in <a href="/users.php">Modify Users</a>'.
+//        "";
+//    }
   }
 
 
