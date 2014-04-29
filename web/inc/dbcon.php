@@ -201,32 +201,25 @@ class dbconn {
   }
 
   //Resgisters the user with a name, username, email, and authyID
-  //TODO update mysqli
   public function registerUser($personName, $username, $password, $email, $admin, $authyID){
     //test if there already is that user
-//    $query = "Select name from Users where username = \"" . $username . "\";";
-//    $query = stripslashes($query);
-//    $results = mysql_query($query, $this->conn);
-//    $rows = mysql_num_rows($results);
     $stmt = $this->mysqli->prepare("Select ID from Users where Username = ?");
     $stmt->bind_param('s', $username);
     $stmt->execute();
-//    $stmt->bind_result($username);
+    $results = $stmt->fetch();
     $stmt->free_result();
     $stmt->close();
-//    if ($rows < 1) {
     if($results === null) {
       include_once "variables.php";
-      //TODO fix this part below
-      $query = "INSERT INTO Users VALUES(DEFAULT,\"" . $personName . "\", \"" . $username . "\", PASSWORD(\"" . passwordEncode($password) . "\"), \"" . $email . "\",";
-      if (strlen($authyID) !== 0 && is_numeric($authyID)){
-        $query .= ' ' . $authyID;
-      } else {
-        $query .= " DEFAULT";
+      $password = passwordEncode($password);
+      $stmt2 = $this->mysqli->prepare("INSERT INTO Users VALUES(DEFAULT, ?, ?, PASSWORD(?), ?, ?, DEFAULT, ?, DEFAULT, DEFAULT)");
+      if (strlen($authyID) === 0 || !is_numeric($authyID)){
+        $authyID = " DEFAULT";
       }
-      $query .= ", DEFAULT, \"". $admin . "\", DEFAULT, DEFAULT);";
-      $query = stripslashes($query);
-      $results = mysql_query($query, $this->conn);
+      $stmt2->bind_param('ssssss', $personName, $username, $password, $email, $admin, $authyID);
+      $stmt2->execute();
+      $stmt2->free_result();
+      $stmt2->close();
       echo 'Added user: ' . $personName;
     } else {
       return 'User is already a part of the system';
