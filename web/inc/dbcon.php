@@ -9,7 +9,6 @@ ini_set('display_errors', 1);
 
 class dbconn {
 
-  private $conn = null;
   private $mysqli = null;
 
   //Queries the database for the username and password to login
@@ -60,10 +59,6 @@ class dbconn {
 
   //Closes the mysql database connection
   public function close(){
-    if($this->conn === null) {
-      die('Not Connected to a Database, can\'t disconnect');
-    }
-    mysql_close($this->conn);
     if($this->mysqli === null) {
       die('Not Connected to a Database, can\'t disconnect');
     }
@@ -73,13 +68,7 @@ class dbconn {
   //Connects to the mysql database
   public function connect($user){
     $sqlUser = new users($user);
-    //
-//    $this->mysqli = new mysqli("localhost", $sqlUser->getUser(), $sqlUser->getPass(), "doorlock") or die ("Could not connect to the database");
     $this->mysqli = new mysqli("localhost", $sqlUser->getUser(), $sqlUser->getPass(), "doorlock");
-    //
-    $this->conn = mysql_connect("localhost", $sqlUser->getUser(), $sqlUser->getPass()) or die ("Could not connect to the database");
-    $selected = mysql_select_db("doorlock",$this->conn) 
-      or die("Could not select a database");
   }
 
   //Returnd the usernames from the database
@@ -237,7 +226,6 @@ class dbconn {
 
   //Changes what type the user is
   //like admin, user active, user inactive
-  //TODO update mysqli
   public function changeUser($user, $type){
     if ($type == 'admin'){
       $query = "UPDATE Users SET IsActive = 1, IsAdmin = 1 WHERE Username = ?";
@@ -310,29 +298,28 @@ class dbconn {
   }
 
   //Adds a reset url into the database
-  //TODO update mysqli
   private function resetPassQuery($userID, $newPassword, $isValid){
     if ($isValid){
-      //TODO check if there are other reset password tokens
-      $precheckQuery = 'Select * From ResetURLs WHERE UserID = \'' . $userID .'\' AND isValid = 1;';
-      $precheckQuery = stripslashes($precheckQuery);
-      $results = mysql_query($precheckQuery, $this->conn);
-      while ($rows = mysql_fetch_row($results, MYSQL_ASSOC)){
-        $resetToken = $rows['ResetURL'];
+      $stmt = $this->mysqli->prepare("Select ResetURL From ResetURLs WHERE UserID = ? AND isValid = 1");
+      $stmt->bind_param('s', $userID);
+      $stmt->execute();
+      $stmt->bind_result($resetToken);
+      while($stmt->fetch()){
         $this->invalidateResetURL($resetToken, $userID);
       }
+      $stmt->free_result();
+      $stmt->close();
       $expireTime = date('Y-m-d H:i:s', strtotime("+2 day", time()));
-      $query = 'INSERT INTO ResetURLs VALUES(DEFAULT,  "' . $userID . '", "' . $newPassword . '", " ' . $expireTime .'", DEFAULT);';
-      $query = stripslashes($query);
-      $results = mysql_query($query, $this->conn);
+      $stmt = $this->mysqli->prepare("INSERT INTO ResetURLs VALUES(DEFAULT, ?, ?, ?, DEFAULT)");
+      $stmt->bind_param('sss', $userID, $newPassword, $expireTime);
+      $stmt->execute();
+      $stmt->fetch();
+      $stmt->free_result();
+      $stmt->close();
     } else if (!$isValid){
-      //$query = 'UDPATE ResetURLs SET isValid = 0 WHERE UserId = \'' . $userID . '\';';
       include_once "variables.php";
       //TODO how do i pull this reset token??
       $this->invalidateResetURL($resetToken, $userID);
-      //$query = 'UDPATE ResetURLs SET isValid = 0 WHERE resetPassURL = \'' . $resetToken . '\' AND UserID = \'' . $UserID . '\';';
-      //TODO also
-      //$query = 'UDPATE Users SET password = \'' . passwordEncode($newPassword). '\' WHERE ID = \'' . $userID . '\';';
     } else {
       die('invalid parameter');
     }
