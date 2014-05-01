@@ -5,8 +5,13 @@ abstract class Member extends Page{
 
   public function getNav(){
     if(isAdmin()){
-      return $this->AdminNav();
+      return $this->adminNav();
+    } else {
+      return $this->normalNav();
     }
+  }
+
+  private function normalNav(){
     return
       '<div id="nav">' .
         '<ul>' .

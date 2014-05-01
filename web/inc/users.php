@@ -314,8 +314,8 @@ class userEdit extends Member{
 
   private function userconfig(){
     $db = new dbconn;
-    $db->connect('write');
-    //$db->connect('read');
+//    $db->connect('write');
+    $db->connect('read');
     $also = $db->getUsers();
     $inactive = $db->getInactiveUsers();
     $active = $db->getActiveUsers();

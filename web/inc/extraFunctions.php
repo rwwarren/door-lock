@@ -12,7 +12,7 @@ require_once("$root/../inc/dbcon.php");
 
   //Returns if the user is an admin
   function isAdmin(){
-    return isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1;
+    return isLoggedIn() && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1;
   }
 
   //Returns if the reset token is valid

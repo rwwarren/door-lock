@@ -6,20 +6,6 @@ require_once("$root/../inc/extraFunctions.php");
 
 class adminPage extends Member{
 
-//  //TODO move this
-//  public function getNav(){
-//    return
-//      '<div id="nav">' .
-//        '<ul>' .
-//          '<li><a href="/">Home</a></li>' .
-//          '<li><a href="/users/">User Info</a></li>' .
-//          '<li><a href="/lock/">Lock Status</a></li>' .
-//          '<li><a href="/admin/">Admin</a></li>' .
-//          '<li><a href="/logout.php">Logout</a></li>' .
-//        '</ul>' .
-//      '</div>';
-//  }
-
   public function getScripts(){
     $html =
       //'<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">' .
