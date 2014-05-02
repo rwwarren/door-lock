@@ -50,6 +50,7 @@ abstract class Page {
       '<html>' .
       '<head>' .
         '<link rel="stylesheet" type="text/css" href="/css/styles.css" />' .
+        '<link rel="stylesheet" type="text/css" href="/css/reset.css" />' .
         //'<link rel="stylesheet" type="text/css" href="/js/" />' .
         $this->getScripts() .
         '<title>' .

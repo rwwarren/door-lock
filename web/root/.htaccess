@@ -12,4 +12,6 @@ RewriteRule resetPassword.php userFunctions.php?actions=resetPassword
 RewriteRule ^forgotPassword/([^/]*)$ resetToken.php?resetToken=$1 [L]
 RewriteRule ^submitPassReset/([^/]*)$ userFunctions.php?actions=forgotPassword&resetToken=$1 [L]
 
+#ExpiresByType text/css "access 1 month"
+
 
