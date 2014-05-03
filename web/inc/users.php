@@ -379,6 +379,26 @@ class userEdit extends Member{
       '';
   }
 
+  //TODO clean up, div class maybe, label, make nice
+  //get all info, change only what changed, add in current info
+  private function userEditer(){
+    return
+      'Username: ' .
+      $_SESSION['username'] .
+      '<div id="changes">' .
+        '<form>' .
+          'Name: <input type="text" name="firstname">' .
+          'Email: <input type="text" name="lastname">' .
+          'Card ID: <input type="text" name="lastname">' .
+          'Authy ID: <input type="text" name="lastname">' .
+          'Current Password: <input type="password" name="pwd">' .
+          'New Password: <input type="password" name="pwd">' .
+          'Confirm New Password: <input type="password" name="pwd">' .
+        '</form>' .
+      '</div>' .
+    '';
+  }
+
   private function registerUser(){
     $html =
       '<div id="smallelements">' .
@@ -446,6 +466,7 @@ class userEdit extends Member{
         '<br>' .
         'You are ' . $_SESSION['isAdmin'] . ' admin' .
         $this->changePass() .
+        $this->userEditer() .
         //TODO select all the users if 
         //the person is an admin
         '' .
