@@ -320,6 +320,7 @@ class userEdit extends Member{
     $inactive = $db->getInactiveUsers();
     $active = $db->getActiveUsers();
     $admin = $db->getAdmins();
+    $db->close();
     $html =
       '<div id="elements">'.
         '<ul id="admin" class="connectedSortable">' .
@@ -382,18 +383,23 @@ class userEdit extends Member{
   //TODO clean up, div class maybe, label, make nice
   //get all info, change only what changed, add in current info
   private function userEditer(){
+    $dbconn = new dbconn;
+    $dbconn->connect('read');
+    $userInfo = $dbconn->getUserInfo($_SESSION['username']);
+    //print_r($userInfo);
+    $dbconn->close();
     return
       'Username: ' .
       $_SESSION['username'] .
       '<div id="changes">' .
         '<form>' .
-          'Name: <input type="text" name="firstname">' .
-          'Email: <input type="text" name="lastname">' .
-          'Card ID: <input type="text" name="lastname">' .
-          'Authy ID: <input type="text" name="lastname">' .
-          'Current Password: <input type="password" name="pwd">' .
-          'New Password: <input type="password" name="pwd">' .
-          'Confirm New Password: <input type="password" name="pwd">' .
+          'Name: <input type="text" name="name" placeholder="' . $userInfo['Name'] .'">' .
+          'Email: <input type="text" name="email" placeholder="' . $userInfo['Email'] .'">' .
+          'Card ID: <input type="text" name="card" placeholder="' . $userInfo['CardID'] . '">' .
+          'Authy ID: <input type="text" name="authy" placeholder="' . $userInfo['AuthyID'] . '">' .
+          'Current Password: <input type="password" name="oldPwd">' .
+          'New Password: <input type="password" name="newPwd">' .
+          'Confirm New Password: <input type="password" name="ConfNewPwd">' .
         '</form>' .
       '</div>' .
     '';

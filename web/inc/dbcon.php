@@ -335,18 +335,22 @@ class dbconn {
   }
 
   //Returns ID, eail, and name from a username
-  private function getUserInfo($username){
-    $stmt = $this->mysqli->prepare("Select ID, Email, Name from Users where username = ? and IsActive = 1");
+//  private function getUserInfo($username){
+  public function getUserInfo($username){
+//    $stmt = $this->mysqli->prepare("Select ID, Email, Name from Users where username = ? and IsActive = 1");
+    $stmt = $this->mysqli->prepare("Select ID, Email, Name, CardID, AuthyID from Users where username = ? and IsActive = 1");
     $stmt->bind_param('s', $username);
     $stmt->execute();
-    $stmt->bind_result($userID, $email, $name);
+    $stmt->bind_result($userID, $email, $name, $CardID, $AuthyID);
+//    $stmt->bind_result($userID, $email, $name);
     $results = $stmt->fetch();
     $stmt->free_result();
     $stmt->close();
     if($results === null) {
       die("no user exists");
     }
-    return array('ID' => $userID, 'Email' => $email, 'Name' => $name);
+//    return array('ID' => $userID, 'Email' => $email, 'Name' => $name);
+    return array('ID' => $userID, 'Email' => $email, 'Name' => $name, 'CardID' => $CardID, 'AuthyID' => $AuthyID);
   }
 
 }
