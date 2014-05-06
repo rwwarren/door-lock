@@ -386,6 +386,9 @@ class userEdit extends Member{
     $dbconn = new dbconn;
     $dbconn->connect('read');
     $userInfo = $dbconn->getUserInfo($_SESSION['username']);
+    if($userInfo['AuthyID'] == 0){
+      $userInfo['AuthyID'] = NULL;
+    }
     //print_r($userInfo);
     $dbconn->close();
     return
@@ -393,13 +396,16 @@ class userEdit extends Member{
       $_SESSION['username'] .
       '<div id="changes">' .
         '<form>' .
-          'Name: <input type="text" name="name" placeholder="' . $userInfo['Name'] .'">' .
-          'Email: <input type="text" name="email" placeholder="' . $userInfo['Email'] .'">' .
-          'Card ID: <input type="text" name="card" placeholder="' . $userInfo['CardID'] . '">' .
-          'Authy ID: <input type="text" name="authy" placeholder="' . $userInfo['AuthyID'] . '">' .
-          'Current Password: <input type="password" name="oldPwd">' .
-          'New Password: <input type="password" name="newPwd">' .
-          'Confirm New Password: <input type="password" name="ConfNewPwd">' .
+          '<fieldset>' .
+            'Name: <input type="text" name="name" placeholder="' . $userInfo['Name'] .'">' .
+            'Email: <input type="text" name="email" placeholder="' . $userInfo['Email'] .'">' .
+            'Card ID: <input type="text" name="card" placeholder="' . $userInfo['CardID'] . '">' .
+            'Authy ID: <input type="text" name="authy" placeholder="' . $userInfo['AuthyID'] . '">' .
+            'Current Password: <input type="password" name="oldPwd">' .
+            'New Password: <input type="password" name="newPwd">' .
+            'Confirm New Password: <input type="password" name="ConfNewPwd">' .
+            '<input type="submit" value="Submit">' .
+          '</fieldset>' .
         '</form>' .
       '</div>' .
     '';
@@ -471,8 +477,12 @@ class userEdit extends Member{
         'Wooo user modification' .
         '<br>' .
         'You are ' . $_SESSION['isAdmin'] . ' admin' .
-        $this->changePass() .
+        '<br>' .
+        '<br>' .
+        '<br>' .
+//        $this->changePass() .
         $this->userEditer() .
+//        TODO add 2 factor authentication option here
         //TODO select all the users if 
         //the person is an admin
         '' .

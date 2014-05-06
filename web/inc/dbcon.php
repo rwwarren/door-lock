@@ -146,11 +146,12 @@ class dbconn {
     $stmt->execute();
     $result = $stmt->fetch();
     $stmt->free_result();
+    $stmt->close();
     //Change so that it only finds the one
     if($result !== null){
       //change the pwd
       $newPass = passwordEncode($newPass);
-      $stmt->reset();
+      //$stmt->reset();
       $stmt2 = $this->mysqli->prepare("UPDATE Users SET Password=PASSWORD(?) WHERE Username= ? AND Password=PASSWORD(?)");
       $stmt2->bind_param('sss', $newPass, $user, $oldPass);
       $stmt2->execute();
@@ -158,7 +159,7 @@ class dbconn {
       $stmt2->close();
       return 200;
     } else {
-      $stmt->close();
+      //$stmt->close();
       echo 'not changed!';
       header("HTTP/1.0 401 Password Incorrect");
     }
