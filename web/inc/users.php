@@ -386,27 +386,47 @@ class userEdit extends Member{
     $dbconn = new dbconn;
     $dbconn->connect('read');
     $userInfo = $dbconn->getUserInfo($_SESSION['username']);
-    if($userInfo['AuthyID'] == 0){
-      $userInfo['AuthyID'] = NULL;
-    }
+//    if($userInfo['AuthyID'] == 0){
+//      $userInfo['AuthyID'] = NULL;
+//    }
     //print_r($userInfo);
     $dbconn->close();
     return
       'Username: ' .
       $_SESSION['username'] .
       '<div id="changes">' .
-        '<form>' .
+//        '<form name="input" action="/changeUserInfo.php" method="post">' .
+        '<form name="input" onsubmit="check_users(); return false" method="post" enctype="application/x-www-form-urlencoded">' .
           '<fieldset>' .
-            'Name: <input type="text" name="name" placeholder="' . $userInfo['Name'] .'">' .
-            'Email: <input type="text" name="email" placeholder="' . $userInfo['Email'] .'">' .
-            'Card ID: <input type="text" name="card" placeholder="' . $userInfo['CardID'] . '">' .
-            'Authy ID: <input type="text" name="authy" placeholder="' . $userInfo['AuthyID'] . '">' .
-            'Current Password: <input type="password" name="oldPwd">' .
-            'New Password: <input type="password" name="newPwd">' .
-            'Confirm New Password: <input type="password" name="ConfNewPwd">' .
+            'Name: <input type="text" name="name" id="name" placeholder="' . $userInfo['Name'] .'">' .
+            'Email: <input type="text" name="email" id="email" placeholder="' . $userInfo['Email'] .'">' .
+            'Card ID: <input type="text" name="card" id="card" placeholder="' . $userInfo['CardID'] . '">' .
+            'Authy ID: <input type="text" name="authy" id="authy" placeholder="' . $userInfo['AuthyID'] . '">' .
+            'Current Password: <input type="password" name="oldPwd" id="oldPwd">' .
+            'New Password: <input type="password" name="newPwd" id="newPwd">' .
+            'Confirm New Password: <input type="password" name="confNewPwd" id="confNewPwd">' .
             '<input type="submit" value="Submit">' .
           '</fieldset>' .
         '</form>' .
+        '<script>' .
+          'function check_users() {' .
+            //'if(!isValid((\'#newPwd\').val())){' .
+            'if(true) {' .
+              'console.log("testing");' .
+            '} else if((\'#newPwd\').val() != (\'#confNewPwd\').val()){' .
+              'console.log("not the same")' .
+            '} else {' .
+              '$.ajax({type: \'POST\', url: \'/changeUserInfo.php\', data: { name: $(\'#name\').val(), ' .
+                  'oldPwd: $(\'#oldPwd\').val(), newPwd: $(\'#newPwd\').val(), authy: $(\'#authy\').val(),' .
+                  'email: $(\'#email\').val(), card: $(\'#card\').val()' .
+                '} });' .
+              'console.log("testing");' .
+            '}' .
+          '};' .
+          'function isValid(pass){' .
+            'return false;'.
+          '}' .
+        '</script>' .
       '</div>' .
     '';
   }

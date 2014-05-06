@@ -350,6 +350,7 @@ class dbconn {
     if($results === null) {
       die("no user exists");
     }
+    $AuthyID = ($AuthyID === 0) ? NULL : $AuthyID;
 //    return array('ID' => $userID, 'Email' => $email, 'Name' => $name);
     return array('ID' => $userID, 'Email' => $email, 'Name' => $name, 'CardID' => $CardID, 'AuthyID' => $AuthyID);
   }
