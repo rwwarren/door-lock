@@ -409,9 +409,17 @@ class userEdit extends Member{
           '</fieldset>' .
         '</form>' .
         '<script>' .
+          'function isValid(pass){' .
+            'return false;'.
+          '};' .
           'function check_users() {' .
             //'if(!isValid((\'#newPwd\').val())){' .
-            'if(true) {' .
+            //'function isValid(pass){' .
+            //  'return false;'.
+            //'};' .
+            //'if(true) {' .
+            'var test = "asdf";' .
+            'if(isValid(test)) {' .
               'console.log("testing");' .
             '} else if((\'#newPwd\').val() != (\'#confNewPwd\').val()){' .
               'console.log("not the same")' .
