@@ -226,6 +226,8 @@ function changeUserInfo(){
 //    $dbconn = new dbconn;
 //    $dbconn->connect("write");
 //    $result = $dbconn->changePassword($username, $oldPassword, $newPassword);
+    //    //TODO this is the function name below
+//    $result = $dbconn->updateUserInfo($username, $oldPassword, $newPassword);
 //    $dbconn->close();
 //
 //    if ($result == 200){

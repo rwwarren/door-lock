@@ -165,6 +165,16 @@ class dbconn {
     }
   }
 
+  //Updates the user's information
+  public function updateUserInfo($username, $oldPassword, $newPassword = null, $authy = null, $card = null, $email = null, $name = null ){
+
+  }
+
+  //Decide if this is the route I want to go
+  public function checkPassword($username, $password){
+    //
+  }
+
   //Finds the resetURL from the database and changes the password
   //if there is a ResetURL
   public function resetChangePassword($newPass, $token){
