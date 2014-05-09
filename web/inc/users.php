@@ -409,20 +409,21 @@ class userEdit extends Member{
           '</fieldset>' .
         '</form>' .
         '<script>' .
-          'function isValid(pass){' .
-            'return false;'.
-          '};' .
+          //'function isValid(pass){' .
+          //  'return false;'.
+          //'};' .
           'function check_users() {' .
             //'if(!isValid((\'#newPwd\').val())){' .
             //'function isValid(pass){' .
             //  'return false;'.
             //'};' .
-            //'if(true) {' .
-            'var test = "asdf";' .
-            'if(isValid(test)) {' .
+            'var test = false;' .
+            'if(test) {' .
+            //'var test = "asdf";' .
+            //'if(isValid(test)) {' .
               'console.log("testing");' .
-            '} else if((\'#newPwd\').val() != (\'#confNewPwd\').val()){' .
-              'console.log("not the same")' .
+//            '} else if((\'#newPwd\').val() != (\'#confNewPwd\').val()){' .
+//              'console.log("not the same")' .
             '} else {' .
               '$.ajax({type: \'POST\', url: \'/changeUserInfo.php\', data: { name: $(\'#name\').val(), ' .
                   'oldPwd: $(\'#oldPwd\').val(), newPwd: $(\'#newPwd\').val(), authy: $(\'#authy\').val(),' .
@@ -431,9 +432,9 @@ class userEdit extends Member{
               'console.log("testing");' .
             '}' .
           '};' .
-          'function isValid(pass){' .
-            'return false;'.
-          '}' .
+          //'function isValid(pass){' .
+          //  'return false;'.
+          //'}' .
         '</script>' .
       '</div>' .
     '';
