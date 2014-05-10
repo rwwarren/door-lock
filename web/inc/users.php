@@ -14,6 +14,8 @@ class userEdit extends Member{
       '<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">' .
       '<script src="https://code.jquery.com/jquery-1.9.1.js"></script>' .
       '<script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>' .
+      //Testing below
+      '<script src="/js/checkText.js"></script>' .
 
       '<style>'.
         'div#users-contain { width: 350px; margin: 20px 0; }'.
@@ -404,33 +406,22 @@ class userEdit extends Member{
             'Authy ID: <input type="text" name="authy" id="authy" placeholder="' . $userInfo['AuthyID'] . '">' .
             'Current Password: <input type="password" name="oldPwd" id="oldPwd">' .
             'New Password: <input type="password" name="newPwd" id="newPwd">' .
-            'Confirm New Password: <input type="password" name="confNewPwd" id="confNewPwd">' .
-            '<input type="submit" value="Submit">' .
+//            'Confirm New Password: <input type="password" name="confNewPwd" id="confNewPwd">' .
+            'Confirm New Password: <input type="password" name="confNewPwd" id="confNewPwd" onkeyup="checkText(this, $(\'#newPwd\').val())">' .
+            '<input id="submit" type="submit" value="Submit" disabled>' .
           '</fieldset>' .
         '</form>' .
+        '<div id="checkPass"></div>' .
         '<script>' .
           //'function isValid(pass){' .
           //  'return false;'.
           //'};' .
           'function check_users() {' .
-            //'if(!isValid((\'#newPwd\').val())){' .
-            //'function isValid(pass){' .
-            //  'return false;'.
-            //'};' .
-            'var test = false;' .
-            'if(test) {' .
-            //'var test = "asdf";' .
-            //'if(isValid(test)) {' .
-              'console.log("testing");' .
-//            '} else if((\'#newPwd\').val() != (\'#confNewPwd\').val()){' .
-//              'console.log("not the same")' .
-            '} else {' .
-              '$.ajax({type: \'POST\', url: \'/changeUserInfo.php\', data: { name: $(\'#name\').val(), ' .
+            '$.ajax({type: \'POST\', url: \'/changeUserInfo.php\', data: { name: $(\'#name\').val(), ' .
                   'oldPwd: $(\'#oldPwd\').val(), newPwd: $(\'#newPwd\').val(), authy: $(\'#authy\').val(),' .
-                  'email: $(\'#email\').val(), card: $(\'#card\').val()' .
+                  'email: $(\'#email\').val(), card: $(\'#card\').val(), confNewPass: $(\'#confNewPwd\').val()' .
                 '} });' .
               'console.log("testing");' .
-            '}' .
           '};' .
           //'function isValid(pass){' .
           //  'return false;'.
@@ -445,7 +436,7 @@ class userEdit extends Member{
       '<div id="smallelements">' .
         '<div id="dialog-form" title="Create new user">' .
         '<p class="validateTips">All form fields are required.</p>' .
-       
+
         '<form>' .
         '<fieldset>' .
           '<label for="name">Name</label>' .

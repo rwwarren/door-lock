@@ -210,10 +210,11 @@ function changePassword(){
 //Changes the user's info
 function changeUserInfo(){
   if (isset($_SESSION['username']) && isset($_POST['oldPwd']) && isset($_POST['newPwd']) && isset($_POST['authy']) &&
-      isset($_POST['card']) && isset($_POST['email']) && isset($_POST['name']) ){
+      isset($_POST['card']) && isset($_POST['email']) && isset($_POST['name']) && isset($_POST['confNewPass']) ){
     $username = $_SESSION['username'];
     $oldPassword = mysql_real_escape_string($_POST['oldPwd']);
     $newPassword = mysql_real_escape_string($_POST['newPwd']);
+    $confNewPassword = mysql_real_escape_string($_POST['confNewPass']);
     $authy = mysql_real_escape_string($_POST['authy']);
     $card = mysql_real_escape_string($_POST['card']);
     $email = mysql_real_escape_string($_POST['email']);
