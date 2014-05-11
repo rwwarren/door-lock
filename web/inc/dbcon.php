@@ -167,7 +167,13 @@ class dbconn {
 
   //Updates the user's information
   public function updateUserInfo($username, $oldPassword, $newPassword = null, $authy = null, $card = null, $email = null, $name = null ){
+    if($username === null) {
 
+    } else {
+      //$stmt->close();
+      echo 'not changed!';
+      header("HTTP/1.0 401 Password Incorrect");
+    }
   }
 
   //Decide if this is the route I want to go
