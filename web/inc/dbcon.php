@@ -166,7 +166,15 @@ class dbconn {
   }
 
   //Updates the user's information
-  public function updateUserInfo($username, $oldPassword, $newPassword = null, $authy = null, $card = null, $email = null, $name = null ){
+  public function updateUserInfo($username, $oldPassword, $newPassword = null, $confNewPassword = null, $authy = null, $card = null, $email = null, $name = null ){
+    if($newPassword !== $confNewPassword){
+      //
+    }
+    //only change password
+    if($authy === null && $card === null && $email === null && $name === null){
+      //
+      $this->changePassword($username, $oldPassword, $newPassword);
+    }
     if($username === null) {
 
     } else {

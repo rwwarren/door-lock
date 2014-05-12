@@ -226,6 +226,7 @@ function changeUserInfo(){
 //    $newPassword = mysql_real_escape_string($newPassword);
 //    $dbconn = new dbconn;
 //    $dbconn->connect("write");
+    //$dbconn->updateUserInfo($username, $oldPassword, $newPassword, $confNewPassword, $authy, $card, $email, $name);
 //    $result = $dbconn->changePassword($username, $oldPassword, $newPassword);
     //    //TODO this is the function name below
 //    $result = $dbconn->updateUserInfo($username, $oldPassword, $newPassword);
