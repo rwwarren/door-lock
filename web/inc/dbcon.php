@@ -138,6 +138,7 @@ class dbconn {
 
   //Changes the username's password if the username and password
   //are valid
+  //TODO maybe take first check out
   public function changePassword($user, $oldPass, $newPass){
     include_once "variables.php";
     $oldPass = passwordEncode($oldPass);
@@ -169,12 +170,19 @@ class dbconn {
   public function updateUserInfo($username, $oldPassword, $newPassword = null, $confNewPassword = null, $authy = null, $card = null, $email = null, $name = null ){
     if($newPassword !== $confNewPassword){
       //
+      return 403;
+    }
+    $result = $this->checkPassword($username, $oldPassword);
+    if($result === false){
+      //incorrect password
+      return false;
     }
     //only change password
     if($authy === null && $card === null && $email === null && $name === null){
       //
       $this->changePassword($username, $oldPassword, $newPassword);
     }
+    //TODO below change the actual user, parameter below not right
     if($username === null) {
 
     } else {
@@ -185,8 +193,17 @@ class dbconn {
   }
 
   //Decide if this is the route I want to go
-  public function checkPassword($username, $password){
+//  public function checkPassword($username, $password){
+  private function checkPassword($username, $password){
     //
+    $password = passwordEncode($password);
+    $stmt = $this->mysqli->prepare("Select ID from Users where Username = ? and Password = PASSWORD(?)");
+    $stmt->bind_param('ss', $user, $password);
+    $stmt->execute();
+    $result = $stmt->fetch();
+    $stmt->free_result();
+    $stmt->close();
+    return $result !== null;
   }
 
   //Finds the resetURL from the database and changes the password

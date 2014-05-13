@@ -226,10 +226,15 @@ function changeUserInfo(){
 //    $newPassword = mysql_real_escape_string($newPassword);
 //    $dbconn = new dbconn;
 //    $dbconn->connect("write");
-    //$dbconn->updateUserInfo($username, $oldPassword, $newPassword, $confNewPassword, $authy, $card, $email, $name);
+    //$result = $dbconn->updateUserInfo($username, $oldPassword, $newPassword, $confNewPassword, $authy, $card, $email, $name);
+    //if($result === false) {
+      //incorrect password...
+    //}
+    //if($result == 403) {
+      //Passwords go not match
+    //}
 //    $result = $dbconn->changePassword($username, $oldPassword, $newPassword);
     //    //TODO this is the function name below
-//    $result = $dbconn->updateUserInfo($username, $oldPassword, $newPassword);
 //    $dbconn->close();
 //
 //    if ($result == 200){
