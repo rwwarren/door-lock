@@ -181,10 +181,23 @@ class dbconn {
     if($authy === null && $card === null && $email === null && $name === null){
       //
       $this->changePassword($username, $oldPassword, $newPassword);
+      exit();
     }
     //TODO below change the actual user, parameter below not right
+    //gets all current user data
     if($username === null) {
-
+      $newPassword = passwordEncode($newPassword);
+      $oldPassword = passwordEncode($oldPassword);
+      //TODO ternary below
+      //$name = ;
+      //$email = ;
+      //$authy = ;
+      //$card = ;
+      $stmt = $this->mysqli->prepare("UPDATE Users SET Name = ?, Password=PASSWORD(?), Email = ?, AuthyID = ?, CardID = ? WHERE Username= ? AND Password=PASSWORD(?)");
+      $stmt->bind_param('sssssss', $name, $newPassword, $email, $authy, $card, $user, $oldPassword);
+      $stmt->execute();
+      $stmt->free_result();
+      $stmt->close();
     } else {
       //$stmt->close();
       echo 'not changed!';
