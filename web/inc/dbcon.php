@@ -168,7 +168,7 @@ class dbconn {
 
   //Updates the user's information
   public function updateUserInfo($username, $oldPassword, $newPassword = null, $confNewPassword = null, $authy = null, $card = null, $email = null, $name = null ){
-    if($newPassword !== $confNewPassword){
+    if($oldPassword == null || $newPassword !== $confNewPassword){
       //
       return 403;
     }
@@ -185,14 +185,16 @@ class dbconn {
     }
     //TODO below change the actual user, parameter below not right
     //gets all current user data
-    if($username === null) {
-      $newPassword = passwordEncode($newPassword);
+    //if($username === null) {
+    else if($result !== null) {
+      //$newPassword = passwordEncode($newPassword);
       $oldPassword = passwordEncode($oldPassword);
+      $newPassword = $newPassword !== null ? passwordEncode($newPassword) : $oldPassword;
       //TODO ternary below
-      //$name = ;
-      //$email = ;
-      //$authy = ;
-      //$card = ;
+      $name = $name !== null ? $name : $result['personName'];
+      $email = $email !== null ? $email : $result['Email'];
+      $authy = $authy !== null ? $authy : $result['AuthyID'];
+      $card = $card !== null ? $card : $result['CardID'];
       $stmt = $this->mysqli->prepare("UPDATE Users SET Name = ?, Password=PASSWORD(?), Email = ?, AuthyID = ?, CardID = ? WHERE Username= ? AND Password=PASSWORD(?)");
       $stmt->bind_param('sssssss', $name, $newPassword, $email, $authy, $card, $user, $oldPassword);
       $stmt->execute();
@@ -210,13 +212,23 @@ class dbconn {
   private function checkPassword($username, $password){
     //
     $password = passwordEncode($password);
-    $stmt = $this->mysqli->prepare("Select ID from Users where Username = ? and Password = PASSWORD(?)");
+    $stmt = $this->mysqli->prepare("Select Name, Email, AuthyID, CardID from Users where Username = ? and Password = PASSWORD(?)");
     $stmt->bind_param('ss', $user, $password);
     $stmt->execute();
+    //$stmt->bind_result($userID);
+    //$stmt->bind_result('ssssss', $personName, $username, $password, $email, $admin, $authyID);
+    $stmt->bind_result('ssss', $name, $email, $authy, $card);
     $result = $stmt->fetch();
     $stmt->free_result();
     $stmt->close();
-    return $result !== null;
+    //return $result !== null;
+    if($result === null){
+      return false;
+      //return null;
+    } else {
+      $userInfo = array('personName' => $name, 'Email' => $email, 'AuthyID' => $authy, 'CardID' => $card );
+      return $userInfo;
+    }
   }
 
   //Finds the resetURL from the database and changes the password
