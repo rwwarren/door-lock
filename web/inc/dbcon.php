@@ -176,17 +176,14 @@ class dbconn {
     if($result === false){
       //incorrect password
       return false;
-    }
+    } else if($authy === null && $card === null && $email === null && $name === null){
     //only change password
-    if($authy === null && $card === null && $email === null && $name === null){
       //
       $this->changePassword($username, $oldPassword, $newPassword);
       exit();
-    }
+    } else if($result !== null) {
     //TODO below change the actual user, parameter below not right
     //gets all current user data
-    //if($username === null) {
-    else if($result !== null) {
       //$newPassword = passwordEncode($newPassword);
       $oldPassword = passwordEncode($oldPassword);
       $newPassword = $newPassword !== null ? passwordEncode($newPassword) : $oldPassword;
@@ -203,6 +200,7 @@ class dbconn {
     } else {
       //$stmt->close();
       echo 'not changed!';
+      echo 'Error of some sort';
       header("HTTP/1.0 401 Password Incorrect");
     }
   }
