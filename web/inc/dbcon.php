@@ -208,7 +208,8 @@ class dbconn {
   //Decide if this is the route I want to go
 //  public function checkPassword($username, $password){
   private function checkPassword($username, $password){
-    //
+    //TODO check redis cache first.....
+    //make it faster
     $password = passwordEncode($password);
     $stmt = $this->mysqli->prepare("Select Name, Email, AuthyID, CardID from Users where Username = ? and Password = PASSWORD(?)");
     $stmt->bind_param('ss', $user, $password);
