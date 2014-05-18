@@ -169,7 +169,7 @@ class dbconn {
   //Updates the user's information
   public function updateUserInfo($username, $oldPassword, $newPassword = null, $confNewPassword = null, $authy = null, $card = null, $email = null, $name = null ){
     if($oldPassword == null || $newPassword !== $confNewPassword){
-      //
+      //Empty password or passwords dont match
       return 403;
     }
     $result = $this->checkPassword($username, $oldPassword);
@@ -214,7 +214,6 @@ class dbconn {
     $stmt = $this->mysqli->prepare("Select Name, Email, AuthyID, CardID from Users where Username = ? and Password = PASSWORD(?)");
     $stmt->bind_param('ss', $user, $password);
     $stmt->execute();
-    //$stmt->bind_result($userID);
     //$stmt->bind_result('ssssss', $personName, $username, $password, $email, $admin, $authyID);
     $stmt->bind_result('ssss', $name, $email, $authy, $card);
     $result = $stmt->fetch();
