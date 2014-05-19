@@ -177,8 +177,7 @@ class dbconn {
       //incorrect password
       return false;
     } else if($authy === null && $card === null && $email === null && $name === null){
-    //only change password
-      //
+      //only change password
       $this->changePassword($username, $oldPassword, $newPassword);
       exit();
     } else if($result !== null) {
@@ -187,7 +186,7 @@ class dbconn {
       //$newPassword = passwordEncode($newPassword);
       $oldPassword = passwordEncode($oldPassword);
       $newPassword = $newPassword !== null ? passwordEncode($newPassword) : $oldPassword;
-      //TODO ternary below
+      //TODO check below
       $name = $name !== null ? $name : $result['personName'];
       $email = $email !== null ? $email : $result['Email'];
       $authy = $authy !== null ? $authy : $result['AuthyID'];
@@ -198,7 +197,6 @@ class dbconn {
       $stmt->free_result();
       $stmt->close();
     } else {
-      //$stmt->close();
       echo 'not changed!';
       echo 'Error of some sort';
       header("HTTP/1.0 401 Password Incorrect");
@@ -219,7 +217,6 @@ class dbconn {
     $result = $stmt->fetch();
     $stmt->free_result();
     $stmt->close();
-    //return $result !== null;
     if($result === null){
       return false;
       //return null;
