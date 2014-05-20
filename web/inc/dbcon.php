@@ -15,6 +15,7 @@ class dbconn {
   //the user on the site
   public function login($name, $password){
     include_once "variables.php";
+    //TODO check redis first? then the db then cache it?
     $password = passwordEncode($password);
     $stmt = $this->mysqli->prepare("SELECT ID, Name, Username, IsAdmin FROM Users WHERE Username=? and Password = PASSWORD(?) and IsActive = 1 LIMIT 1");
     $stmt->bind_param('ss', $name, $password);
@@ -175,11 +176,13 @@ class dbconn {
     $result = $this->checkPassword($username, $oldPassword);
     if($result === false){
       //incorrect password
+      //return 401
       return false;
     } else if($authy === null && $card === null && $email === null && $name === null){
       //only change password
       $this->changePassword($username, $oldPassword, $newPassword);
       exit();
+      //TODO fix below
     } else if($result !== null) {
     //TODO below change the actual user, parameter below not right
     //gets all current user data
@@ -193,6 +196,7 @@ class dbconn {
       $card = $card !== null ? $card : $result['CardID'];
       $stmt = $this->mysqli->prepare("UPDATE Users SET Name = ?, Password=PASSWORD(?), Email = ?, AuthyID = ?, CardID = ? WHERE Username= ? AND Password=PASSWORD(?)");
       $stmt->bind_param('sssssss', $name, $newPassword, $email, $authy, $card, $user, $oldPassword);
+      //TODO Check for success??
       $stmt->execute();
       $stmt->free_result();
       $stmt->close();
