@@ -2,10 +2,6 @@
 
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("mysqlUser.php");
-//getting all the errors
-ini_set('display_errors', 1);
- ini_set('log_errors', 1);
-  error_reporting(E_ALL);
 
 class dbconn {
 
