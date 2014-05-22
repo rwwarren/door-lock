@@ -170,7 +170,8 @@ class dbconn {
       return 403;
     }
     $result = $this->checkPassword($username, $oldPassword);
-    if($result === false){
+    //TODO is this right below??
+    if($result === false || $result === null){
       //incorrect password
       //return 401
       return false;
