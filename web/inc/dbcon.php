@@ -198,7 +198,6 @@ class dbconn {
       $stmt->free_result();
       $stmt->close();
     } else {
-      echo 'not changed!';
       echo 'Error of some sort';
       header("HTTP/1.0 401 Password Incorrect");
     }
