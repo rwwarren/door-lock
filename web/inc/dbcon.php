@@ -273,6 +273,7 @@ class dbconn {
       $stmt2->close();
       echo 'Added user: ' . $personName;
     } else {
+      //TODO different way to return? like error?
       return 'User is already a part of the system';
     }
   }
