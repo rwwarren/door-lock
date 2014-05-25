@@ -271,6 +271,7 @@ class dbconn {
       $stmt2->execute();
       $stmt2->free_result();
       $stmt2->close();
+      //TODO return success or HTTP HEADER??
       echo 'Added user: ' . $personName;
     } else {
       //TODO different way to return? like error?
