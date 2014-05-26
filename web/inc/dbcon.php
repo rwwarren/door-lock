@@ -286,6 +286,8 @@ class dbconn {
     $stmt->execute();
     $stmt->free_result();
     $stmt->close();
+    //Success header???
+    //and check for failure?
   }
 
   //Changes what type the user is
