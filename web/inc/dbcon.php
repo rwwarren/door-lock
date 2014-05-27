@@ -309,6 +309,7 @@ class dbconn {
     $stmt->execute();
     $stmt->free_result();
     $stmt->close();
+    //TODO also check for results?
   }
 
   //Sends the user an email with a link to reset
