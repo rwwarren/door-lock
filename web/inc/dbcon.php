@@ -329,7 +329,10 @@ class dbconn {
       //
       //TODO: make sure the time is valid and isValid
       sendMail($user, $email, $newPassword);
+    } else {
+      //TODO do something here?
     }
+    //TODO return same way so people not able to tell that user doesnt exist
   }
 
   //Checks if there is a reset token that is valid
