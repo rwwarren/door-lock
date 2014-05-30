@@ -21,7 +21,7 @@
 
 3) Create a MYSQL database.
 
-4) Create mysqlUser.php and variables.php.
+4) Create mysqlUser.php and variables.php from mysqlUserTemplate.php and variablesTemplate.php.
 
 5) Select different options.
 
