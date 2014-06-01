@@ -413,7 +413,6 @@ class dbconn {
     $stmt->bind_param('s', $username);
     $stmt->execute();
     $stmt->bind_result($userID, $email, $name, $CardID, $AuthyID);
-//    $stmt->bind_result($userID, $email, $name);
     $results = $stmt->fetch();
     $stmt->free_result();
     $stmt->close();
@@ -421,7 +420,6 @@ class dbconn {
       die("no user exists");
     }
     $AuthyID = ($AuthyID === 0) ? NULL : $AuthyID;
-//    return array('ID' => $userID, 'Email' => $email, 'Name' => $name);
     return array('ID' => $userID, 'Email' => $email, 'Name' => $name, 'CardID' => $CardID, 'AuthyID' => $AuthyID);
   }
 
