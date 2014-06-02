@@ -406,7 +406,6 @@ class dbconn {
   }
 
   //Returns ID, eail, and name from a username
-//  private function getUserInfo($username){
   public function getUserInfo($username){
     $stmt = $this->mysqli->prepare("Select ID, Email, Name, CardID, AuthyID from Users where username = ? and IsActive = 1");
     $stmt->bind_param('s', $username);
