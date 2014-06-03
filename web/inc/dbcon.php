@@ -375,6 +375,8 @@ class dbconn {
       $stmt->bind_param('s', $userID);
       $stmt->execute();
       $stmt->bind_result($resetToken);
+      //invalidates all currently valid tokens
+      //TODO make this happen like once a week with a script
       while($stmt->fetch()){
         $this->invalidateResetURL($resetToken, $userID);
       }
