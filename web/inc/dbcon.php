@@ -331,9 +331,10 @@ class dbconn {
       sendMail($user, $email, $newPassword);
     } else {
       //TODO do something here?
-      //error log("User $user not found with email $email")
+      //error_log("User $user not found with email $email")
     }
     //TODO return same way so people not able to tell that user doesnt exist
+    //header()
   }
 
   //Checks if there is a reset token that is valid
