@@ -11,3 +11,13 @@ function checkText(confPass, newPass) {
     document.getElementById("checkPass").innerHTML = "Passwords do not match";
   }
 }
+
+function checkPass(pass, confPass, newPass){
+  //TODO change to get this to work
+  //checkText(confPass, newPass);
+  if(pass.value == null){
+    document.getElementById("submit").disabled = true;
+  } else {
+    document.getElementById("submit").disabled = false;
+  }
+}

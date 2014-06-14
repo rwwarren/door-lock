@@ -213,35 +213,43 @@ function changeUserInfo(){
       isset($_POST['card']) && isset($_POST['email']) && isset($_POST['name']) && isset($_POST['confNewPass']) ){
     $username = $_SESSION['username'];
     $oldPassword = mysql_real_escape_string($_POST['oldPwd']);
-    $newPassword = mysql_real_escape_string($_POST['newPwd']);
+    $newPassword = mysql_real_escape_string($_POST['oldPwd']);
+//    $newPassword = mysql_real_escape_string($_POST['newPwd']);
     $confNewPassword = mysql_real_escape_string($_POST['confNewPass']);
     $authy = mysql_real_escape_string($_POST['authy']);
     $card = mysql_real_escape_string($_POST['card']);
     $email = mysql_real_escape_string($_POST['email']);
     $name = mysql_real_escape_string($_POST['name']);
     print_r($_POST);
+    if($newPassword !== $confNewPassword){
+      echo 'new password and confirmed new password are not equal';
+      return false;
+      exit();
+    } else {
+      //
 
-//    $username = mysql_real_escape_string($username);
-//    $oldPassword = mysql_real_escape_string($oldPassword);
-//    $newPassword = mysql_real_escape_string($newPassword);
-//    $dbconn = new dbconn;
-//    $dbconn->connect("write");
-    //$result = $dbconn->updateUserInfo($username, $oldPassword, $newPassword, $confNewPassword, $authy, $card, $email, $name);
-    //if($result === false) {
-      //incorrect password...
-    //}
-    //if($result == 403) {
-      //Passwords go not match
-    //}
-//    $result = $dbconn->changePassword($username, $oldPassword, $newPassword);
-    //    //TODO this is the function name below
-//    $dbconn->close();
+//      $username = mysql_real_escape_string($username);
+//      $oldPassword = mysql_real_escape_string($oldPassword);
+//      $newPassword = mysql_real_escape_string($newPassword);
+      $dbconn = new dbconn;
+      $dbconn->connect("write");
+      $result = $dbconn->updateUserInfo($username, $oldPassword, $newPassword, $confNewPassword, $authy, $card, $email, $name);
+      //if($result === false) {
+        //incorrect password...
+      //}
+      //if($result == 403) {
+        //Passwords go not match
+      //}
+//      $result = $dbconn->changePassword($username, $oldPassword, $newPassword);
+        //TODO this is the function name below
+      $dbconn->close();
 //
-//    if ($result == 200){
-//      logout();
-//    }
-    //header("HTTP/1.0 200 Success, Password Changed");
-    exit();
+//      if ($result == 200){
+//        logout();
+//      }
+      //header("HTTP/1.0 200 Success, Password Changed");
+      exit();
+    }
   } else {
     //print_r($_POST);
     print_r($_POST);
