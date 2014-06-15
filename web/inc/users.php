@@ -404,11 +404,11 @@ class userEdit extends Member{
             'Email: <input type="text" name="email" id="email" placeholder="' . $userInfo['Email'] .'">' .
             'Card ID: <input type="text" name="card" id="card" placeholder="' . $userInfo['CardID'] . '">' .
             'Authy ID: <input type="text" name="authy" id="authy" placeholder="' . $userInfo['AuthyID'] . '">' .
-            'Current Password: <input type="password" name="oldPwd" id="oldPwd" onkeyup="checkPass(this, $(\'#confNewPwd\').val(), $(\'#newPwd\').val())">' .
+            'Current Password: <input type="password" name="oldPwd" id="oldPwd" onkeyup="checkPass($(this).val(), $(\'#confNewPwd\').val(), $(\'#newPwd\').val())">' .
 //            'Current Password: <input type="password" name="oldPwd" id="oldPwd" onkeyup="checkPass(this, $(\'#confNewPwd\').val(), $(\'#newPwd\').val())">' .
-            'New Password: <input type="password" name="newPwd" id="newPwd" onkeyup="checkText(this, $(\'#confNewPwd\').val())">' .
+            'New Password: <input type="password" name="newPwd" id="newPwd" onkeyup="checkPass($(\'#oldPwd\').val(), $(this).val(), $(\'#confNewPwd\').val())">' .
 //            'Confirm New Password: <input type="password" name="confNewPwd" id="confNewPwd">' .
-            'Confirm New Password: <input type="password" name="confNewPwd" id="confNewPwd" onkeyup="checkText(this, $(\'#newPwd\').val())">' .
+            'Confirm New Password: <input type="password" name="confNewPwd" id="confNewPwd" onkeyup="checkPass($(\'#oldPwd\').val(), $(this).val(), $(\'#newPwd\').val())">' .
             '<input id="submit" type="submit" value="Submit" disabled>' .
           '</fieldset>' .
         '</form>' .

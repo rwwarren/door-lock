@@ -213,8 +213,8 @@ function changeUserInfo(){
       isset($_POST['card']) && isset($_POST['email']) && isset($_POST['name']) && isset($_POST['confNewPass']) ){
     $username = $_SESSION['username'];
     $oldPassword = mysql_real_escape_string($_POST['oldPwd']);
-    $newPassword = mysql_real_escape_string($_POST['oldPwd']);
-//    $newPassword = mysql_real_escape_string($_POST['newPwd']);
+//    $newPassword = mysql_real_escape_string($_POST['oldPwd']);
+    $newPassword = mysql_real_escape_string($_POST['newPwd']);
     $confNewPassword = mysql_real_escape_string($_POST['confNewPass']);
     $authy = mysql_real_escape_string($_POST['authy']);
     $card = mysql_real_escape_string($_POST['card']);
