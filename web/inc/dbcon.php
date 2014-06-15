@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL);
 
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("mysqlUser.php");
@@ -191,6 +192,8 @@ class dbconn {
       $email = $email !== null ? $email : $result['Email'];
       $authy = $authy !== null ? $authy : $result['AuthyID'];
       $card = $card !== null ? $card : $result['CardID'];
+      exit();
+      //TODO above is for testing
       $stmt = $this->mysqli->prepare("UPDATE Users SET Name = ?, Password=PASSWORD(?), Email = ?, AuthyID = ?, CardID = ? WHERE Username= ? AND Password=PASSWORD(?)");
       $stmt->bind_param('sssssss', $name, $newPassword, $email, $authy, $card, $user, $oldPassword);
       //TODO Check for success??
@@ -210,18 +213,33 @@ class dbconn {
     //make it faster
     $password = passwordEncode($password);
     $stmt = $this->mysqli->prepare("Select Name, Email, AuthyID, CardID from Users where Username = ? and Password = PASSWORD(?)");
-    $stmt->bind_param('ss', $user, $password);
+    $stmt->bind_param('ss', $username, $password);
     $stmt->execute();
+    $stmt->bind_result($personName, $email, $authyID, $card);
+//    $stmt->bind_result($personName, $username, $password, $email, $admin, $authyID);
     //$stmt->bind_result('ssssss', $personName, $username, $password, $email, $admin, $authyID);
-    $stmt->bind_result('ssss', $name, $email, $authy, $card);
+    //$name = $email = $authy =  $card = null;
+    //$name = $email = $authy =  $card = "";
+    //TODO whys this throw an error?
+//    $stmt->bind_result('ssss', $name, $email, $authy, $card);
     $result = $stmt->fetch();
     $stmt->free_result();
     $stmt->close();
-    if($result === null){
+//    $stmt = $this->mysqli->prepare("SELECT ID, Name, Username, IsAdmin FROM Users WHERE Username=? and Password = PASSWORD(?) and IsActive = 1 LIMIT 1");
+//    $stmt->bind_param('ss', $name, $password);
+//    $stmt->execute();
+//    $stmt->bind_result($id, $name, $username, $isAdmin);
+//    $results = $stmt->fetch();
+    //echo "Old Pass: \n" . $password . " \n";
+    //echo "HERE WE GO";
+    echo $result;
+    if($result !== true){
+//    if($result === null){
       return false;
       //return null;
     } else {
-      $userInfo = array('personName' => $name, 'Email' => $email, 'AuthyID' => $authy, 'CardID' => $card );
+      $userInfo = array('personName' => $personName, 'Email' => $email, 'AuthyID' => $authyID, 'CardID' => $card );
+      print_r($userInfo);
       return $userInfo;
     }
   }
