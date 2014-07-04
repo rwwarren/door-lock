@@ -93,7 +93,6 @@ function login(){
       //$_SESSION['username'] = 'asdf';
       $userInfo = array();
       $userInfo = $dbconn->login($user, $pass);
-      //print_r($userInfo);
       //if($userInfo !== NULL){
         $_SESSION['name'] = $userInfo['Name'];
         $_SESSION['username'] = $userInfo['Username'];
