@@ -106,7 +106,6 @@ function login(){
         //print_r($userInfo);
         echo "<br> session <br>";
         print_r($_SESSION);
-        //
       //}
       $dbconn->close();
     } else { //authy is not right
