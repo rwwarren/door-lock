@@ -184,7 +184,6 @@ class dbconn {
     } else if($result !== null) {
     //TODO below change the actual user, parameter below not right
     //gets all current user data
-      //$newPassword = passwordEncode($newPassword);
       $oldPassword = passwordEncode($oldPassword);
       $newPassword = $newPassword !== null ? passwordEncode($newPassword) : $oldPassword;
       //TODO check below

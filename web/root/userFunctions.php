@@ -225,8 +225,6 @@ function changeUserInfo(){
       return false;
       exit();
     } else {
-      //
-
 //      $username = mysql_real_escape_string($username);
 //      $oldPassword = mysql_real_escape_string($oldPassword);
 //      $newPassword = mysql_real_escape_string($newPassword);
