@@ -93,7 +93,6 @@ function login(){
       //$_SESSION['username'] = 'asdf';
       $userInfo = array();
       $userInfo = $dbconn->login($user, $pass);
-      //print_r($userInfo);
       //if($userInfo !== NULL){
         $_SESSION['name'] = $userInfo['Name'];
         $_SESSION['username'] = $userInfo['Username'];
@@ -106,7 +105,6 @@ function login(){
         //print_r($userInfo);
         echo "<br> session <br>";
         print_r($_SESSION);
-        //
       //}
       $dbconn->close();
     } else { //authy is not right
