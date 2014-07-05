@@ -175,27 +175,29 @@ class dbconn {
     if($result === false || $result === null){
       //incorrect password
       //return 401
+      echo "get here";
       return false;
     } else if($authy === null && $card === null && $email === null && $name === null){
       //only change password
+      echo "got the change password";
       $this->changePassword($username, $oldPassword, $newPassword);
       exit();
       //TODO fix below
     } else if($result !== null) {
     //TODO below change the actual user, parameter below not right
     //gets all current user data
-      //$newPassword = passwordEncode($newPassword);
       $oldPassword = passwordEncode($oldPassword);
-      $newPassword = $newPassword !== null ? passwordEncode($newPassword) : $oldPassword;
+      $newPassword = (($newPassword !== null) && (strlen($newPassword) > 0)) ? passwordEncode($newPassword) : $oldPassword;
       //TODO check below
-      $name = $name !== null ? $name : $result['personName'];
-      $email = $email !== null ? $email : $result['Email'];
-      $authy = $authy !== null ? $authy : $result['AuthyID'];
-      $card = $card !== null ? $card : $result['CardID'];
-      exit();
+      $name = (($name !== null) && (strlen($name) > 0)) ? $name : $result['personName'];
+      $email = (($email !== null) && (strlen($email) > 0)) ? $email : $result['Email'];
+      $authy = (($authy !== null) && (strlen($authy) > 0)) ? $authy : $result['AuthyID'];
+      $card = (($card !== null) && (strlen($card) > 0)) ? $card : $result['CardID'];
+      //print_r($result);
+      //exit();
       //TODO above is for testing
       $stmt = $this->mysqli->prepare("UPDATE Users SET Name = ?, Password=PASSWORD(?), Email = ?, AuthyID = ?, CardID = ? WHERE Username= ? AND Password=PASSWORD(?)");
-      $stmt->bind_param('sssssss', $name, $newPassword, $email, $authy, $card, $user, $oldPassword);
+      $stmt->bind_param('sssssss', $name, $newPassword, $email, $authy, $card, $username, $oldPassword);
       //TODO Check for success??
       $stmt->execute();
       $stmt->free_result();
@@ -239,7 +241,7 @@ class dbconn {
       //return null;
     } else {
       $userInfo = array('personName' => $personName, 'Email' => $email, 'AuthyID' => $authyID, 'CardID' => $card );
-      print_r($userInfo);
+      //print_r($userInfo);
       return $userInfo;
     }
   }
