@@ -131,7 +131,11 @@ function logout(){
   setcookie('sid', '', time()-3600);
   session_name('sid');
   session_start();
-  header("Location:/");
+  //header("Location:/");
+  //header("Location: $_SERVER[\"HTTP_HOST\"]");
+  //header("Location: $_SERVER[HTTP_ORIGIN]");
+  header("Location: http://$_SERVER[HTTP_HOST]");
+  //header("Location: $_SERVER[HTTP_HOST]");
   exit();
 }
 
@@ -240,6 +244,10 @@ function changeUserInfo(){
 //      $result = $dbconn->changePassword($username, $oldPassword, $newPassword);
         //TODO this is the function name below
       $dbconn->close();
+      //print_r($_SERVER);
+      if($result == 202){
+        logout();
+      }
 //
 //      if ($result == 200){
 //        logout();

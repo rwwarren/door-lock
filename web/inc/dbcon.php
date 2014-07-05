@@ -176,11 +176,13 @@ class dbconn {
       //incorrect password
       //return 401
       echo "get here";
+      header("HTTP/1.0 401 Password Incorrect");
       return false;
     } else if($authy === null && $card === null && $email === null && $name === null){
       //only change password
       echo "got the change password";
       $this->changePassword($username, $oldPassword, $newPassword);
+      return 202;
       exit();
       //TODO fix below
     } else if($result !== null) {
@@ -202,6 +204,12 @@ class dbconn {
       $stmt->execute();
       $stmt->free_result();
       $stmt->close();
+      if ($oldPassword === $newPassword){
+        return 200;
+      } else {
+        return 202;
+      }
+      exit();
     } else {
       echo 'Error of some sort';
       header("HTTP/1.0 401 Password Incorrect");
