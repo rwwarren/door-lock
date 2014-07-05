@@ -1,8 +1,4 @@
 language: php
 
-before_script:
-
 php:
   - 5.4
-
-test:
