@@ -219,7 +219,7 @@ function changeUserInfo(){
     $card = mysql_real_escape_string($_POST['card']);
     $email = mysql_real_escape_string($_POST['email']);
     $name = mysql_real_escape_string($_POST['name']);
-    print_r($_POST);
+    //print_r($_POST);
     if($newPassword !== $confNewPassword){
       echo 'new password and confirmed new password are not equal';
       return false;
