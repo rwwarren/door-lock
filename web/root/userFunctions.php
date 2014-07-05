@@ -103,8 +103,8 @@ function login(){
         //$_SESSION['username'] = 'asdf';
         //echo "<br> userInfo <br>";
         //print_r($userInfo);
-        echo "<br> session <br>";
-        print_r($_SESSION);
+        //echo "<br> session <br>";
+        //print_r($_SESSION);
       //}
       $dbconn->close();
     } else { //authy is not right
@@ -311,7 +311,8 @@ function resetPassword(){
     echo '<br> Please check your email';
     echo '<br> Click <a href="/">here</a> to go home';
   } else {
-    header("Location:http://doorlock.wrixton.net/");
+    //header("Location:http://doorlock.wrixton.net/");
+    header("Location: http://$_SERVER[HTTP_HOST]");
   }
 }
 
