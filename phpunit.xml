@@ -1,6 +1,6 @@
 <phpunit>
   <testsuites>
-    <testsuite name="Door-Lock-Test-Suite">
+    <testsuite name="Door Lock Test Suite">
       <directory>tests</directory>
     </testsuite>
   </testsuites>
