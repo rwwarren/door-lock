@@ -15,7 +15,7 @@ function checkText(confPass, newPass) {
 
 function checkPass(pass, confPass, newPass){
   //Boolean passwords = checkText(confPass, newPass);
-  if(pass == null || !checkText(confPass, newPass)){
+  if(pass.length < 1 || pass == null || !checkText(confPass, newPass)){
 //  if(pass == null || !passwords){
     document.getElementById("submit").disabled = true;
   } else {
