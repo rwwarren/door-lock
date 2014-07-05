@@ -6,4 +6,7 @@ php:
 script: phpunit tests/dbtest.php
 
 before_script:
-  - sudo apt-get install apache2 mysql redis
+  - mysql -e 'create database myapp_test;'
+
+services:
+  - redis-server
