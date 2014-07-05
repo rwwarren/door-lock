@@ -6,7 +6,7 @@ php:
 script: phpunit tests/dbtest.php
 
 before_script:
-  - mysql -e 'create database myapp_test;'
+  - mysql -e 'create database doorlock;'
 
 services:
   - redis-server

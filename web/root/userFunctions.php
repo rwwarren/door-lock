@@ -20,8 +20,6 @@ if (isset($_GET['actions']) && (strpos($_SERVER["REQUEST_URI"], 'userFunctions.p
     registerUser();
   } else if ($type == 'changeUser' && isLoggedIn()){
     changeUser();
-  } else if ($type == 'changePassword' && isLoggedIn()){
-    changePassword();
   } else if ($type == 'changeUserInfo' && isLoggedIn()){
     changeUserInfo();
   } else if ($type == 'resetPassword'){
@@ -182,48 +180,18 @@ function registerUser(){
   }
 }
 
-//Changes the user's password
-function changePassword(){
-  if (isset($_SESSION['username']) && isset($_POST['oldPassword']) && isset($_POST['newPassword']) ){
-    $username = $_SESSION['username'];
-    $oldPassword = $_POST['oldPassword'];
-    $newPassword = $_POST['newPassword'];
-
-    $username = mysql_real_escape_string($username);
-    $oldPassword = mysql_real_escape_string($oldPassword);
-    $newPassword = mysql_real_escape_string($newPassword);
-    $dbconn = new dbconn;
-    $dbconn->connect("write");
-    $result = $dbconn->changePassword($username, $oldPassword, $newPassword);
-    $dbconn->close();
-
-    if ($result == 200){
-      logout();
-    }
-    //header("HTTP/1.0 200 Success, Password Changed");
-  } else {
-    //print_r($_POST);
-    echo 'nothing returned';
-    header("HTTP/1.0 401 User Forbidden");
-    exit();
-  }
-}
-
 //Changes the user's info
 function changeUserInfo(){
   if (isset($_SESSION['username']) && isset($_POST['oldPwd']) && isset($_POST['newPwd']) && isset($_POST['authy']) &&
       isset($_POST['card']) && isset($_POST['email']) && isset($_POST['name']) && isset($_POST['confNewPass']) ){
     $username = $_SESSION['username'];
-    //echo $username;
     $oldPassword = mysql_real_escape_string($_POST['oldPwd']);
-//    $newPassword = mysql_real_escape_string($_POST['oldPwd']);
     $newPassword = mysql_real_escape_string($_POST['newPwd']);
     $confNewPassword = mysql_real_escape_string($_POST['confNewPass']);
     $authy = mysql_real_escape_string($_POST['authy']);
     $card = mysql_real_escape_string($_POST['card']);
     $email = mysql_real_escape_string($_POST['email']);
     $name = mysql_real_escape_string($_POST['name']);
-    //print_r($_POST);
     if($newPassword !== $confNewPassword){
       echo 'new password and confirmed new password are not equal';
       return false;
@@ -248,15 +216,9 @@ function changeUserInfo(){
       if($result == 202){
         logout();
       }
-//
-//      if ($result == 200){
-//        logout();
-//      }
-      //header("HTTP/1.0 200 Success, Password Changed");
       exit();
     }
   } else {
-    //print_r($_POST);
     print_r($_POST);
     echo 'nothing returned';
     header("HTTP/1.0 401 User Forbidden");
