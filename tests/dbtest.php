@@ -1,8 +1,5 @@
 <?php
 
-//require_once ('/usr/share/php/PHPUnit/Autoload.php');
-//require_once ('PHPUnit/Autoload.php');
-
 class DBTest extends PHPUnit_Framework_TestCase {
     // ...
 
