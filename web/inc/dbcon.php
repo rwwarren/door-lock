@@ -226,30 +226,13 @@ class dbconn {
     $stmt->bind_param('ss', $username, $password);
     $stmt->execute();
     $stmt->bind_result($personName, $email, $authyID, $card);
-//    $stmt->bind_result($personName, $username, $password, $email, $admin, $authyID);
-    //$stmt->bind_result('ssssss', $personName, $username, $password, $email, $admin, $authyID);
-    //$name = $email = $authy =  $card = null;
-    //$name = $email = $authy =  $card = "";
-    //TODO whys this throw an error?
-//    $stmt->bind_result('ssss', $name, $email, $authy, $card);
     $result = $stmt->fetch();
     $stmt->free_result();
     $stmt->close();
-//    $stmt = $this->mysqli->prepare("SELECT ID, Name, Username, IsAdmin FROM Users WHERE Username=? and Password = PASSWORD(?) and IsActive = 1 LIMIT 1");
-//    $stmt->bind_param('ss', $name, $password);
-//    $stmt->execute();
-//    $stmt->bind_result($id, $name, $username, $isAdmin);
-//    $results = $stmt->fetch();
-    //echo "Old Pass: \n" . $password . " \n";
-    //echo "HERE WE GO";
-    echo $result;
     if($result !== true){
-//    if($result === null){
       return false;
-      //return null;
     } else {
       $userInfo = array('personName' => $personName, 'Email' => $email, 'AuthyID' => $authyID, 'CardID' => $card );
-      //print_r($userInfo);
       return $userInfo;
     }
   }
