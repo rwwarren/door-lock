@@ -3,7 +3,7 @@ language: php
 php:
   - 5.4
 
-script: phpunit tests/dbtest.php
+script: phpunit
 
 before_script:
   - mysql -e 'create database doorlock;'
