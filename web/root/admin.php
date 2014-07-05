@@ -8,10 +8,12 @@ if (isLoggedIn() && isAdmin()){
     $page = new adminPage;
     $page->render();
   } else {
-    header("Location:https://doorlock.wrixton.net/admin/");
+    //header("Location:https://doorlock.wrixton.net/admin/");
+    header("Location: http://$_SERVER[HTTP_HOST]");
   }
 } else {
-  header("Location:https://doorlock.wrixton.net/");
+  //header("Location:https://doorlock.wrixton.net/");
+  header("Location: http://$_SERVER[HTTP_HOST]");
   exit();
 }
 
