@@ -29,7 +29,6 @@ class dbconn {
       $stmt->close();
       return $userInfo;
     } else {
-      //echo '<br>Username or pwd incorrect';
       header("HTTP/1.0 403 Error Username or Password incorrect");
       header('Content-Type: application/json');
       echo json_encode(array('Invalid Username or Password' => $name, 'success' => '0' ));
