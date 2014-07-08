@@ -2,10 +2,6 @@
 ini_set("session.hash_function", "sha512");
 session_name('sid');
 
-//header("Set-Cookie: cookiename=sid; expires=Tue, 06-Jan-2009 23:39:49 GMT; path=/; domain=doorlock.wrixton.net");
-//ini_set('session.cookie_domain', '.wrixton.net');
-//session_set_cookie_params(0, '/', '.wrixton.net');
-
 session_start();
 
 abstract class Page {
@@ -17,7 +13,6 @@ abstract class Page {
 
   //Returns a header
   public function getHeader(){
-    //return 'PiDuinoLock';
     return '<a href="/">PiDuinoLock</a>';
   }
 
@@ -39,7 +34,6 @@ abstract class Page {
   //Returns page scripts, like css and javascripts
   public function getScripts(){
     return
-      //'<script src="http://code.jquery.com/jquery-2.0.3.js"></script>' .
       '<script src="https://code.jquery.com/jquery-2.0.3.js"></script>' .
       '';
   }

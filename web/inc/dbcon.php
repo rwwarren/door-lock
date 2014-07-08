@@ -157,7 +157,6 @@ class dbconn {
       $stmt2->close();
       return 200;
     } else {
-      //$stmt->close();
       echo 'not changed!';
       header("HTTP/1.0 401 Password Incorrect");
     }
