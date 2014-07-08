@@ -9,11 +9,9 @@ if (checkTokenValid($_GET['resetToken'])){
     $page = new ResetPage;
     $page->render();
   } else {
-    //header("Location:http://doorlock.wrixton.net/");
     header("Location: http://$_SERVER[HTTP_HOST]");
   }
 } else {
-  //header("Location:http://doorlock.wrixton.net/");
   header("Location: http://$_SERVER[HTTP_HOST]");
   exit();
 }

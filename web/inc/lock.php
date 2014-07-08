@@ -6,7 +6,7 @@ class lock extends Member {
 
   public function getBody(){
 
-    return //"You are logged in";
+    return
       'You are logged in <a href="/logout.php">Log out</a>' .
         '<br>' .
         'Welcome '. $_SESSION['name'] .

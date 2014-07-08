@@ -33,7 +33,7 @@ if (isset($_GET['actions']) && (strpos($_SERVER["REQUEST_URI"], 'userFunctions.p
   }
 } else {
   echo "improper request";
-  header("Location:/");
+  header("Location: http://$_SERVER[HTTP_HOST]");
   exit();
 }
 
@@ -61,7 +61,6 @@ function checkHeaders(){
 function login(){
   //TODO add check headers and other functions
   if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token'])){
-                          //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
     $user = $_POST['Username'];
     $pass = $_POST['Password'];
     $token = $_POST['Token'];
@@ -98,11 +97,6 @@ function login(){
         $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
         session_write_close();
 
-        //$_SESSION['username'] = 'asdf';
-        //echo "<br> userInfo <br>";
-        //print_r($userInfo);
-        //echo "<br> session <br>";
-        //print_r($_SESSION);
       //}
       $dbconn->close();
     } else { //authy is not right
@@ -129,19 +123,14 @@ function logout(){
   setcookie('sid', '', time()-3600);
   session_name('sid');
   session_start();
-  //header("Location:/");
-  //header("Location: $_SERVER[\"HTTP_HOST\"]");
-  //header("Location: $_SERVER[HTTP_ORIGIN]");
+  //TODO get this not to open another page
   header("Location: http://$_SERVER[HTTP_HOST]");
-  //header("Location: $_SERVER[HTTP_HOST]");
   exit();
 }
 
 //Changes the type of user in the database
 function changeUser(){
   if(isset($_POST['user']) && isset($_POST['type']) && isAdmin() /*&& checkHeaders()*/){
-                          //($requiredHeaders == $sentHeaders || isset($_SERVER['HTTP_REFERER']) == "http://doorlock.wrixton.net/")){
-    //echo "This is a test";
     $user = $_POST['user'];
     $type = $_POST['type'];
     $user = mysql_real_escape_string($user);
@@ -203,13 +192,6 @@ function changeUserInfo(){
       $dbconn = new dbconn;
       $dbconn->connect("write");
       $result = $dbconn->updateUserInfo($username, $oldPassword, $newPassword, $confNewPassword, $authy, $card, $email, $name);
-      //if($result === false) {
-        //incorrect password...
-      //}
-      //if($result == 403) {
-        //Passwords go not match
-      //}
-//      $result = $dbconn->changePassword($username, $oldPassword, $newPassword);
         //TODO this is the function name below
       $dbconn->close();
       //print_r($_SERVER);
@@ -238,7 +220,6 @@ function forgotPassword(){
     $results = $dbconn->findResetToken($resetToken);
     $dbconn->close();
     if ($results && (strcmp($pass, $otherPass) == 0)){
-      //
       //resets the password....
       echo 'Found!';
       $dbconn = new dbconn;
@@ -246,6 +227,8 @@ function forgotPassword(){
       $userID = $dbconn->resetChangePassword($pass, $resetToken);
       $results = $dbconn->invalidateResetURL($resetToken, $userID);
       $dbconn->close();
+      return true;
+      exit();
     } else {
       echo 'error! nothing found';
       header("HTTP/1.0 403 User Forbidden");
@@ -273,7 +256,6 @@ function resetPassword(){
     echo '<br> Please check your email';
     echo '<br> Click <a href="/">here</a> to go home';
   } else {
-    //header("Location:http://doorlock.wrixton.net/");
     header("Location: http://$_SERVER[HTTP_HOST]");
   }
 }

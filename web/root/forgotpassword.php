@@ -4,7 +4,7 @@ require_once("$root/../inc/forgotpage.php");
 require_once("$root/../inc/extraFunctions.php");
 
 if (isLoggedIn()){
-  header("Location:https://doorlock.wrixton.net/");
+  header("Location: http://$_SERVER[HTTP_HOST]");
 } else {
   $page = new ForgotPage;
 }

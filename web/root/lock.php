@@ -8,11 +8,9 @@ if (isLoggedIn()){
     $page = new lock;
     $page->render();
   } else {
-    //header("Location:https://doorlock.wrixton.net/lock/");
     header("Location: http://$_SERVER[HTTP_HOST]");
   }
 } else {
-  //header("Location:https://doorlock.wrixton.net/");
   header("Location: http://$_SERVER[HTTP_HOST]");
   exit();
 }
