@@ -1,2 +1,2 @@
-mv web/inc/mysqlUserTEST.php web/inc/mysqlUserTEST.php
-mv web/inc/variablesTEST.php web/inc/variablesTEST.php
+mv web/inc/mysqlUserTEST.php web/inc/mysqlUserT.php
+mv web/inc/variablesTEST.php web/inc/variablesT.php
