@@ -12,6 +12,7 @@ before_script:
   - mysql -u root -e "CREATE USER 'write'@'localhost' IDENTIFIED BY 'PASSWORD';"
   - mysql -u root -e "GRANT SELECT, INSERT, UPDATE, CREATE ON doorlock.* TO 'write'@'localhost';"
   - mysql -u root -e "FLUSH PRIVILEGES;"
+  - mysqldump -u root doorlock > createDB.sql
   - chmod +x build.sh
   - ./build.sh
 
