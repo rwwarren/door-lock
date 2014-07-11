@@ -14,13 +14,10 @@ before_script:
   - mysql -u root -e "FLUSH PRIVILEGES;"
   - mysqldump -u root doorlock > createDB.sql
   - mkdir ./web/includedPackages
-  - git clone git://github.com/authy/authy-php.git ./web/includedPackages
-  - cd
-  - git clone git://github.com/nrk/predis.git ./web/includedPackages
-  - cd
-  - git clone git://github.com/PHPMailer/PHPMailer.git ./web/includedPackages
-  - cd
   - cd ./web/includedPackages
+  - git clone git://github.com/authy/authy-php.git
+  - git clone git://github.com/nrk/predis.git
+  - git clone git://github.com/PHPMailer/PHPMailer.git
   - wget http://download.redis.io/releases/redis-2.8.12.tar.gz
   - tar xzf redis-2.8.12.tar.gz
   - cd redis-2.8.12
