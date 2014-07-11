@@ -7,6 +7,22 @@ script: phpunit
 
 before_script:
   - mysql -e 'create database doorlock;'
+  - mysql -u root -e "CREATE USER 'read'@'localhost' IDENTIFIED BY 'PASSWORD';"
+  - mysql -u root -e "GRANT SELECT ON doorlock.* TO 'read'@'localhost';"
+  - mysql -u root -e "CREATE USER 'write'@'localhost' IDENTIFIED BY 'PASSWORD';"
+  - mysql -u root -e "GRANT SELECT, INSERT, UPDATE, CREATE ON doorlock.* TO 'write'@'localhost';"
+  - mysql -u root -e "FLUSH PRIVILEGES;"
+  - mysqldump -u root doorlock > createDB.sql
+  - mkdir ./web/includedPackages
+  - cd ./web/includedPackages
+  - git clone git://github.com/authy/authy-php.git
+  - git clone git://github.com/nrk/predis.git
+  - git clone git://github.com/PHPMailer/PHPMailer.git
+  - wget http://download.redis.io/releases/redis-2.8.12.tar.gz
+  - tar xzf redis-2.8.12.tar.gz
+  - cd redis-2.8.12
+  - make
+  - cd ../../../
   - chmod +x build.sh
   - ./build.sh
 
