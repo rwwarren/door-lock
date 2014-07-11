@@ -22,7 +22,7 @@ before_script:
   - tar xzf redis-2.8.12.tar.gz
   - cd redis-2.8.12
   - make
-  - cd ~/rwwarren/door-lock
+  - cd ../../../
   - chmod +x build.sh
   - ./build.sh
 
