@@ -7,8 +7,8 @@ script: phpunit
 
 before_script:
   - mysql -e 'create database doorlock;'
-  - mysql -u root
-  - grant usage on *.* to read@localhost identified by PASSWORD('PASSWORD');
+  - mysql -u root -e "CREATE USER 'read'@'localhost' IDENTIFIED BY PASSWORD('password')"
+  - mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'doorlock'@'localhost' WITH GRANT OPTION;"
   - chmod +x build.sh
   - ./build.sh
 
