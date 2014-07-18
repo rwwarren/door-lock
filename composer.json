@@ -1,0 +1,16 @@
+{
+    "name": "pi/door-lock",
+    "description": "Electronic doorlock system",
+    "authors": [
+        {
+            "name": "Ryan Warren",
+            "email": "admin@wrixton.net"
+        }
+    ],
+    "require": {
+
+    },
+    "require-dev": {
+      "satooshi/php-coveralls": "dev-master"
+    }
+}

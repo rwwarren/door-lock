@@ -6,7 +6,8 @@ web/includedPackages
 backups/
 
 # ignore the .something files
-.gitignore
+.coveralls.yml
+composer.lock
 *.swp
 mysqlLogin.java
 *.jar
@@ -14,3 +15,5 @@ web/inc/mysqlUser.php
 web/inc/variables.php
 web/lock_error.log
 build/logs/clover.xml
+
+/vendor/
