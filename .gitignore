@@ -13,3 +13,4 @@ mysqlLogin.java
 web/inc/mysqlUser.php
 web/inc/variables.php
 web/lock_error.log
+build/logs/clover.xml
