@@ -16,8 +16,9 @@ class Users {
         $this->dbpassword = 'PASSWORD';
         break;
       default:
-        die('Database user not selected properly');
-        error_log("Tried to connect to DB without user and used type: " . $type);
+        //die('Database user not selected properly');
+        //error_log("Tried to connect to DB without user and used type: " . $type);
+        throw new InvalidArgumentException('Database user not selected properly');
         break;
     }
   }
