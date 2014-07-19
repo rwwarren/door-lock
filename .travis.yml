@@ -24,6 +24,7 @@ before_script:
   - ./build.sh
 
 script:
+  - composer selfupdate
   - composer install
   - phpunit
 
