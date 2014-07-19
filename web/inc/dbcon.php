@@ -4,9 +4,24 @@ error_reporting(E_ALL);
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("mysqlUser.php");
 
+//TODO uset all dbconn calls and delete connect and close
 class dbconn {
 
   private $mysqli = null;
+
+  //Closes the mysql database connection
+  public function __destruct(){
+    if($this->mysqli === null) {
+      die('Not Connected to a Database, can\'t disconnect');
+    }
+    $this->mysqli->close();
+  }
+
+  //Connects to the mysql database
+  public function __construct($user){
+    $sqlUser = new users($user);
+    $this->mysqli = new mysqli("localhost", $sqlUser->getUser(), $sqlUser->getPass(), "doorlock");
+  }
 
   //Queries the database for the username and password to login
   //the user on the site

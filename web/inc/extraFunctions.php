@@ -18,10 +18,10 @@ require_once("$root/../inc/dbcon.php");
   //Returns if the reset token is valid
   function checkTokenValid($resetToken){
     //return isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1;
-    $dbconn = new dbconn;
-    $dbconn->connect("read");
+    $dbconn = new dbconn("read");
+    //$dbconn->connect("read");
     $results = $dbconn->findResetToken($resetToken);
-    $dbconn->close();
+    //$dbconn->close();
     return $results;
   }
 

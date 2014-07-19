@@ -67,7 +67,7 @@ function login(){
   
     $user = mysql_real_escape_string($user);
     $pass = mysql_real_escape_string($pass);
-    $dbconn = new dbconn;
+    $dbconn = new dbconn("read");
     //$dbconn->close();
     //TODO this is the sandbox one
     //TODO also remove my secret key
@@ -85,7 +85,7 @@ function login(){
     $test = true;
     if($test == true){
       echo '<br> authy token is okay';
-      $dbconn->connect("read");
+      //$dbconn->connect("read");
       //$dbconn->login($user, $pass);
       //$_SESSION['username'] = 'asdf';
       $userInfo = array();
@@ -98,7 +98,7 @@ function login(){
         session_write_close();
 
       //}
-      $dbconn->close();
+      //$dbconn->close();
     } else { //authy is not right
       header("HTTP/1.0 401 Authy key wrong");
       exit();
@@ -134,10 +134,10 @@ function changeUser(){
     $user = $_POST['user'];
     $type = $_POST['type'];
     $user = mysql_real_escape_string($user);
-    $dbconn = new dbconn;
-    $dbconn->connect("write");
+    $dbconn = new dbconn("write");
+    //$dbconn->connect("write");
     $dbconn->changeUser($user, $type);
-    $dbconn->close();
+    //$dbconn->close();
   } else {
     echo "nope";
     echo '<br>No username entered';
@@ -159,10 +159,10 @@ function registerUser(){
     $username = mysql_real_escape_string($username);
     $password = mysql_real_escape_string($password);
     $email = mysql_real_escape_string($email);
-    $dbconn = new dbconn;
-    $dbconn->connect("write");
+    $dbconn = new dbconn("write");
+    //$dbconn->connect("write");
     $dbconn->registerUser($personName, $username, $password, $email, $admin, $authyID);
-    $dbconn->close();
+    //$dbconn->close();
   } else {
     echo 'nothing returned';
     header("HTTP/1.0 403 User Forbidden");
@@ -189,11 +189,11 @@ function changeUserInfo(){
 //      $username = mysql_real_escape_string($username);
 //      $oldPassword = mysql_real_escape_string($oldPassword);
 //      $newPassword = mysql_real_escape_string($newPassword);
-      $dbconn = new dbconn;
-      $dbconn->connect("write");
+      $dbconn = new dbconn("write");
+      //$dbconn->connect("write");
       $result = $dbconn->updateUserInfo($username, $oldPassword, $newPassword, $confNewPassword, $authy, $card, $email, $name);
         //TODO this is the function name below
-      $dbconn->close();
+      //$dbconn->close();
       //print_r($_SERVER);
       if($result == 202){
         logout();
@@ -215,18 +215,18 @@ function forgotPassword(){
     $resetToken = $_GET['resetToken'];
     $pass = $_POST['pass'];
     $otherPass = $_POST['confirmPass'];
-    $dbconn = new dbconn;
-    $dbconn->connect("write");
+    $dbconn = new dbconn("write");
+    //$dbconn->connect("write");
     $results = $dbconn->findResetToken($resetToken);
-    $dbconn->close();
+    //$dbconn->close();
     if ($results && (strcmp($pass, $otherPass) == 0)){
       //resets the password....
       echo 'Found!';
-      $dbconn = new dbconn;
-      $dbconn->connect("write");
+      $dbconn = new dbconn("write");
+      //$dbconn->connect("write");
       $userID = $dbconn->resetChangePassword($pass, $resetToken);
       $results = $dbconn->invalidateResetURL($resetToken, $userID);
-      $dbconn->close();
+      //$dbconn->close();
       return true;
       exit();
     } else {
@@ -247,10 +247,10 @@ function resetPassword(){
     $username = $_POST['username'];
     $email = $_POST['email'];
 
-    $dbconn = new dbconn;
-    $dbconn->connect("write");
+    $dbconn = new dbconn("write");
+    //$dbconn->connect("write");
     $dbconn->resetPassword($username, $email);
-    $dbconn->close();
+    //$dbconn->close();
 
     echo 'Email sent to: ' . $email . '. Password for username: ' . $username . ' has been reset!';
     echo '<br> Please check your email';

@@ -142,14 +142,14 @@ class userEdit extends Member{
   //TODO clean up, div class maybe, label, make nice
   //get all info, change only what changed, add in current info
   private function userEditer(){
-    $dbconn = new dbconn;
-    $dbconn->connect('read');
+    $dbconn = new dbconn("read");
+    //$dbconn->connect('read');
     $userInfo = $dbconn->getUserInfo($_SESSION['username']);
 //    if($userInfo['AuthyID'] == 0){
 //      $userInfo['AuthyID'] = NULL;
 //    }
     //print_r($userInfo);
-    $dbconn->close();
+    //$dbconn->close();
     return
       'Username: ' .
       $_SESSION['username'] .
