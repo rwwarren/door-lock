@@ -3,9 +3,8 @@ language: php
 php:
   - 5.4
 
-script:
-  - composer install
-  - phpunit
+services:
+  - redis-server
 
 before_script:
   - mysql -e 'create database doorlock;'
@@ -24,8 +23,10 @@ before_script:
   - chmod +x build.sh
   - ./build.sh
 
-services:
-  - redis-server
+script:
+  - composer install
+  - phpunit
 
 after_script:
   - php vendor/bin/coveralls
+
