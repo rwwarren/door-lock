@@ -26,6 +26,6 @@ before_script:
 script:
   - composer selfupdate
   - composer install
-  - php vendor/bin/coveralls
   - phpunit
+  - php vendor/bin/coveralls
 
