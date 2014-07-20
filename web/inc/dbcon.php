@@ -69,20 +69,6 @@ class dbconn {
     }
   }
 
-  //Closes the mysql database connection
-  public function close(){
-    if($this->mysqli === null) {
-      die('Not Connected to a Database, can\'t disconnect');
-    }
-    $this->mysqli->close();
-  }
-
-  //Connects to the mysql database
-  public function connect($user){
-    $sqlUser = new users($user);
-    $this->mysqli = new mysqli("localhost", $sqlUser->getUser(), $sqlUser->getPass(), "doorlock");
-  }
-
   //Returnd the usernames from the database
   public function getUsers(){
     //selecting all the users
