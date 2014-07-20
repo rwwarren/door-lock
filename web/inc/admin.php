@@ -313,8 +313,8 @@ class adminPage extends Member{
   }
 
   private function userconfig(){
-    $db = new dbconn;
-    $db->connect('write');
+    $db = new dbconn("write");
+    //$db->connect('write');
     //$db->connect('read');
     $also = $db->getUsers();
     $inactive = $db->getInactiveUsers();
@@ -410,8 +410,8 @@ class adminPage extends Member{
 
   public function getBody(){
 //    if (isAdmin()){
-      $db = new dbconn;
-      $db->connect('read');
+      $db = new dbconn("read");
+      //$db->connect('read');
       $also = $db->getUsers();
       //echo '<pre>';
       //print_r($also);
