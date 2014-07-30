@@ -8,7 +8,8 @@
         }
     ],
     "require": {
-
+      "authy/php": "*",
+      "phpmailer/phpmailer": "dev-master"
     },
     "require-dev": {
       "satooshi/php-coveralls": "dev-master"

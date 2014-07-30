@@ -17,3 +17,4 @@ web/lock_error.log
 build/logs/clover.xml
 
 /vendor/
+/build/logs/*
