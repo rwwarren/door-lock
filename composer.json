@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-      "authy/php": "*",
+      "authy/php": "dev-master",
       "phpmailer/phpmailer": "dev-master"
     },
     "require-dev": {
