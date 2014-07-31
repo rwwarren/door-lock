@@ -37,7 +37,7 @@ class DBTest extends PHPUnit_Framework_TestCase {
     //ob_start();
     $conn = new dbconn("read");
     //$conn->connect("read");
-    //$results = $conn->login('test', 'asdf');
+    $results = $conn->login('test', 'test');
     //$this->assertContains('HTTP/1.0 403 Error Username or Password incorrect', $results);
     //include_once("/web/inc/dbcon.php");
   }
