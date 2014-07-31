@@ -6,7 +6,9 @@ session_start();
 
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/dbcon.php");
-require '../includedPackages/authy-php/Authy.php';
+//require '../includedPackages/authy-php/Authy.php';
+//require_once('Authy/Authy.php');
+require_once("$root/../../vendor/autoload.php");
 require_once("$root/../inc/variables.php");
 require_once("$root/../inc/extraFunctions.php");
 
@@ -79,6 +81,8 @@ function login(){
     //$dbconn->close();
     //TODO add this back in to the check
     //$verification = $authy_api->verifyToken("$authy_id", "$token");
+    //$verification = $authy_api->verifyToken(234, "$token");
+    $authy_api = new Authy_Api('#your_api_key', 'http://sandbox-api.authy.com');
     //if($authyValid && $verification->ok()){
     //TODO above commented out to save testing hassle
     //$_SESSION['username'] = 'asdf';

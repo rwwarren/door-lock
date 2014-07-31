@@ -8,9 +8,14 @@
         }
     ],
     "require": {
-
+      "authy/php": "dev-master",
+      "phpmailer/phpmailer": "dev-master",
+      "satooshi/php-coveralls": "dev-master"
     },
     "require-dev": {
-      "satooshi/php-coveralls": "dev-master"
+        "resty/resty": "0.3.8"
+    },
+    "autoload": {
+      "classmap": ["vendor/resty"]
     }
 }
