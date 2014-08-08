@@ -28,9 +28,11 @@ require_once("$root/../inc/dbcon.php");
   //Sends the user an email about password being reset,
   //send the name, and reset url
   function sendMail($name, $sendEmail, $newPassToken){
+    global $root;
 
     include_once 'variables.php';
-    include '../includedPackages/PHPMailer/PHPMailerAutoload.php';
+    //include '../includedPackages/PHPMailer/PHPMailerAutoload.php';
+    require_once("$root/../../vendor/autoload.php");
     $emailVars = emailVariables();
     $mail = new PHPMailer;
     
