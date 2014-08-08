@@ -32,6 +32,8 @@
 
 # Examples:
 
+Composer install
+
 # Option Choices:
 
 1) Authy
