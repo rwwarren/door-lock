@@ -26,11 +26,16 @@
 
 5) Select different options.
 
-6) Do composer install
+6) Install composer
+
+7) Do composer install
 
 # Examples:
+
+Composer install
 
 # Option Choices:
 
 1) Authy
+
 
