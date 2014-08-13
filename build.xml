@@ -1,0 +1,5 @@
+<project name="Doorlock" default="dist" basedir=".">
+  <description>
+    Automated Door Lock System
+  </description>
+</project>
