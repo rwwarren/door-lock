@@ -8,10 +8,12 @@
         }
     ],
     "require": {
-      "resty/resty": "dev-master",
       "authy/php": "dev-master",
       "phpmailer/phpmailer": "dev-master",
       "satooshi/php-coveralls": "dev-master"
+    },
+    "require-dev": {
+      "resty/resty": "0.6"
     },
     "autoload": {
       "classmap": ["vendor/resty"]
