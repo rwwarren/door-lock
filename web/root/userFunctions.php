@@ -67,9 +67,9 @@ function login(){
     $pass = $_POST['Password'];
     $token = $_POST['Token'];
   
-    $user = mysql_real_escape_string($user);
-    $pass = mysql_real_escape_string($pass);
     $dbconn = new dbconn("read");
+    //$user = mysqli_real_escape_string($dbconn, $user);
+    //$pass = mysqli_real_escape_string($dbconn, $pass);
     //$dbconn->close();
     //TODO this is the sandbox one
     //TODO also remove my secret key
@@ -82,7 +82,7 @@ function login(){
     //TODO add this back in to the check
     //$verification = $authy_api->verifyToken("$authy_id", "$token");
     //$verification = $authy_api->verifyToken(234, "$token");
-    $authy_api = new Authy_Api('#your_api_key', 'http://sandbox-api.authy.com');
+    //$authy_api = new Authy_Api('#your_api_key', 'http://sandbox-api.authy.com');
     //if($authyValid && $verification->ok()){
     //TODO above commented out to save testing hassle
     //$_SESSION['username'] = 'asdf';

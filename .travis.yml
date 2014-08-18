@@ -13,7 +13,7 @@ before_script:
   - mysql -u root -e "CREATE USER 'write'@'localhost' IDENTIFIED BY 'PASSWORD';"
   - mysql -u root -e "GRANT SELECT, INSERT, UPDATE, CREATE ON doorlock.* TO 'write'@'localhost';"
   - mysql -u root -e "FLUSH PRIVILEGES;"
-  - mysqldump -u root doorlock > createDB.sql
+  - mysql -u root doorlock < createDB.sql
   - mkdir ./web/includedPackages
   - cd ./web/includedPackages
   - git clone git://github.com/authy/authy-php.git
