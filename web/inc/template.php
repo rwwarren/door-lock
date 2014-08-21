@@ -13,7 +13,8 @@ abstract class Page {
 
   //Returns a header
   public function getHeader(){
-    return '<a href="/">PiDuinoLock</a>';
+    //return '<a href="/">PiDuinoLock</a>';
+    return '';
   }
 
   //Needs to be defined in the children
@@ -53,7 +54,8 @@ abstract class Page {
       '</head>' .
       '<body>'.
         '<div id="container">' .
-        '<div id="header">' .
+        '<div onclick="location.href=\'/\';" style="cursor:pointer;" id="header">' .
+//        '<div id="header">' .
           $this->getHeader() .
         '</div>' .
           '<div id="body">' .

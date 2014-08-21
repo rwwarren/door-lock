@@ -11,8 +11,20 @@
   font-family:"Georgia", Times, serif;
   font-weight: bolder;
   font-size: 2em;
-  background-color: #CCCCCC;
-  padding: .4em;
+  /* height: 272px; */
+  /*height: 160px;*/
+  /* background-color: #CCCCCC; */
+  background-size: contain;
+  background-repeat: no-repeat;
+  /*width: 100%; */
+  height: 0;
+  background-image: url("/images/logo.gif");
+  background-repeat: no-repeat;
+  padding-top: .4em;
+  padding-right: .4em;
+  padding-left: .4em;
+/*  padding: .4em; */
+  padding-top: 160px/* (img-height / img-width * width) */;
   letter-spacing: .15em;
 }
 

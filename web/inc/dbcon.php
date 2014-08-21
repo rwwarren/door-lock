@@ -388,9 +388,10 @@ class dbconn {
       $stmt->bind_result($resetToken);
       //invalidates all currently valid tokens
       //TODO make this happen like once a week with a script
-      while($stmt->fetch()){
-        $this->invalidateResetURL($resetToken, $userID);
-      }
+      //TODO fix this below
+      //while($stmt->fetch()){
+      //  $this->invalidateResetURL($resetToken, $userID);
+      //}
       $stmt->free_result();
       $stmt->close();
       $expireTime = date('Y-m-d H:i:s', strtotime("+2 day", time()));
