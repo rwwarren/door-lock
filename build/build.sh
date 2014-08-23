@@ -6,32 +6,48 @@ INT="int"
 PROD="prod"
 PROD_SERVER="idkYET"
 ENV=${locarray[2]}
+PASSED_IN_ENV=$1
+DEPLOYED=false
 
-if [ $ENV=$DEV ]
+if [[ ${#PASSED_IN_ENV} > 0 ]]
+#if [ ! "$PASSED_IN_ENV" ]
 then
-sudo cp 00-dev-door-lock.conf /etc/apache2/sites-available/00-dev-door-lock.conf
-sudo a2ensite 00-dev-door-lock
+  ENV=$PASSED_IN_ENV
+fi
 
-elif [ $ENV=$INT ]
+if [[ $ENV == $DEV ]]
 then
-sudo cp 01-int-door-lock.conf /etc/apache2/sites-available/01-int-door-lock.conf
-sudo a2ensite 01-int-door-lock
+  sudo cp 00-dev-door-lock.conf /etc/apache2/sites-available/00-dev-door-lock.conf
+  sudo a2ensite 00-dev-door-lock
+  DEPLOYED=true
 
-elif [ $ENV=$PROD ]
+elif [[ $ENV == $INT ]]
 then
-sudo cp 02-prod-test-door-lock.conf /etc/apache2/sites-available/02-prod-test-door-lock.conf
-sudo a2ensite 02-prod-test-door-lock
+  sudo cp 01-int-door-lock.conf /etc/apache2/sites-available/01-int-door-lock.conf
+  sudo a2ensite 01-int-door-lock
+  DEPLOYED=true
 
-elif [ $ENV=$PROD_SERVER ]
+elif [[ $ENV == $PROD ]]
 then
-sudo cp 10-prod-door-lock.conf /etc/apache2/sites-available/10-prod-door-lock.conf
-sudo a2ensite 10-prod-door-lock
+  sudo cp 02-prod-test-door-lock.conf /etc/apache2/sites-available/02-prod-test-door-lock.conf
+  sudo a2ensite 02-prod-test-door-lock
+  DEPLOYED=true
+
+elif [[ $ENV == $PROD_SERVER ]]
+then
+  sudo cp 10-prod-door-lock.conf /etc/apache2/sites-available/10-prod-door-lock.conf
+  sudo a2ensite 10-prod-door-lock
+  DEPLOYED=true
+else
+  echo "please use a specified env"
 
 fi
 
-echo "deployed apache config for: $ENV"
-sudo service apache2 reload
+if $DEPLOYED
+then
+  echo "deployed apache config for: $ENV"
+  sudo service apache2 reload
 
-echo "apache restart complete"
-echo "DEPLOYMENT SUCCESSFULL!"
-
+  echo "apache restart complete"
+  echo "DEPLOYMENT SUCCESSFULL!"
+fi
