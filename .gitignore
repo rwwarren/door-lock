@@ -16,5 +16,5 @@ web/inc/variables.php
 web/lock_error.log
 build/logs/clover.xml
 
-/vendor/
-/build/logs/*
+web/vendor/
+web/build/logs/*
