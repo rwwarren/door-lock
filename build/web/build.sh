@@ -17,25 +17,25 @@ fi
 
 if [[ $ENV == $DEV ]]
 then
-  sudo cp 00-dev-door-lock.conf /etc/apache2/sites-available/00-dev-door-lock.conf
+  sudo cp $DIR/00-dev-door-lock.conf /etc/apache2/sites-available/00-dev-door-lock.conf
   sudo a2ensite 00-dev-door-lock
   DEPLOYED=true
 
 elif [[ $ENV == $INT ]]
 then
-  sudo cp 01-int-door-lock.conf /etc/apache2/sites-available/01-int-door-lock.conf
+  sudo cp $DIR/01-int-door-lock.conf /etc/apache2/sites-available/01-int-door-lock.conf
   sudo a2ensite 01-int-door-lock
   DEPLOYED=true
 
 elif [[ $ENV == $PROD ]]
 then
-  sudo cp 02-prod-test-door-lock.conf /etc/apache2/sites-available/02-prod-test-door-lock.conf
+  sudo cp $DIR/02-prod-test-door-lock.conf /etc/apache2/sites-available/02-prod-test-door-lock.conf
   sudo a2ensite 02-prod-test-door-lock
   DEPLOYED=true
 
 elif [[ $ENV == $PROD_SERVER ]]
 then
-  sudo cp 10-prod-door-lock.conf /etc/apache2/sites-available/10-prod-door-lock.conf
+  sudo cp $DIR/10-prod-door-lock.conf /etc/apache2/sites-available/10-prod-door-lock.conf
   sudo a2ensite 10-prod-door-lock
   DEPLOYED=true
 else
