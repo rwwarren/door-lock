@@ -8,7 +8,7 @@ $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/dbcon.php");
 //require '../includedPackages/authy-php/Authy.php';
 //require_once('Authy/Authy.php');
-require_once("$root/../../vendor/autoload.php");
+require_once("$root/../vendor/autoload.php");
 require_once("$root/../inc/variables.php");
 require_once("$root/../inc/extraFunctions.php");
 
