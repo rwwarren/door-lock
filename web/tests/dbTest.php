@@ -1,6 +1,6 @@
 <?php
 //include_once("../web/inc/dbcon.php");
-include_once("web/inc/dbcon.php");
+include_once("../inc/dbcon.php");
 //include "../web/inc/variables..php";
 
 class DBTest extends PHPUnit_Framework_TestCase {
