@@ -32,7 +32,7 @@ require_once("$root/../inc/dbcon.php");
 
     include_once 'variables.php';
     //include '../includedPackages/PHPMailer/PHPMailerAutoload.php';
-    require_once("$root/../../vendor/autoload.php");
+    require_once("$root/../vendor/autoload.php");
     $emailVars = emailVariables();
     $mail = new PHPMailer;
     
