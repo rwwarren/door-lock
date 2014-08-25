@@ -1,2 +1,2 @@
 service_name: travis-ci
-src_dir: web
+src_dir: inc
