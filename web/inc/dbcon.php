@@ -44,10 +44,11 @@ class dbconn {
       $stmt->close();
       return $userInfo;
     } else {
-      header("HTTP/1.0 403 Error Username or Password incorrect");
-      header('Content-Type: application/json');
-      echo json_encode(array('Invalid Username or Password' => $name, 'success' => '0' ));
-      exit();
+      return false;
+      //header("HTTP/1.0 403 Error Username or Password incorrect");
+      //header('Content-Type: application/json');
+      //echo json_encode(array('Invalid Username or Password' => $name, 'success' => '0' ));
+      //exit();
     }
   }
 

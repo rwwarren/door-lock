@@ -41,6 +41,7 @@ class DBTest extends PHPUnit_Framework_TestCase {
     $results = $conn->login('test', 'password');
     //$results = $conn->login('test', 'test');
     //unserialize($results);
+    $this->assertTrue($results !== false);
     //$this->assertContains('HTTP/1.0 403 Error Username or Password incorrect', $results);
     //include_once("/web/inc/dbcon.php");
   }
@@ -49,7 +50,8 @@ class DBTest extends PHPUnit_Framework_TestCase {
    */
   public function invalidLogin() {
     $conn = new dbconn("read");
-    //$results = $conn->login('test', 'password');
+    $results = $conn->login('test', 'invalidpassword');
+    $this->assertFalse($results);
   }
 
   /**
