@@ -5,6 +5,7 @@ php:
 
 services:
   - redis-server
+  - mysqli
 
 before_script:
   - mysql -u root -e 'create database doorlock;'
