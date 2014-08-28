@@ -22,5 +22,6 @@ script:
   - cd web
   - composer install
   - phpunit --debug -v
+  - mysql --version
   - php vendor/bin/coveralls
 
