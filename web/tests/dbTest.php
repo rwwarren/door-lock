@@ -32,7 +32,6 @@ class DBTest extends PHPUnit_Framework_TestCase {
 
   /**
    * @test
-   * @runInSeparateProcess
    */
   public function validLogin() {
     //ob_start();
