@@ -21,6 +21,6 @@ script:
   - composer selfupdate
   - cd web
   - composer install
-  - phpunit
+  - phpunit --debug
   - php vendor/bin/coveralls
 
