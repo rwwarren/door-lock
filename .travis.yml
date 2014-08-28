@@ -19,6 +19,7 @@ before_script:
   - ./build.sh
 
 script:
+  - php -m
   - composer selfupdate
   - cd web
   - composer install
