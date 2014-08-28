@@ -30,10 +30,10 @@ class dbconn {
     //TODO check redis first? then the db then cache it?
     $password = passwordEncode($password);
     $stmt = $this->mysqli->prepare("SELECT ID, Name, Username, IsAdmin FROM Users WHERE Username=? and Password = PASSWORD(?) and IsActive = 1 LIMIT 1");
-    try {
+    if($stmt){
     $stmt->bind_param('ss', $name, $password);
-    } catch (Exception $e){
-      echo 'Caught exception: ',  $e->getMessage(), "\n";
+    } else {
+      printf("Errormessage: %s\n", $this->mysqli->error);
       //
     }
     $stmt->execute();
