@@ -34,6 +34,8 @@ class dbconn {
     $stmt->bind_param('ss', $name, $password);
     } else {
       printf("Errormessage: %s\n", $this->mysqli->error);
+      //die();
+      return false;
       //
     }
     $stmt->execute();
