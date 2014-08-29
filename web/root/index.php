@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_URI"] == "/"){
   }
   $page->render();
 } else {
-  header("Location: http://$_SERVER[SERVER_NAME]");
+  header("Location: http://$_SERVER[HTTP_X_FORWARDED_SERVER]");
   exit();
 }
 ?>
