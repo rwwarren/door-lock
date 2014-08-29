@@ -4,6 +4,7 @@ RewriteRule logout.php userFunctions.php?actions=logout
 RewriteRule ^users/?$  users.php [L]
 RewriteRule ^lock/?$  lock.php [L]
 RewriteRule ^admin/?$  admin.php [L]
+RewriteRule ^config/?$  config.php [L]
 RewriteRule login.php userFunctions.php?actions=login
 RewriteRule register.php userFunctions.php?actions=registerUser
 RewriteRule changeUser.php userFunctions.php?actions=changeUser
