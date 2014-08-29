@@ -8,10 +8,10 @@ if (isLoggedIn() && isAdmin()){
     $page = new adminPage;
     $page->render();
   } else {
-    header("Location: http://$_SERVER[HTTP_HOST]");
+    header("Location: http://$_SERVER[HTTP_X_FORWARDED_SERVER]");
   }
 } else {
-  header("Location: http://$_SERVER[HTTP_HOST]");
+  header("Location: http://$_SERVER[HTTP_X_FORWARDED_SERVER]");
   exit();
 }
 

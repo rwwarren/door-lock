@@ -4,7 +4,7 @@ require_once("$root/../inc/forgotpage.php");
 require_once("$root/../inc/extraFunctions.php");
 
 if (isLoggedIn()){
-  header("Location: http://$_SERVER[HTTP_HOST]");
+  header("Location: http://$_SERVER[HTTP_X_FORWARDED_SERVER]");
 } else {
   $page = new ForgotPage;
 }
