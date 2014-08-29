@@ -8,10 +8,10 @@ if (isLoggedIn()){
     $page = new userEdit;
     $page->render();
   } else {
-    header("Location: http://$_SERVER[HTTP_HOST]");
+    header("Location: http://$_SERVER[SERVER_NAME]");
   }
 } else {
-  header("Location: http://$_SERVER[HTTP_HOST]");
+  header("Location: http://$_SERVER[SERVER_NAME]");
   exit();
 }
 

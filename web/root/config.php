@@ -1,7 +1,7 @@
 <?php
 
 if ($_SERVER["REQUEST_URI"] == "/config.php"){
-  header("Location: http://$_SERVER[HTTP_HOST]");
+  header("Location: http://$_SERVER[SERVER_NAME]");
   exit();
 
 }

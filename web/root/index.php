@@ -4,10 +4,15 @@ require_once("$root/../inc/home.php");
 require_once("$root/../inc/loggedin.php");
 require_once("$root/../inc/extraFunctions.php");
 
-if (isLoggedIn()){
-  $page = new Loggedin;
+if ($_SERVER["REQUEST_URI"] == "/"){
+  if (isLoggedIn()){
+    $page = new Loggedin;
+  } else {
+    $page = new Home;
+  }
+  $page->render();
 } else {
-  $page = new Home;
+  header("Location: http://$_SERVER[SERVER_NAME]");
+  exit();
 }
-$page->render();
 ?>
