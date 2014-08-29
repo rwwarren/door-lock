@@ -95,11 +95,17 @@ function login(){
       $userInfo = array();
       $userInfo = $dbconn->login($user, $pass);
       //if($userInfo !== NULL){
+      if($userInfo !== false){
         $_SESSION['name'] = $userInfo['Name'];
         $_SESSION['username'] = $userInfo['Username'];
         $_SESSION['userID'] = $userInfo['ID'];
         $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
         session_write_close();
+      } else {
+        header("HTTP/1.0 403 Error Username or Password incorrect");
+        header('Content-Type: application/json');
+        echo json_encode(array('Invalid Username or Password' => $user, 'success' => '0' ));
+      }
 
       //}
       //$dbconn->close();

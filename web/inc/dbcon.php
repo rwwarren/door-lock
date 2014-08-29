@@ -30,7 +30,14 @@ class dbconn {
     //TODO check redis first? then the db then cache it?
     $password = passwordEncode($password);
     $stmt = $this->mysqli->prepare("SELECT ID, Name, Username, IsAdmin FROM Users WHERE Username=? and Password = PASSWORD(?) and IsActive = 1 LIMIT 1");
+    if($stmt){
     $stmt->bind_param('ss', $name, $password);
+    } else {
+      printf("Errormessage: %s\n", $this->mysqli->error);
+      //die();
+      return false;
+      //
+    }
     $stmt->execute();
     $stmt->bind_result($id, $name, $username, $isAdmin);
     $results = $stmt->fetch();
@@ -44,10 +51,11 @@ class dbconn {
       $stmt->close();
       return $userInfo;
     } else {
-      header("HTTP/1.0 403 Error Username or Password incorrect");
-      header('Content-Type: application/json');
-      echo json_encode(array('Invalid Username or Password' => $name, 'success' => '0' ));
-      exit();
+      return false;
+      //header("HTTP/1.0 403 Error Username or Password incorrect");
+      //header('Content-Type: application/json');
+      //echo json_encode(array('Invalid Username or Password' => $name, 'success' => '0' ));
+      //exit();
     }
   }
 
