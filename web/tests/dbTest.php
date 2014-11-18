@@ -76,6 +76,9 @@ class DBTest extends PHPUnit_Framework_TestCase {
    */
   public function getUsers() {
     //
+    $conn = new dbconn("read");
+    $allUsers = $conn->getUsers();
+    $this->assertTrue($allUsers !== null);
   }
 
   /**
@@ -83,6 +86,9 @@ class DBTest extends PHPUnit_Framework_TestCase {
    */
   public function getActiveUsers() {
     //
+    $conn = new dbconn("read");
+    $allUsers = $conn->getActiveUsers();
+    $this->assertTrue($allUsers !== null);
   }
 
   /**
@@ -90,6 +96,9 @@ class DBTest extends PHPUnit_Framework_TestCase {
    */
   public function getInactiveUsers() {
     //
+    $conn = new dbconn("read");
+    $allUsers = $conn->getInactiveUsers();
+    $this->assertTrue($allUsers !== null);
   }
 
   /**
@@ -97,6 +106,9 @@ class DBTest extends PHPUnit_Framework_TestCase {
    */
   public function getAdmins() {
     //
+    $conn = new dbconn("read");
+    $allUsers = $conn->getAdmins();
+    $this->assertTrue($allUsers !== null);
   }
 
   /**
