@@ -10,6 +10,7 @@
     "require": {
       "authy/php": "dev-master",
       "phpmailer/phpmailer": "dev-master",
+      "phing/phing": "dev-master",
       "satooshi/php-coveralls": "dev-master"
     },
     "require-dev": {
