@@ -7,15 +7,11 @@
     <echo msg="${env}"/>
     <echo msg="${webserver.root}"/>
     <!-- create env target that sets env variable-->
-      <!-- stub="./src/index.php" -->
-      <!-- webstub="./index.php"> -->
     <echo msg="${api.url}"/>
     <delete dir="${webserver.root}" />
-    <!-- <mkdir dir="${webserver.root}" /> -->
+    <copy file="./build.properties" tofile="${webserver.root}/properties/general.ini" />
     <copy todir="${webserver.root}" overwrite="true">
       <fileset dir="../src">
-        <!-- <include>**/**</include> -->
-        <!-- <exclude></exclude> -->
         <include name="**/**"></include>
          <exclude name=""></exclude>
       </fileset>
