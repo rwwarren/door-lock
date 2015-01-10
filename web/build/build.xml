@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Doorlock" default="build" basedir="." description="PiDuino Lock - Electronic Deadbolt System">
-  <property file="./build.properties" />
   <property file="./location.properties" />
+  <property file="./build.properties" />
   <property name="message" value="Hello World!"/>
-  <target name="build">
+  <target name="build" description="rebuilds this package">
     <echo msg="${env}"/>
     <echo msg="${webserver.root}"/>
     <!-- create env target that sets env variable-->
@@ -12,9 +12,11 @@
     <copy file="./build.properties" tofile="${webserver.root}/properties/general.ini" />
     <copy todir="${webserver.root}" overwrite="true">
       <fileset dir="../src">
-        <include name="**/**"></include>
-         <exclude name=""></exclude>
+        <include name="**"></include>
       </fileset>
     </copy>
+  </target>
+  <target name="test" description="rebuilds this package">
+    <delete dir="${webserver.root}" />
   </target>
 </project>
