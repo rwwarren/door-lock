@@ -10,6 +10,7 @@ backups/
 .coveralls.yml
 composer.lock
 *.swp
+*.idea
 mysqlLogin.java
 *.jar
 web/inc/mysqlUser.php

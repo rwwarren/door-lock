@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Doorlock" default="build" basedir="." description="PiDuino Lock - Electronic Deadbolt System">
+  <property file="./build.properties" />
+  <property file="./location.properties" />
+  <property name="message" value="Hello World!"/>
+  <target name="build">
+    <echo msg="${env}"/>
+    <echo msg="${webserver.root}"/>
+    <!-- create env target that sets env variable-->
+      <!-- stub="./src/index.php" -->
+      <!-- webstub="./index.php"> -->
+    <echo msg="${api.url}"/>
+    <delete dir="${webserver.root}" />
+    <!-- <mkdir dir="${webserver.root}" /> -->
+    <copy todir="${webserver.root}" overwrite="true">
+      <fileset dir="../src">
+        <!-- <include>**/**</include> -->
+        <!-- <exclude></exclude> -->
+        <include name="**/**"></include>
+         <exclude name=""></exclude>
+      </fileset>
+    </copy>
+  </target>
+</project>
