@@ -27,4 +27,15 @@
   <target name="clean" description="rebuilds this package">
     <delete dir="${webserver.root}" />
   </target>
+  <target name="info" description="rebuilds this package">
+    <echo msg=""/>
+    <delete file="test" />
+    <property name="branch" value="dev"/>
+    <echo msg="${api.url}"/>
+    <touch file="test"/>
+    <append destFile="test" text="${api.url}${line.separator}" />
+    <append destFile="test" text="${api.url}${line.separator}" />
+    <append destFile="test" text="${api.url}${line.separator}" />
+    <!-- <property name="branch" value="master"/> -->
+  </target>
 </project>
