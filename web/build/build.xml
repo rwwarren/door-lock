@@ -4,21 +4,6 @@
   <property file="./build.properties" />
   <property name="message" value="Hello World!"/>
     <target name="prepare" description="builds package property files">
-        <!--<trycatch property="error.message">-->
-        <!--<try>-->
-        <!--&lt;!&ndash; <fail>Tada!</fail> &ndash;&gt;-->
-        <!--<echo>${messages}</echo>-->
-        <!--<echo msg="${api.urls}"/>-->
-        <!--<fail if="errorprop" message="Detected error!" />-->
-        <!--<fail unless="api.urls" message="Detected error!" />-->
-        <!--</try>-->
-        <!--<catch>-->
-        <!--<echo>In catch.</echo>-->
-        <!--</catch>-->
-        <!--&lt;!&ndash; <finally> &ndash;&gt;-->
-        <!--&lt;!&ndash; <echo>In finally.</echo> &ndash;&gt;-->
-        <!--&lt;!&ndash; </finally> &ndash;&gt;-->
-        <!--</trycatch>-->
         <fail unless="api.urls" message="Please add the 'apis.urls' property" />
     </target>
   <target name="build" description="Runs a clean dev build">
