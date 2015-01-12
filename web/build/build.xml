@@ -3,20 +3,28 @@
   <property file="./location.properties" />
   <property file="./build.properties" />
   <property name="message" value="Hello World!"/>
-  <target name="build" description="rebuilds this package">
+  <target name="build" description="Runs a clean dev build">
+    <phingcall target="clean" />
+    <phingcall target="update" />
+    <!-- <phingcall target="prepare" /> -->
+    <!-- <phingcall target="build" /> -->
+    <!-- <phingcall target="runtests" /> -->
+  </target>
+  <target name="update" description="rebuilds this package">
     <echo msg="${env}"/>
     <echo msg="${webserver.root}"/>
     <!-- create env target that sets env variable-->
     <echo msg="${api.url}"/>
-    <delete dir="${webserver.root}" />
+    <!-- <delete dir="${webserver.root}" /> -->
     <copy file="./build.properties" tofile="${webserver.root}/properties/general.ini" />
-    <copy todir="${webserver.root}" overwrite="true">
+    <copy todir="${webserver.root}">
+      <!-- <copy todir="${webserver.root}" overwrite="true"> -->
       <fileset dir="../src">
         <include name="**"></include>
       </fileset>
     </copy>
   </target>
-  <target name="test" description="rebuilds this package">
+  <target name="clean" description="rebuilds this package">
     <delete dir="${webserver.root}" />
   </target>
 </project>
