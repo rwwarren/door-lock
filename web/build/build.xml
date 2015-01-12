@@ -3,6 +3,24 @@
   <property file="./location.properties" />
   <property file="./build.properties" />
   <property name="message" value="Hello World!"/>
+    <target name="prepare" description="builds package property files">
+        <!--<trycatch property="error.message">-->
+        <!--<try>-->
+        <!--&lt;!&ndash; <fail>Tada!</fail> &ndash;&gt;-->
+        <!--<echo>${messages}</echo>-->
+        <!--<echo msg="${api.urls}"/>-->
+        <!--<fail if="errorprop" message="Detected error!" />-->
+        <!--<fail unless="api.urls" message="Detected error!" />-->
+        <!--</try>-->
+        <!--<catch>-->
+        <!--<echo>In catch.</echo>-->
+        <!--</catch>-->
+        <!--&lt;!&ndash; <finally> &ndash;&gt;-->
+        <!--&lt;!&ndash; <echo>In finally.</echo> &ndash;&gt;-->
+        <!--&lt;!&ndash; </finally> &ndash;&gt;-->
+        <!--</trycatch>-->
+        <fail unless="api.urls" message="Please add the 'apis.urls' property" />
+    </target>
   <target name="build" description="Runs a clean dev build">
     <phingcall target="clean" />
     <phingcall target="update" />
@@ -27,7 +45,7 @@
   <target name="clean" description="rebuilds this package">
     <delete dir="${webserver.root}" />
   </target>
-  <target name="info" description="rebuilds this package">
+  <target name="properties" description="builds package property files">
     <echo msg=""/>
     <delete file="test" />
     <property name="branch" value="dev"/>
@@ -38,4 +56,5 @@
     <append destFile="test" text="${api.url}${line.separator}" />
     <!-- <property name="branch" value="master"/> -->
   </target>
+
 </project>
