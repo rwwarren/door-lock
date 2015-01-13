@@ -3,7 +3,11 @@
   <exec command="pwd" outputProperty="current.dir"/>
   <property value="build.properties" name="build.filename" />
   <property file="${current.dir}/${build.filename}"/>
-  <target name="test" description="builds package property files">
+  <target name="update-apache" description="builds package property files">
+    <copy file="${current.dir}/${apache.filename}" tofile="${apache.dir}/${apache.filename}"/>
+    <exec command="sudo a2ensite ${apache.name}"/>
+  </target>
+  <target name="help" description="builds package property files">
     <exec command="cat help.txt" passthru="true"/>
   </target>
   <target name="prepare" description="builds package property files">
@@ -29,11 +33,12 @@
     <!-- create env target that sets env variable-->
     <echo msg="${api.url}"/>
     <!-- <delete dir="${webserver.root}" /> -->
-    <copy file="./build.properties" tofile="${webserver.root}/properties/general.ini"/>
+    <copy file="./build.properties" tofile="${current.dir}/../src/properties/secure.ini"/>
     <copy todir="${webserver.root}">
       <!-- <copy todir="${webserver.root}" overwrite="true"> -->
       <fileset dir="../src">
         <include name="**"></include>
+        <!--<exclude name="*/properties/*"></exclude>-->
       </fileset>
     </copy>
   </target>
@@ -41,7 +46,7 @@
     <delete dir="${webserver.root}"/>
   </target>
   <target name="properties" description="builds package property files">
-    <property name="config.file.location" value="../src/properties/config.ini"/>
+    <property name="config.file.location" value="${current.dir}/../src/properties/config.ini"/>
     <delete file="${config.file.location}"/>
     <echo msg="${api.url}"/>
     <touch file="${config.file.location}"/>
@@ -53,6 +58,8 @@
     <append destFile="${config.file.location}" text="git.sha1=${git.sha1}${line.separator}"/>
     <append destFile="${config.file.location}" text="git.version=${git.version}${line.separator}"/>
     <append destFile="${config.file.location}" text="api.url=${api.url}${line.separator}"/>
+    <append destFile="${config.file.location}" text="webserver.root=${webserver.root}${line.separator}"/>
+    <append destFile="${config.file.location}" text="env=${env}${line.separator}"/>
   </target>
   <target name="runtests" description="builds package property files">
     <phpunit haltonfailure="true" printsummary="true">

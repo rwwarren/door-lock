@@ -1,0 +1,12 @@
+
+Please create
+
+[database]
+db.host=DATABASE_LOCALHOST
+db.name=DATABASE_NAME
+db.read.username=DATABASE_READ_USERNAME
+db.read.password=DATABASE_READ_PASSWORD
+db.write.username=DATABASE_WRITE_USERNAME
+db.write.password=DATABASE_WRITE_PASSWORD
+webserver.root=WEBSERVER_ROOT
+env=ENVIRONMENT
