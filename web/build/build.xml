@@ -7,9 +7,9 @@
   <target name="prepare" description="builds package property files">
     <if>
       <available file='./builds.properties' type='file' />
-        <then>
-          <echo>Yep</echo>
-        </then>
+        <!--<then>-->
+          <!--<echo>Yep</echo>-->
+        <!--</then>-->
         <else>
             <fail>testing</fail>
         </else>
