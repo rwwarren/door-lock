@@ -2,11 +2,22 @@
 <project name="Doorlock" default="build" basedir="." description="PiDuino Lock - Electronic Deadbolt System">
   <property file="./location.properties" />
   <property file="./build.properties" />
+  <property file="./builds.properties" />
   <property name="message" value="Hello World!"/>
-    <target name="prepare" description="builds package property files">
-        <fail unless="api.urls" message="Please add the 'apis.urls' property" />
-    </target>
+  <target name="prepare" description="builds package property files">
+    <if>
+      <available file='./builds.properties' type='file' />
+        <then>
+          <echo>Yep</echo>
+        </then>
+        <else>
+            <fail>testing</fail>
+        </else>
+    </if>
+    <fail unless="api.urls" message="Please add the 'apis.urls' property" />
+  </target>
   <target name="build" description="Runs a clean dev build">
+    <phingcall target="prepare" />
     <phingcall target="clean" />
     <phingcall target="update" />
     <!-- <phingcall target="prepare" /> -->

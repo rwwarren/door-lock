@@ -8,7 +8,9 @@ class Users {
   private $dbpassword;
 
   function __construct($type){
-    $config = parse_ini_file("../properties/secure.ini");
+//      $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+      $root = realpath(dirname(__FILE__));
+      $config = parse_ini_file("$root/../properties/secure.ini");
     switch($type) {
       case "read":
         $this->dbusername = $config['db.read.username'];
