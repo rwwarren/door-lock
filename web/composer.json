@@ -10,6 +10,7 @@
     "require": {
       "authy/php": "dev-master",
       "phpmailer/phpmailer": "dev-master",
+      "mnapoli/php-di": "~4.0",
       "satooshi/php-coveralls": "dev-master"
     },
     "require-dev": {
