@@ -11,6 +11,7 @@ class ConfigPage {
     //
     $this->config = parse_ini_file("../properties/config.ini");
     $this->config = array_merge($this->config, parse_ini_file("../properties/location.ini"));
+    ksort($this->config);
   }
 
   public function getTitle(){
