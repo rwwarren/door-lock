@@ -4,6 +4,12 @@
   <property file="./build.properties" />
   <property file="./builds.properties" />
   <property name="message" value="Hello World!"/>
+  <target name="test">
+    <exec command="git rev-parse --abbrev-ref HEAD"  outputProperty="branch.name"/>
+    <echo msg="Version: ${branch.name}" />
+    <exec command="git log --pretty=format:'%h' -1"  outputProperty="git.sha1"/>
+    <echo msg="Version: ${git.sha1}" />
+  </target>
   <target name="prepare" description="builds package property files">
     <if>
       <available file='./builds.properties' type='file' />
