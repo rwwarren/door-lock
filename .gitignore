@@ -16,6 +16,8 @@ mysqlLogin.java
 *.jar
 web/inc/mysqlUser.php
 web/inc/variables.php
+web/src/inc/variables.php
+web/src/properties/*
 web/lock_error.log
 build/logs/clover.xml
 
