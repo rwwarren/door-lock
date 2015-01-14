@@ -7,6 +7,9 @@
             "email": "admin@wrixton.net"
         }
     ],
+    "config": {
+      "vendor-dir": "src/vendor"
+    },
     "require": {
       "authy/php": "dev-master",
       "phpmailer/phpmailer": "dev-master",
