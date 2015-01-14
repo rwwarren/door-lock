@@ -1,5 +1,5 @@
 
-Please create
+Please create a file called build.properties (based on example.properties)
 
 [database]
 db.host=DATABASE_LOCALHOST
