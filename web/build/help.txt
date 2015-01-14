@@ -10,3 +10,10 @@ db.write.username=DATABASE_WRITE_USERNAME
 db.write.password=DATABASE_WRITE_PASSWORD
 webserver.root=WEBSERVER_ROOT
 env=ENVIRONMENT
+
+server.admin.email=ADMIN_EMAIL
+server.name=APACHE_SERVERNAME
+
+apache.dir=APACHE_DIR
+apache.name=APACHE_NAME_FOR_CONFIG
+apache.filename=${apache.name}.conf
