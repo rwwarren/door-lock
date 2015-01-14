@@ -51,7 +51,7 @@
       </fileset>
     </copy>
     <!-- Hack way for the variables.php for the time being -->
-    <copy file="{webserver.root}/inc/variablesTEST.php" tofile="{webserver.root}/inc/variables.php"/>
+    <copy file="${webserver.root}/inc/variablesTEST.php" tofile="${webserver.root}/inc/variables.php"/>
   </target>
   <target name="clean" description="rebuilds this package">
     <delete dir="${webserver.root}"/>
