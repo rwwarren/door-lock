@@ -69,13 +69,6 @@
     <append destFile="${config.file.location}" text="webserver.root=${webserver.root}${line.separator}"/>
     <append destFile="${config.file.location}" text="env=${env}${line.separator}"/>
   </target>
-  <target name="apache-test" description="builds package property files">
-    <copy file="${current.dir}/default-door-lock.conf" tofile="${apache.dir}/${apache.filename}">
-      <filterchain>
-        <expandproperties/>
-      </filterchain>
-    </copy>
-  </target>
   <target name="runtests" description="builds package property files">
     <phpunit haltonfailure="true" printsummary="true">
       <batchtest>
