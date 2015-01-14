@@ -21,6 +21,6 @@
       "resty/resty": "0.6"
     },
     "autoload": {
-      "classmap": ["vendor/resty"]
+      "classmap": ["src/vendor/resty"]
     }
 }
