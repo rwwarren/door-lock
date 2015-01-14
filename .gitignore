@@ -1,6 +1,7 @@
 # Compiled code
 *.class
 *.phar
+*.properties
 
 # current testing files
 web/includedPackages
