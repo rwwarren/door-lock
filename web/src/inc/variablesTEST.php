@@ -1,5 +1,6 @@
 <?php
 
+//TODO fix this for auto deploy
 $requiredHeaders = array("apprequest" => "lock", "UDID" => "");
 
 

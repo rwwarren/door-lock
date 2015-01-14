@@ -7,10 +7,13 @@
             "email": "admin@wrixton.net"
         }
     ],
+    "config": {
+      "vendor-dir": "src/vendor"
+    },
     "require": {
       "authy/php": "dev-master",
       "phpmailer/phpmailer": "dev-master",
-      "mnapoli/php-di": "~4.0",
+      "phing/phing": "dev-master",
       "satooshi/php-coveralls": "dev-master"
     },
     "require-dev": {

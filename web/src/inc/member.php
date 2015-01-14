@@ -31,6 +31,7 @@ abstract class Member extends Page{
           '<li><a href="/users/">User Info</a></li>' .
           '<li><a href="/lock/">Lock Status</a></li>' .
           '<li><a href="/admin/">Admin Page</a></li>' .
+          '<li><a href="/config/">Config Page</a></li>' .
           '<li><a href="/logout.php">Logout</a></li>' .
         '</ul>' .
       '</div>';
