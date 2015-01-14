@@ -9,11 +9,11 @@
         <expandproperties/>
       </filterchain>
     </copy>
-    <exec command="sudo mv ${current.dir}/${apache.filename} ${current.dir}/${apache.filename}"/>
+    <exec command="sudo mv ${current.dir}/${apache.filename} ${apache.dir}/${apache.filename}"/>
     <!--<exec command="sudo mv ${current.dir}/default-door-lock.conf ${current.dir}/${apache.filename}"/>-->
     <!-- <copy file="${current.dir}/${apache.filename}" tofile="${apache.dir}/${apache.filename}"/> -->
     <exec command="sudo a2ensite ${apache.name}"/>
-    <exec command="apache"/>
+    <exec command="sudo service apache2 reload"/>
   </target>
   <target name="help" description="builds package property files">
     <exec command="cat help.txt" passthru="true"/>
