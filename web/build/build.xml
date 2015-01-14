@@ -17,6 +17,7 @@
   </target>
   <target name="help" description="builds package property files">
     <exec command="cat help.txt" passthru="true"/>
+    <exec command="cat example.properties" passthru="true"/>
   </target>
   <target name="prepare" description="builds package property files">
     <if>
