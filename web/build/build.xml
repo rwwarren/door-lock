@@ -4,12 +4,13 @@
   <property value="build.properties" name="build.filename" />
   <property file="${current.dir}/${build.filename}"/>
   <target name="update-apache" description="builds package property files">
-    <copy file="${current.dir}/default-door-lock.conf" tofile="${apache.dir}/${apache.filename}">
+    <copy file="${current.dir}/default-door-lock.conf" tofile="${current.dir}/${apache.filename}">
       <filterchain>
         <expandproperties/>
       </filterchain>
     </copy>
-    <!--<exec command="sudo cp ${current.dir}/${apache.filename} ${apache.dir}/${apache.filename}"/>-->
+    <exec command="sudo mv ${current.dir}/${apache.filename} ${current.dir}/${apache.filename}"/>
+    <!--<exec command="sudo mv ${current.dir}/default-door-lock.conf ${current.dir}/${apache.filename}"/>-->
     <!-- <copy file="${current.dir}/${apache.filename}" tofile="${apache.dir}/${apache.filename}"/> -->
     <exec command="sudo a2ensite ${apache.name}"/>
     <exec command="apache"/>
