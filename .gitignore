@@ -1,10 +1,8 @@
 # Compiled code
 *.class
-*.phar
 *.properties
 
 # current testing files
-web/includedPackages
 backups/
 
 # ignore the .something files
@@ -14,13 +12,11 @@ composer.lock
 *.idea
 mysqlLogin.java
 *.jar
-web/inc/mysqlUser.php
-web/inc/variables.php
+
+# ignore directories
 web/src/inc/variables.php
 web/src/properties/*
 web/lock_error.log
-build/logs/clover.xml
 
-web/vendor/
 web/src/vendor/
 web/build/logs/*
