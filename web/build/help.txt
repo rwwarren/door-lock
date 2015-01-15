@@ -2,3 +2,20 @@
 Please create a file called build.properties (based on example.properties)
 
 Example:
+=======
+[database]
+db.host=DATABASE_LOCALHOST
+db.name=DATABASE_NAME
+db.read.username=DATABASE_READ_USERNAME
+db.read.password=DATABASE_READ_PASSWORD
+db.write.username=DATABASE_WRITE_USERNAME
+db.write.password=DATABASE_WRITE_PASSWORD
+webserver.root=WEBSERVER_ROOT
+env=ENVIRONMENT
+
+server.admin.email=ADMIN_EMAIL
+server.name=APACHE_SERVERNAME
+
+apache.dir=APACHE_DIR
+apache.name=APACHE_NAME_FOR_CONFIG
+apache.filename=${apache.name}.conf
