@@ -9,6 +9,7 @@ require_once("$root/../inc/dbcon.php");
 //require '../includedPackages/authy-php/Authy.php';
 //require_once('Authy/Authy.php');
 require_once("$root/../vendor/autoload.php");
+//require_once("$root/../vendor/autoload.php");
 require_once("$root/../inc/variables.php");
 require_once("$root/../inc/extraFunctions.php");
 
@@ -134,7 +135,7 @@ function logout(){
   session_name('sid');
   session_start();
   //TODO get this not to open another page
-  header("Location: http://$_SERVER[HTTP_X_FORWARDED_SERVER]");
+  header("Location: http://$_SERVER[SERVER_NAME]");
   //header("Location: http://$_SERVER[HTTP_HOST]");
   exit();
 }

@@ -20,7 +20,7 @@ class dbconn {
   //Connects to the mysql database
   public function __construct($user){
     $sqlUser = new users($user);
-    $this->mysqli = new mysqli("localhost", $sqlUser->getUser(), $sqlUser->getPass(), "doorlock");
+    $this->mysqli = new mysqli($sqlUser->getHost(), $sqlUser->getUser(), $sqlUser->getPass(), $sqlUser->getDatabase());
   }
 
   //Queries the database for the username and password to login

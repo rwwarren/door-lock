@@ -6,6 +6,11 @@ import com.mysql.jdbc.Driver;
 //db will be mongo db
 //and will edit and such
 
+//TODO make this use the API
+//Client client = ClientBuilder.newClient();
+//String name = client.target("http://example.com/webapi/hello")
+//        .request(MediaType.TEXT_PLAIN)
+//                .get(String.class);
 //TODO add some security to this to make sure the user can "Edit" but 
 //can try login otherwise
 public class dbcon {

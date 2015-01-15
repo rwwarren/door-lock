@@ -7,9 +7,13 @@
             "email": "admin@wrixton.net"
         }
     ],
+    "config": {
+      "vendor-dir": "src/vendor"
+    },
     "require": {
       "authy/php": "dev-master",
       "phpmailer/phpmailer": "dev-master",
+      "phing/phing": "dev-master",
       "satooshi/php-coveralls": "dev-master"
     },
     "require-dev": {
@@ -17,6 +21,6 @@
       "resty/resty": "0.6"
     },
     "autoload": {
-      "classmap": ["vendor/resty"]
+      "classmap": ["src/vendor/resty"]
     }
 }
