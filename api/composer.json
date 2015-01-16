@@ -1,0 +1,27 @@
+{
+  "name": "pi/door-lock-api",
+  "description": "Electronic doorlock system",
+  "authors": [
+    {
+      "name": "Ryan Warren",
+      "email": "admin@wrixton.net"
+    }
+  ],
+  "config": {
+    "vendor-dir": "src/vendor"
+  },
+  "require": {
+//    "authy/php": "dev-master",
+//    "phpmailer/phpmailer": "dev-master",
+//    "phing/phing": "dev-master",
+    "predis/predis": "1.0.1",
+//    "satooshi/php-coveralls": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.2.*",
+//    "resty/resty": "0.6"
+  },
+  "autoload": {
+//    "classmap": ["src/vendor/resty"]
+  }
+}

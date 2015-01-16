@@ -1,5 +1,5 @@
 {
-    "name": "pi/door-lock",
+    "name": "pi/door-lock-webapp",
     "description": "Electronic doorlock system",
     "authors": [
         {
@@ -14,6 +14,7 @@
       "authy/php": "dev-master",
       "phpmailer/phpmailer": "dev-master",
       "phing/phing": "dev-master",
+      "predis/predis": "1.0.1",
       "satooshi/php-coveralls": "dev-master"
     },
     "require-dev": {

@@ -1,6 +1,6 @@
 <phpunit>
   <testsuites>
-    <testsuite name="Door Lock Webapp Test Suite">
+    <testsuite name="Door Lock Api Test Suite">
       <!-- <directory>/Users/ryan/Documents/door-lock/web/tests</directory> -->
       <directory>./tests</directory>
     </testsuite>

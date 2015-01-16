@@ -1,6 +1,7 @@
 <?php
 
-require 'Predis/Autoloader.php';
+require __DIR__.'/../../../web/src/vendor/predis/predis/src/Autoloader.php';
+//require 'Predis/Autoloader.php';
 Predis\Autoloader::register();
 $client = new Predis\Client([
     'scheme' => 'tcp',
@@ -16,11 +17,11 @@ session_name('sid');
 session_start();
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 //echo $root . "/../../web/inc/dbcon.php";
-require_once("$root/../../web/inc/dbcon.php");
+require_once("$root/../../../web/src/inc/dbcon.php");
 //require "$root/../../web/includedPackages/authy-php/Authy.php";
 //require_once("Authy/Authy.php");
-require_once("$root/../../vendor/autoload.php");
-require_once("$root/../../web/inc/variables.php");
+require_once("$root/../../../web/src/vendor/autoload.php");
+require_once("$root/../../../web/src/inc/variables.php");
 //require_once("$root/../../web/inc/extraFunctions.php");
 //include_once("$root/../../web/inc/extraFunctions.php");
 
@@ -89,27 +90,32 @@ function isValid($apiKey){
 //Returns the Unauthorized Api with headers
 function UnAuthError($apiKey = NULL){
   header("HTTP/1.0 401 Unauthorized API key invalid");
-  if ($apiKey !== NULL){
     header('Content-Type: application/json');
+  if ($apiKey !== NULL){
+    //header('Content-Type: application/json');
     //return json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
     echo json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
+    exit();
   }
+    echo json_encode(array('Invalid API Key!!!' => $apiKey, 'success' => '0'));
   exit();
 }
 
 //Logs in the the user and sets session variables
 function login(){
+//  print_r(getallheaders());
   if(isset($_POST['username']) && isset($_POST['password'])){
     //403 error make it work correctly
     $apiKey = getApiKey();
+//    echo $apiKey;
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $username = mysql_real_escape_string($username);
-    $password = mysql_real_escape_string($password);
+    //$username = mysql_real_escape_string($username);
+    //$password = mysql_real_escape_string($password);
     $userID = isValid($apiKey);
     if($username !== null && $password !== null && $userID !== NULL){
-      $dbconn = new dbconn;
-      $dbconn->connect("read");
+      $dbconn = new dbconn("read");
+//      $dbconn->connect("read");
       $userInfo = array();
       $userInfo = $dbconn->login($username, $password);
       //TODO set session stuff??
@@ -125,7 +131,7 @@ function login(){
         echo json_encode(array('username' => $username, 'success' => '1' ));
         //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
       }
-      $dbconn->close();
+//      $dbconn->close();
       exit();
     } else {
       header("HTTP/1.0 403 Forbidden");
@@ -187,7 +193,8 @@ function changePassword(){
       //something to do with the user id
       //and change the password
       //unset session stuff
-      $dbconn->connect("read");
+      $dbconn = new dbconn("read");
+//      $dbconn->connect("read");
       //$dbconn->changePassword($username, $oldPassword, $newPassword);
       //return json_encode(array('Changed Password' => 'username', 'success' => '1/0'));
       header("HTTP/1.0 200 Success, Password Changed");
@@ -196,7 +203,7 @@ function changePassword(){
       //echo json_encode(array('Changed Password' => $username, 'success' => '1/0'));
       //echo json_encode(array('Changed Password' => $username, 'success' => '1/0'));
       echo json_encode(array('Changed Password' => $username, 'success' => '1'));
-      $dbconn->close();
+//      $dbconn->close();
       exit();
     } else {
       UnAuthError($apiKey);

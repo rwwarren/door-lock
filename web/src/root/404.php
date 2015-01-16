@@ -7,7 +7,7 @@ class Error404Page extends Page {
   public function getBody(){
     return '404 Error page:' .
       '<br>' .
-      'http://' . $_SERVER['HTTP_X_FORWARDED_SERVER'] . $_SERVER['REQUEST_URI'] .
+      'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] .
       '<br>' .
       'not found' .
       '<br>' .
