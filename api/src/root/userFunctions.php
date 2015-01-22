@@ -16,11 +16,11 @@ session_name('sid');
 session_start();
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 //echo $root . "/../../web/inc/dbcon.php";
-require_once("$root/../../../web/src/inc/dbcon.php");
+require_once("$root/../inc/dbcon.php");
 //require "$root/../../web/includedPackages/authy-php/Authy.php";
 //require_once("Authy/Authy.php");
 require_once("$root/../../../web/src/vendor/autoload.php");
-require_once("$root/../../../web/src/inc/variables.php");
+//require_once("$root/../../../web/src/inc/variables.php");
 //require_once("$root/../../web/inc/extraFunctions.php");
 //include_once("$root/../../web/inc/extraFunctions.php");
 
@@ -103,6 +103,7 @@ function UnAuthError($apiKey = NULL){
 //Logs in the the user and sets session variables
 function login(){
 //  print_r(getallheaders());
+  print_r($_POST);
   if(isset($_POST['username']) && isset($_POST['password'])){
     //403 error make it work correctly
     $apiKey = getApiKey();
@@ -111,7 +112,7 @@ function login(){
     $password = $_POST['password'];
     //$username = mysql_real_escape_string($username);
     //$password = mysql_real_escape_string($password);
-    $userID = isValid($apiKey);
+    $userID = 1;//isValid($apiKey);
     if($username !== null && $password !== null && $userID !== NULL){
       $dbconn = new dbconn("read");
 //      $dbconn->connect("read");
@@ -140,17 +141,22 @@ function login(){
       exit();
     }
   }
+  echo "got here";
   UnAuthError();
 }
 
 //Logs out the user and destorys the session variables
 //stored by the login system
 function logout(){
-  if(isset($_POST['username']) && isset($_POST['cookie'])){
-    $apiKey = getApiKey();
-    $username = $_POST['username'];
-    $cookie = $_POST['cookie'];
-    $userID = isValid($apiKey);
+  if(true){
+//  if(isset($_POST['username']) && isset($_POST['cookie'])){
+//    $apiKey = getApiKey();
+    $username = "test";//$_POST['username'];
+//    $username = $_POST['username'];
+    $cookie = "none?";//$_POST['cookie'];
+//    $cookie = $_POST['cookie'];
+    $userID = 1;//isValid($apiKey);
+//    $userID = isValid($apiKey);
     if($username !== null && $cookie !== null && $userID !== NULL){
 
       //Might work below

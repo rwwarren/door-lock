@@ -1,3 +1,5 @@
+Header set Access-Control-Allow-Origin "*"
+
 RewriteEngine on
 RewriteRule ^login/?$  userFunctions.php?actions=login [L]
 RewriteRule ^logout/?$  userFunctions.php?actions=logout [L]
