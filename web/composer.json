@@ -16,7 +16,7 @@
       "phing/phing": "dev-master",
       "predis/predis": "1.0.1",
       "satooshi/php-coveralls": "dev-master",
-      "pi/api-client": "dev-renewApi"
+      "door-lock/api-client": "dev-renewApi"
     },
     "require-dev": {
       "phpunit/phpunit": "4.2.*",
@@ -27,9 +27,8 @@
     },
   "repositories": [
     {
-      "type":"vcs",
-      "url":"../api-client/",
-      "packagist": false
+      "type":"git",
+        "url": "https://github.com/rwwarren/door-lock.git"
     }
   ]
 }
