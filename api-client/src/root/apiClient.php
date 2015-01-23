@@ -1,5 +1,7 @@
 <?php
 
+namespace ApiClient;
+
 class ApiClient{
 
   private $apiKey;
