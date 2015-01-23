@@ -112,7 +112,8 @@ function login(){
     $password = $_POST['password'];
     //$username = mysql_real_escape_string($username);
     //$password = mysql_real_escape_string($password);
-    $userID = 1;//isValid($apiKey);
+    $userID = isValid($apiKey);
+    //$userID = 1;//isValid($apiKey);
     if($username !== null && $password !== null && $userID !== NULL){
       $dbconn = new dbconn("read");
 //      $dbconn->connect("read");

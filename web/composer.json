@@ -15,7 +15,8 @@
       "phpmailer/phpmailer": "dev-master",
       "phing/phing": "dev-master",
       "predis/predis": "1.0.1",
-      "satooshi/php-coveralls": "dev-master"
+      "satooshi/php-coveralls": "dev-master",
+      "pi/api-client": "0.01"
     },
     "require-dev": {
       "phpunit/phpunit": "4.2.*",
@@ -23,5 +24,11 @@
     },
     "autoload": {
       "classmap": ["src/vendor/resty"]
+    },
+  "repositories": [
+    {
+      "type":"vcs",
+      "url":"/Users/ryan/Documents/door-lock/api-client/"
     }
+  ]
 }

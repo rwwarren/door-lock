@@ -1,0 +1,11 @@
+<phpunit>
+  <testsuites>
+    <testsuite name="Door Lock Webapp Test Suite">
+      <!-- <directory>/Users/ryan/Documents/door-lock/web/tests</directory> -->
+      <directory>./tests</directory>
+    </testsuite>
+  </testsuites>
+  <logging>
+    <log type="coverage-clover" target="build/logs/clover.xml"/>
+  </logging>
+</phpunit>

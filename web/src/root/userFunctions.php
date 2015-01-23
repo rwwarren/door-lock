@@ -67,7 +67,12 @@ function login(){
     $user = $_POST['Username'];
     $pass = $_POST['Password'];
     $token = $_POST['Token'];
-  
+
+    //
+    $apiClient = new ApiClient;
+    $apiClient->login($_POST);
+    die();
+    //
     $dbconn = new dbconn("read");
     //$user = mysqli_real_escape_string($dbconn, $user);
     //$pass = mysqli_real_escape_string($dbconn, $pass);
