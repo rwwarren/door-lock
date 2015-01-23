@@ -28,7 +28,7 @@
   "repositories": [
     {
       "type":"vcs",
-      "url":"/Users/ryan/Documents/door-lock/api-client"
+      "url":"/Users/ryan/Documents/door-lock/api-client/"
     }
   ]
 }
