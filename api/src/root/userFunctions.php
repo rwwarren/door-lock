@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__.'/../../../web/src/vendor/predis/predis/src/Autoloader.php';
+require_once __DIR__.'/../../../web/src/vendor/predis/predis/src/Autoloader.php';
 Predis\Autoloader::register();
 $client = new Predis\Client([
     'scheme' => 'tcp',
@@ -103,7 +103,7 @@ function UnAuthError($apiKey = NULL){
 //Logs in the the user and sets session variables
 function login(){
 //  print_r(getallheaders());
-  print_r($_POST);
+//  print_r($_POST);
   if(isset($_POST['username']) && isset($_POST['password'])){
     //403 error make it work correctly
     $apiKey = getApiKey();
@@ -125,6 +125,19 @@ function login(){
         $_SESSION['username'] = $userInfo['Username'];
         $_SESSION['userID'] = $userInfo['ID'];
         $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
+        print_r($_POST);
+        print_r(getallheaders());
+//        echo getallheaders()['cookie'];
+        $cookie = getallheaders()['sid'];
+        $name = $userInfo['Name'];
+        global $client;
+//  $value = $client->hgetall('apiKeys');
+//        $userID = $client->hset('loggedInUsers', $apiKey);
+        $userID = $client->HMSET('loggedInUsers', array("$cookie" => "$name"));
+//        $userID = $client->HMSET('loggedInUsers', array("sid" => "$cookie"));
+//        $userID = $client->HMSET('loggedInUsers', $apiKey);
+//        print_r($_SESSION);
+//        print_r(session_get_cookie_params());
         session_write_close();
         header("HTTP/1.0 200 Success, Logged In");
         header('Content-Type: application/json');
@@ -184,6 +197,23 @@ function logout(){
   UnAuthError();
 }
 
+function isLoggedIn() {
+  $cookie = getallheaders()['sid'];
+  $name = $userInfo['Name'];
+  global $client;
+//  $value = $client->hgetall('apiKeys');
+//        $userID = $client->hset('loggedInUsers', $apiKey);
+  $userID = $client->HMSET('loggedInUsers', array("$cookie" => "$name"));
+}
+
+function isAdmin() {
+  $cookie = getallheaders()['sid'];
+  $name = $userInfo['Name'];
+  global $client;
+//  $value = $client->hgetall('apiKeys');
+//        $userID = $client->hset('loggedInUsers', $apiKey);
+  $userID = $client->HMSET('loggedInUsers', array("$cookie" => "$name"));
+}
 //Changes the user's password
 function changePassword(){
   if (isset($_POST['username']) && isset($_POST['old-password']) && isset($_POST['new-password'])

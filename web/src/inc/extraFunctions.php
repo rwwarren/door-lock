@@ -7,7 +7,19 @@ require_once("$root/../inc/dbcon.php");
 
   //Returns if the user is logged in
   function isLoggedIn(){
-    return isset($_SESSION['username']) && $_SESSION['username'] !== null;
+//    echo "cheking login";
+//    print_r($_SESSION);
+    $root = realpath(dirname(__FILE__));
+//    echo $root ."/../../../../door-lock-api-client/src/root/apiClient.php";
+    include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
+//    print_r($_COOKIE);
+//    print_r($_SESSION);
+//    session_start();
+//    $apiClient = new ApiClient;
+    $apiClient = new ApiClient\ApiClient();
+    return $apiClient->isLoggedIn($_COOKIE['sid']);
+//    return $apiClient->isLoggedIn($_SESSION['sid']);
+//    return isset($_SESSION['username']) && $_SESSION['username'] !== null;
   }
 
   //Returns if the user is an admin

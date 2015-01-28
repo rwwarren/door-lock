@@ -69,11 +69,31 @@ function login(){
     $token = $_POST['Token'];
 
     //
-    $apiClient = new ApiClient;
-    $apiClient->login($_POST);
-    die();
+    $root = realpath(dirname(__FILE__));
+    include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
+//    include_once($root . "/../../../api-client/src/root/apiClient.php");
+//    include_once("/Users/ryan/Documents/door-lock/api-client/src/root/apiClient.php");
+    $apiClient = new ApiClient\ApiClient;
+    $results = $apiClient->login($_POST, $_COOKIE['sid']);
+
+//    echo "This is a success";
+//    echo "<br>";
+//    print_r(session_id());
+//    print_r(session_get_cookie_params());
+//    print_r($results);
+    if($results !== null){
+      $_SESSION['username'] = $_POST['Username'];
+//      $_SESSION['name'] = $results['Name'];
+//      $_SESSION['username'] = $results['username'];
+//      $_SESSION['userID'] = $userInfo['ID'];
+//      $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
+//      session_write_close();
+//      exit();
+    }
+//    exit();
+
     //
-    $dbconn = new dbconn("read");
+//    $dbconn = new dbconn("read");
     //$user = mysqli_real_escape_string($dbconn, $user);
     //$pass = mysqli_real_escape_string($dbconn, $pass);
     //$dbconn->close();
@@ -92,36 +112,39 @@ function login(){
     //if($authyValid && $verification->ok()){
     //TODO above commented out to save testing hassle
     //$_SESSION['username'] = 'asdf';
-    $test = true;
-    if($test == true){
-      echo '<br> authy token is okay';
-      //$dbconn->connect("read");
-      //$dbconn->login($user, $pass);
-      //$_SESSION['username'] = 'asdf';
-      $userInfo = array();
-      $userInfo = $dbconn->login($user, $pass);
-      //if($userInfo !== NULL){
-      if($userInfo !== false){
-        $_SESSION['name'] = $userInfo['Name'];
-        $_SESSION['username'] = $userInfo['Username'];
-        $_SESSION['userID'] = $userInfo['ID'];
-        $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
-        session_write_close();
-      } else {
-        header("HTTP/1.0 403 Error Username or Password incorrect");
-        header('Content-Type: application/json');
-        echo json_encode(array('Invalid Username or Password' => $user, 'success' => '0' ));
-      }
-
-      //}
-      //$dbconn->close();
-    } else { //authy is not right
-      header("HTTP/1.0 401 Authy key wrong");
-      exit();
-    }
+//    $test = true;
+//    $test = false;
+//    if($test == true){
+//      echo '<br> authy token is okay';
+//      //$dbconn->connect("read");
+//      //$dbconn->login($user, $pass);
+//      //$_SESSION['username'] = 'asdf';
+//      $userInfo = array();
+//      $userInfo = $dbconn->login($user, $pass);
+//      //if($userInfo !== NULL){
+//      if($userInfo !== false){
+//        $_SESSION['name'] = $userInfo['Name'];
+//        $_SESSION['username'] = $userInfo['Username'];
+//        $_SESSION['userID'] = $userInfo['ID'];
+//        $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
+//        session_write_close();
+////      } else if($test === true){
+//      } else {
+//        header("HTTP/1.0 403 Error Username or Password incorrect");
+//        header('Content-Type: application/json');
+//        echo json_encode(array('Invalid Username or Password' => $user, 'success' => '0' ));
+//      }
+//
+//      //}
+//      //$dbconn->close();
+//    } else { //authy is not right
+//      header("HTTP/1.0 401 Authy key wrong");
+//      exit();
+//    }
   } else {
     echo "nope";
     echo '<br>No username or password entered';
+//    print_r($_POST);
     header("HTTP/1.0 400 Username or password not entered");
     exit();
   }
