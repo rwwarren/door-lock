@@ -3,6 +3,9 @@ $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/dbcon.php");
 require_once("$root/../inc/member.php");
 require_once("$root/../inc/extraFunctions.php");
+//TODO get with vendor
+$root = realpath(dirname(__FILE__));
+include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
 
 class adminPage extends Member{
 
@@ -313,13 +316,21 @@ class adminPage extends Member{
   }
 
   private function userconfig(){
-    $db = new dbconn("write");
-    //$db->connect('write');
-    //$db->connect('read');
-    $also = $db->getUsers();
-    $inactive = $db->getInactiveUsers();
-    $active = $db->getActiveUsers();
-    $admin = $db->getAdmins();
+    $apiClient = new \ApiClient\ApiClient();
+    //Different thing to get all users than username?
+    $allUsers = $apiClient->getAllUsers($_SESSION['username']);
+//    $also = $db->getUsers();
+    $inactive = $allUsers['InactiveUsers'];
+    $active = $allUsers['ActiveUsers'];
+    $admin = $allUsers['Admins'];
+
+//    $db = new dbconn("write");
+//    //$db->connect('write');
+//    //$db->connect('read');
+//    $also = $db->getUsers();
+//    $inactive = $db->getInactiveUsers();
+//    $active = $db->getActiveUsers();
+//    $admin = $db->getAdmins();
     $html =
       '<div id="elements">'.
         '<ul id="admin" class="connectedSortable">' .
@@ -410,9 +421,14 @@ class adminPage extends Member{
 
   public function getBody(){
 //    if (isAdmin()){
-      $db = new dbconn("read");
+    //TODO does this do anything?
+    $apiClient = new \ApiClient\ApiClient();
+    $allUsers = $apiClient->getAllUsers($_SESSION['username']);
+
+
+//    $db = new dbconn("read");
       //$db->connect('read');
-      $also = $db->getUsers();
+//      $also = $db->getUsers();
       //echo '<pre>';
       //print_r($also);
       //echo '</pre>';

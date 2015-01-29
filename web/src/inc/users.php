@@ -1,8 +1,12 @@
 <?php
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-require_once("$root/../inc/dbcon.php");
+//require_once("$root/../inc/dbcon.php");
+
 require_once("$root/../inc/member.php");
 require_once("$root/../inc/extraFunctions.php");
+//TODO get with vendor
+$root = realpath(dirname(__FILE__));
+include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
 
 class userEdit extends Member{
 
@@ -142,9 +146,12 @@ class userEdit extends Member{
   //TODO clean up, div class maybe, label, make nice
   //get all info, change only what changed, add in current info
   private function userEditer(){
-    $dbconn = new dbconn("read");
-    //$dbconn->connect('read');
-    $userInfo = $dbconn->getUserInfo($_SESSION['username']);
+    $apiClient = new \ApiClient\ApiClient();
+    $userInfo = $apiClient->getUserInfo($_SESSION['username']);
+
+//    $dbconn = new dbconn("read");
+//    $userInfo = $dbconn->getUserInfo($_SESSION['username']);
+
 //    if($userInfo['AuthyID'] == 0){
 //      $userInfo['AuthyID'] = NULL;
 //    }

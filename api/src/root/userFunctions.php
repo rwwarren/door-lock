@@ -34,6 +34,7 @@ require_once("$root/../../../web/src/vendor/autoload.php");
 //echo "asdf";
 if (isset($_GET['actions']) ){
   $type = $_GET['actions'];
+  //TODO make this a switch
   if ($type == 'login'){
     login();
   //} else if ($type == 'logout' && isLoggedIn()){
@@ -44,16 +45,28 @@ if (isset($_GET['actions']) ){
     isLoggedIn();
   } else if ($type == 'isAdmin'){
     isAdmin();
+  } else if ($type == 'getUserInfo'){
+    getUserInfo();
+  } else if ($type == 'getAllUsers'){
+    getAllUsers();
   } else if ($type == 'changePassword'){
     changePassword();
+  } else if ($type == 'registerUser' && isLoggedIn()){
+    registerUser();
+  } else if ($type == 'changeUser' && isLoggedIn()){
+    changeUser();
+  } else if ($type == 'updateUserInfo' && isLoggedIn()){
+    updateUserInfo();
   } else if ($type == 'forgotPassword'){
     forgotPassword();
+  } else if ($type == 'resetPassword'){
+    resetPassword();
   } else if ($type == 'lockStatus'){
     lockStatus();
-  } else if ($type == 'unlock'){
-    unlock();
   } else if ($type == 'lock'){
     lock();
+  } else if ($type == 'unlock'){
+    unlock();
   } else {
     echo "You don't have permission to call that function so back off!";
     header("HTTP/1.0 403 User Forbidden");

@@ -14,6 +14,7 @@ require_once("$root/../inc/variables.php");
 require_once("$root/../inc/extraFunctions.php");
 
 if (isset($_GET['actions']) && (strpos($_SERVER["REQUEST_URI"], 'userFunctions.php') === false)){
+  //TODO make sure that request comes from localhost
   $type = $_GET['actions'];
   if ($type == 'login'){
     login();
