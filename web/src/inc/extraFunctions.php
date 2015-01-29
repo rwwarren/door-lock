@@ -16,15 +16,23 @@ require_once("$root/../inc/dbcon.php");
 //    print_r($_SESSION);
 //    session_start();
 //    $apiClient = new ApiClient;
+    if(!isset($_COOKIE['sid'])){
+      return false;
+    }
     $apiClient = new ApiClient\ApiClient();
-    return $apiClient->isLoggedIn($_COOKIE['sid']);
+    return $apiClient->isLoggedIn($_COOKIE['sid']) === true;
 //    return $apiClient->isLoggedIn($_SESSION['sid']);
 //    return isset($_SESSION['username']) && $_SESSION['username'] !== null;
   }
 
   //Returns if the user is an admin
   function isAdmin(){
-    return isLoggedIn() && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1;
+    if(!isset($_COOKIE['sid'])){
+      return false;
+    }
+    $apiClient = new ApiClient\ApiClient();
+    return $apiClient->isAdmin($_COOKIE['sid']) === true;
+//    return isLoggedIn() && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1;
   }
 
   //Returns if the reset token is valid

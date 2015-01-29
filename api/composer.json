@@ -14,7 +14,7 @@
 //    "authy/php": "dev-master",
 //    "phpmailer/phpmailer": "dev-master",
 //    "phing/phing": "dev-master",
-    "predis/predis": "1.0.1",
+    "predis/predis": "1.0.1"
 //    "satooshi/php-coveralls": "dev-master"
   },
   "require-dev": {

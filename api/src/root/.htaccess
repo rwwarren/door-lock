@@ -8,6 +8,8 @@ RewriteRule ^ForgotPassword/?$  userFunctions.php?actions=forgotPassword [L]
 RewriteRule ^LockStatus/?$  userFunctions.php?actions=lockStatus [L]
 RewriteRule ^Lock/?$  userFunctions.php?actions=lock [L]
 RewriteRule ^Unlock/?$  userFunctions.php?actions=unlock [L]
+RewriteRule ^IsLoggedIn/?$  userFunctions.php?actions=isLoggedIn [L]
+RewriteRule ^IsAdmin/?$  userFunctions.php?actions=isAdmin [L]
 
 #Header add Access-Control-Allow-Origin "*"
 #Header add Access-Control-Allow-Headers "origin, x-requested-with, content-type"

@@ -40,6 +40,10 @@ if (isset($_GET['actions']) ){
   } else if ($type == 'logout'){
     logout();
   //} else if ($type == 'changePassword' && isLoggedIn()){
+  } else if ($type == 'isLoggedIn'){
+    isLoggedIn();
+  } else if ($type == 'isAdmin'){
+    isAdmin();
   } else if ($type == 'changePassword'){
     changePassword();
   } else if ($type == 'forgotPassword'){
@@ -117,23 +121,28 @@ function login(){
     if($username !== null && $password !== null && $userID !== NULL){
       $dbconn = new dbconn("read");
 //      $dbconn->connect("read");
-      $userInfo = array();
+//      $userInfo = array();
       $userInfo = $dbconn->login($username, $password);
       //TODO set session stuff??
       if($userInfo !== null) {
-        $_SESSION['name'] = $userInfo['Name'];
-        $_SESSION['username'] = $userInfo['Username'];
-        $_SESSION['userID'] = $userInfo['ID'];
-        $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
-        print_r($_POST);
-        print_r(getallheaders());
+//        $_SESSION['name'] = $userInfo['Name'];
+//        $_SESSION['username'] = $userInfo['Username'];
+//        $_SESSION['userID'] = $userInfo['ID'];
+//        $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
+//        print_r($_POST);
+//        print_r(getallheaders());
 //        echo getallheaders()['cookie'];
         $cookie = getallheaders()['sid'];
         $name = $userInfo['Name'];
+        $isAdmin = $userInfo['IsAdmin'];
+        //TODO: check if this is really needed
+        $uid = $userInfo['ID'];
         global $client;
 //  $value = $client->hgetall('apiKeys');
 //        $userID = $client->hset('loggedInUsers', $apiKey);
-        $userID = $client->HMSET('loggedInUsers', array("$cookie" => "$name"));
+        $confirmation = $client->HSET("loggedInUsers:$cookie", "name", "$name");
+        $confirmation = $client->HSET("loggedInUsers:$cookie", "UID", "$uid");
+        $confirmation = $client->HSET("loggedInAdmins:$cookie", "Admin", "$isAdmin");
 //        $userID = $client->HMSET('loggedInUsers', array("sid" => "$cookie"));
 //        $userID = $client->HMSET('loggedInUsers', $apiKey);
 //        print_r($_SESSION);
@@ -142,7 +151,7 @@ function login(){
         header("HTTP/1.0 200 Success, Logged In");
         header('Content-Type: application/json');
         //echo json_encode(array('username' => $username, 'success' => '1/0' ));
-        echo json_encode(array('username' => $username, 'success' => '1' ));
+        echo json_encode(array('username' => $username, 'name' => $name, 'isAdmin' => $isAdmin, 'success' => '1' ));
         //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
       }
 //      $dbconn->close();
@@ -172,7 +181,19 @@ function logout(){
     $userID = 1;//isValid($apiKey);
 //    $userID = isValid($apiKey);
     if($username !== null && $cookie !== null && $userID !== NULL){
+      $cookie = getallheaders()['sid'];
+//      $name = $userInfo['Name'];
+      global $client;
+//      $confirm = $client->HDEL('loggedInUsers', $cookie);
+      $confirmation = $client->HDEL("loggedInUsers:$cookie", "name");
+      $confirmation = $client->HDEL("loggedInUsers:$cookie", "UID");
+      $confirmation = $client->HDEL("loggedInAdmins:$cookie", "Admin");
+      if($confirmation === 0){
+        echo "error";
+        exit();
+      }
 
+      //TODO remove from redis
       //Might work below
       unset($_SESSION['userName']);
       unset($_SESSION['username']);
@@ -199,20 +220,35 @@ function logout(){
 
 function isLoggedIn() {
   $cookie = getallheaders()['sid'];
-  $name = $userInfo['Name'];
+//  print_r(getallheaders());
+//  $name = $userInfo['Name'];
   global $client;
-//  $value = $client->hgetall('apiKeys');
-//        $userID = $client->hset('loggedInUsers', $apiKey);
-  $userID = $client->HMSET('loggedInUsers', array("$cookie" => "$name"));
+  $userID = $client->hget("loggedInUsers:$cookie", "name");
+  if(strlen($userID) > 0){
+    echo json_encode(array('LoggedIn' => $userID, 'success' => '1'));
+    exit();
+  }
+  echo json_encode(array('Error' => 'User not logged in', 'success' => '0'));
+  exit();
+//  return json_encode(array('LoggedIn' => $userID, 'success' => '1'));
+
+//  echo $userID;
+//  echo $userID;
+//  exit();
+//  return sizeof($userID) > 3 ? 1 : 0;
+//  $userID = $client->HMGET('loggedInUsers', array("$cookie" => "$name"));
 }
 
 function isAdmin() {
   $cookie = getallheaders()['sid'];
-  $name = $userInfo['Name'];
+//  $name = $userInfo['Name'];
   global $client;
 //  $value = $client->hgetall('apiKeys');
 //        $userID = $client->hset('loggedInUsers', $apiKey);
-  $userID = $client->HMSET('loggedInUsers', array("$cookie" => "$name"));
+  $isAdmin = $client->hget("loggedInAdmins:$cookie", "Admin");
+  echo json_encode(array("admin" => $isAdmin));
+  exit();
+//  $userID = $client->HMSET('loggedInUsers', array("$cookie" => "$name"));
 }
 //Changes the user's password
 function changePassword(){

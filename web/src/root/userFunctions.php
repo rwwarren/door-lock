@@ -83,7 +83,29 @@ function login(){
 //    print_r($results);
     if($results !== null){
       $_SESSION['username'] = $_POST['Username'];
-//      $_SESSION['name'] = $results['Name'];
+//      print_r($results);
+//      $decoded = json_encode($results);
+      $intermediate = json_decode($results);
+      $decoded = json_decode($intermediate, true);
+      //HERE
+//      print_r($decoded);
+//      echo "sadf: " . $decoded['name'] . "sdf <br>";
+
+//      $test = json_encode('{"username":"test","name":"Test","success":"1"}');
+////      print_r($test);
+//      $newone = json_decode($test);
+//      $newone = json_decode($newone, true);
+////      $newone = zend_json($test);
+////      $newone = json_decode(html_entity_decode($test, ENT_QUOTES), true);
+//      print_r($newone);
+////      echo "class: " . get_class($newone);
+////      echo "test: " . $newone->{'name'};
+//      echo "test: " . $newone['name'];
+////      $_SESSION['name'] = $decoded['name'];
+
+      $_SESSION['name'] = $decoded['name'];
+      $_SESSION['isAdmin'] = $decoded['isAdmin'];
+
 //      $_SESSION['username'] = $results['username'];
 //      $_SESSION['userID'] = $userInfo['ID'];
 //      $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
@@ -153,7 +175,11 @@ function login(){
 //Logs out the user and destorys the session variables
 //stored by the login system
 function logout(){
-  unset($_SESSION['userName']);
+  $root = realpath(dirname(__FILE__));
+  include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
+  $apiClient = new ApiClient\ApiClient;
+  $results = $apiClient->logout($_COOKIE['sid']);
+  unset($_SESSION['username']);
   unset($_SESSION['isAdmin']);
   $_SESSION = array();
   session_regenerate_id(true);
