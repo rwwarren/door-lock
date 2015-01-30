@@ -4,14 +4,17 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/dbcon.php");
+include_once($root . "/../vendor/door-lock/api-client/src/root/apiClient.php");
+
 
   //Returns if the user is logged in
   function isLoggedIn(){
+    global $root;
 //    echo "cheking login";
 //    print_r($_SESSION);
-    $root = realpath(dirname(__FILE__));
+//    $root = realpath(dirname(__FILE__));
 //    echo $root ."/../../../../door-lock-api-client/src/root/apiClient.php";
-    include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
+//    include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
 //    print_r($_COOKIE);
 //    print_r($_SESSION);
 //    session_start();
@@ -19,7 +22,7 @@ require_once("$root/../inc/dbcon.php");
     if(!isset($_COOKIE['sid'])){
       return false;
     }
-    $apiClient = new ApiClient\ApiClient();
+    $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
     return $apiClient->isLoggedIn($_COOKIE['sid']) === true;
 //    return $apiClient->isLoggedIn($_SESSION['sid']);
 //    return isset($_SESSION['username']) && $_SESSION['username'] !== null;
@@ -30,7 +33,8 @@ require_once("$root/../inc/dbcon.php");
     if(!isset($_COOKIE['sid'])){
       return false;
     }
-    $apiClient = new ApiClient\ApiClient();
+    global $root;
+    $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
     return $apiClient->isAdmin($_COOKIE['sid']) === true;
 //    return isLoggedIn() && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1;
   }

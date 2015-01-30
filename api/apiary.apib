@@ -105,12 +105,10 @@ Also returns success = 1 for success. Returns success = 0 for fail.
 + Request (application/json)
 
     + Headers
-            {
-                X-DoorLock-Api-Key: {Api-Key}
-                "cookie": "{sid}"
-            }
-
-
+            
+            X-DoorLock-Api-Key: {Api-Key}
+            "cookie": "{sid}"
+            
     + Body
 
 
@@ -143,11 +141,9 @@ Also returns success = 1 for success. Returns success = 0 for fail.
 + Request (application/json)
 
     + Headers
-
-            {
-                X-DoorLock-Api-Key: {Api-Key}
-                "cookie": "{sid}"
-            }
+    
+            X-DoorLock-Api-Key: {Api-Key}
+            "cookie": "{sid}"
 
     + Body
 
@@ -181,10 +177,8 @@ Also returns success = 1 for success. Returns success = 0 for fail.
 
     + Headers
 
-            {
-                X-DoorLock-Api-Key: {Api-Key}
-                "cookie": "{sid}"
-            }
+            X-DoorLock-Api-Key: {Api-Key}
+            "cookie": "{sid}"
 
     + Body
 
@@ -221,10 +215,8 @@ Also returns success = 1 for success. Returns success = 0 for fail.
 
     + Headers
 
-            {
-                X-DoorLock-Api-Key: {Api-Key}
-                "cookie": "{sid}"
-            }
+            X-DoorLock-Api-Key: {Api-Key}
+            "cookie": "{sid}"
 
     + Body
 
@@ -264,10 +256,8 @@ Also returns success = 1 for success. Returns success = 0 for fail.
 
     + Headers
 
-            {
-                X-DoorLock-Api-Key: {Api-Key}
-                "cookie": "{sid}"
-            }
+            X-DoorLock-Api-Key: {Api-Key}
+            "cookie": "{sid}"
 
     + Body
 
@@ -313,11 +303,8 @@ Also returns success = 1 for success. Returns success = 0 for fail.
 
     + Headers
 
-            {
-                X-DoorLock-Api-Key: {Api-Key},
-                "cookie": "{sid}"
-            }
-
+            X-DoorLock-Api-Key: {Api-Key},
+            "cookie": "{sid}"
 
     + Body
 
@@ -364,10 +351,8 @@ Also returns success = 1 for success. Returns success = 0 for fail.
    
     + Headers 
 
-            {
-                X-DoorLock-Api-Key: {Api-Key},
-                "cookie": "{sid}"
-            }
+            X-DoorLock-Api-Key: {Api-Key},
+            "cookie": "{sid}"
 
 
     + Body
@@ -496,11 +481,10 @@ Also returns success = 1 for success. Returns success = 0 for fail.
 + Request (application/json)
    
     + Headers 
- 
-            {
-                X-DoorLock-Api-Key: {Api-Key},
-                "cookie": "{sid}"
-            }
+
+            X-DoorLock-Api-Key: {Api-Key},
+            "cookie": "{sid}"
+
     + Body
     
 
@@ -510,18 +494,8 @@ Also returns success = 1 for success. Returns success = 0 for fail.
     + Body
     
             {
-                "Status": "Unlocked",
-                "isLocked": 0,
-                "success": 1
-            }
-            
-+ Response 200 (application/json)
-
-    + Body
-    
-            {
-                "Status": "Locked",
-                "isLocked": 1,
+                "Status": "{Locked/Unlocked}",
+                "isLocked": {1/0},
                 "success": 1
             }
 
@@ -543,11 +517,10 @@ Also returns success = 1 for success. Returns success = 0 for fail.
 + Request (application/json)
    
     + Headers 
- 
-            {
-                X-DoorLock-Api-Key: {Api-Key}
-                "cookie": "{sid}"
-            }
+
+            X-DoorLock-Api-Key: {Api-Key}
+            "cookie": "{sid}"
+
     + Body
 
 + Response 200 (application/json)
@@ -577,11 +550,9 @@ Also returns success = 1 for success. Returns success = 0 for fail.
 + Request (application/json)
    
     + Headers 
- 
-            {
-                X-DoorLock-Api-Key: {Api-Key}
-                "cookie": "{sid}"
-            }
+
+            X-DoorLock-Api-Key: {Api-Key}
+            "cookie": "{sid}"
 
     + Body
     
@@ -595,6 +566,7 @@ Also returns success = 1 for success. Returns success = 0 for fail.
                 "Unlocked Door": "Success",
                 "success": 1
             }
+            
 + Response 401 (application/json)
 
     + Body

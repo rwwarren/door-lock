@@ -12,6 +12,8 @@ require_once("$root/../vendor/autoload.php");
 //require_once("$root/../vendor/autoload.php");
 require_once("$root/../inc/variables.php");
 require_once("$root/../inc/extraFunctions.php");
+include_once($root . "/../vendor/door-lock/api-client/src/root/apiClient.php");
+
 
 if (isset($_GET['actions']) && (strpos($_SERVER["REQUEST_URI"], 'userFunctions.php') === false)){
   //TODO make sure that request comes from localhost
@@ -68,14 +70,16 @@ function login(){
     $user = $_POST['Username'];
     $pass = $_POST['Password'];
     $token = $_POST['Token'];
+    global $root;
 
     //
-    $root = realpath(dirname(__FILE__));
-    include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
+//    $root = realpath(dirname(__FILE__));
+//    include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
 //    include_once($root . "/../../../api-client/src/root/apiClient.php");
 //    include_once("/Users/ryan/Documents/door-lock/api-client/src/root/apiClient.php");
-    $apiClient = new ApiClient\ApiClient;
+    $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
     $results = $apiClient->login($_POST, $_COOKIE['sid']);
+    print_r($results);
 
 //    echo "This is a success";
 //    echo "<br>";
@@ -176,9 +180,10 @@ function login(){
 //Logs out the user and destorys the session variables
 //stored by the login system
 function logout(){
-  $root = realpath(dirname(__FILE__));
-  include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
-  $apiClient = new ApiClient\ApiClient;
+//  $root = realpath(dirname(__FILE__));
+//  include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
+  global $root;
+  $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
   $results = $apiClient->logout($_COOKIE['sid']);
   unset($_SESSION['username']);
   unset($_SESSION['isAdmin']);
