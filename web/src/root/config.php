@@ -1,7 +1,7 @@
 <?php
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-require_once("$root/../inc/admin.php");
-require_once("$root/../inc/config.php");
+//include_once("$root/../inc/admin.php");
+include_once("$root/../inc/config.php");
 require_once("$root/../inc/extraFunctions.php");
 
 if (isLoggedIn() && isAdmin()){

@@ -1,6 +1,7 @@
 <?php
-$root = realpath($_SERVER["DOCUMENT_ROOT"]);
-require_once("$root/../inc/member.php");
+//$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+//include_once("$root/../inc/member.php");
+//require_once("$root/../inc/member.php");
 
 class ConfigPage {
 //class ConfigPage extends Member {
