@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../../web/src/vendor/predis/predis/src/Autoloader.php';
+require_once __DIR__.'/../vendor/predis/predis/src/Autoloader.php';
 Predis\Autoloader::register();
 $client = new Predis\Client([
     'scheme' => 'tcp',
