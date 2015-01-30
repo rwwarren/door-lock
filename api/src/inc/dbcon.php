@@ -429,7 +429,7 @@ class dbconn {
 
   //Returns ID, eail, and name from a username
   public function getUserInfo($username){
-    $stmt = $this->mysqli->prepare("Select ID, Email, Name, CardID, AuthyID from Users where username = ? and IsActive = 1");
+    $stmt = $this->mysqli->prepare("Select ID, Email, Name, CardID, AuthyID from Users where Username = ? and IsActive = 1");
     $stmt->bind_param('s', $username);
     $stmt->execute();
     $stmt->bind_result($userID, $email, $name, $CardID, $AuthyID);
@@ -440,6 +440,7 @@ class dbconn {
       die("no user exists");
     }
     $AuthyID = ($AuthyID === 0) ? NULL : $AuthyID;
+    $CardID = ($CardID === 0) ? NULL : $CardID;
     return array('ID' => $userID, 'Email' => $email, 'Name' => $name, 'CardID' => $CardID, 'AuthyID' => $AuthyID);
   }
 

@@ -5,8 +5,8 @@ $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/member.php");
 require_once("$root/../inc/extraFunctions.php");
 //TODO get with vendor
-$root = realpath(dirname(__FILE__));
-include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
+//$root = realpath(dirname(__FILE__));
+//include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
 
 class userEdit extends Member{
 
@@ -146,8 +146,11 @@ class userEdit extends Member{
   //TODO clean up, div class maybe, label, make nice
   //get all info, change only what changed, add in current info
   private function userEditer(){
-    $apiClient = new \ApiClient\ApiClient();
-    $userInfo = $apiClient->getUserInfo($_SESSION['username']);
+    global $root;
+    $apiClient = new \ApiClient\ApiClient("$root/../properties/secure.ini");
+    $result = $apiClient->getUserInfo($_COOKIE['sid']);
+    $intermediate = json_decode($result);
+    $userInfo = json_decode($intermediate, true);
 
 //    $dbconn = new dbconn("read");
 //    $userInfo = $dbconn->getUserInfo($_SESSION['username']);

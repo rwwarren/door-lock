@@ -1,7 +1,7 @@
 <?php
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/users.php");
-require_once("$root/../inc/extraFunctions.php");
+//require_once("$root/../inc/extraFunctions.php");
 
 if (isLoggedIn()){
   if ($_SERVER["REQUEST_URI"] == "/users/"){

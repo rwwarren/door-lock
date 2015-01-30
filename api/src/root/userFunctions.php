@@ -155,6 +155,7 @@ function login(){
 //  $value = $client->hgetall('apiKeys');
 //        $userID = $client->hset('loggedInUsers', $apiKey);
         $confirmation = $client->HSET("loggedInUsers:$cookie", "name", "$name");
+        $confirmation = $client->HSET("loggedInUsers:$cookie", "username", "$username");
         $confirmation = $client->HSET("loggedInUsers:$cookie", "UID", "$uid");
         $confirmation = $client->HSET("loggedInAdmins:$cookie", "Admin", "$isAdmin");
 //        $userID = $client->HMSET('loggedInUsers', array("sid" => "$cookie"));
@@ -169,7 +170,7 @@ function login(){
         exit();
         //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
       }
-      
+
 //      $dbconn->close();
       header("HTTP/1.0 403 Forbidden");
       header('Content-Type: application/json');
@@ -205,6 +206,7 @@ function logout(){
       global $client;
 //      $confirm = $client->HDEL('loggedInUsers', $cookie);
       $confirmation = $client->HDEL("loggedInUsers:$cookie", "name");
+      $confirmation = $client->HDEL("loggedInUsers:$cookie", "username");
       $confirmation = $client->HDEL("loggedInUsers:$cookie", "UID");
       $confirmation = $client->HDEL("loggedInAdmins:$cookie", "Admin");
       if($confirmation === 0){
@@ -272,11 +274,20 @@ function isAdmin() {
 
 function getUserInfo(){
   //TODO get the user information
+  $cookie = getallheaders()['sid'];
+  global $client;
+  $username = $client->hget("loggedInUsers:$cookie", "username");
+  $dbconn = new dbconn("read");
+  $result = $dbconn->getUserInfo($username);
   //name
   //email
   //cardID
   //authyId
-  return array();
+//  print_r($result);
+  header("HTTP/1.0 200 Success");
+  header('Content-Type: application/json');
+  echo json_encode($result, true);
+//  return $result;
 }
 
 function getAllUsers(){
