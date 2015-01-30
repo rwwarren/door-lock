@@ -15,11 +15,13 @@
       "phpmailer/phpmailer": "dev-master",
       "phing/phing": "dev-master",
       "predis/predis": "1.0.1",
-      "satooshi/php-coveralls": "dev-master",
+      "satooshi/php-coveralls": "0.6.1",
       "door-lock/api-client": "dev-master"
     },
     "require-dev": {
       "phpunit/phpunit": "4.2.*",
+      "codeclimate/php-test-reporter": "dev-master",
+      "satooshi/php-coveralls": "0.6.1",
       "resty/resty": "0.6"
     },
     "autoload": {

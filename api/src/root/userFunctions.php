@@ -49,12 +49,12 @@ if (isset($_GET['actions']) ){
     getUserInfo();
   } else if ($type == 'getAllUsers'){
     getAllUsers();
-  } else if ($type == 'changePassword'){
-    changePassword();
+//  } else if ($type == 'changePassword'){
+//    changePassword();
   } else if ($type == 'registerUser' && isLoggedIn()){
     registerUser();
-  } else if ($type == 'changeUser' && isLoggedIn()){
-    changeUser();
+  } else if ($type == 'changeUserType' && isLoggedIn()){
+    changeUserType();
   } else if ($type == 'updateUserInfo' && isLoggedIn()){
     updateUserInfo();
   } else if ($type == 'forgotPassword'){
@@ -263,65 +263,210 @@ function isAdmin() {
   exit();
 //  $userID = $client->HMSET('loggedInUsers', array("$cookie" => "$name"));
 }
-//Changes the user's password
-function changePassword(){
-  if (isset($_POST['username']) && isset($_POST['old-password']) && isset($_POST['new-password'])
-      && isset($_POST['cookie'])){
-    $username = $_POST['username'];
-    $oldPassword = $_POST['old-password'];
-    $newPassword = $_POST['new-password'];
-    $cookie = $_POST['cookie'];
 
-    $apiKey = getApiKey();
-    $userID = isValid($apiKey);
-    if($userID !== NULL){
-      //something to do with the user id
-      //and change the password
-      //unset session stuff
-      $dbconn = new dbconn("read");
-//      $dbconn->connect("read");
-      //$dbconn->changePassword($username, $oldPassword, $newPassword);
-      //return json_encode(array('Changed Password' => 'username', 'success' => '1/0'));
-      header("HTTP/1.0 200 Success, Password Changed");
-      header('Content-Type: application/json');
-      //echo json_encode(array('Changed Password' => 'username', 'success' => '1/0'));
-      //echo json_encode(array('Changed Password' => $username, 'success' => '1/0'));
-      //echo json_encode(array('Changed Password' => $username, 'success' => '1/0'));
-      echo json_encode(array('Changed Password' => $username, 'success' => '1'));
-//      $dbconn->close();
+function getUserInfo(){
+  //TODO get the user information
+  //name
+  //email
+  //cardID
+  //authyId
+  return array();
+}
+
+function getAllUsers(){
+  //TODO get all the users
+  return array('InactiveUsers' => array(""), "ActiveUsers" => array(""), "Admins" => array(""));
+}
+
+function changeUserType(){
+  //TODO fix this
+  if(isset($_POST['user']) && isset($_POST['type']) && isAdmin() /*&& checkHeaders()*/){
+    $user = $_POST['user'];
+    $type = $_POST['type'];
+    $user = mysql_real_escape_string($user);
+    $dbconn = new dbconn("write");
+    //$dbconn->connect("write");
+    $dbconn->changeUser($user, $type);
+    //$dbconn->close();
+  } else {
+    echo "nope";
+    echo '<br>No username entered';
+    header("HTTP/1.0 403 User Forbidden");
+  }
+}
+
+function updateUserInfo(){
+  //TODO fix this
+  if (isset($_SESSION['username']) && isset($_POST['oldPwd']) && isset($_POST['newPwd']) && isset($_POST['authy']) &&
+    isset($_POST['card']) && isset($_POST['email']) && isset($_POST['name']) && isset($_POST['confNewPass']) ){
+    $username = $_SESSION['username'];
+    $oldPassword = mysql_real_escape_string($_POST['oldPwd']);
+    $newPassword = mysql_real_escape_string($_POST['newPwd']);
+    $confNewPassword = mysql_real_escape_string($_POST['confNewPass']);
+    $authy = mysql_real_escape_string($_POST['authy']);
+    $card = mysql_real_escape_string($_POST['card']);
+    $email = mysql_real_escape_string($_POST['email']);
+    $name = mysql_real_escape_string($_POST['name']);
+    if($newPassword !== $confNewPassword){
+      echo 'new password and confirmed new password are not equal';
+      return false;
       exit();
     } else {
-      UnAuthError($apiKey);
+//      $username = mysql_real_escape_string($username);
+//      $oldPassword = mysql_real_escape_string($oldPassword);
+//      $newPassword = mysql_real_escape_string($newPassword);
+      $dbconn = new dbconn("write");
+      //$dbconn->connect("write");
+      $result = $dbconn->updateUserInfo($username, $oldPassword, $newPassword, $confNewPassword, $authy, $card, $email, $name);
+      //TODO this is the function name below
+      //$dbconn->close();
+      //print_r($_SERVER);
+      if($result == 202){
+        logout();
+      }
+      exit();
     }
+  } else {
+    print_r($_POST);
+    echo 'nothing returned';
+    header("HTTP/1.0 401 User Forbidden");
+    exit();
   }
-  UnAuthError();
+
 }
+
+function registerUser(){
+  //TODO fix this
+  if (isset($_POST['personName']) && isset($_POST['username'])&& isset($_POST['password']) && isset($_POST['email']) && isAdmin() && isset($_POST['admin'])){
+    $personName = $_POST['personName'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $email = $_POST['email'];
+    $admin = ($_POST['admin'] == 'true' ? 1 : 0);
+    $authyID = $_POST['authyID'];
+
+    $personName = mysql_real_escape_string($personName);
+    $username = mysql_real_escape_string($username);
+    $password = mysql_real_escape_string($password);
+    $email = mysql_real_escape_string($email);
+    $dbconn = new dbconn("write");
+    //$dbconn->connect("write");
+    $dbconn->registerUser($personName, $username, $password, $email, $admin, $authyID);
+    //$dbconn->close();
+  } else {
+    echo 'nothing returned';
+    header("HTTP/1.0 403 User Forbidden");
+  }
+}
+
+
+////Changes the user's password
+//function changePassword(){
+//  if (isset($_POST['username']) && isset($_POST['old-password']) && isset($_POST['new-password'])
+//      && isset($_POST['cookie'])){
+//    $username = $_POST['username'];
+//    $oldPassword = $_POST['old-password'];
+//    $newPassword = $_POST['new-password'];
+//    $cookie = $_POST['cookie'];
+//
+//    $apiKey = getApiKey();
+//    $userID = isValid($apiKey);
+//    if($userID !== NULL){
+//      //something to do with the user id
+//      //and change the password
+//      //unset session stuff
+//      $dbconn = new dbconn("read");
+////      $dbconn->connect("read");
+//      //$dbconn->changePassword($username, $oldPassword, $newPassword);
+//      //return json_encode(array('Changed Password' => 'username', 'success' => '1/0'));
+//      header("HTTP/1.0 200 Success, Password Changed");
+//      header('Content-Type: application/json');
+//      //echo json_encode(array('Changed Password' => 'username', 'success' => '1/0'));
+//      //echo json_encode(array('Changed Password' => $username, 'success' => '1/0'));
+//      //echo json_encode(array('Changed Password' => $username, 'success' => '1/0'));
+//      echo json_encode(array('Changed Password' => $username, 'success' => '1'));
+////      $dbconn->close();
+//      exit();
+//    } else {
+//      UnAuthError($apiKey);
+//    }
+//  }
+//  UnAuthError();
+//}
 
 //Changes the password of the user based on the reset token and
 //password
 function forgotPassword(){
-  if(isset($_POST['username']) && isset($_POST['email'])){
-    $apiKey = getApiKey();
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $userID = isValid($apiKey);
-    //TODO this is the more ish?
-    if($userID !== NULL){
-//      $dbconn = new dbconn;
-//      $dbconn->connect("write");
-//      $dbconn->resetPassword($username, $email);
-//      $dbconn->close();
-      header("HTTP/1.0 200 Success");
-      header('Content-Type: application/json');
-      //return json_encode(array('Reset Password Sent' => $username, 'success' => '1/0'));
-      //echo json_encode(array('Reset Password Sent' => $user, 'success' => '1/0'));
-      echo json_encode(array('Reset Password Sent' => $user, 'success' => '1'));
+//  if(isset($_POST['username']) && isset($_POST['email'])){
+//    $apiKey = getApiKey();
+//    $username = $_POST['username'];
+//    $email = $_POST['email'];
+//    $userID = isValid($apiKey);
+//    //TODO this is the more ish?
+//    if($userID !== NULL){
+////      $dbconn = new dbconn;
+////      $dbconn->connect("write");
+////      $dbconn->resetPassword($username, $email);
+////      $dbconn->close();
+//      header("HTTP/1.0 200 Success");
+//      header('Content-Type: application/json');
+//      //return json_encode(array('Reset Password Sent' => $username, 'success' => '1/0'));
+//      //echo json_encode(array('Reset Password Sent' => $user, 'success' => '1/0'));
+//      echo json_encode(array('Reset Password Sent' => $user, 'success' => '1'));
+//      exit();
+//    } else {
+//      UnAuthError($apiKey);
+//    }
+//  }
+//  UnAuthError();
+  //TODO CHANGE THIS
+  if(isset($_GET['resetToken']) && isset($_POST['pass']) && isset($_POST['confirmPass']) ){
+    $resetToken = $_GET['resetToken'];
+    $pass = $_POST['pass'];
+    $otherPass = $_POST['confirmPass'];
+    $dbconn = new dbconn("write");
+    //$dbconn->connect("write");
+    $results = $dbconn->findResetToken($resetToken);
+    //$dbconn->close();
+    if ($results && (strcmp($pass, $otherPass) == 0)){
+      //resets the password....
+      echo 'Found!';
+      $dbconn = new dbconn("write");
+      //$dbconn->connect("write");
+      $userID = $dbconn->resetChangePassword($pass, $resetToken);
+      $results = $dbconn->invalidateResetURL($resetToken, $userID);
+      //$dbconn->close();
+      return true;
       exit();
     } else {
-      UnAuthError($apiKey);
+      echo 'error! nothing found';
+      header("HTTP/1.0 403 User Forbidden");
+      exit();
     }
+  } else {
+    echo 'nothing returned';
+    header("HTTP/1.0 403 User Forbidden");
+    exit();
   }
-  UnAuthError();
+}
+
+function resetPassword(){
+  //TODO CHANGE THIS
+  if (isset($_POST['username']) && isset($_POST['email'])){
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+
+    $dbconn = new dbconn("write");
+    //$dbconn->connect("write");
+    $dbconn->resetPassword($username, $email);
+    //$dbconn->close();
+
+    echo 'Email sent to: ' . $email . '. Password for username: ' . $username . ' has been reset!';
+    echo '<br> Please check your email';
+    echo '<br> Click <a href="/">here</a> to go home';
+  } else {
+    header("Location: http://$_SERVER[HTTP_HOST]");
+  }
 }
 
 //Returns the lock status
