@@ -3,9 +3,6 @@ $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/dbcon.php");
 require_once("$root/../inc/member.php");
 require_once("$root/../inc/extraFunctions.php");
-//TODO get with vendor
-$root = realpath(dirname(__FILE__));
-include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
 
 class adminPage extends Member{
 
@@ -316,7 +313,8 @@ class adminPage extends Member{
   }
 
   private function userconfig(){
-    $apiClient = new \ApiClient\ApiClient();
+    global $root;
+    $apiClient = new \ApiClient\ApiClient("$root/../properties/secure.ini");
     //Different thing to get all users than username?
     $allUsers = $apiClient->getAllUsers($_SESSION['username']);
 //    $also = $db->getUsers();
@@ -422,7 +420,8 @@ class adminPage extends Member{
   public function getBody(){
 //    if (isAdmin()){
     //TODO does this do anything?
-    $apiClient = new \ApiClient\ApiClient();
+    global $root;
+    $apiClient = new \ApiClient\ApiClient("$root/../properties/secure.ini");
     $allUsers = $apiClient->getAllUsers($_SESSION['username']);
 
 
