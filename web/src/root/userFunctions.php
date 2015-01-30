@@ -79,7 +79,7 @@ function login(){
 //    include_once("/Users/ryan/Documents/door-lock/api-client/src/root/apiClient.php");
     $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
     $results = $apiClient->login($_POST, $_COOKIE['sid']);
-    print_r($results);
+//    print_r($results);
 
 //    echo "This is a success";
 //    echo "<br>";
@@ -185,19 +185,30 @@ function logout(){
   global $root;
   $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
   $results = $apiClient->logout($_COOKIE['sid']);
-  unset($_SESSION['username']);
-  unset($_SESSION['isAdmin']);
-  $_SESSION = array();
-  session_regenerate_id(true);
-  session_unset();
-  session_destroy();
-  setcookie('sid', '', time()-3600);
-  session_name('sid');
-  session_start();
-  //TODO get this not to open another page
-  header("Location: http://$_SERVER[SERVER_NAME]");
-  //header("Location: http://$_SERVER[HTTP_HOST]");
-  exit();
+//  $intermediate = json_decode($results, true);
+  $intermediate = json_decode($results);
+//  $decoded = $intermediate;
+  $decoded = json_decode($intermediate, true);
+//  print_r($decoded);
+  if($decoded['success'] == 1) {
+    unset($_SESSION['username']);
+    unset($_SESSION['isAdmin']);
+    $_SESSION = array();
+    session_regenerate_id(true);
+    session_unset();
+    session_destroy();
+    setcookie('sid', '', time() - 3600);
+    session_name('sid');
+    session_start();
+    //TODO get this not to open another page
+    header("Location: http://$_SERVER[SERVER_NAME]");
+    //header("Location: http://$_SERVER[HTTP_HOST]");
+    exit();
+  } else {
+    echo "error";
+
+  }
+
 }
 
 //Changes the type of user in the database
