@@ -43,7 +43,11 @@
     <!-- create env target that sets env variable-->
     <echo msg="${api.url}"/>
     <!-- <delete dir="${webserver.root}" /> -->
-    <copy file="./build.properties" tofile="${current.dir}/../src/properties/secure.ini"/>
+    <copy file="./build.properties" tofile="${current.dir}/../src/properties/secure.ini">
+      <filterchain>
+        <expandproperties/>
+      </filterchain>
+    </copy>
     <copy todir="${webserver.root}">
       <!-- <copy todir="${webserver.root}" overwrite="true"> -->
       <fileset dir="../src">
