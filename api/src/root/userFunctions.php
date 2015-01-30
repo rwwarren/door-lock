@@ -19,7 +19,7 @@ $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 require_once("$root/../inc/dbcon.php");
 //require "$root/../../web/includedPackages/authy-php/Authy.php";
 //require_once("Authy/Authy.php");
-require_once("$root/../../../web/src/vendor/autoload.php");
+//require_once("$root/../../../web/src/vendor/autoload.php");
 //require_once("$root/../../../web/src/inc/variables.php");
 //require_once("$root/../../web/inc/extraFunctions.php");
 //include_once("$root/../../web/inc/extraFunctions.php");
@@ -136,8 +136,9 @@ function login(){
 //      $dbconn->connect("read");
 //      $userInfo = array();
       $userInfo = $dbconn->login($username, $password);
+//      echo "asdf tHERE: " . $userInfo;
       //TODO set session stuff??
-      if($userInfo !== null) {
+      if($userInfo != false) {
 //        $_SESSION['name'] = $userInfo['Name'];
 //        $_SESSION['username'] = $userInfo['Username'];
 //        $_SESSION['userID'] = $userInfo['ID'];
@@ -165,9 +166,14 @@ function login(){
         header('Content-Type: application/json');
         //echo json_encode(array('username' => $username, 'success' => '1/0' ));
         echo json_encode(array('username' => $username, 'name' => $name, 'isAdmin' => $isAdmin, 'success' => '1' ));
+        exit();
         //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
       }
+      
 //      $dbconn->close();
+      header("HTTP/1.0 403 Forbidden");
+      header('Content-Type: application/json');
+      echo json_encode(array('Invalid Username or Password' => $username, 'success' => '0' ));
       exit();
     } else {
       header("HTTP/1.0 403 Forbidden");
