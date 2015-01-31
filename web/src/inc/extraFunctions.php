@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-require_once("$root/../inc/dbcon.php");
+//require_once("$root/../inc/dbcon.php");
 include_once($root . "/../vendor/door-lock/api-client/src/root/apiClient.php");
 
 
@@ -23,7 +23,20 @@ include_once($root . "/../vendor/door-lock/api-client/src/root/apiClient.php");
       return false;
     }
     $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
-    return $apiClient->isLoggedIn($_COOKIE['sid']) === true;
+    $results = $apiClient->isLoggedIn($_COOKIE['sid']);
+//    print_r($results);
+//    $intermediate = json_decode($results);
+//    $decoded = json_decode($intermediate, true);
+    if($results['success'] == 0){
+      return false;
+    }
+    if(!isset($_SESSION['username']) && $_SESSION['username'] === null){
+      $_SESSION['username'] = $results['username'];
+      $_SESSION['name'] = $results['name'];
+      $_SESSION['isAdmin'] = $results['isAdmin'];
+    }
+    return true;
+//    return $decoded['success'] == 1;
 //    return $apiClient->isLoggedIn($_SESSION['sid']);
 //    return isset($_SESSION['username']) && $_SESSION['username'] !== null;
   }

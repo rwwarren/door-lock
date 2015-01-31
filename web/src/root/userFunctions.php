@@ -109,6 +109,7 @@ function login(){
 ////      $_SESSION['name'] = $decoded['name'];
 
       $_SESSION['name'] = $decoded['name'];
+      $_SESSION['username'] = $decoded['username'];
       $_SESSION['isAdmin'] = $decoded['isAdmin'];
 
 //      $_SESSION['username'] = $results['username'];

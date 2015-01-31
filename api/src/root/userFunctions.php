@@ -157,7 +157,8 @@ function login(){
         $confirmation = $client->HSET("loggedInUsers:$cookie", "name", "$name");
         $confirmation = $client->HSET("loggedInUsers:$cookie", "username", "$username");
         $confirmation = $client->HSET("loggedInUsers:$cookie", "UID", "$uid");
-        $confirmation = $client->HSET("loggedInAdmins:$cookie", "Admin", "$isAdmin");
+        $confirmation = $client->HSET("loggedInUsers:$cookie", "admin", "$isAdmin");
+//        $confirmation = $client->HSET("loggedInAdmins:$cookie", "Admin", "$isAdmin");
 //        $userID = $client->HMSET('loggedInUsers', array("sid" => "$cookie"));
 //        $userID = $client->HMSET('loggedInUsers', $apiKey);
 //        print_r($_SESSION);
@@ -208,7 +209,7 @@ function logout(){
       $confirmation = $client->HDEL("loggedInUsers:$cookie", "name");
       $confirmation = $client->HDEL("loggedInUsers:$cookie", "username");
       $confirmation = $client->HDEL("loggedInUsers:$cookie", "UID");
-      $confirmation = $client->HDEL("loggedInAdmins:$cookie", "Admin");
+      $confirmation = $client->HDEL("loggedInUsers:$cookie", "admin");
       if($confirmation === 0){
         echo "error";
         exit();
@@ -244,9 +245,15 @@ function isLoggedIn() {
 //  print_r(getallheaders());
 //  $name = $userInfo['Name'];
   global $client;
-  $userID = $client->hget("loggedInUsers:$cookie", "name");
-  if(strlen($userID) > 0){
-    echo json_encode(array('LoggedIn' => $userID, 'success' => '1'));
+  $name = $client->hget("loggedInUsers:$cookie", "name");
+  $username = $client->hget("loggedInUsers:$cookie", "username");
+  $admin = $client->hget("loggedInUsers:$cookie", "admin");
+  if(strlen($name) > 0){
+//    return those
+//    $_SESSION['name'] = $decoded['name'];
+//    $_SESSION['username'] = $decoded['username'];
+//    $_SESSION['isAdmin'] = $decoded['isAdmin'];
+    echo json_encode(array('LoggedIn' => $username, 'Name' => $name, 'IsAdmin' => $admin, 'success' => '1'));
     exit();
   }
   echo json_encode(array('Error' => 'User not logged in', 'success' => '0'));
@@ -266,7 +273,7 @@ function isAdmin() {
   global $client;
 //  $value = $client->hgetall('apiKeys');
 //        $userID = $client->hset('loggedInUsers', $apiKey);
-  $isAdmin = $client->hget("loggedInAdmins:$cookie", "Admin");
+  $isAdmin = $client->hget("loggedInUsers:$cookie", "admin");
   echo json_encode(array("admin" => $isAdmin));
   exit();
 //  $userID = $client->HMSET('loggedInUsers', array("$cookie" => "$name"));
