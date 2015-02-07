@@ -90,8 +90,8 @@ function login(){
       $_SESSION['username'] = $_POST['Username'];
 //      print_r($results);
 //      $decoded = json_encode($results);
-      $intermediate = json_decode($results);
-      $decoded = json_decode($intermediate, true);
+//      $intermediate = json_decode($results);
+//      $decoded = json_decode($intermediate, true);
       //HERE
 //      print_r($decoded);
 //      echo "sadf: " . $decoded['name'] . "sdf <br>";
@@ -108,9 +108,12 @@ function login(){
 //      echo "test: " . $newone['name'];
 ////      $_SESSION['name'] = $decoded['name'];
 
-      $_SESSION['name'] = $decoded['name'];
-      $_SESSION['username'] = $decoded['username'];
-      $_SESSION['isAdmin'] = $decoded['isAdmin'];
+//      $_SESSION['name'] = $decoded['name'];
+//      $_SESSION['username'] = $decoded['username'];
+//      $_SESSION['isAdmin'] = $decoded['isAdmin'];
+      $_SESSION['name'] = $results['name'];
+      $_SESSION['username'] = $results['username'];
+      $_SESSION['isAdmin'] = $results['isAdmin'];
 
 //      $_SESSION['username'] = $results['username'];
 //      $_SESSION['userID'] = $userInfo['ID'];
@@ -187,11 +190,12 @@ function logout(){
   $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
   $results = $apiClient->logout($_COOKIE['sid']);
 //  $intermediate = json_decode($results, true);
-  $intermediate = json_decode($results);
+//  $intermediate = json_decode($results);
 //  $decoded = $intermediate;
-  $decoded = json_decode($intermediate, true);
+//  $decoded = json_decode($intermediate, true);
 //  print_r($decoded);
-  if($decoded['success'] == 1) {
+  if($results['success'] == 1) {
+//  if($decoded['success'] == 1) {
     unset($_SESSION['username']);
     unset($_SESSION['isAdmin']);
     $_SESSION = array();

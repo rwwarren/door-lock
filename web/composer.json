@@ -16,7 +16,7 @@
       "phing/phing": "dev-master",
       "predis/predis": "1.0.1",
       "satooshi/php-coveralls": "0.6.1",
-      "door-lock/api-client": "dev-master"
+      "door-lock/api-client": "1.0.1"
     },
     "require-dev": {
       "phpunit/phpunit": "4.2.*",

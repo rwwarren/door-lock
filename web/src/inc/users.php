@@ -148,10 +148,9 @@ class userEdit extends Member{
   private function userEditer(){
     global $root;
     $apiClient = new \ApiClient\ApiClient("$root/../properties/secure.ini");
-    $result = $apiClient->getUserInfo($_COOKIE['sid']);
-    $intermediate = json_decode($result);
-    $userInfo = json_decode($intermediate, true);
-
+    $userInfo = $apiClient->getUserInfo($_COOKIE['sid']);
+//    $intermediate = json_decode($result);
+//    $userInfo = json_decode($intermediate, true);
 //    $dbconn = new dbconn("read");
 //    $userInfo = $dbconn->getUserInfo($_SESSION['username']);
 

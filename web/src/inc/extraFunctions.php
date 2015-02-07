@@ -48,7 +48,8 @@ include_once($root . "/../vendor/door-lock/api-client/src/root/apiClient.php");
     }
     global $root;
     $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
-    return $apiClient->isAdmin($_COOKIE['sid']) === true;
+    return $apiClient->isAdmin($_COOKIE['sid']);
+//    return $apiClient->isAdmin($_COOKIE['sid']) === true;
 //    return isLoggedIn() && isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1;
   }
 
