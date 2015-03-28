@@ -32,6 +32,11 @@ require_once("$root/../inc/dbcon.php");
 //TODO add back in comments
 //if (isset($_GET['actions']) && (strpos($_SERVER["REQUEST_URI"], 'userFunctions.php') === false)){
 //echo "asdf";
+$apiKey = getApiKey();
+if($apiKey === null || isValid($apiKey) === null){
+  UnAuthError($apiKey);
+  exit();
+}
 if (isset($_GET['actions']) ){
   $type = $_GET['actions'];
   //TODO make this a switch
@@ -53,7 +58,8 @@ if (isset($_GET['actions']) ){
 //    changePassword();
   } else if ($type == 'registerUser' && isLoggedIn()){
     registerUser();
-  } else if ($type == 'changeUserType' && isLoggedIn()){
+  } else if ($type == 'changeUserType' && currentlyLoggedIn()){
+//  } else if ($type == 'changeUserType' && isLoggedIn()){
     changeUserType();
   } else if ($type == 'updateUserInfo' && isLoggedIn()){
     updateUserInfo();
@@ -86,34 +92,15 @@ function getApiKey(){
 //Checks if the api key is valid
 function isValid($apiKey){
   global $client;
-//  $value = $client->hgetall('apiKeys');
   $userID = $client->hget('apiKeys', $apiKey);
-  //print_r($value);
-//  $client = new Predis\Client();
-
-  //$value = $client->hgetall('apiKeys');
-  //$value = $client->hget('apiKeys');
-  //print_r($value);
-
-  //echo $client;
-  //-1 is the all user general one
-//  echo "asdf";
-//  exit();
-  //
   return $userID;
 }
 
 //Returns the Unauthorized Api with headers
 function UnAuthError($apiKey = NULL){
   header("HTTP/1.0 401 Unauthorized API key invalid");
-    header('Content-Type: application/json');
-  if ($apiKey !== NULL){
-    //header('Content-Type: application/json');
-    //return json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
-    echo json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
-    exit();
-  }
-    echo json_encode(array('Invalid API Key!!!' => $apiKey, 'success' => '0'));
+  header('Content-Type: application/json');
+  echo json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
   exit();
 }
 
@@ -240,6 +227,13 @@ function logout(){
   UnAuthError();
 }
 
+function currentlyLoggedIn(){
+  global $client;
+  $cookie = getallheaders()['sid'];
+  $username = $client->hget("loggedInUsers:$cookie", "username");
+  return $username !== null;
+}
+
 function isLoggedIn() {
   $cookie = getallheaders()['sid'];
 //  print_r(getallheaders());
@@ -280,31 +274,43 @@ function isAdmin() {
 }
 
 function getUserInfo(){
-  //TODO get the user information
   $cookie = getallheaders()['sid'];
   global $client;
   $username = $client->hget("loggedInUsers:$cookie", "username");
   $dbconn = new dbconn("read");
   $result = $dbconn->getUserInfo($username);
-  //name
-  //email
-  //cardID
-  //authyId
-//  print_r($result);
   header("HTTP/1.0 200 Success");
   header('Content-Type: application/json');
   echo json_encode($result, true);
-//  return $result;
 }
 
 function getAllUsers(){
   //TODO get all the users
-  return array('InactiveUsers' => array(""), "ActiveUsers" => array(""), "Admins" => array(""));
+  $cookie = getallheaders()['sid'];
+  global $client;
+  $isAdmin = $client->hget("loggedInUsers:$cookie", "admin");
+  if($isAdmin !== "1"){
+    echo "not admin";
+    exit();
+  }
+//  $username = $client->hget("loggedInUsers:$cookie", "username");
+  $dbconn = new dbconn("read");
+  $activeUsers = $dbconn->getActiveUsers();
+  $inactiveUsers = $dbconn->getInactiveUsers();
+  $admins = $dbconn->getAdmins();
+//  $result = $dbconn->getUserInfo($username);
+//  $result = $dbconn->getUserInfo($username);
+  header("HTTP/1.0 200 Success");
+  header('Content-Type: application/json');
+//  echo json_encode(array(""), true);
+  echo json_encode(array('InactiveUsers' => $inactiveUsers, "ActiveUsers" => $activeUsers, "Admins" => $admins), true);
+//  return array('InactiveUsers' => array(""), "ActiveUsers" => $activeUsers, "Admins" => array(""));
 }
 
 function changeUserType(){
   //TODO fix this
-  if(isset($_POST['user']) && isset($_POST['type']) && isAdmin() /*&& checkHeaders()*/){
+  $isAdmin = isAdmin()['admin'] === "1";
+  if(isset($_POST['user']) && isset($_POST['type']) && $isAdmin /*&& checkHeaders()*/){
     $user = $_POST['user'];
     $type = $_POST['type'];
     $user = mysql_real_escape_string($user);
@@ -518,12 +524,12 @@ function lockStatus(){
 }
 
 //locks the lock
-function lock(){
+function lock($userID){
   if(isset($_POST['username']) && isset($_POST['cookie'])){
-    $apiKey = getApiKey();
+//    $apiKey = getApiKey();
     $user = $_POST['username'];
     $cookie = $_POST['cookie'];
-    $userID = isValid($apiKey);
+//    $userID = isValid($apiKey);
     //is logged in?
     if($user !== null && $cookie !== null && $userID !== NULL){
       //return json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));

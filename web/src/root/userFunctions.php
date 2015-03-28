@@ -184,18 +184,10 @@ function login(){
 //Logs out the user and destorys the session variables
 //stored by the login system
 function logout(){
-//  $root = realpath(dirname(__FILE__));
-//  include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
   global $root;
   $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
   $results = $apiClient->logout($_COOKIE['sid']);
-//  $intermediate = json_decode($results, true);
-//  $intermediate = json_decode($results);
-//  $decoded = $intermediate;
-//  $decoded = json_decode($intermediate, true);
-//  print_r($decoded);
   if($results['success'] == 1) {
-//  if($decoded['success'] == 1) {
     unset($_SESSION['username']);
     unset($_SESSION['isAdmin']);
     $_SESSION = array();
@@ -207,13 +199,10 @@ function logout(){
     session_start();
     //TODO get this not to open another page
     header("Location: http://$_SERVER[SERVER_NAME]");
-    //header("Location: http://$_SERVER[HTTP_HOST]");
     exit();
   } else {
     echo "error";
-
   }
-
 }
 
 //Changes the type of user in the database

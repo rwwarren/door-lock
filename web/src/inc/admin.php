@@ -316,7 +316,8 @@ class adminPage extends Member{
     global $root;
     $apiClient = new \ApiClient\ApiClient("$root/../properties/secure.ini");
     //Different thing to get all users than username?
-    $allUsers = $apiClient->getAllUsers($_SESSION['username']);
+    $allUsers = $apiClient->getAllUsers($_COOKIE['sid']);
+//    $allUsers = $apiClient->getAllUsers($_SESSION['username']);
 //    $also = $db->getUsers();
     $inactive = $allUsers['InactiveUsers'];
     $active = $allUsers['ActiveUsers'];
