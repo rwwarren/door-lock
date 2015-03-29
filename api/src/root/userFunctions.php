@@ -5,33 +5,16 @@ Predis\Autoloader::register();
 $client = new Predis\Client([
     'scheme' => 'tcp',
     'host'   => '127.0.0.1',
-    //'host'   => '10.0.0.1',
     'port'   => 6379,
 ]);
 
 ini_set("session.hash_function", "sha512");
 session_name('sid');
 
-
 session_start();
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-//echo $root . "/../../web/inc/dbcon.php";
 require_once("$root/../inc/dbcon.php");
-//require "$root/../../web/includedPackages/authy-php/Authy.php";
-//require_once("Authy/Authy.php");
-//require_once("$root/../../../web/src/vendor/autoload.php");
-//require_once("$root/../../../web/src/inc/variables.php");
-//require_once("$root/../../web/inc/extraFunctions.php");
-//include_once("$root/../../web/inc/extraFunctions.php");
 
-//require_once("$root/../inc/dbcon.php");
-//require '../includedPackages/authy-php/Authy.php';
-//require_once("$root/../inc/variables.php");
-//require_once("$root/../inc/extraFunctions.php");
-
-//TODO add back in comments
-//if (isset($_GET['actions']) && (strpos($_SERVER["REQUEST_URI"], 'userFunctions.php') === false)){
-//echo "asdf";
 $apiKey = getApiKey();
 if($apiKey === null || isValid($apiKey) === null){
   UnAuthError($apiKey);
