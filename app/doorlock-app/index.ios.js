@@ -10,9 +10,10 @@ var {
   StyleSheet,
   Text,
   View,
+  TextBox,
 } = React;
 
-var doorlock-app = React.createClass({
+var doorlockapp = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
@@ -46,4 +47,4 @@ var styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('doorlock-app', () => doorlock-app);
+AppRegistry.registerComponent('doorlock-app', () => doorlockapp);
