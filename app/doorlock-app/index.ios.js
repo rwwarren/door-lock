@@ -10,30 +10,53 @@ var {
   StyleSheet,
   Text,
   View,
-  TextBox,
+  ListView,
+  NavigatorIOS,
+  Navigator,
 } = React;
+
+var HomePage = require('./HomePage');
 
 var doorlockapp = React.createClass({
   render: function() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js{'\n'}
-          Press Cmd+R to reload
-        </Text>
-      </View>
-    );
-  }
+    //if (!this.state.loaded) {
+    //  return <Text>asdf</Text>;
+    //}
+//      <NavigatorIOS
+//        style={styles.container}
+//        initialRoute={{
+//          title: 'Home Page',
+//          component: HomePage,
+//      }}/>
+    return(
+<Navigator
+    initialRoute={{name: 'My First Scene', index: 0}}
+    renderScene={(route, navigator) =>
+      <HomePage
+        name={route.name}
+        onForward={() => {
+          var nextIndex = route.index + 1;
+          navigator.push({
+            name: 'Scene ' + nextIndex,
+            index: nextIndex,
+          });
+        }}
+        onBack={() => {
+          if (route.index > 0) {
+            navigator.pop();
+          }
+        }}
+      />
+    }
+  />
+
+     );
+  },
 });
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {
@@ -44,6 +67,21 @@ var styles = StyleSheet.create({
   instructions: {
     textAlign: 'center',
     color: '#333333',
+  },
+  listView: {
+    paddingTop: 20,
+    backgroundColor: '#F5FCFF',
+  },
+  todoElement: {
+    paddingTop: 10,
+    paddingBottom: 20,
+    paddingLeft: 5,
+    textAlign: 'left',
+    borderBottomWidth: 1,
+  },
+  tabbed: {
+    textAlign: 'left',
+    left: 15,
   },
 });
 
