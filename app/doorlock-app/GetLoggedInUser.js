@@ -58,7 +58,7 @@ var GetLoggedInUser = React.createClass({
           selected={this.state.selectedTab === 'homeTab'}
           onPress={() => {
             this.setState({
-              selectedTab: 'homeTab',
+              selectedTab: 'homeTab'
             });
           }}>
           {this._renderContent('#414A8C', 'Home Tab')}
@@ -85,101 +85,49 @@ var GetLoggedInUser = React.createClass({
           onPress={() => {
             this.setState({
               selectedTab: 'lockTab',
+              title: 'testing',
               //presses: this.state.presses + 1
             });
+            {this.props.title = 'testing'}
           }}>
-          {this._renderContent('#21551C', 'Lock Tab')}
+          {this.testing}
         </TabBarItemIOS>
       </TabBarIOS>
     );
 
-//return (
-//      <SMXTabBarIOS
-//        selectedTab={this.state.selectedTab}
-//        tintColor={'#c1d82f'}
-//        barTintColor={'#000000'}
-//        styles={styles.tabBar}>
-//        <SMXTabBarItemIOS
-//          name="home"
-//          iconName={'ion|ios-home-outline'}
-//          title={''}
-//          iconSize={32}
-//          accessibilityLabel="Home Tab"
-//          selected={this.state.selectedTab === 'home'}
-//          onPress={() => {
-//            this.setState({
-//              selectedTab: 'home',
-//            });
-//          }}>
-//          {this._renderContent()}
-//        </SMXTabBarItemIOS>
-//        <SMXTabBarItemIOS
-//            name="articles"
-//            iconName={'ion|ios-paper-outline'}
-//            title={''}
-//            iconSize={32}
-//            accessibilityLabel="Articles Tab"
-//            selected={this.state.selectedTab === 'articles'}
-//            onPress={() => {
-//            this.setState({
-//              selectedTab: 'articles',
-//            });
-//          }}>
-//          {this._renderContent()}
-//        </SMXTabBarItemIOS>
-//        <SMXTabBarItemIOS
-//            name="messages"
-//            iconName={'ion|chatboxes'}
-//            title={''}
-//            iconSize={32}
-//            accessibilityLabel="Messages Tab"
-//            selected={this.state.selectedTab === 'messages'}
-//            onPress={() => {
-//            this.setState({
-//              selectedTab: 'messages',
-//            });
-//          }}>
-//          {this._renderContent()}
-//        </SMXTabBarItemIOS>
-//        <SMXTabBarItemIOS
-//            name="settings"
-//            iconName={'ion|ios-gear'}
-//            title={''}
-//            iconSize={32}
-//            accessibilityLabel="Settings Tab"
-//            selected={this.state.selectedTab === 'settings'}
-//            onPress={() => {
-//            this.setState({
-//              selectedTab: 'settings',
-//            });
-//          }}>
-//          {this._renderContent()}
-//        </SMXTabBarItemIOS>
-//      </SMXTabBarIOS>
-//    );
+    //{this._renderContent('#21551C', 'Lock Tab')}
+  },
+  testing: function(){
+    //return(
+    this.props.navigator.replace({
+        title: 'New Navigation',
+        component: GetLoggedInUser,
+      });
+    //);
   },
   _renderContent: function(color: string, pageText: string) {
     return (
       <View style={[styles.tabContent, {backgroundColor: color}]}>
         <Text style={styles.tabText}>{pageText}</Text>
-        <Text style={styles.tabText}>{this.state.presses} re-renders of this tab</Text>
+        <Text style={styles.tabText}>re-renders of this tab</Text>
+        <Text style={styles.tabText}>{this.title}</Text>
       </View>
     );
   },
-  loadImage: function(image: string){
-//    <Image
-//      style={styles.icon}
-//      source={require('image!homeIcon')}
-//      source={require('homeIcon.png')}
-        //source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}
-//      />
-    return (
-      <Image
-        style={styles.icon}
-        source={{uri: '/Users/ryan/Documents/door-lock/app/doorlock-app/homeIcon.png'}}
-        />
-    );
-  }
+//  loadImage: function(image: string){
+////    <Image
+////      style={styles.icon}
+////      source={require('image!homeIcon')}
+////      source={require('homeIcon.png')}
+//        //source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}
+////      />
+//    return (
+//      <Image
+//        style={styles.icon}
+//        source={{uri: '/Users/ryan/Documents/door-lock/app/doorlock-app/homeIcon.png'}}
+//        />
+//    );
+//  }
 });
 
 var styles = StyleSheet.create({
@@ -196,6 +144,10 @@ var styles = StyleSheet.create({
   textbox: {
     backgroundColor: '#FFFFFF',
     height: 30,
+  },
+  tabText: {
+    backgroundColor: '#FFFFFF',
+    height: 300,
   },
   icon: {
     width: 15,

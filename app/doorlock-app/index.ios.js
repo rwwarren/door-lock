@@ -41,11 +41,14 @@ var doorlockapp = React.createClass({
   userPage: function(){
     //FIX THIS LOGIN
     //USE NAVIGATOR
+    //backButtonTitle: 'Logout',
     return (
       <NavigatorIOS
         style={styles.container}
         initialRoute={{
           title: 'Home Page',
+          rightButtonTitle: 'Logout',
+          onRightButtonPress: () => this.props.navigator.pop(),
           component: GetLoggedInUser,
       }}/>
     );
