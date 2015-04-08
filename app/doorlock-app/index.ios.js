@@ -5,6 +5,8 @@
 'use strict';
 
 var React = require('react-native');
+var FormData = require('react-form-data');
+
 var {
   AppRegistry,
   StyleSheet,
@@ -18,18 +20,29 @@ var {
   TouchableOpacity,
   TouchableHighlight,
   TextInput,
+  //Fetch,
+  //FormData,
 } = React;
 
 //var HomePage = require('./HomePage');
 var GetLoggedInUser = require('./GetLoggedInUser');
 
+var REQUEST_URL = "http://api.localhost/login";
+
+var serialize = function (data) {
+  return Object.keys(data).map(function (keyName) {
+    return encodeURIComponent(keyName) + '=' + encodeURIComponent(data[keyName])
+  }).join('&');
+};
 var doorlockapp = React.createClass({
   getInitialState: function() {
       return {
         isLoggedIn: false,
-        getUser: '',
-        getPassword: '',
-        getToken: '',
+        username: '',
+        password: '',
+        token: '',
+        responseData: '',
+        responseDatass: '',
       }
   },
   render: function() {
@@ -50,6 +63,7 @@ var doorlockapp = React.createClass({
           rightButtonTitle: 'Logout',
           onRightButtonPress: () => this.props.navigator.pop(),
           component: GetLoggedInUser,
+          passProps: {responseData: this.state.responseData},
       }}/>
     );
     //  this.props.navigator.push({
@@ -88,30 +102,98 @@ var doorlockapp = React.createClass({
     );
   },
   renderLogin: function(){
-    this.setState({
-      isLoggedIn: true,
-    });
+    this.attemptLogin();
+    //if (this.state.)
+    //this.setState({
+    //  isLoggedIn: true,
+    //});
+
   },
   setUser: function(event) {
-    this.setState({ getUser: event.nativeEvent.text });
+    this.setState({ username: event.nativeEvent.text });
   },
   setPassword: function(event) {
-    this.setState({ getPassword: event.nativeEvent.text });
+    this.setState({ password: event.nativeEvent.text });
   },
   setToken: function(event) {
-    this.setState({ getToken: event.nativeEvent.text });
+    this.setState({ token: event.nativeEvent.text });
   },
   attemptLogin: function() {
-    fetch(REQUEST_URL)
+    //var FormData = require('form-data');
+    //var form = new FormData();
+    //var form = new FormData();
+    //FormData.setFormData('a', 'a');
+    //console.log("formdata: " + this.formData);
+    //console.log("formdata: " + this.FormData);
+    //console.log("formdata: " + FormData);
+    //FormData.append('a', 1);
+    //form.append('a', 1);
+    var form = {};
+    form['a'] = 'a';
+    var json = "username:ryan";
+    fetch(REQUEST_URL, {
+      method: 'POST', 
+      headers: {
+      //header: {
+        //'Accept': 'application/json',
+        //'Content-Type': 'application/json',
+        'x-doorlock-api-key': 'test',
+        'X-DoorLock-Api-Key': 'test',
+        //'DoorLock-Api-Key': 'test',
+        'sid': 'asdf'
+      },
+      body: serialize({
+        'username': this.state.username,
+        'password': this.state.password,
+      }),
+      //body: serialize({json: json}),
+//      {
+//
+//      },
+//      body: {
+//        'usernmae' : 'ryan',
+//        
+//      },
+      requestBody: {
+        'usernmae' : 'ryan',
+        form,
+      }
+      //body: JSON.stringify({
+      //  'username': this.state.username,
+      //  'password': this.state.password,
+      //  'token': this.state.token,
+      //  //'username=ryan',
+
+      //})
+    })
        .then((response) => response.json())
-       .then((responseData) => {
+       .then((responseDatas) => {
          this.setState({
            loaded: true,
+           responseData: responseDatas,
+           //responseDatass: response,
+           //isLoggedIn: true,
          });
        })
       .done();
+      console.log(this.state.responseData);
+      console.log(this.state.username);
+      //console.log(this.state.responseDatass);
 
   },
+//  attemptLogin: function() {
+//    fetch(REQUEST_URL)
+//       .then((response) => response.json())
+//       .then((responseDatas) => {
+//         this.setState({
+//           loaded: true,
+//           responseData: responseDatas,
+//           isLoggedIn: true,
+//         });
+//       })
+//      .done();
+//
+//  },
 });
 
 var styles = StyleSheet.create({

@@ -69,7 +69,10 @@ if (isset($_GET['actions']) ){
 
 //Returns the api key
 function getApiKey(){
-  return isset(getallheaders()['X-DoorLock-Api-Key']) ? getallheaders()['X-DoorLock-Api-Key'] : '';
+  $headers = array_change_key_case(getallheaders());
+  //$headers = array_change_key_case(getallheaders()[strtolower('X-DoorLock-Api-Key')]);
+  //echo $headers[strtolower('X-DoorLock-Api-Key')];
+  return isset($headers[strtolower('X-DoorLock-Api-Key')]) ? $headers[strtolower('X-DoorLock-Api-Key')] : '';
 }
 
 //Checks if the api key is valid
@@ -83,7 +86,11 @@ function isValid($apiKey){
 function UnAuthError($apiKey = NULL){
   header("HTTP/1.0 401 Unauthorized API key invalid");
   header('Content-Type: application/json');
-  echo json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
+  //print_r(getallheaders());
+  //echo json_encode(array('Invalid API Key' => array_change_key_case(getallheaders()), 'success' => '0'));
+  //echo json_encode(array('Invalid API Key' => $_GET, 'success' => '0'));
+  echo json_encode(array('Invalid API Key' => $_POST, 'success' => '0'));
+  //echo json_encode(array('Invalid API Key' => $apiKey, 'success' => '0'));
   exit();
 }
 
@@ -155,7 +162,7 @@ function login(){
       exit();
     }
   }
-  echo "got here";
+  //echo "got here";
   UnAuthError();
 }
 

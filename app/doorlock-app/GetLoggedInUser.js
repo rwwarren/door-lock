@@ -90,15 +90,15 @@ var GetLoggedInUser = React.createClass({
             });
             {this.props.title = 'testing'}
           }}>
-          {this.testing}
+          {this._renderContent('#21551C', 'Lock Tab')}
         </TabBarItemIOS>
       </TabBarIOS>
     );
 
-    //{this._renderContent('#21551C', 'Lock Tab')}
   },
   testing: function(){
     //return(
+    //TODO figure this out
     this.props.navigator.replace({
         title: 'New Navigation',
         component: GetLoggedInUser,
@@ -111,6 +111,7 @@ var GetLoggedInUser = React.createClass({
         <Text style={styles.tabText}>{pageText}</Text>
         <Text style={styles.tabText}>re-renders of this tab</Text>
         <Text style={styles.tabText}>{this.title}</Text>
+        <Text style={styles.tabText}>{this.props.responseData}</Text>
       </View>
     );
   },
