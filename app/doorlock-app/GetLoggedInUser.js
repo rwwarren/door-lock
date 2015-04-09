@@ -96,7 +96,7 @@ var GetLoggedInUser = React.createClass({
     );
 
   },
-  testing: function(){
+  login: function(){
     //return(
     //TODO figure this out
     this.props.navigator.replace({

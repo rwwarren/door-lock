@@ -37,6 +37,7 @@ var serialize = function (data) {
 var doorlockapp = React.createClass({
   getInitialState: function() {
       return {
+        loaded: false,
         isLoggedIn: false,
         username: '',
         password: '',
@@ -55,6 +56,8 @@ var doorlockapp = React.createClass({
     //FIX THIS LOGIN
     //USE NAVIGATOR
     //backButtonTitle: 'Logout',
+    //console.log("Checking if loggedin: " + (this.state.responseData.success === "1"));
+    //if(this.state.responseData.success === "1") {
     return (
       <NavigatorIOS
         style={styles.container}
@@ -66,6 +69,7 @@ var doorlockapp = React.createClass({
           passProps: {responseData: this.state.responseData},
       }}/>
     );
+    //}
     //  this.props.navigator.push({
     //  title: 'Results Incomplete',
     //  component: GetLoggedInUser,
@@ -77,6 +81,9 @@ var doorlockapp = React.createClass({
     //});
   },
   renderLoginPage: function() {
+    if(this.state.loaded && this.state.responseData.success === "1"){
+      return this.userPage();
+    }
     return (
       <View style={styles.container}>
         <Text>Please Login</Text>
@@ -86,6 +93,7 @@ var doorlockapp = React.createClass({
           value={this.state.getUser}
           onChange={this.setUser.bind(this)}/>
         <TextInput
+          secureTextEntry={true}
           style={styles.textbox}
           placeholder='Password'
           value={this.state.getPassword}
@@ -102,12 +110,9 @@ var doorlockapp = React.createClass({
     );
   },
   renderLogin: function(){
-    this.attemptLogin();
-    //if (this.state.)
-    //this.setState({
-    //  isLoggedIn: true,
-    //});
-
+    if(this.state.username.length > 0 && this.state.password.length > 0){
+      this.attemptLogin();
+    }
   },
   setUser: function(event) {
     this.setState({ username: event.nativeEvent.text });
@@ -119,18 +124,6 @@ var doorlockapp = React.createClass({
     this.setState({ token: event.nativeEvent.text });
   },
   attemptLogin: function() {
-    //var FormData = require('form-data');
-    //var form = new FormData();
-    //var form = new FormData();
-    //FormData.setFormData('a', 'a');
-    //console.log("formdata: " + this.formData);
-    //console.log("formdata: " + this.FormData);
-    //console.log("formdata: " + FormData);
-    //FormData.append('a', 1);
-    //form.append('a', 1);
-    var form = {};
-    form['a'] = 'a';
-    var json = "username:ryan";
     fetch(REQUEST_URL, {
       method: 'POST', 
       headers: {
@@ -138,7 +131,7 @@ var doorlockapp = React.createClass({
         //'Accept': 'application/json',
         //'Content-Type': 'application/json',
         'x-doorlock-api-key': 'test',
-        'X-DoorLock-Api-Key': 'test',
+        //'X-DoorLock-Api-Key': 'test',
         //'DoorLock-Api-Key': 'test',
         'sid': 'asdf'
       },
@@ -146,25 +139,6 @@ var doorlockapp = React.createClass({
         'username': this.state.username,
         'password': this.state.password,
       }),
-      //body: serialize({json: json}),
-//      {
-//
-//      },
-//      body: {
-//        'usernmae' : 'ryan',
-//        
-//      },
-      requestBody: {
-        'usernmae' : 'ryan',
-        form,
-      }
-      //body: JSON.stringify({
-      //  'username': this.state.username,
-      //  'password': this.state.password,
-      //  'token': this.state.token,
-      //  //'username=ryan',
-
-      //})
     })
        .then((response) => response.json())
        .then((responseDatas) => {
@@ -178,6 +152,7 @@ var doorlockapp = React.createClass({
       .done();
       console.log(this.state.responseData);
       console.log(this.state.username);
+      console.log(this.state.responseData.success);
       //console.log(this.state.responseDatass);
 
   },
