@@ -96,15 +96,15 @@ var GetLoggedInUser = React.createClass({
     );
 
   },
-  login: function(){
-    //return(
-    //TODO figure this out
-    this.props.navigator.replace({
-        title: 'New Navigation',
-        component: GetLoggedInUser,
-      });
-    //);
-  },
+  //login: function(){
+  //  //return(
+  //  //TODO figure this out
+  //  this.props.navigator.replace({
+  //      title: 'New Navigation',
+  //      component: GetLoggedInUser,
+  //    });
+  //  //);
+  //},
   _renderContent: function(color: string, pageText: string) {
     return (
       <View style={[styles.tabContent, {backgroundColor: color}]}>

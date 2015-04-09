@@ -20,6 +20,7 @@ var {
   TouchableOpacity,
   TouchableHighlight,
   TextInput,
+  AsyncStorage,
   //Fetch,
   //FormData,
 } = React;
@@ -27,7 +28,9 @@ var {
 //var HomePage = require('./HomePage');
 var GetLoggedInUser = require('./GetLoggedInUser');
 
-var REQUEST_URL = "http://api.localhost/login";
+var REQUEST_URL = "http://api.localhost";
+var STORAGE_KEY = "@doorlock:sid";
+var API_KEY = "test";
 
 var serialize = function (data) {
   return Object.keys(data).map(function (keyName) {
@@ -35,7 +38,18 @@ var serialize = function (data) {
   }).join('&');
 };
 var doorlockapp = React.createClass({
+  componentDidMount: function() {
+    AsyncStorage.getItem(STORAGE_KEY)
+        .then((value) => {
+          if (value !== null){
+            this.setState({selectedValue: value});
+            console.log("found a state: " + value);
+            this.checkLogin();
+          }
+        })
+  },
   getInitialState: function() {
+      var mySid = makeid();
       return {
         loaded: false,
         isLoggedIn: false,
@@ -44,6 +58,7 @@ var doorlockapp = React.createClass({
         token: '',
         responseData: '',
         responseDatass: '',
+        sid: mySid,
       }
   },
   render: function() {
@@ -58,13 +73,16 @@ var doorlockapp = React.createClass({
     //backButtonTitle: 'Logout',
     //console.log("Checking if loggedin: " + (this.state.responseData.success === "1"));
     //if(this.state.responseData.success === "1") {
+          //onRightButtonPress: () => this.props.navigator.pop(),
+    var prev = this.props.route;
+    console.log(this.props.route);
     return (
       <NavigatorIOS
         style={styles.container}
         initialRoute={{
           title: 'Home Page',
           rightButtonTitle: 'Logout',
-          onRightButtonPress: () => this.props.navigator.pop(),
+          onRightButtonPress: () => this.props.navigator.replace(prev),
           component: GetLoggedInUser,
           passProps: {responseData: this.state.responseData},
       }}/>
@@ -82,6 +100,7 @@ var doorlockapp = React.createClass({
   },
   renderLoginPage: function() {
     if(this.state.loaded && this.state.responseData.success === "1"){
+      AsyncStorage.setItem(STORAGE_KEY, this.state.sid).done();
       return this.userPage();
     }
     return (
@@ -124,16 +143,16 @@ var doorlockapp = React.createClass({
     this.setState({ token: event.nativeEvent.text });
   },
   attemptLogin: function() {
-    fetch(REQUEST_URL, {
+    fetch((REQUEST_URL + "/login"), {
       method: 'POST', 
       headers: {
       //header: {
         //'Accept': 'application/json',
         //'Content-Type': 'application/json',
-        'x-doorlock-api-key': 'test',
+        'x-doorlock-api-key': API_KEY,
         //'X-DoorLock-Api-Key': 'test',
         //'DoorLock-Api-Key': 'test',
-        'sid': 'asdf'
+        'sid': this.state.sid,
       },
       body: serialize({
         'username': this.state.username,
@@ -148,6 +167,7 @@ var doorlockapp = React.createClass({
            //responseDatass: response,
            //isLoggedIn: true,
          });
+         //console.log(response);
        })
       .done();
       console.log(this.state.responseData);
@@ -156,24 +176,40 @@ var doorlockapp = React.createClass({
       //console.log(this.state.responseDatass);
 
   },
-//  attemptLogin: function() {
-//    fetch(REQUEST_URL)
-//       .then((response) => response.json())
-//       .then((responseDatas) => {
-//         this.setState({
-//           loaded: true,
-//           responseData: responseDatas,
-//           isLoggedIn: true,
-//         });
-//       })
-//      .done();
-//
-//  },
+  checkLogin: function() {
+    fetch((REQUEST_URL + "/IsLoggedIn"), {
+      method: 'GET', 
+      headers: {
+        'x-doorlock-api-key': API_KEY,
+        'sid': this.state.sid,
+      },
+    })
+       .then((response) => response.json())
+       .then((responseDatas) => {
+         this.setState({
+           loaded: true,
+           responseData: responseDatas,
+         });
+       })
+      .done();
+      console.log("While checking the login: " + this.state.responseData);
+      console.log(this.state.username);
+      console.log("success?? " + this.state.responseData.success);
+      //console.log(this.state.responseDatass);
+
+  },
 });
+function makeid() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for( var i = 0; i < 103; i++ ) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+}
 
 var styles = StyleSheet.create({
   container: {
-  //  marginTop: 65,
     marginTop: 25,
     flex: 1,
     backgroundColor: '#F5FCFF',
