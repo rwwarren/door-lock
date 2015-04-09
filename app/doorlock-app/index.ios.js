@@ -58,7 +58,6 @@ var doorlockapp = React.createClass({
         password: '',
         token: '',
         responseData: '',
-        responseDatass: '',
         sid: mySid,
       }
   },
@@ -88,16 +87,6 @@ var doorlockapp = React.createClass({
           passProps: {responseData: this.state.responseData},
       }}/>
     );
-    //}
-    //  this.props.navigator.push({
-    //  title: 'Results Incomplete',
-    //  component: GetLoggedInUser,
-    //  passProps: {
-    //    getUser: this.state.getUser,
-    //    getPassword: this.state.getPassword,
-    //    getToken: this.state.getToken,
-    //  },
-    //});
   },
   renderLoginPage: function() {
     if(this.state.loaded && this.state.responseData.success === "1"){

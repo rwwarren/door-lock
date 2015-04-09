@@ -32,22 +32,14 @@ var TabBarItemIOS = TabBarIOS.Item;
 var GetLoggedInUser = React.createClass({
   getInitialState: function() {
       return {
-        loaded: false,
-        isLoggedIn: false,
+        //loaded: false,
+        //isLoggedIn: false,
         //searchGetAll: 'asdf',
-        getUser: '',
+        //getUser: '',
         selectedTab: 'homeTab',
       };
-      //this.setState({
-      //    loaded: true,
-      //});
   },
   render: function() {
-          //icon={_ix_DEPRECATED('history')}
-          //icon={'HomeIcon.png'}
-          //icon={this.loadImage("home")}
-          //icon={_ix_DEPRECATED('searchs')}
-          //icon={require("image!/Users/ryan/Documents/door-lock/app/doorlock-app/homeIcon.png")}
     return (
       <TabBarIOS
         selectedTab={this.state.selectedTab}>
@@ -61,7 +53,7 @@ var GetLoggedInUser = React.createClass({
               selectedTab: 'homeTab'
             });
           }}>
-          {this._renderContent('#414A8C', 'Home Tab')}
+          {this.renderHome()}
         </TabBarItemIOS>
         <TabBarItemIOS
           accessibilityLabel="User Info Tab"
@@ -72,10 +64,9 @@ var GetLoggedInUser = React.createClass({
           onPress={() => {
             this.setState({
               selectedTab: 'userTab',
-              //notifCount: this.state.notifCount + 1,
             });
           }}>
-          {this._renderContent('#783E33', 'User Tab')}
+          {this.renderUserInfo()}
         </TabBarItemIOS>
         <TabBarItemIOS
           name="lockTab"
@@ -86,25 +77,14 @@ var GetLoggedInUser = React.createClass({
             this.setState({
               selectedTab: 'lockTab',
               title: 'testing',
-              //presses: this.state.presses + 1
             });
-            {this.props.title = 'testing'}
           }}>
-          {this._renderContent('#21551C', 'Lock Tab')}
+          {this.renderLock()}
         </TabBarItemIOS>
       </TabBarIOS>
     );
 
   },
-  //login: function(){
-  //  //return(
-  //  //TODO figure this out
-  //  this.props.navigator.replace({
-  //      title: 'New Navigation',
-  //      component: GetLoggedInUser,
-  //    });
-  //  //);
-  //},
   _renderContent: function(color: string, pageText: string) {
     return (
       <View style={[styles.tabContent, {backgroundColor: color}]}>
@@ -115,25 +95,32 @@ var GetLoggedInUser = React.createClass({
       </View>
     );
   },
-//  loadImage: function(image: string){
-////    <Image
-////      style={styles.icon}
-////      source={require('image!homeIcon')}
-////      source={require('homeIcon.png')}
-//        //source={{uri: 'http://facebook.github.io/react/img/logo_og.png'}}
-////      />
-//    return (
-//      <Image
-//        style={styles.icon}
-//        source={{uri: '/Users/ryan/Documents/door-lock/app/doorlock-app/homeIcon.png'}}
-//        />
-//    );
-//  }
+  renderHome: function(){
+    return (
+      <View style={styles.container}>
+        <Text>HomeTab</Text>
+      </View>
+    );
+  },
+  renderUserInfo: function(){
+    return (
+      <View style={styles.container}>
+        <Text>UserIngoTab</Text>
+      </View>
+    );
+  },
+  renderLock: function(){
+    return (
+      <View style={styles.container}>
+        <Text>LockTab</Text>
+      </View>
+    );
+  },
 });
 
 var styles = StyleSheet.create({
   container: {
-    marginTop: 65,
+    marginTop: 45,
     flex: 1,
     backgroundColor: '#F5FCFF',
   },
