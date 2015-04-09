@@ -96,9 +96,14 @@ var GetLoggedInUser = React.createClass({
     );
   },
   renderHome: function(){
+        //<TouchableHighlight onPress={this.props.navigator.pop()}>
+    console.log("all the props: " + JSON.stringify(this.props));
     return (
       <View style={styles.container}>
         <Text>HomeTab</Text>
+        <TouchableHighlight onPress={this.props}>
+          <Text>LOGOUT</Text>
+        </TouchableHighlight>
       </View>
     );
   },

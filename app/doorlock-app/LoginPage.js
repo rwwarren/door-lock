@@ -1,7 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 'use strict';
 
 var React = require('react-native');
@@ -25,9 +21,8 @@ var {
   //FormData,
 } = React;
 
-var LoginPage = require('./LoginPage');
-var GetLoggedInUser = require('./GetLoggedInUser');
 
+var GetLoggedInUser = require('./GetLoggedInUser');
 var REQUEST_URL = "http://api.localhost";
 var STORAGE_KEY = "@doorlock:sid";
 var API_KEY = "test";
@@ -37,7 +32,7 @@ var serialize = function (data) {
     return encodeURIComponent(keyName) + '=' + encodeURIComponent(data[keyName])
   }).join('&');
 };
-var doorlockapp = React.createClass({
+var LoginPage = React.createClass({
   componentDidMount: function() {
     AsyncStorage.getItem(STORAGE_KEY)
         .then((value) => {
@@ -79,28 +74,46 @@ var doorlockapp = React.createClass({
     console.log("this route: " + this.props.route);
         //passProps: {deck: deck, onPress: onPress},
       //this.props.navigator.push({
-    return(
-        <Navigator
-          initialRoute={{name: 'My First Scene', index: 0, navigator}}
-          renderScene={(route, navigator) =>
-            <LoginPage
-              name={route.name}
-              onForward={() => {
-                var nextIndex = route.index + 1;
-                navigator.push({
-                  name: 'Scene ' + nextIndex,
-                  index: nextIndex,
-                });
-              }}
-              onBack={() => {
-                if (route.index > 0) {
-                  navigator.pop();
-                }
-              }}
-            />
-          }
+      //return navigator.push({
+      //return this.props.navigator.push({
+      //  title: "test",
+      //  component: GetLoggedInUser,
+      //});
+            //if (route.index > 0) {
+            //  navigator.pop();
+            //}
+      console.log("LOGIN all the props: " + JSON.stringify(this.props));
+      return(
+        <GetLoggedInUser
+          name={"asdf"}
+          navigator={this.props.navigator}
+          onBack={() => {
+              navigator.pop();
+          }}
         />
-    );
+      );
+    //return(
+    //    <Navigator
+    //      initialRoute={{name: 'My First Scene', index: 0}}
+    //      renderScene={(route, navigator) =>
+    //        <GetLoggedInUser
+    //          name={route.name}
+    //          onForward={() => {
+    //            var nextIndex = route.index + 1;
+    //            navigator.push({
+    //              name: 'Scene ' + nextIndex,
+    //              index: nextIndex,
+    //            });
+    //          }}
+    //          onBack={() => {
+    //            if (route.index > 0) {
+    //              navigator.pop();
+    //            }
+    //          }}
+    //        />
+    //      }
+    //    />
+    //);
     //return (
     //  <NavigatorIOS
     //    style={styles.container}
@@ -108,7 +121,7 @@ var doorlockapp = React.createClass({
     //    initialRoute={{
     //      title: 'Home Page',
     //      rightButtonTitle: 'Logout',
-    //      onRightButtonPress: () => this.props.navigator.replace(this),
+    //      onRightButtonPress: () => this.props.navigator.pop(),
     //      component: GetLoggedInUser,
     //      passProps: {responseData: this.state.responseData},
     //  }}/>
@@ -234,5 +247,5 @@ var styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('doorlock-app', () => doorlockapp);
+module.exports = LoginPage;
 
