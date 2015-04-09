@@ -214,64 +214,6 @@ var styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5FCFF',
   },
-//  welcome: {
-//    fontSize: 20,
-//    textAlign: 'center',
-//    margin: 10,
-//  },
-//  instructions: {
-//    textAlign: 'center',
-//    color: '#333333',
-//  },
-//  listView: {
-//    paddingTop: 20,
-//    backgroundColor: '#F5FCFF',
-//  },
-//  todoElement: {
-//    paddingTop: 10,
-//    paddingBottom: 20,
-//    paddingLeft: 5,
-//    textAlign: 'left',
-//    borderBottomWidth: 1,
-//  },
-//  tabbed: {
-//    textAlign: 'left',
-//    left: 15,
-//  },
-// scene: {
-//    paddingTop: 50,
-//    flex: 1,
-//  },
-//  button: {
-//    backgroundColor: 'white',
-//    padding: 15,
-//    borderBottomWidth: 1 / 10,
-//    borderBottomColor: '#CDCDCD',
-//  },
-//  buttonText: {
-//    fontSize: 17,
-//    fontWeight: '500',
-//  },
-  //container: {
-  //  overflow: 'hidden',
-  //  backgroundColor: '#dddddd',
-  //  flex: 1,
-  //},
-//  titleText: {
-//    fontSize: 18,
-//    color: '#666666',
-//    textAlign: 'center',
-//    fontWeight: 'bold',
-//    lineHeight: 32,
-//  },
-//  crumbIconPlaceholder: {
-//    flex: 1,
-//    backgroundColor: '#666666',
-//  },
-//  crumbSeparatorPlaceholder: {
-//    flex: 1,
-//    backgroundColor: '#aaaaaa',
-//  },
   textbox: {
     backgroundColor: '#FFFFFF',
     height: 30,
