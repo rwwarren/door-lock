@@ -42,7 +42,8 @@ var doorlockapp = React.createClass({
     AsyncStorage.getItem(STORAGE_KEY)
         .then((value) => {
           if (value !== null){
-            this.setState({selectedValue: value});
+            this.setState({'sid': value});
+            //this.setState({selectedValue: value});
             console.log("found a state: " + value);
             this.checkLogin();
           }
@@ -146,12 +147,7 @@ var doorlockapp = React.createClass({
     fetch((REQUEST_URL + "/login"), {
       method: 'POST', 
       headers: {
-      //header: {
-        //'Accept': 'application/json',
-        //'Content-Type': 'application/json',
         'x-doorlock-api-key': API_KEY,
-        //'X-DoorLock-Api-Key': 'test',
-        //'DoorLock-Api-Key': 'test',
         'sid': this.state.sid,
       },
       body: serialize({
@@ -178,7 +174,8 @@ var doorlockapp = React.createClass({
   },
   checkLogin: function() {
     fetch((REQUEST_URL + "/IsLoggedIn"), {
-      method: 'GET', 
+      method: 'POST', 
+      //method: 'GET', 
       headers: {
         'x-doorlock-api-key': API_KEY,
         'sid': this.state.sid,
@@ -186,13 +183,15 @@ var doorlockapp = React.createClass({
     })
        .then((response) => response.json())
        .then((responseDatas) => {
+        console.log("While checking the login: " + responseDatas);
+        console.log("While checking the login: " + JSON.stringify(responseDatas));
          this.setState({
            loaded: true,
            responseData: responseDatas,
          });
        })
       .done();
-      console.log("While checking the login: " + this.state.responseData);
+      //console.log("While checking the login: " + this.state.responseData);
       console.log(this.state.username);
       console.log("success?? " + this.state.responseData.success);
       //console.log(this.state.responseDatass);
