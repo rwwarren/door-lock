@@ -84,14 +84,38 @@ var LoginPage = React.createClass({
             //}
       console.log("LOGIN all the props: " + JSON.stringify(this.props));
       return(
-        <GetLoggedInUser
-          name={"asdf"}
-          navigator={this.props.navigator}
-          onBack={() => {
-              navigator.pop();
-          }}
+        <Navigator
+          initialRoute={{name: 'My First Scene', index: 0, navigator}}
+          renderScene={(route, navigator) =>
+            <GetLoggedInUser
+              sid={this.props.sid}
+              name={route.name}
+              onForward={() => {
+                var nextIndex = route.index + 1;
+                navigator.push({
+                  name: 'Scene ' + nextIndex,
+                  index: nextIndex,
+                });
+              }}
+              onBack={() => {
+                if (route.index > 0) {
+                  navigator.pop();
+                }
+              }}
+            />
+          }
         />
       );
+      //return(
+      //  <GetLoggedInUser
+      //    name={"asdf"}
+      //    navigator={this.props.navigator}
+      //    onBack={() => {
+      //        navigator.pop();
+      //    }}
+      //  />
+      //);
+      //    props={"res":"asdf"}
     //return(
     //    <Navigator
     //      initialRoute={{name: 'My First Scene', index: 0}}

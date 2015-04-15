@@ -24,7 +24,14 @@ var {
 //Create page
 //Add USER to search
 
+var REQUEST_URL = "http://api.localhost";
+var API_KEY = "test";
 var TabBarItemIOS = TabBarIOS.Item;
+var serialize = function (data) {
+  return Object.keys(data).map(function (keyName) {
+    return encodeURIComponent(keyName) + '=' + encodeURIComponent(data[keyName])
+  }).join('&');
+};
 //var Icon = require('FAKIconImage');
 //var SMXTabBarIOS = require('SMXTabBarIOS');
 //var SMXTabBarItemIOS = SMXTabBarIOS.Item;
@@ -37,7 +44,14 @@ var GetLoggedInUser = React.createClass({
         //searchGetAll: 'asdf',
         //getUser: '',
         selectedTab: 'homeTab',
+        userResponseData: '',
+        lockStatusResponseData: '',
       };
+  },
+  componentDidMount: function() {
+    this.getHomeInfo();
+    this.getUserInfo();
+    this.getLockInfo();
   },
   render: function() {
     return (
@@ -106,11 +120,20 @@ var GetLoggedInUser = React.createClass({
         </TouchableHighlight>
       </View>
     );
+    //return (
+    //  <View style={styles.container}>
+    //    <Text>HomeTab</Text>
+    //    <TouchableHighlight onPress={this.props.navigator.pop()}>
+    //      <Text>LOGOUT</Text>
+    //    </TouchableHighlight>
+    //  </View>
+    //);
   },
   renderUserInfo: function(){
     return (
       <View style={styles.container}>
         <Text>UserIngoTab</Text>
+        <Text>{JSON.stringify(this.state.userResponseData)}</Text>
       </View>
     );
   },
@@ -118,8 +141,52 @@ var GetLoggedInUser = React.createClass({
     return (
       <View style={styles.container}>
         <Text>LockTab</Text>
+        <Text>{JSON.stringify(this.state.lockStatusResponseData)}</Text>
       </View>
     );
+  },
+  getHomeInfo: function() {
+    //TODO fetch the info and save it to the state
+  },
+  getUserInfo: function() {
+    fetch((REQUEST_URL + "/GetUserInfo"), {
+      method: 'POST', 
+      headers: {
+        'x-doorlock-api-key': API_KEY,
+        'sid': this.props.sid,
+      },
+    })
+       .then((response) => response.json())
+       .then((responseDatas) => {
+         this.setState({
+           loaded: true,
+           userResponseData: responseDatas,
+           //responseDatass: response,
+           //isLoggedIn: true,
+         });
+         console.log(responseDatas);
+       })
+      .done();
+  },
+  getLockInfo: function() {
+    fetch((REQUEST_URL + "/LockStatus"), {
+      method: 'POST', 
+      headers: {
+        'x-doorlock-api-key': API_KEY,
+        'sid': this.props.sid,
+      },
+    })
+       .then((response) => response.json())
+       .then((responseDatas) => {
+         this.setState({
+           loaded: true,
+           lockStatusResponseData: responseDatas,
+           //responseDatass: response,
+           //isLoggedIn: true,
+         });
+         console.log(responseDatas);
+       })
+      .done();
   },
 });
 

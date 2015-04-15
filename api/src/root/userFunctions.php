@@ -491,26 +491,23 @@ function resetPassword(){
 
 //Returns the lock status
 function lockStatus(){
-  if(isset($_POST['username']) && isset($_POST['cookie'])){
-    $apiKey = getApiKey();
-    $user = $_POST['username'];
-    $cookie = $_POST['cookie'];
-    $userID = isValid($apiKey);
-    //is logged in?
-    if($user !== null && $cookie !== null && $userID !== NULL){
-      header("HTTP/1.0 200 Success");
-      header('Content-Type: application/json');
-      $lockStatus = '1/0';
+  $apiKey = getApiKey();
+  //$user = $_POST['username'];
+  //$sid = $_POST['sid'];
+  $userID = isValid($apiKey);
+  //is logged in?
+  if($userID !== NULL){
+  //if($user !== null && $sid !== null && $userID !== NULL){
+    header("HTTP/1.0 200 Success");
+    header('Content-Type: application/json');
+    $lockStatus = '1/0';
 
-      //return json_encode(array('Status' => 'Unlocked/Locked', 'isLocked' => '1/0', 'success' => '1/0'));
-      //echo json_encode(array('Status' => 'Unlocked/Locked', 'isLocked' => '1/0', 'success' => '1/0'));
-      echo json_encode(array('Status' => 'Unlocked/Locked', 'isLocked' => $lockStatus, 'success' => '1'));
-      exit();
-    } else {
-      UnAuthError($apiKey);
-    }
-  }
-  UnAuthError();
+    //return json_encode(array('Status' => 'Unlocked/Locked', 'isLocked' => '1/0', 'success' => '1/0'));
+    //echo json_encode(array('Status' => 'Unlocked/Locked', 'isLocked' => '1/0', 'success' => '1/0'));
+    echo json_encode(array('Status' => 'Unlocked/Locked', 'isLocked' => $lockStatus, 'success' => '1'));
+    exit();
+  } 
+  UnAuthError($apiKey);
 }
 
 //locks the lock

@@ -84,6 +84,7 @@ var doorlockapp = React.createClass({
           initialRoute={{name: 'My First Scene', index: 0, navigator}}
           renderScene={(route, navigator) =>
             <LoginPage
+              sid={this.state.sid}
               name={route.name}
               onForward={() => {
                 var nextIndex = route.index + 1;
