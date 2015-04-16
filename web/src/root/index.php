@@ -4,6 +4,12 @@ require_once("$root/../inc/home.php");
 require_once("$root/../inc/loggedin.php");
 require_once("$root/../inc/extraFunctions.php");
 
+if(isMobile()){
+  header("Location: http://m.$_SERVER[HTTP_HOST]");
+  //print_r($_SERVER);
+  exit();
+}
+
 if ($_SERVER["REQUEST_URI"] == "/"){
   if (isLoggedIn()){
     $page = new Loggedin;
