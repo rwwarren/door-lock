@@ -39,13 +39,17 @@ var serialize = function (data) {
 var GetLoggedInUser = React.createClass({
   getInitialState: function() {
       return {
-        //loaded: false,
+        loaded: false,
         //isLoggedIn: false,
         //searchGetAll: 'asdf',
         //getUser: '',
         selectedTab: 'homeTab',
         userResponseData: '',
         lockStatusResponseData: '',
+        name: '',
+        email: '',
+        card: '',
+        authy: '',
       };
   },
   componentDidMount: function() {
@@ -54,6 +58,9 @@ var GetLoggedInUser = React.createClass({
     this.getLockInfo();
   },
   render: function() {
+    if(!this.state.loaded){
+      return (<Text>Loading....</Text>);
+    }
     return (
       <TabBarIOS
         selectedTab={this.state.selectedTab}>
@@ -114,9 +121,12 @@ var GetLoggedInUser = React.createClass({
     console.log("all the props: " + JSON.stringify(this.props));
     return (
       <View style={styles.container}>
-        <Text>HomeTab</Text>
+        <Text style={styles.pageTitle}>HomeTab</Text>
+
+        <Text>Welcome: {this.state.userResponseData.Name}</Text>
+        <Text></Text>
         <TouchableHighlight onPress={this.props}>
-          <Text>LOGOUT</Text>
+          <Text>Click to logout</Text>
         </TouchableHighlight>
       </View>
     );
@@ -132,18 +142,73 @@ var GetLoggedInUser = React.createClass({
   renderUserInfo: function(){
     return (
       <View style={styles.container}>
-        <Text>UserIngoTab</Text>
-        <Text>{JSON.stringify(this.state.userResponseData)}</Text>
+        <Text style={styles.pageTitle}>User modification</Text>
+        <Text>Username:</Text>
+        <Text style={styles.value}>{this.props.username}</Text>
+        <Text style={styles.editTitle}>Name:</Text>
+        <TextInput
+          style={styles.textbox}
+          placeholder={this.state.userResponseData.Name}
+          value={this.state.getToken}
+          onChange={this.setToken.bind(this)}/>
+        <Text style={styles.editTitle}>Email:</Text>
+        <TextInput
+          style={styles.textbox}
+          placeholder={this.state.userResponseData.Email}
+          keyboardType={'email-address'}
+          value={this.state.getToken}
+          onChange={this.setToken.bind(this)}/>
+        <Text style={styles.editTitle}>CardID:</Text>
+        <TextInput
+          style={styles.textbox}
+          placeholder={this.state.userResponseData.CardID}
+          keyboardType={'numeric'}
+          value={this.state.getToken}
+          onChange={this.setToken.bind(this)}/>
+        <Text style={styles.editTitle}>AuthyID:</Text>
+        <TextInput
+          style={styles.textbox}
+          keyboardType={'numeric'}
+          placeholder={this.state.userResponseData.AuthyID}
+          value={this.state.getToken}
+          onChange={this.setToken.bind(this)}/>
+        <TouchableHighlight onPress={this.submitChanges}>
+          <Text>Submit Changes</Text>
+        </TouchableHighlight>
       </View>
     );
+  },
+  setName: function(event) {
+    this.setState({ name: event.nativeEvent.text });
+  },
+  setEmail: function(event) {
+    this.setState({ email: event.nativeEvent.text });
+  },
+  setCard: function(event) {
+    this.setState({ card: event.nativeEvent.text });
+  },
+  setAuthy: function(event) {
+    this.setState({ authy: event.nativeEvent.text });
   },
   renderLock: function(){
     return (
       <View style={styles.container}>
-        <Text>LockTab</Text>
-        <Text>{JSON.stringify(this.state.lockStatusResponseData)}</Text>
+        <Text style={styles.pageTitle}>LockTab</Text>
+        <Text>Current Lock Status:</Text>
+        <Text></Text>
+        <Text>{this.state.lockStatusResponseData.Status}</Text>
+        <Text></Text>
+        <TouchableHighlight onPress={this.lockUnlock}>
+          <Text>Click here to {this.state.lockStatusResponseData.isLocked == 1 ? "Unlock" : "Lock"}</Text>
+        </TouchableHighlight>
       </View>
     );
+  },
+  setToken: function() {
+
+  },
+  lockUnlock: function() {
+
   },
   getHomeInfo: function() {
     //TODO fetch the info and save it to the state
@@ -201,9 +266,22 @@ var styles = StyleSheet.create({
     height: 30,
     backgroundColor: '#48BBEC',
   },
+  pageTitle: {
+    textAlign: 'center',
+    fontSize: 25,
+    marginBottom: 10,
+  },
   textbox: {
     backgroundColor: '#FFFFFF',
     height: 30,
+    marginBottom: 10,
+  },
+  editTitle: {
+    position: 'relative',
+  },
+  value : {
+    fontWeight: 'bold',
+    paddingBottom: 50,
   },
   tabText: {
     backgroundColor: '#FFFFFF',

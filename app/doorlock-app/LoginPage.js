@@ -89,6 +89,7 @@ var LoginPage = React.createClass({
           renderScene={(route, navigator) =>
             <GetLoggedInUser
               sid={this.props.sid}
+              username={this.state.username}
               name={route.name}
               onForward={() => {
                 var nextIndex = route.index + 1;
@@ -240,6 +241,7 @@ var LoginPage = React.createClass({
          this.setState({
            loaded: true,
            responseData: responseDatas,
+           username: responseDatas.LoggedIn,
          });
        })
       .done();
