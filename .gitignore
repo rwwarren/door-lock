@@ -12,12 +12,13 @@ composer.lock
 *.idea
 mysqlLogin.java
 *.jar
+*.log
 
 # ignore directories
 web/src/inc/variables.php
-web/src/properties/*
+*/src/properties/*
 web/lock_error.log
 
-web/src/vendor/
+*/src/vendor/
 web/build/logs/*
 node_modules/
