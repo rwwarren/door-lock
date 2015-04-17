@@ -96,33 +96,19 @@ function UnAuthError($apiKey = NULL){
 
 //Logs in the the user and sets session variables
 function login(){
-//  print_r(getallheaders());
-//  print_r($_POST);
   if(isset($_POST['username']) && isset($_POST['password'])){
     //403 error make it work correctly
     $apiKey = getApiKey();
-//    echo $apiKey;
     $username = $_POST['username'];
     $password = $_POST['password'];
-    //$username = mysql_real_escape_string($username);
-    //$password = mysql_real_escape_string($password);
     $userID = isValid($apiKey);
-    //$userID = 1;//isValid($apiKey);
     if($username !== null && $password !== null && $userID !== NULL){
       $dbconn = new dbconn("read");
 //      $dbconn->connect("read");
-//      $userInfo = array();
+      //TODO pass in the api key?
       $userInfo = $dbconn->login($username, $password);
-//      echo "asdf tHERE: " . $userInfo;
       //TODO set session stuff??
       if($userInfo != false) {
-//        $_SESSION['name'] = $userInfo['Name'];
-//        $_SESSION['username'] = $userInfo['Username'];
-//        $_SESSION['userID'] = $userInfo['ID'];
-//        $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
-//        print_r($_POST);
-//        print_r(getallheaders());
-//        echo getallheaders()['cookie'];
         $cookie = getallheaders()['sid'];
         $name = $userInfo['Name'];
         $isAdmin = $userInfo['IsAdmin'];
@@ -130,93 +116,68 @@ function login(){
         $uid = $userInfo['ID'];
         global $client;
 //  $value = $client->hgetall('apiKeys');
-//        $userID = $client->hset('loggedInUsers', $apiKey);
+        //TODO check the confirmations
         $confirmation = $client->HSET("loggedInUsers:$cookie", "name", "$name");
         $confirmation = $client->HSET("loggedInUsers:$cookie", "username", "$username");
         $confirmation = $client->HSET("loggedInUsers:$cookie", "UID", "$uid");
         $confirmation = $client->HSET("loggedInUsers:$cookie", "admin", "$isAdmin");
-//        $confirmation = $client->HSET("loggedInAdmins:$cookie", "Admin", "$isAdmin");
-//        $userID = $client->HMSET('loggedInUsers', array("sid" => "$cookie"));
-//        $userID = $client->HMSET('loggedInUsers', $apiKey);
-//        print_r($_SESSION);
-//        print_r(session_get_cookie_params());
         session_write_close();
         header("HTTP/1.0 200 Success, Logged In");
         header('Content-Type: application/json');
-        //echo json_encode(array('username' => $username, 'success' => '1/0' ));
         echo json_encode(array('username' => $username, 'name' => $name, 'isAdmin' => $isAdmin, 'success' => '1' ));
         exit();
-        //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
       }
-
-//      $dbconn->close();
-      header("HTTP/1.0 403 Forbidden");
-      header('Content-Type: application/json');
-      echo json_encode(array('Invalid Username or Password' => $username, 'success' => '0' ));
-      exit();
-    } else {
-      header("HTTP/1.0 403 Forbidden");
-      header('Content-Type: application/json');
-      echo json_encode(array('Invalid Username or Password' => $username, 'success' => '0' ));
-      //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
-      exit();
     }
+      header("HTTP/1.0 403 Forbidden");
+      header('Content-Type: application/json');
+      echo json_encode(array('Invalid Username or Password' => $username, 'success' => '0' ));
+      exit();
   }
-  //echo "got here";
+  //TODO better error. nothing is passed in here is the error
   UnAuthError();
 }
 
 //Logs out the user and destorys the session variables
 //stored by the login system
 function logout(){
-  if(true){
-//  if(isset($_POST['username']) && isset($_POST['cookie'])){
-//    $apiKey = getApiKey();
-    $username = "test";//$_POST['username'];
-//    $username = $_POST['username'];
-    $cookie = "none?";//$_POST['cookie'];
-//    $cookie = $_POST['cookie'];
-    $userID = 1;//isValid($apiKey);
-//    $userID = isValid($apiKey);
-    if($username !== null && $cookie !== null && $userID !== NULL){
-      $cookie = getallheaders()['sid'];
-//      $name = $userInfo['Name'];
-      global $client;
-//      $confirm = $client->HDEL('loggedInUsers', $cookie);
-      $confirmation = $client->HDEL("loggedInUsers:$cookie", "name");
-      $confirmation = $client->HDEL("loggedInUsers:$cookie", "username");
-      $confirmation = $client->HDEL("loggedInUsers:$cookie", "UID");
-      $confirmation = $client->HDEL("loggedInUsers:$cookie", "admin");
-      if($confirmation === 0){
-        echo "error";
-        exit();
-      }
-
-      //TODO remove from redis
-      //Might work below
-      unset($_SESSION['userName']);
-      unset($_SESSION['username']);
-      unset($_SESSION['isAdmin']);
-      $_SESSION = array();
-      session_regenerate_id(true);
-      session_unset();
-      session_destroy();
-      setcookie('sid', '', time()-3600);
-      session_name('sid');
-      session_start();
-
-      header("HTTP/1.0 200 Success, Logged Out");
-      header('Content-Type: application/json');
-      //echo json_encode(array('Logged Out' => $username, 'success' => '1/0'));
-      echo json_encode(array('Logged Out' => $username, 'success' => '1'));
+  $apiKey = getApiKey();
+  $cookie = getallheaders()['sid'];
+  if($cookie !== null && $apiKey !== null && currentlyLoggedIn()){
+    global $client;
+    $username = $client->HGET("loggedInUsers:$cookie", "name");
+    $confirmation = $client->HDEL("loggedInUsers:$cookie", "name");
+    $confirmation = $client->HDEL("loggedInUsers:$cookie", "username");
+    $confirmation = $client->HDEL("loggedInUsers:$cookie", "UID");
+    $confirmation = $client->HDEL("loggedInUsers:$cookie", "admin");
+    if($confirmation === 0){
+      echo "error";
       exit();
-    } else {
-      UnAuthError($apiKey);
     }
+
+    //TODO remove from redis
+    //Might work below
+    unset($_SESSION['userName']);
+    unset($_SESSION['username']);
+    unset($_SESSION['isAdmin']);
+    $_SESSION = array();
+    session_regenerate_id(true);
+    session_unset();
+    session_destroy();
+    setcookie('sid', '', time()-3600);
+    session_name('sid');
+    session_start();
+
+    header("HTTP/1.0 200 Success, Logged Out");
+    header('Content-Type: application/json');
+    echo json_encode(array('Logged Out' => $username, 'success' => '1'));
+    exit();
+  } else {
+    UnAuthError($apiKey);
   }
   UnAuthError();
 }
 
+//Make note this is internal use make protected or private somehow
 function currentlyLoggedIn(){
   global $client;
   $cookie = getallheaders()['sid'];
@@ -226,29 +187,16 @@ function currentlyLoggedIn(){
 
 function isLoggedIn() {
   $cookie = getallheaders()['sid'];
-//  print_r(getallheaders());
-//  $name = $userInfo['Name'];
   global $client;
   $name = $client->hget("loggedInUsers:$cookie", "name");
   $username = $client->hget("loggedInUsers:$cookie", "username");
   $admin = $client->hget("loggedInUsers:$cookie", "admin");
-  if(strlen($name) > 0){
-//    return those
-//    $_SESSION['name'] = $decoded['name'];
-//    $_SESSION['username'] = $decoded['username'];
-//    $_SESSION['isAdmin'] = $decoded['isAdmin'];
-    echo json_encode(array('LoggedIn' => $username, 'Name' => $name, 'IsAdmin' => $admin, 'success' => '1'));
+  if(strlen($name) > 0 && strlen($username) > 0 && strlen($admin) > 0){
+    echo json_encode(array('LoggedIn' => $username, 'Username' => $username,'Name' => $name, 'IsAdmin' => $admin, 'success' => '1'));
     exit();
   }
   echo json_encode(array('Error' => 'User not logged in', 'success' => '0'));
   exit();
-//  return json_encode(array('LoggedIn' => $userID, 'success' => '1'));
-
-//  echo $userID;
-//  echo $userID;
-//  exit();
-//  return sizeof($userID) > 3 ? 1 : 0;
-//  $userID = $client->HMGET('loggedInUsers', array("$cookie" => "$name"));
 }
 
 function isAdmin() {
@@ -495,7 +443,7 @@ function lockStatus(){
   //$user = $_POST['username'];
   //$sid = $_POST['sid'];
   $userID = isValid($apiKey);
-  //is logged in?
+  //TODO check is logged in?
   if($userID !== NULL){
   //if($user !== null && $sid !== null && $userID !== NULL){
     header("HTTP/1.0 200 Success");
@@ -511,14 +459,16 @@ function lockStatus(){
 }
 
 //locks the lock
-function lock($userID){
+function lock(){
+//function lock($userID){
   if(isset($_POST['username']) && isset($_POST['cookie'])){
-//    $apiKey = getApiKey();
+    $apiKey = getApiKey();
     $user = $_POST['username'];
     $cookie = $_POST['cookie'];
 //    $userID = isValid($apiKey);
     //is logged in?
-    if($user !== null && $cookie !== null && $userID !== NULL){
+    if($user !== null && $cookie !== null){
+//    if($user !== null && $cookie !== null && $userID !== NULL){
       //return json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
       header("HTTP/1.0 200 Success");
       header('Content-Type: application/json');
