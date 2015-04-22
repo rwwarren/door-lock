@@ -1,0 +1,48 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  width: 40%;
+  background-color: #cccccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+      0 25px 50px 0 rgba(0, 0, 0, 0.1);
+}
+
+.body {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.login {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.header {
+  margin-top: 15px;
+  background-image: url('/images/logo.gif'); 
+  background-size: 300px 77.5px;
+  background-repeat: no-repeat;
+  background-position: center; 
+  /*
+  background-image: url("/images/logo.gif") 50% 50% no-repeat;
+  background-image: url("/images/logo.gif") no-repeat;
+  */
+  height: 100px;
+}
+
+.footer {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+
+}
+
+
+
