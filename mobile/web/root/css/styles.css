@@ -7,7 +7,7 @@ body {
 .container {
   margin-right: auto;
   margin-left: auto;
-  width: 40%;
+  width: 350px;
   background-color: #cccccc;
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
@@ -20,8 +20,8 @@ body {
 }
 
 .login {
-  padding-left: 10px;
-  padding-right: 10px;
+  margin-left: 20px;
+  margin-right: 25px;
 }
 
 .header {
@@ -30,10 +30,6 @@ body {
   background-size: 300px 77.5px;
   background-repeat: no-repeat;
   background-position: center; 
-  /*
-  background-image: url("/images/logo.gif") 50% 50% no-repeat;
-  background-image: url("/images/logo.gif") no-repeat;
-  */
   height: 100px;
 }
 
@@ -41,8 +37,10 @@ body {
   padding-top: 5px;
   padding-bottom: 5px;
   text-align: center;
-
 }
 
+.textbox {
+  width: 100%;
+}
 
 
