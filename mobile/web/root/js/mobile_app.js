@@ -6,6 +6,7 @@
 var API_URL = "http://m.localhost/";
 //var API_URL = "http://api.localhost/";
 var LOGIN = "login.php";
+var CHECK_LOGIN = "checklogin.php";
 var sid = 'adf';
 
 var Nav = React.createClass({
@@ -17,7 +18,15 @@ var Nav = React.createClass({
       return null;
     }
     return (
-      <div>Loggedin asdf</div>
+      <div className="navigation">
+        <a className="links" href="/">Home</a>
+         |
+        <a className="links" href="/users">User Info</a>
+         |
+        <a className="links" href="/lock">Lock Status</a>
+         |
+        <a className="links" href="/logout">Logout</a>
+      </div>
     );
   },
 });
@@ -37,29 +46,8 @@ var LoginScreen = React.createClass({
     var username = this.refs.username.getDOMNode().value.trim();
     var password = this.refs.password.getDOMNode().value.trim();
     var token = this.refs.token.getDOMNode().value.trim();
-    var data = {Username: username, Password: password, Token: token};
-    //console.log(data);
-    //var posting = $.post(API_URL + LOGIN, data, function(result) {
-    //  //this.getAll(this.state.username);
-    //  console.log(result);
-    //}.bind(this));
-    //var posting = $.ajax({
-    //  url: API_URL + LOGIN,
-    //  type: 'post',
-    //  method: "POST",
-    //  data: data,
-    //  dataType: "jsonp",
-    //  headers: {
-    //    'Access-Control-Allow-Origin': 'true',
-    //    'x-doorlock-api-key': 'test',
-    //    'sid': sid,
-    //  },
-    //  success: function (data) {
-    //    console.info(data);
-    //  },
-    //  //this.getAll(this.state.username);
-    //  //console.log(result);
-    //});
+    var data = {Username: username, Password: password, Token: token, sid: $.cookie("sid")};
+    console.log(data);
     $.ajax({
             url: API_URL + LOGIN,
             type: "POST",
@@ -75,64 +63,96 @@ var LoginScreen = React.createClass({
             //  'sid': 'sid',
             //},
             success:function(result){
-                //console.log(result);
-                //console.log(JSON.stringify(result));
                 this.props.loginChange();
-                //this.setState({loggedIn: true});
             }.bind(this),
             error:function(xhr,status,error){
                 console.log(status);
                 console.log(error);
             }
         });
-        //}.bind(this));
-    //}.bind(this));
-    //var posting = $.ajax({
-    //    method: "POST",
-    //    type: "POST",
-    //    //crossDomain: true,
-    //    //dataType: 'jsonp',
-    //    url: API_URL + LOGIN,
-    //    data: data,
-    //    beforeSend: function(xhr){
-    //      xhr.setRequestHeader("Content-Type","application/json");
-    //      xhr.setRequestHeader("Accept","application/json");
-    //    },
-    //    headers: {
-    //      //'Access-Control-Allow-Origin': true,
-    //      'x-doorlock-api-key': 'test',
-    //      'sid': sid,
-    //    }
-    //})
-    //.done(function( msg ) {
-    //  console.log(msg);
-    //  //alert( "Data Saved: " + msg );
-    //}.bind(this));
   },
 });
 
 var UserContent = React.createClass({
   render: function(){
     return (
-      <div>Loggedin User Content</div>
+      <div>
+        <div>
+        Loggedin User Content
+        </div>
+        <div>
+        username: {this.props.username}
+        </div>
+        <div>
+        name: {this.props.name}
+        </div>
+        <div>
+        admin: {this.props.isAdmin}
+        </div>
+        <div>
+        props: {this.props}
+        </div>
+      </div>
     );
   },
 });
 
 var MobileWebDoorlock = React.createClass({
+  componentDidMount: function() {
+    this.checkLogin();
+  },
   getInitialState: function(){
     return {
       loggedIn: false,
+      Username: '',
+      Name: '',
+      IsAdmin: '',
     };
   },
   login: function() {
     this.setState({loggedIn: true});
   },
   checkLogin: function() {
-   return true; 
+    $.ajax({
+            url: API_URL + CHECK_LOGIN,
+            type: "POST",
+            //crossDomain: true,
+            data: {sid: $.cookie("sid")},
+            //data: data,
+            dataType: "json",
+            //beforeSend: function(xhr) {
+            //      xhr.setRequestHeader("sid", "session=xxxyyyzzz");
+            //      xhr.setRequestHeader("x-doorlock-api-key", "test");
+            //},
+            //headers: {
+            //  'x-doorlock-api-key': 'test',
+            //  'sid': 'sid',
+            //},
+            success:function(result){
+                //this.props.loginChange();
+                console.log(result);
+                if(this.state.loggedIn == false){
+                  this.setState({
+                    loggedIn: true,
+                    Username: result.Username,
+                    Name: result.Name,
+                    IsAdmin: result.IsAdmin,
+                  });
+                }
+                return true;
+            }.bind(this),
+            error:function(xhr,status,error){
+                console.log(status);
+                console.log(error);
+                return false;
+            }.bind(this)
+        });
   },
   checkLoggedIn: function() {
-    return this.state.loggedIn && this.checkLogin();
+    return this.state.loggedIn;
+    //return this.state.loggedIn && this.checkLogin();
+    //console.log("user loggin: " +this.checkLogin() && this.state.loggedIn);
+    //return this.checkLogin() && this.state.loggedIn;
   },
   render: function() {
       var now = new Date
@@ -146,11 +166,9 @@ var MobileWebDoorlock = React.createClass({
         <div className="header">
         </div>
         <div className="body">
-          <div className="navigation">
-            <Nav isLoggedIn={this.state.loggedIn} />
-          </div>
+          <Nav isLoggedIn={this.state.loggedIn} />
           <div className="content">
-            {this.checkLoggedIn() ? <UserContent />: <LoginScreen loginChange={this.login} />}
+            {this.checkLoggedIn() ? <UserContent username={this.state.Username} name={this.state.Name} isAdmin={this.state.IsAdmin} /> : <LoginScreen loginChange={this.login} />}
           </div>
         </div>
         <div className="footer">

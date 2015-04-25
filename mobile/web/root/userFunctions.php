@@ -18,9 +18,10 @@ include_once("$root/../../../web/src/vendor/door-lock/api-client/src/root/apiCli
 if (isset($_GET['actions']) && (strpos($_SERVER["REQUEST_URI"], 'userFunctions.php') === false)){
   //TODO make sure that request comes from localhost
   $type = $_GET['actions'];
-  if ($type == 'login'){
+  if ($type === 'login'){
     login();
-  } else if ($type == 'logout' && isLoggedIn()){
+  } else if ($type == 'logout'){
+  //} else if ($type == 'logout' && isLoggedIn()){
     logout();
   } else if ($type == 'checkLogin'){
     checkLogin();
@@ -68,7 +69,7 @@ function checkHeaders(){
 //Logs in the the user and sets session variables
 function login(){
   //TODO add check headers and other functions
-  if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token'])){
+  if(isset($_POST['Username']) && isset($_POST['Password']) /*&& checkHeaders()*/ && isset($_POST['Token']) && isset($_POST['sid'])){
     $user = $_POST['Username'];
     $pass = $_POST['Password'];
     $token = $_POST['Token'];
@@ -80,7 +81,7 @@ function login(){
 //    include_once($root . "/../../../api-client/src/root/apiClient.php");
 //    include_once("/Users/ryan/Documents/door-lock/api-client/src/root/apiClient.php");
     $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
-    $results = $apiClient->login($_POST, $_COOKIE['sid']);
+    $results = $apiClient->login($_POST, $_POST['sid']);
     //print_r($results);
 
 //    echo "This is a success";
@@ -178,10 +179,10 @@ function login(){
 //      exit();
 //    }
   } else {
+    header("HTTP/1.0 400 Username or password not entered");
     echo "nope";
     echo '<br>No username or password entered';
 //    print_r($_POST);
-    header("HTTP/1.0 400 Username or password not entered");
     exit();
   }
 }
@@ -189,22 +190,24 @@ function login(){
 function checkLogin(){
   global $root;
   $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
-  $results = $apiClient->checkLogin($_COOKIE['sid']);
-  if($results['success'] == 1) {
-    unset($_SESSION['username']);
-    unset($_SESSION['isAdmin']);
-    $_SESSION = array();
-    session_regenerate_id(true);
-    session_unset();
-    session_destroy();
-    setcookie('sid', '', time() - 3600);
-    session_name('sid');
-    session_start();
+  if(!isset($_POST['sid']) || strlen($_POST['sid']) < 1) {
+    header("HTTP/1.0 400 sid not entered");
+    echo "error sid not entered";
+    exit();
+  }
+  //echo "testing";
+  $results = $apiClient->isLoggedIn($_POST['sid']);
+  //echo $results;
+  //$results = $apiClient->checkLogin($_COOKIE['sid']);
+  if($results['success'] === "1") {
+    header("HTTP/1.0 200 logged in");
+    echo json_encode($results, true);
     //TODO get this not to open another page
-    header("Location: http://$_SERVER[SERVER_NAME]");
+    //header("Location: http://$_SERVER[SERVER_NAME]");
     exit();
   } else {
-    echo "error";
+    header("HTTP/1.0 400 not logged in");
+    echo "error. not logged in";
   }
 }
 
