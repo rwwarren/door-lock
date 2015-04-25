@@ -18,35 +18,57 @@ var UserInfo = React.createClass({
     render: function(){
       return (
       <div>
-        <div>
-          Name: {this.props.info.Name}
+        <div className="userInfo">
+          Username: {this.props.username}
         </div>
-        <div>
-          Email: {this.props.info.Email}
+        <div className="userInfo">
+          Name: <input ref="name" id="name" className="infotextbox" placeholder={this.props.info.Name} />
         </div>
-        <div>
-          CardID: {this.props.info.CardID}
+        <div className="userInfo">
+          Email: <input ref="email" id="email" className="infotextbox" placeholder={this.props.info.Email} />
         </div>
-        <div>
-          AuthyID: {this.props.info.AuthyID}
+        <div className="userInfo">
+          CardID: <input ref="cardID" id="cardID" className="infotextbox" placeholder={this.props.info.CardID} />
+        </div>
+        <div className="userInfo">
+          AuthyID: <input ref="authyID" id="authyID" className="infotextbox" placeholder={this.props.info.AuthyID} />
+        </div>
+        <div className="userInfo">
+          <button id="update" type="button" onClick={this.updateInfo}>Update Info</button>
         </div>
       </div>
       );
+    },
+    updateInfo: function() {
+      var name = this.refs.name.getDOMNode().value.trim();
+      var email = this.refs.email.getDOMNode().value.trim();
+      var cardID = this.refs.cardID.getDOMNode().value.trim();
+      var authyID = this.refs.authyID.getDOMNode().value.trim();
+      var data = {Name: name, Email: email, CardID: cardID, AuthyID: authyID};
+      console.log("update info clicked");
+      console.log(data);
     },
 });
 
 var LockStatus = React.createClass({
     render: function(){
+      var lockOrUnlock = (this.props.info.isLocked == "1") ? "Unlock" : "Lock";
       return (
       <div>
-        <div>
+        <div className="userInfo">
           Status: {this.props.info.Status}
         </div>
-        <div>
+        <div className="userInfo">
           isLocked: {this.props.info.isLocked}
+        </div>
+        <div className="userInfo">
+          <button id="update" type="button" onClick={this.changeLock}>{lockOrUnlock}</button>
         </div>
       </div>
       );
+    },
+    changeLock: function() {
+      console.log("Updating lock status");
     },
 });
 
@@ -151,7 +173,7 @@ var MobileWebDoorlock = React.createClass({
     if(this.state.selectedTab === "Home"){
       return <UserContent username={this.state.Username} name={this.state.Name} isAdmin={this.state.IsAdmin} />;
     } else if(this.state.selectedTab === "UserInfo"){
-      return <UserInfo info={this.state.allUserInfo} />;
+      return <UserInfo info={this.state.allUserInfo} username={this.state.Username} />;
     } else if(this.state.selectedTab === "LockStatus"){
       return <LockStatus info={this.state.lockStatus} />;
     } else {

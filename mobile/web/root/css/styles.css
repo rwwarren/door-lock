@@ -48,6 +48,17 @@ body {
   width: 100%;
 }
 
+.infotextbox {
+  /*
+  width: 80%;
+  */
+}
+
+.userInfo {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .navigation {
   padding: 5px;
   text-align: center;
