@@ -25,6 +25,10 @@ if (isset($_GET['actions']) && (strpos($_SERVER["REQUEST_URI"], 'userFunctions.p
     logout();
   } else if ($type == 'checkLogin'){
     checkLogin();
+  } else if ($type == 'lockStatus'){
+    lockStatus();
+  } else if ($type == 'userInfo'){
+    userInfo();
   } else if ($type == 'registerUser' && isLoggedIn()){
     registerUser();
   } else if ($type == 'changeUser' && isLoggedIn()){
@@ -197,6 +201,54 @@ function checkLogin(){
   }
   //echo "testing";
   $results = $apiClient->isLoggedIn($_POST['sid']);
+  //echo $results;
+  //$results = $apiClient->checkLogin($_COOKIE['sid']);
+  if($results['success'] === "1") {
+    header("HTTP/1.0 200 logged in");
+    echo json_encode($results, true);
+    //TODO get this not to open another page
+    //header("Location: http://$_SERVER[SERVER_NAME]");
+    exit();
+  } else {
+    header("HTTP/1.0 400 not logged in");
+    echo "error. not logged in";
+  }
+}
+
+function userInfo(){
+  global $root;
+  $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
+  if(!isset($_POST['sid']) || strlen($_POST['sid']) < 1) {
+    header("HTTP/1.0 400 sid not entered");
+    echo "error sid not entered";
+    exit();
+  }
+  //echo "testing";
+  $results = $apiClient->getUserInfo($_POST['sid']);
+  //print_r($results);
+  //echo $results;
+  //$results = $apiClient->checkLogin($_COOKIE['sid']);
+  if($results['success'] === "1") {
+    header("HTTP/1.0 200 logged in");
+    echo json_encode($results, true);
+    //TODO get this not to open another page
+    //header("Location: http://$_SERVER[SERVER_NAME]");
+    exit();
+  } else {
+    header("HTTP/1.0 400 not logged in");
+    echo "error. not logged in";
+  }
+}
+function lockStatus(){
+  global $root;
+  $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
+  if(!isset($_POST['sid']) || strlen($_POST['sid']) < 1) {
+    header("HTTP/1.0 400 sid not entered");
+    echo "error sid not entered";
+    exit();
+  }
+  //echo "testing";
+  $results = $apiClient->lockStatus($_POST['sid']);
   //echo $results;
   //$results = $apiClient->checkLogin($_COOKIE['sid']);
   if($results['success'] === "1") {

@@ -23,6 +23,8 @@ RewriteRule ^lock/?$  lock.php [L]
 RewriteRule ^admin/?$  admin.php [L]
 RewriteRule ^config/?$  config.php [L]
 RewriteRule checklogin.php userFunctions.php?actions=checkLogin
+RewriteRule lockStatus.php userFunctions.php?actions=lockStatus
+RewriteRule userInfo.php userFunctions.php?actions=userInfo
 RewriteRule login.php userFunctions.php?actions=login
 RewriteRule ^logout/?$ userFunctions.php?actions=logout
 RewriteRule register.php userFunctions.php?actions=registerUser

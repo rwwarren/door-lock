@@ -217,6 +217,7 @@ function getUserInfo(){
   $username = $client->hget("loggedInUsers:$cookie", "username");
   $dbconn = new dbconn("read");
   $result = $dbconn->getUserInfo($username);
+  $result["success"] = "1";
   header("HTTP/1.0 200 Success");
   header('Content-Type: application/json');
   echo json_encode($result, true);
