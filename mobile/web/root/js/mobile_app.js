@@ -17,13 +17,24 @@ var Nav = React.createClass({
     if(!this.props.isLoggedIn){
       return null;
     }
+    //return (
+    //  <div className="navigation">
+    //    <a className="links" href="/">Home</a>
+    //     |
+    //    <a className="links" href="/users">User Info</a>
+    //     |
+    //    <a className="links" href="/lock">Lock Status</a>
+    //     |
+    //    <a className="links" href="/logout">Logout</a>
+    //  </div>
+    //);
     return (
       <div className="navigation">
         <a className="links" href="/">Home</a>
          |
-        <a className="links" href="/users">User Info</a>
+        <a className="links" href="javascript:void(0);" onClick={this.props.userInfo}>User Info</a>
          |
-        <a className="links" href="/lock">Lock Status</a>
+        <a className="links" href="javascript:void(0);" onClick={this.props.lockInfo}>Lock Status</a>
          |
         <a className="links" href="/logout">Logout</a>
       </div>
@@ -51,17 +62,8 @@ var LoginScreen = React.createClass({
     $.ajax({
             url: API_URL + LOGIN,
             type: "POST",
-            //crossDomain: true,
             data: data,
             dataType: "json",
-            //beforeSend: function(xhr) {
-            //      xhr.setRequestHeader("sid", "session=xxxyyyzzz");
-            //      xhr.setRequestHeader("x-doorlock-api-key", "test");
-            //},
-            //headers: {
-            //  'x-doorlock-api-key': 'test',
-            //  'sid': 'sid',
-            //},
             success:function(result){
                 this.props.loginChange();
             }.bind(this),
@@ -78,19 +80,10 @@ var UserContent = React.createClass({
     return (
       <div>
         <div>
-        Loggedin User Content
+          Welcome, {this.props.name}!
         </div>
         <div>
-        username: {this.props.username}
-        </div>
-        <div>
-        name: {this.props.name}
-        </div>
-        <div>
-        admin: {this.props.isAdmin}
-        </div>
-        <div>
-        props: {this.props}
+          This is the lock user page
         </div>
       </div>
     );
@@ -116,20 +109,9 @@ var MobileWebDoorlock = React.createClass({
     $.ajax({
             url: API_URL + CHECK_LOGIN,
             type: "POST",
-            //crossDomain: true,
             data: {sid: $.cookie("sid")},
-            //data: data,
             dataType: "json",
-            //beforeSend: function(xhr) {
-            //      xhr.setRequestHeader("sid", "session=xxxyyyzzz");
-            //      xhr.setRequestHeader("x-doorlock-api-key", "test");
-            //},
-            //headers: {
-            //  'x-doorlock-api-key': 'test',
-            //  'sid': 'sid',
-            //},
             success:function(result){
-                //this.props.loginChange();
                 console.log(result);
                 if(this.state.loggedIn == false){
                   this.setState({
@@ -150,9 +132,6 @@ var MobileWebDoorlock = React.createClass({
   },
   checkLoggedIn: function() {
     return this.state.loggedIn;
-    //return this.state.loggedIn && this.checkLogin();
-    //console.log("user loggin: " +this.checkLogin() && this.state.loggedIn);
-    //return this.checkLogin() && this.state.loggedIn;
   },
   render: function() {
       var now = new Date
@@ -160,13 +139,12 @@ var MobileWebDoorlock = React.createClass({
       if (theYear < 1900) {
         theYear=theYear+1900
       }
-            //{this.state.loggedIn ? <UserContent />: <LoginScreen loginChange={this.login} />}
     return (
       <div className="container">
         <div className="header">
         </div>
         <div className="body">
-          <Nav isLoggedIn={this.state.loggedIn} />
+          <Nav isLoggedIn={this.state.loggedIn} userInfo={this.userInfo} lockInfo={this.lockInfo} />
           <div className="content">
             {this.checkLoggedIn() ? <UserContent username={this.state.Username} name={this.state.Name} isAdmin={this.state.IsAdmin} /> : <LoginScreen loginChange={this.login} />}
           </div>
@@ -176,6 +154,12 @@ var MobileWebDoorlock = React.createClass({
         </div>
       </div>
     );
+  },
+  userInfo: function() {
+    console.log("clickly");
+  },
+  lockInfo: function() {
+    console.log("lockly clickly");
   },
 });
 function makeid() {
