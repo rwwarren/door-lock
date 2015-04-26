@@ -1,0 +1,32 @@
+.container {
+  margin-top: 15px;
+  padding: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 650px;
+  background-color: #cccccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  background-image: url('/images/logo.gif');
+  background-repeat: no-repeat;
+  height: 155px;
+}
+
+.nav {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #707070;
+}
+
+.content {
+}
+
+.footer {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #707070;
+  text-align: center;
+}

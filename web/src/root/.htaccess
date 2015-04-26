@@ -18,6 +18,7 @@ RewriteEngine on
 
 
 
+RewriteRule ^react/?$  react.php [L]
 RewriteRule ^users/?$  users.php [L]
 RewriteRule ^lock/?$  lock.php [L]
 RewriteRule ^admin/?$  admin.php [L]
