@@ -19,6 +19,34 @@
   margin-bottom: 15px;
   padding-bottom: 15px;
   border-bottom: 1px solid #707070;
+  text-align: center;
+}
+
+.nav a {
+  text-decoration: none;
+}
+
+.nav ol, .nav ul {
+  list-style: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.nav li {
+  display: inline;
+  padding-right: 15px;
+  margin-right: 15px;
+  border-right: 1px solid #707070;
+}
+
+.nav li:after {
+  border-right: 1px solid #707070;
+  padding-left: 15px;
+  margin-left: 15px;
+}
+  
+.nav li:last-child {
+  border-right: 0;
 }
 
 .content {
@@ -30,3 +58,17 @@
   border-top: 1px solid #707070;
   text-align: center;
 }
+
+.login {
+  width: 100%;
+  display:table-cell;
+  vertical-align:middle;
+}
+
+/*.textbox {*/
+.inputtext {
+  vertical-align:middle;
+  margin-left: auto;
+  margin-right: auto;
+}
+

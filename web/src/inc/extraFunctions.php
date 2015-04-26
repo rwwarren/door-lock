@@ -31,8 +31,8 @@ include_once($root . "/../vendor/door-lock/api-client/src/root/apiClient.php");
       return false;
     }
     if(!isset($_SESSION['username']) && $_SESSION['username'] === null){
-      //$_SESSION['username'] = $results['LoggedIn'];
-      $_SESSION['username'] = $results['username'];
+      $_SESSION['username'] = $results['LoggedIn'];
+      //$_SESSION['username'] = $results['username'];
       $_SESSION['name'] = $results['Name'];
       $_SESSION['isAdmin'] = $results['IsAdmin'];
     }
