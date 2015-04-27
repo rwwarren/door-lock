@@ -29,6 +29,8 @@ if (isset($_GET['actions']) && (strpos($_SERVER["REQUEST_URI"], 'userFunctions.p
     lockStatus();
   } else if ($type == 'userInfo'){
     userInfo();
+  } else if ($type == 'admin'){
+    admin();
   } else if ($type == 'registerUser' && isLoggedIn()){
     registerUser();
   } else if ($type == 'changeUser' && isLoggedIn()){
@@ -239,6 +241,7 @@ function userInfo(){
     echo "error. not logged in";
   }
 }
+
 function lockStatus(){
   global $root;
   $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
@@ -249,6 +252,31 @@ function lockStatus(){
   }
   //echo "testing";
   $results = $apiClient->lockStatus($_POST['sid']);
+  //echo $results;
+  //$results = $apiClient->checkLogin($_COOKIE['sid']);
+  if($results['success'] === "1") {
+    header("HTTP/1.0 200 logged in");
+    echo json_encode($results, true);
+    //TODO get this not to open another page
+    //header("Location: http://$_SERVER[SERVER_NAME]");
+    exit();
+  } else {
+    header("HTTP/1.0 400 not logged in");
+    echo "error. not logged in";
+  }
+}
+
+function admin(){
+  global $root;
+  $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
+  if(!isset($_POST['sid']) || strlen($_POST['sid']) < 1) {
+    header("HTTP/1.0 400 sid not entered");
+    echo "error sid not entered";
+    exit();
+  }
+  //echo "testing";
+  $results = $apiClient->getAllUsers($_POST['sid']);
+  //print_r($results);
   //echo $results;
   //$results = $apiClient->checkLogin($_COOKIE['sid']);
   if($results['success'] === "1") {

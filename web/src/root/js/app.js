@@ -8,6 +8,7 @@ var LOGIN = "login.php";
 var CHECK_LOGIN = "checklogin.php";
 var LOCK_STATUS = "lockStatus.php";
 var USER_INFO = "userInfo.php";
+var ADMIN = "admin.php";
 
 var PiLock = React.createClass({
   componentDidMount: function() {
@@ -22,8 +23,6 @@ var PiLock = React.createClass({
       Name: '',
       IsAdmin: '',
       page: 'home',
-      allUserInfo: '',
-      lockStatus: '',
     };
   },
   render: function() {
@@ -36,22 +35,24 @@ var PiLock = React.createClass({
     if (!this.state.isLoggedIn) {
       page = <LoginPage attemptLogin={this.attemptLogin} />;
     } else if (this.state.page === 'home') {
-      page = <LoggedIn  userInfo={this.state}/>
+      page = <LoggedIn userInfo={this.state}/>
     } else if (this.state.page === 'user') {
+      page = <UserInfo username={this.state.Username}/>;
     } else if (this.state.page === 'lock') {
+      page = <LockStatus />;
     } else if (this.state.page === 'admin') {
+      page = <AdminPage />
     }
     return (
       <div className="container">
         <Logo />
-        {this.state.isLoggedIn ? <Nav getConfigPage={this.getConfigPage} changePage={this.changePage} /> : ''}
+        {this.state.isLoggedIn ? <Nav getConfigPage={this.getConfigPage} changePage={this.changePage} logout={this.logout}/> : ''}
         {page}
         <Footer />
       </div>
     );
   },
   checkLoggedIn: function() {
-    console.log("clicked");
     $.ajax({
             url: API_URL + CHECK_LOGIN,
             type: "POST",
@@ -77,7 +78,6 @@ var PiLock = React.createClass({
         });
   },
   attemptLogin: function(data) {
-    console.log("clicked");
     console.log(data);
     $.ajax({
             url: API_URL + LOGIN,
@@ -99,17 +99,11 @@ var PiLock = React.createClass({
   changePage: function(pageName) {
     this.setState({page: pageName});
   },
-  getUserInfo: function() {
-    console.log("clicked");
-  },
-  getLockStatus: function() {
-    console.log("clicked");
-  },
-  getAdminPage: function() {
-    console.log("clicked");
-  },
   getConfigPage: function() {
     document.location.href = '/config/';
+  },
+  logout: function() {
+    document.location.href = '/logout.php';
   },
 });
 
@@ -149,16 +143,16 @@ var Nav = React.createClass({
             <a href="javascript:void(0);" onClick={this.userPage}>User Info</a>
           </li>
           <li>
-            <a href="javascript:void(0);">Lock Status</a>
+            <a href="javascript:void(0);" onClick={this.lockPage}>Lock Status</a>
           </li>
           <li>
-            <a href="javascript:void(0);">Admin Page</a>
+            <a href="javascript:void(0);" onClick={this.adminPage}>Admin Page</a>
           </li>
           <li>
             <a href="javascript:void(0);" onClick={this.props.getConfigPage}>Config Page</a>
           </li>
           <li>
-            <a href="javascript:void(0);">Logout</a>
+            <a href="javascript:void(0);" onClick={this.props.logout}>Logout</a>
           </li>
         </ul>
       </div>
@@ -170,43 +164,165 @@ var Nav = React.createClass({
   userPage: function() {
     this.props.changePage("user");
   },
+  lockPage: function() {
+    this.props.changePage("lock");
+  },
+  adminPage: function() {
+    this.props.changePage("admin");
+  },
 });
 
 var UserInfo = React.createClass({
+  componentDidMount: function() {
+   $.ajax({
+            url: API_URL + USER_INFO,
+            type: "POST",
+            data: {sid: $.cookie("sid")},
+            dataType: "json",
+            success:function(result){
+                console.log(result);
+                //this.props.loginChange();
+                this.setState({
+                  allUserInfo: result,
+                });
+            }.bind(this),
+            error:function(xhr,status,error){
+                console.log(status);
+                console.log(error);
+            }
+  });
+  },
+  getInitialState: function() {
+    return {
+      allUserInfo: '',
+    };
+  },
   render: function() {
     return (
       <div className="">
-        User Info
+        <div>
+          User Info Page
+        </div>
+        <div>
+          Username: {this.props.username}
+        </div>
+        <div>
+          Name:
+          <input ref="name" id="name" placeholder={this.state.allUserInfo.Name}/>
+        </div>
+        <div>
+          Email:
+          <input ref="email" id="email" placeholder={this.state.allUserInfo.Email}/>
+        </div>
+        <div>
+          CardID:
+          <input ref="cardID" id="cardID" placeholder={this.state.allUserInfo.CardID}/>
+        </div>
+        <div>
+          AuthyID:
+          <input ref="authyID" id="authyID" placeholder={this.state.allUserInfo.AuthyID}/>
+        </div>
+        <div>
+          Current Password:
+          <input type="password" />
+        </div>
+        <div>
+          <button id="update" type="button" onClick={this.updateInfo}>Update Info</button>
+        </div>
       </div>
     );
+  },
+  updateInfo: function() {
+    console.log("updating user info");
+    var name = this.refs.name.getDOMNode().value.trim();
+    var email = this.refs.email.getDOMNode().value.trim();
+    var cardID = this.refs.cardID.getDOMNode().value.trim();
+    var authyID = this.refs.authyID.getDOMNode().value.trim();
+    var data = {Name: name, Email: email, CardID: cardID, AuthyID: authyID};
+    console.log(data);
   },
 });
 
 var LockStatus = React.createClass({
-  render: function() {
-    return (
-      <div className="">
-        Lock Status
-      </div>
-    );
+  componentDidMount: function() {
+   $.ajax({
+            url: API_URL + LOCK_STATUS,
+            type: "POST",
+            data: {sid: $.cookie("sid")},
+            dataType: "json",
+            success:function(result){
+                console.log(result);
+                this.setState({
+                  isLocked: result.isLocked,
+                  Status: result.Status,
+                });
+            }.bind(this),
+            error:function(xhr,status,error){
+                console.log(status);
+                console.log(error);
+            }
+  });
   },
+  getInitialState: function() {
+    return {
+      isLocked: '',
+      Status: '',
+    };
+  },
+  render: function() {
+     var lockOrUnlock = (this.state.isLocked == "1") ? "Unlock" : "Lock";
+      return (
+      <div className="">
+        <div className="userInfo">
+          Status: {this.state.Status}
+        </div>
+        <div className="userInfo">
+          isLocked: {this.state.isLocked}
+        </div>
+        <div className="userInfo">
+          <button id="update" type="button" onClick={this.changeLock}>{lockOrUnlock}</button>
+        </div>
+      </div>
+      );
+    },
+    changeLock: function() {
+      console.log("Updating lock status");
+    },
 });
 
 var AdminPage = React.createClass({
-  render: function() {
-    return (
-      <div className="">
-        Admin Page
-      </div>
-    );
+  componentDidMount: function() {
+   $.ajax({
+            url: API_URL + ADMIN,
+            type: "POST",
+            data: {sid: $.cookie("sid")},
+            dataType: "json",
+            success:function(result){
+                console.log(result);
+                this.setState({
+                  adminData: result,
+                });
+            }.bind(this),
+            error:function(xhr,status,error){
+                console.log(status);
+                console.log(error);
+            }
+  });
   },
-});
-
-var ConfigPage = React.createClass({
+  getInitialState: function() {
+    return {
+      adminData: '',
+    };
+  },
   render: function() {
     return (
       <div className="">
-        Config Page
+        <div>
+          Admin Page. Sorry, but this has a lot of security work to do. Needs API redesign as well
+        </div>
+        <div>
+          {JSON.stringify(this.state.adminData)}
+        </div>
       </div>
     );
   },
@@ -214,7 +330,6 @@ var ConfigPage = React.createClass({
 
 var LoggedIn = React.createClass({
   render: function() {
-          //<Nav getConfigPage={this.props.getConfigPage} />
     return (
       <div className="">
         <div>

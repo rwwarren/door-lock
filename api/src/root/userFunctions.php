@@ -242,7 +242,7 @@ function getAllUsers(){
   header("HTTP/1.0 200 Success");
   header('Content-Type: application/json');
 //  echo json_encode(array(""), true);
-  echo json_encode(array('InactiveUsers' => $inactiveUsers, "ActiveUsers" => $activeUsers, "Admins" => $admins), true);
+  echo json_encode(array('success' => '1', 'InactiveUsers' => $inactiveUsers, "ActiveUsers" => $activeUsers, "Admins" => $admins), true);
 //  return array('InactiveUsers' => array(""), "ActiveUsers" => $activeUsers, "Admins" => array(""));
 }
 
