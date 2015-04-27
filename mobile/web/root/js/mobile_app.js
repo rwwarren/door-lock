@@ -9,7 +9,7 @@ var LOGIN = "login.php";
 var CHECK_LOGIN = "checklogin.php";
 var LOCK_STATUS = "lockStatus.php";
 var USER_INFO = "userInfo.php";
-var sid = 'adf';
+//var sid = 'adf';
 
 var UserInfo = React.createClass({
         //<div>
