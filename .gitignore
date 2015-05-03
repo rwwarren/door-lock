@@ -1,6 +1,7 @@
 # Compiled code
 *.class
 *.properties
+*.ini
 
 # current testing files
 backups/
