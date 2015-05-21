@@ -192,7 +192,7 @@ function isLoggedIn() {
   $username = $client->hget("loggedInUsers:$cookie", "username");
   $admin = $client->hget("loggedInUsers:$cookie", "admin");
   if(strlen($name) > 0 && strlen($username) > 0 && strlen($admin) > 0){
-    print_r($_SERVER);
+    //print_r($_SERVER);
     getMac();
     echo json_encode(array('LoggedIn' => $username, 'Username' => $username,'Name' => $name, 'IsAdmin' => $admin, 'success' => '1'));
     exit();
@@ -202,17 +202,17 @@ function isLoggedIn() {
 }
 
 function getMac(){
-ob_start(); // Turn on output buffering
-system('ifconfig '); //Execute external program to display output
-//system('ipconfig /all'); //Execute external program to display output
-$mycom=ob_get_contents(); // Capture the output into a variable
-ob_clean(); // Clean (erase) the output buffer
+ob_start();
+system('ifconfig ');
+$mycom=ob_get_contents();
+ob_clean();
 
 $findme = "ether";
-$pmac = strpos($mycom, $findme); // Find the position of Physical text
-$mac=substr($mycom,($pmac+6),17); // Get Physical Address
+$pmac = strpos($mycom, $findme);
+$mac=substr($mycom,($pmac+6),17);
 
 echo "My Mac!!! " . $mac . " \n";
+echo "Ip addr " .$_SERVER['REMOTE_ADDR'] . " \n";
 }
 
 function isAdmin() {
