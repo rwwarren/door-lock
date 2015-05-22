@@ -23,3 +23,5 @@ web/lock_error.log
 */src/vendor/
 web/build/logs/*
 node_modules/
+**/target/**
+
