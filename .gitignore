@@ -13,6 +13,7 @@
 .coveralls.yml
 composer.lock
 mysqlLogin.java
+mysqlLogin.groovy
 variables.php
 
 # Ignore directories
