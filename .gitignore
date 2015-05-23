@@ -14,6 +14,7 @@ composer.lock
 mysqlLogin.java
 *.jar
 *.log
+*.iml
 
 # ignore directories
 web/src/inc/variables.php
