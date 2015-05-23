@@ -7,7 +7,7 @@ import junit.framework.TestSuite;
 /**
  * Unit test for simple App.
  */
-public class ApiTest 
+public class ApiClientTest 
     extends TestCase
 {
     /**
@@ -15,7 +15,7 @@ public class ApiTest
      *
      * @param testName name of the test case
      */
-    public ApiTest( String testName )
+    public ApiClientTest( String testName )
     {
         super( testName );
     }
@@ -25,7 +25,7 @@ public class ApiTest
      */
     public static Test suite()
     {
-        return new TestSuite( ApiTest.class );
+        return new TestSuite( ApiClientTest.class );
     }
 
     /**

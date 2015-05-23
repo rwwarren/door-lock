@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.wrixton.doorlock</groupId>
-  <artifactId>nfc-lock-api</artifactId>
+  <artifactId>nfc-lock-api-client</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>nfc-lock-api</name>
+  <name>nfc-lock-api-client</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -28,7 +28,7 @@
         <goal>java</goal>
        </goals>
        <configuration>
-        <mainClass>com.wrixton.doorlock.Api</mainClass>
+        <mainClass>com.wrixton.doorlock.ApiClient</mainClass>
         <arguments>
          <argument>arg0</argument>
         </arguments>
