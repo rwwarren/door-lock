@@ -1,0 +1,33 @@
+package com.wrixton.doorlock
+
+import org.junit.Before
+import org.junit.Test
+
+import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.core.IsEqual.equalTo
+import static org.hamcrest.core.IsNull.notNullValue
+
+class ApiClientTest {
+
+    def apiClient
+    def apiUrl = "http://api.localhost"
+    def apiKey = "testing"
+
+    @Before
+    public void setUp(){
+        apiClient = new ApiClient(apiUrl, apiKey)
+        assertThat("api client should not be null", apiClient, notNullValue())
+    }
+
+    @Test
+    public void getUrlTest(){
+        def url = apiClient.getUrl()
+        assertThat("url should equal $apiUrl", url, equalTo(apiUrl))
+    }
+
+    @Test
+    public void getApiKeyTest(){
+        def key = apiClient.apiKey
+        assertThat("url should equal $apiKey", key, equalTo(apiKey))
+    }
+}

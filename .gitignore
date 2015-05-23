@@ -1,27 +1,24 @@
-# Compiled code
+# Ignore certain file extensions and compiled code
 *.class
 *.properties
 *.ini
-
-# current testing files
-backups/
-
-# ignore the .something files
-.coveralls.yml
-composer.lock
 *.swp
 *.idea
-mysqlLogin.java
 *.jar
 *.log
 *.iml
+*.log
 
-# ignore directories
-web/src/inc/variables.php
-*/src/properties/*
-web/lock_error.log
+# Ignore specific files
+.coveralls.yml
+composer.lock
+mysqlLogin.java
+variables.php
 
-*/src/vendor/
+# Ignore directories
+backups/
+**/src/properties/**
+**/src/vendor/**
 web/build/logs/*
 node_modules/
 **/target/**
