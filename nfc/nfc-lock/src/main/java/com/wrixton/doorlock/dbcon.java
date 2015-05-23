@@ -1,3 +1,6 @@
+package com.wrixton.doorlock;
+//TODO this is likely no longer needed
+
 //import com.mongodb.*;
 import java.sql.*;
 import com.mysql.jdbc.Driver;

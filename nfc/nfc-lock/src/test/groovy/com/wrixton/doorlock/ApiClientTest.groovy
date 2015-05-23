@@ -12,6 +12,7 @@ class ApiClientTest {
     def apiClient
     def apiUrl = "http://api.localhost"
     def apiKey = "testing"
+    //TODO get mockito to mock url response for lock?
 
     @Before
     public void setUp(){

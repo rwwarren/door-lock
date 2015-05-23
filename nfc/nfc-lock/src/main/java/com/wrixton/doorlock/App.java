@@ -2,21 +2,52 @@ package com.wrixton.doorlock;
 
 import javax.smartcardio.*;
 import java.util.*;
-//import com.wrixton.doorlock.com.wrixton.doorlock.ApiClient;
 
 /**
- * Hello world!
- *
+ * NFC Application for the doorlock
  */
 public class App {
 
+    //TODO move this to groovy!
+    //TODO move it all to groovy
+
+    private static ApiClient apiClient;
+
+    public App(){
+        //todo spring addition
+        apiClient = new ApiClient("asdf", "asdf");
+    }
+
     public static void main( String[] args ) throws CardException {
       System.out.println( "Hello World! Main NFC Application" );
-        //todo spring addition
-        ApiClient apiClient = new ApiClient("asdf", "asdf");
+
+        //TODO add some waiting for the card and the terminal factory?
+
+//        for(;;){
+//            System.out.println("testing");
+//            call the cardInfo
+//        }
 
 
-//      TerminalFactory factory = TerminalFactory.getDefault();
+    }
+
+    private static void changeLock(){
+        LOCK_STATUS lockStatus = apiClient.lockStatus();
+        if(lockStatus == LOCK_STATUS.LOCKED){
+            apiClient.unlock();
+        } else if (lockStatus == LOCK_STATUS.UNLOCKED){
+            apiClient.lock();
+        } else {
+            throw new IllegalStateException("Lock is is illegal state: " + lockStatus);
+        }
+    }
+
+    private static boolean checkValidUser(){
+        return apiClient.isValidUser();
+    }
+
+    private static void getCardInfo(){
+        //      TerminalFactory factory = TerminalFactory.getDefault();
 //      List<CardTerminal> terminals = factory.terminals().list();
 //      System.out.println("Terminals: " + terminals);
 //      // get the first terminal

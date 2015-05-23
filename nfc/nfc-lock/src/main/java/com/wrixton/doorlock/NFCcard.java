@@ -1,3 +1,5 @@
+package com.wrixton.doorlock;
+
 import javax.smartcardio.*;
 //Does the interactions with the card
 //and makes the changes and connections

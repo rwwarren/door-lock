@@ -11,6 +11,10 @@ class ApiClient{
         this.apiKey = apiKey
     }
 
+    def boolean isValidUser(){
+        return true
+    }
+
     def login(){
 //        def restClient = new RESTClient()
 
@@ -33,8 +37,8 @@ class ApiClient{
 
     }
 
-    def lockStatus(){
-
+    def LOCK_STATUS lockStatus(){
+        return LOCK_STATUS.LOCKED
     }
 
     def lock(){

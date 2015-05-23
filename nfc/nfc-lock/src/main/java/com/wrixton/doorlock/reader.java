@@ -1,3 +1,5 @@
+package com.wrixton.doorlock;
+
 //This is the main class that
 //does stuff
 import javax.smartcardio.*;
