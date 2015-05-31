@@ -58,6 +58,12 @@
             <version>0.7.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.nfctools</groupId>
+            <artifactId>nfctools-api</artifactId>
+            <version>1.0.M8</version>
+        </dependency>
+
 
         <!--<dependency>-->
             <!--<groupId>org.codehaus.groovy.maven</groupId>-->

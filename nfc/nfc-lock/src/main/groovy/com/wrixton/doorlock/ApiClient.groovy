@@ -46,21 +46,6 @@ class ApiClient{
     }
 
     def login() {
-//        def restClient = new RESTClient()
-//        restClient.get(path: '/login')
-//        def myheaders = [xnfcapikey: "test", sid: 'testing']
-        def myheaders = ["$apiKeyName": "test", sid: 'testing']
-//        def myheaders = ["X-DoorLock-Api-Key": apiKey, sid:'testing']
-        def response = restClient.post(
-                headers: myheaders,
-                body: [username: 'test'],
-//                body: [username: 'test', password: 'password'],
-                path: '/Lock',
-//                contentType: JSON,
-                requestContentType : URLENC,
-        )
-        println response
-        return response
 
     }
 
@@ -85,11 +70,39 @@ class ApiClient{
     }
 
     def lock(){
-
+//        def restClient = new RESTClient()
+//        restClient.get(path: '/login')
+//        def myheaders = [xnfcapikey: "test", sid: 'testing']
+        def myheaders = ["$apiKeyName": "test", sid: 'testing']
+//        def myheaders = ["X-DoorLock-Api-Key": apiKey, sid:'testing']
+        def response = restClient.post(
+                headers: myheaders,
+                body: [username: 'test'],
+//                body: [username: 'test', password: 'password'],
+                path: '/Lock',
+//                contentType: JSON,
+                requestContentType : URLENC,
+        )
+        println response
+        return response
     }
 
     def unlock(){
-
+//        def restClient = new RESTClient()
+//        restClient.get(path: '/login')
+//        def myheaders = [xnfcapikey: "test", sid: 'testing']
+        def myheaders = ["$apiKeyName": "test", sid: 'testing']
+//        def myheaders = ["X-DoorLock-Api-Key": apiKey, sid:'testing']
+        def response = restClient.post(
+                headers: myheaders,
+                body: [username: 'test'],
+//                body: [username: 'test', password: 'password'],
+                path: '/Unlock',
+//                contentType: JSON,
+                requestContentType : URLENC,
+        )
+        println response
+        return response
     }
 
     def getUrl(){

@@ -8,6 +8,7 @@
 *.log
 *.iml
 *.log
+*.conf
 
 # Ignore specific files
 .coveralls.yml

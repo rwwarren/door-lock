@@ -44,8 +44,14 @@ class ApiClientTest {
 
 //    @Test(expected = HttpResponseException.class)
     @Test
-    public void getLogin(){
-        def response = apiClient.login()
+    public void getLock(){
+        def response = apiClient.lock()
+        assertThat("Response should not be null", response, notNullValue())
+    }
+
+    @Test
+    public void getUnlock(){
+        def response = apiClient.unlock()
         assertThat("Response should not be null", response, notNullValue())
     }
 }

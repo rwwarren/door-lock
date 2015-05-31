@@ -509,13 +509,14 @@ function lock(){
 
 //unlocks the lock
 function unlock(){
-  if(isset($_POST['username']) && isset($_POST['cookie'])){
-    $apiKey = getApiKey();
+  if(isset($_POST['username'])){
+//  if(isset($_POST['username']) && isset($_POST['cookie'])){
     $user = $_POST['username'];
-    $cookie = $_POST['cookie'];
-    $userID = isValid($apiKey);
+//    $cookie = $_POST['cookie'];
+//    $userID = isValid($apiKey);
     //is logged in?
-    if($user !== null && $cookie !== null && $userID !== NULL){
+    if($user !== null){
+//    if($user !== null && $cookie !== null && $userID !== NULL){
       header("HTTP/1.0 200 Success");
       header('Content-Type: application/json');
       //return json_encode(array('Unlocked Door' => 'Success', 'success' => '1/0'));
@@ -523,6 +524,7 @@ function unlock(){
       echo json_encode(array('Unlocked Door' => 'Success', 'success' => '1'));
       exit();
     } else {
+      $apiKey = getApiKey();
       UnAuthError($apiKey);
     }
   }
