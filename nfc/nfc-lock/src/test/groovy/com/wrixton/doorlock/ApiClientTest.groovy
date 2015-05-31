@@ -1,11 +1,13 @@
 package com.wrixton.doorlock
 
+import groovyx.net.http.HttpResponseException
 import org.junit.Before
 import org.junit.Test
 
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.core.IsEqual.equalTo
 import static org.hamcrest.core.IsNull.notNullValue
+import static org.mockito.Mockito.when
 
 class ApiClientTest {
 
@@ -30,5 +32,20 @@ class ApiClientTest {
     public void getApiKeyTest(){
         def key = apiClient.apiKey
         assertThat("url should equal $apiKey", key, equalTo(apiKey))
+//        when()
+    }
+
+//    @Test(expected = HttpResponseException.class)
+//    public void getLogin(){
+//        apiClient.setApiKey("")
+//        def response = apiClient.login()
+//        assertThat("Response should have unauthorized api key", response, notNullValue())
+//    }
+
+//    @Test(expected = HttpResponseException.class)
+    @Test
+    public void getLogin(){
+        def response = apiClient.login()
+        assertThat("Response should not be null", response, notNullValue())
     }
 }

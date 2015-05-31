@@ -69,7 +69,7 @@ if (isset($_GET['actions']) ){
 
 //Returns the api key
 function getApiKey(){
-  $headers = array_change_key_case(getallheaders());
+  $headers = array_change_key_case(getallheaders(), CASE_LOWER);
   //$headers = array_change_key_case(getallheaders()[strtolower('X-DoorLock-Api-Key')]);
   //echo $headers[strtolower('X-DoorLock-Api-Key')];
   return isset($headers[strtolower('X-DoorLock-Api-Key')]) ? $headers[strtolower('X-DoorLock-Api-Key')] : '';
@@ -478,13 +478,15 @@ function lockStatus(){
 //locks the lock
 function lock(){
 //function lock($userID){
-  if(isset($_POST['username']) && isset($_POST['cookie'])){
-    $apiKey = getApiKey();
+  if(isset($_POST['username'])){
+//  if(isset($_POST['username']) && isset($_POST['cookie'])){
+//    $apiKey = getApiKey();
     $user = $_POST['username'];
-    $cookie = $_POST['cookie'];
+//    $cookie = $_POST['cookie'];
 //    $userID = isValid($apiKey);
     //is logged in?
-    if($user !== null && $cookie !== null){
+    if($user !== null){
+//    if($user !== null && $cookie !== null){
 //    if($user !== null && $cookie !== null && $userID !== NULL){
       //return json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
       header("HTTP/1.0 200 Success");
@@ -493,10 +495,16 @@ function lock(){
       echo json_encode(array('Locked Door' => 'Success', 'success' => '1'));
       exit();
     } else {
+      $apiKey = getApiKey();
+      echo "tn the login function! inside";
       UnAuthError($apiKey);
+      exit();
     }
   }
+//  echo "in the login function";
+//  print_r($_REQUEST);
   UnAuthError();
+  exit();
 }
 
 //unlocks the lock

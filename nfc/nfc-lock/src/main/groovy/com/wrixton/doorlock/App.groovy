@@ -1,12 +1,14 @@
-package com.wrixton.doorlock;
+package com.wrixton.doorlock
 
 import javax.smartcardio.*;
-import java.util.*;
+import java.util.*
+import java.util.logging.Logger;
 
 /**
  * NFC Application for the doorlock
  */
 public class App {
+//    private static final Logger log = Logger.getLogger(App.class.name);
 
     //TODO move this to groovy!
     //TODO move it all to groovy
@@ -20,6 +22,7 @@ public class App {
 
     public static void main( String[] args ) throws CardException {
       System.out.println( "Hello World! Main NFC Application" );
+//      log.info("testing")
 
         //TODO add some waiting for the card and the terminal factory?
 
