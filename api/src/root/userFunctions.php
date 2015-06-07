@@ -23,44 +23,95 @@ if($apiKey === null || isValid($apiKey) === null){
 if (isset($_GET['actions']) ){
   $type = $_GET['actions'];
   //TODO make this a switch
-  if ($type == 'login'){
-    login();
-  //} else if ($type == 'logout' && isLoggedIn()){
-  } else if ($type == 'logout'){
-    logout();
-  //} else if ($type == 'changePassword' && isLoggedIn()){
-  } else if ($type == 'isLoggedIn'){
+  switch($type){
+    case $type == 'login':
+      login();
+      break;
+    case $type == 'logout' :
+      logout();
+      break;
+    case $type == 'isLoggedIn':
     isLoggedIn();
-  } else if ($type == 'isAdmin'){
-    isAdmin();
-  } else if ($type == 'getUserInfo'){
-    getUserInfo();
-  } else if ($type == 'getAllUsers'){
-    getAllUsers();
-//  } else if ($type == 'changePassword'){
-//    changePassword();
-  } else if ($type == 'registerUser' && isLoggedIn()){
-    registerUser();
-  } else if ($type == 'changeUserType' && currentlyLoggedIn()){
-//  } else if ($type == 'changeUserType' && isLoggedIn()){
-    changeUserType();
-  } else if ($type == 'updateUserInfo' && isLoggedIn()){
-    updateUserInfo();
-  } else if ($type == 'forgotPassword'){
-    forgotPassword();
-  } else if ($type == 'resetPassword'){
-    resetPassword();
-  } else if ($type == 'lockStatus'){
-    lockStatus();
-  } else if ($type == 'lock'){
-    lock();
-  } else if ($type == 'unlock'){
-    unlock();
-  } else {
-    echo "You don't have permission to call that function so back off!";
-    header("HTTP/1.0 403 User Forbidden");
-    exit();
+      break;
+    case $type == 'isAdmin':
+      isAdmin();
+      break;
+    case $type == 'getUserInfo':
+      getUserInfo();
+      break;
+    case $type == 'getAllUsers':
+      getAllUsers();
+      break;
+//    case $type == 'changePassword':
+//      changePassword();
+//      break;
+    case $type == 'registerUser' && isLoggedIn():
+      registerUser();
+      break;
+    case $type == 'changeUserType' && currentlyLoggedIn():
+      changeUserType();
+      break;
+    case $type == 'updateUserInfo' && isLoggedIn():
+      updateUserInfo();
+      break;
+    case $type == 'forgotPassword':
+      forgotPassword();
+      break;
+    case $type == 'resetPassword':
+      resetPassword();
+      break;
+    case $type == 'lockStatus':
+      lockStatus();
+      break;
+    case $type == 'lock':
+      lock();
+      break;
+    case $type == 'unlock':
+      unlock();
+      break;
+    default:
+      echo "You don't have permission to call that function so back off!";
+      header("HTTP/1.0 403 User Forbidden");
+      exit();
   }
+//  if ($type == 'login'){
+//    login();
+//  //} else if ($type == 'logout' && isLoggedIn()){
+//  } else if ($type == 'logout'){
+//    logout();
+//  //} else if ($type == 'changePassword' && isLoggedIn()){
+//  } else if ($type == 'isLoggedIn'){
+//    isLoggedIn();
+//  } else if ($type == 'isAdmin'){
+//    isAdmin();
+//  } else if ($type == 'getUserInfo'){
+//    getUserInfo();
+//  } else if ($type == 'getAllUsers'){
+//    getAllUsers();
+////  } else if ($type == 'changePassword'){
+////    changePassword();
+//  } else if ($type == 'registerUser' && isLoggedIn()){
+//    registerUser();
+//  } else if ($type == 'changeUserType' && currentlyLoggedIn()){
+////  } else if ($type == 'changeUserType' && isLoggedIn()){
+//    changeUserType();
+//  } else if ($type == 'updateUserInfo' && isLoggedIn()){
+//    updateUserInfo();
+//  } else if ($type == 'forgotPassword'){
+//    forgotPassword();
+//  } else if ($type == 'resetPassword'){
+//    resetPassword();
+//  } else if ($type == 'lockStatus'){
+//    lockStatus();
+//  } else if ($type == 'lock'){
+//    lock();
+//  } else if ($type == 'unlock'){
+//    unlock();
+//  } else {
+//    echo "You don't have permission to call that function so back off!";
+//    header("HTTP/1.0 403 User Forbidden");
+//    exit();
+//  }
 } else {
   echo "improper request";
 //  header("Location:/");
