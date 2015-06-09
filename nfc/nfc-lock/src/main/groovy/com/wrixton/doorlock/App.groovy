@@ -1,19 +1,36 @@
 package com.wrixton.doorlock
 
-import org.nfctools.scio.TerminalMode
+import groovy.util.logging.Log4j
+import groovy.util.logging.*
+
+
+//import org.nfctools.scio.TerminalMode
 
 import javax.smartcardio.*;
 //import com.acs.smartcard.Reader;
 import java.util.*
+import java.util.logging.LogManager
 import java.util.logging.Logger;
-import org.nfctools.*;
+//import org.nfctools.*;
+//import groovy.util.logging.Slf4j
+//import org.apache.log4j.PropertyConfigurator;
+//import org.slf4j.*;
+
 
 
 /**
  * NFC Application for the doorlock
  */
+//@Slf4j
+@Log
+//@Log4j
 public class App {
+//    private static final Logger log = Logger.getLogger(App.class);
+//    private static final Logger log = LogManager.getLogger(App.class);
+//    private static final Logger log = LogManager.getLogger(App.class.name);
 //    private static final Logger log = Logger.getLogger(App.class.name);
+//    static Logger LOGGER = LoggerFactory.getLogger(Hello.class);
+
 
     //TODO move this to groovy!
     //TODO move it all to groovy
@@ -29,7 +46,16 @@ public class App {
     }
 
     public static void main( String[] args ) throws CardException {
-      System.out.println( "Hello World! Main NFC Application" );
+//        PropertyConfigurator.configure("log4j.properties");
+        System.setProperty("java.util.logging.SimpleFormatter.format", '[%4$s]: %1$tF %1$tT: %5$s%n')
+//                '[%1$tF %1$tT]:%4$s:(%2$s): %5$s%n')
+//                '[%1$tF %1$tT]:%4$s:(%1$Tp): %5$s%n')
+//                '[%1$tF %1$tT]:%4$s:(%2$s): %5$s%n')
+        System.out.println( "Hello World! Main NFC Application" );
+//      log.info( "Hello World! Main NFC Application" );
+        log.info 'Simple sample to show log field is injected.'
+
+//      log.info(App.class.name);
 //      log.info("testing")
 
         //TODO add some waiting for the card and the terminal factory?

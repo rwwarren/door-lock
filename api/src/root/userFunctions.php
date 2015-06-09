@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('error_log','/Users/ryan/Documents/door-lock/web/php.log');
 
 require_once __DIR__.'/../vendor/predis/predis/src/Autoloader.php';
 Predis\Autoloader::register();

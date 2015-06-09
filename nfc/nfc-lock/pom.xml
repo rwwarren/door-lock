@@ -37,11 +37,16 @@
             <artifactId>spring-context</artifactId>
             <version>4.1.6.RELEASE</version>
         </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.14</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.logging.log4j</groupId>-->
+            <!--<artifactId>log4j-core</artifactId>-->
+            <!--<version>2.3</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>slf4j-api</artifactId>-->
+            <!--<version>1.7.5</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
@@ -58,11 +63,11 @@
             <version>0.7.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.nfctools</groupId>
-            <artifactId>nfctools-api</artifactId>
-            <version>1.0.M8</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.nfctools</groupId>-->
+            <!--<artifactId>nfctools-api</artifactId>-->
+            <!--<version>1.0.M8</version>-->
+        <!--</dependency>-->
 
 
         <!--<dependency>-->
@@ -72,12 +77,22 @@
         <!--</dependency>-->
     </dependencies>
     <build>
+        <!--<resources>-->
+            <!--<resource>-->
+                <!--<directory>src/main/resources</directory>-->
+                <!--&lt;!&ndash;<targetPath>${project.build.directory}</targetPath>&ndash;&gt;-->
+                <!--&lt;!&ndash;<includes>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<include>log4j.xml</include>&ndash;&gt;-->
+                <!--&lt;!&ndash;</includes>&ndash;&gt;-->
+                <!--<filtering>true</filtering>-->
+            <!--</resource>-->
+        <!--</resources>-->
         <plugins>
             <plugin>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-eclipse-compiler</artifactId>
                 <version>2.9.1-01</version>
-                <extensions>true</extensions>
+                <!--<extensions>true</extensions>-->
             </plugin>
             <!--<plugin>-->
             <!--<groupId>org.apache.maven.plugins</groupId>-->
@@ -87,7 +102,15 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.1.1</version>
+                <version>1.4.0</version>
+                <!--<configuration>-->
+                    <!--<systemProperties>-->
+                        <!--<property>-->
+                            <!--<name>log4j.configuration</name>-->
+                            <!--<value>file:src/main/resources/log4j.xml</value>-->
+                        <!--</property>-->
+                    <!--</systemProperties>-->
+                <!--</configuration>-->
                 <executions>
                     <execution>
                         <phase>test</phase>
