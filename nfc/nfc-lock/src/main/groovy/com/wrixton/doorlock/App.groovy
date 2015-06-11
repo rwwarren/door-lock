@@ -90,26 +90,26 @@ public class App {
         return apiClient.isValidUser();
     }
 
-    private static void getCardInfo(){
-      TerminalFactory factory = TerminalFactory.getDefault();
-      List<CardTerminal> terminals = factory.terminals().list();
-
-        System.out.println("Terminals: " + terminals);
-      // get the first terminal
-      CardTerminal terminal = terminals.get(0);
-      terminal.waitForCardPresent(0);
-      // establish a connection with the card
-      Card card = terminal.connect("DIRECT");
-        card.beginExclusive();
-//        putReaderInInitiatorMode();
-//      Card card = terminal.connect("T=0");
-      System.out.println("card: " + card);
-      println "card ATR: " + card.ATR
-      println "card dump: " + card.dump()
-//      println "card : " + card
-        // disconnect
-      card.disconnect(false);
-    }
+//    private static void getCardInfo(){
+//      TerminalFactory factory = TerminalFactory.getDefault();
+//      List<CardTerminal> terminals = factory.terminals().list();
+//
+//        System.out.println("Terminals: " + terminals);
+//      // get the first terminal
+//      CardTerminal terminal = terminals.get(0);
+//      terminal.waitForCardPresent(0);
+//      // establish a connection with the card
+//      Card card = terminal.connect("DIRECT");
+//        card.beginExclusive();
+////        putReaderInInitiatorMode();
+////      Card card = terminal.connect("T=0");
+//      System.out.println("card: " + card);
+//      println "card ATR: " + card.ATR
+//      println "card dump: " + card.dump()
+////      println "card : " + card
+//        // disconnect
+//      card.disconnect(false);
+//    }
 
     def attemtNFCTools(){
 //        NfcAdapter nfcAdapter = new NfcAdapter(TerminalUtils.getAvailableTerminal(), TerminalMode.INITIATOR, this);
@@ -137,19 +137,18 @@ public class App {
             ResponseAPDU answer = cc.transmit(new CommandAPDU(mybytes));
             byte[] reponseBytesArr = answer.getBytes();
             StringBuilder sb = new StringBuilder();
-
             for (int i = 0; i < reponseBytesArr.length; i++) {
                 byte b = reponseBytesArr[i];
                 if (i <= reponseBytesArr.length - 3) {
                     // append uid
-                    sb.append(String.format("%02X ", b));
+                    sb.append(String.format("%02X", b));
+//                    sb.append(String.format("%02X ", b));
                 }
             }
             System.out.println("UID: " + sb.toString());
         } catch(Exception e){
             println e
         }
-
     }
 
 }

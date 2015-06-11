@@ -4,6 +4,7 @@ import groovyx.net.http.HttpResponseException
 import org.junit.Before
 import org.junit.Test
 
+import static junit.framework.TestCase.assertTrue
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.core.IsEqual.equalTo
 import static org.hamcrest.core.IsNull.notNullValue
@@ -45,13 +46,17 @@ class ApiClientTest {
 //    @Test(expected = HttpResponseException.class)
     @Test
     public void getLock(){
-        def response = apiClient.lock()
+        def response = apiClient.lock("", "")
         assertThat("Response should not be null", response, notNullValue())
+        assertTrue("Response data should be success", response.data.success as Boolean)
+        assertThat("Response data should be locked", response.data."Locked Door", equalTo("Success"))
     }
 
     @Test
     public void getUnlock(){
-        def response = apiClient.unlock()
+        def response = apiClient.unlock("", "")
         assertThat("Response should not be null", response, notNullValue())
+        assertTrue("Response data should be success", response.data.success as Boolean)
+        assertThat("Response data should be locked", response.data."Unlocked Door", equalTo("Success"))
     }
 }
