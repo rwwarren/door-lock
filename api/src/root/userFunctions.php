@@ -264,8 +264,8 @@ $findme = "ether";
 $pmac = strpos($mycom, $findme);
 $mac=substr($mycom,($pmac+6),17);
 
-echo "My Mac!!! " . $mac . " \n";
-echo "Ip addr " .$_SERVER['REMOTE_ADDR'] . " \n";
+//echo "My Mac!!! " . $mac . " \n";
+//echo "Ip addr " .$_SERVER['REMOTE_ADDR'] . " \n";
 }
 
 function isAdmin() {
@@ -531,14 +531,22 @@ function lockStatus(){
 //locks the lock
 function lock(){
 //function lock($userID){
-  if(isset($_POST['username'])){
+  if(isset($_POST['uid'])){
 //  if(isset($_POST['username']) && isset($_POST['cookie'])){
 //    $apiKey = getApiKey();
-    $user = $_POST['username'];
+    $uid = $_POST['uid'];
 //    $cookie = $_POST['cookie'];
 //    $userID = isValid($apiKey);
     //is logged in?
-    if($user !== null){
+    if($uid !== null){
+      $dbconn = new dbconn("read");
+      $userID = $dbconn->checkCardID($uid);
+      if($userID === null){
+        header("HTTP/1.0 403 Forbidden");
+        header('Content-Type: application/json');
+        echo json_encode(array('Locked Door' => 'Failed', 'success' => '0'));
+        exit();
+      }
 //    if($user !== null && $cookie !== null){
 //    if($user !== null && $cookie !== null && $userID !== NULL){
       //return json_encode(array('Locked Door' => 'Success', 'success' => '1/0'));
@@ -562,13 +570,29 @@ function lock(){
 
 //unlocks the lock
 function unlock(){
-  if(isset($_POST['username'])){
+//  if(isset($_POST['username'])){
+////  if(isset($_POST['username']) && isset($_POST['cookie'])){
+//    $user = $_POST['username'];
+////    $cookie = $_POST['cookie'];
+////    $userID = isValid($apiKey);
+//    //is logged in?
+//    if($user !== null){
+  if(isset($_POST['uid'])){
 //  if(isset($_POST['username']) && isset($_POST['cookie'])){
-    $user = $_POST['username'];
+//    $apiKey = getApiKey();
+    $uid = $_POST['uid'];
 //    $cookie = $_POST['cookie'];
 //    $userID = isValid($apiKey);
     //is logged in?
-    if($user !== null){
+    if($uid !== null){
+      $dbconn = new dbconn("read");
+      $userID = $dbconn->checkCardID($uid);
+      if($userID === null){
+        header("HTTP/1.0 403 Forbidden");
+        header('Content-Type: application/json');
+        echo json_encode(array('Locked Door' => 'Failed', 'success' => '0'));
+        exit();
+      }
 //    if($user !== null && $cookie !== null && $userID !== NULL){
       header("HTTP/1.0 200 Success");
       header('Content-Type: application/json');

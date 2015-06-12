@@ -7,18 +7,18 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>014DEE37-4D5E-4A76-B29D-E6CEE11D1825</string>
 	<key>IDESourceControlProjectName</key>
-	<string>doorlock-app</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>94F3BDEEE965E15178F98BE5D7219B9676F71A69</key>
 		<string>github.com:rwwarren/door-lock.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>app/doorlock-app/doorlock-app.xcodeproj</string>
+	<string>mobile/app/doorlock-app/doorlock-app.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>94F3BDEEE965E15178F98BE5D7219B9676F71A69</key>
-		<string>../../../..</string>
+		<string>../../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>github.com:rwwarren/door-lock.git</string>

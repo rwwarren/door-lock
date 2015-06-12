@@ -427,7 +427,7 @@ class dbconn {
     $stmt->close();
   }
 
-  //Returns ID, eail, and name from a username
+  //Returns ID, email, and name from a username
   public function getUserInfo($username){
     $stmt = $this->mysqli->prepare("Select ID, Email, Name, CardID, AuthyID from Users where Username = ? and IsActive = 1");
     $stmt->bind_param('s', $username);
@@ -442,6 +442,23 @@ class dbconn {
     $AuthyID = ($AuthyID === 0) ? NULL : $AuthyID;
     $CardID = ($CardID === 0) ? NULL : $CardID;
     return array('ID' => $userID, 'Email' => $email, 'Name' => $name, 'CardID' => $CardID, 'AuthyID' => $AuthyID);
+  }
+
+  //Checks the uid of the card to see if it is valid
+  public function checkCardID($uid){
+    $stmt = $this->mysqli->prepare("Select ID from Users where CardID = ?");
+    $stmt->bind_param('s', $uid);
+    $stmt->execute();
+    $stmt->bind_result($userID);
+    $results = $stmt->fetch();
+    $stmt->free_result();
+    $stmt->close();
+    if($results === null){
+      return null;
+//      return array("");
+//      die("user for card not found");
+    }
+    return array('ID' => $userID);
   }
 
 }
