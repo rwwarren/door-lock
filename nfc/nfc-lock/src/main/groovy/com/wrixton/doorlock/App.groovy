@@ -59,7 +59,8 @@ public class App {
 //      log.info("testing")
 
         //TODO add some waiting for the card and the terminal factory?
-        attemptNFCTool()
+        def uid = attemptNFCTool()
+        changeLock(uid)
 //        for(int i = 0; i < 2; i++){
 ////        for(;;){
 //            System.out.println("testing")
@@ -75,12 +76,12 @@ public class App {
 
     }
 
-    private static void changeLock(){
+    private static void changeLock(uid){
         LOCK_STATUS lockStatus = apiClient.lockStatus();
         if(lockStatus == LOCK_STATUS.LOCKED){
-            apiClient.unlock();
+            apiClient.unlock(uid);
         } else if (lockStatus == LOCK_STATUS.UNLOCKED){
-            apiClient.lock();
+            apiClient.lock(uid);
         } else {
             throw new IllegalStateException("Lock is is illegal state: " + lockStatus);
         }
@@ -146,9 +147,11 @@ public class App {
                 }
             }
             System.out.println("UID: " + sb.toString());
+            return sb.toString()
         } catch(Exception e){
             println e
         }
+        return null
     }
 
 }

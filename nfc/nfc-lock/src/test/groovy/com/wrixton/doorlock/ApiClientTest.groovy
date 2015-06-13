@@ -43,10 +43,31 @@ class ApiClientTest {
 //        assertThat("Response should have unauthorized api key", response, notNullValue())
 //    }
 
-//    @Test(expected = HttpResponseException.class)
+    @Test(expected = HttpResponseException.class)
+    public void getLockNoUID(){
+        try{
+            def response = apiClient.lock("")
+        } catch(HttpResponseException e){
+            assertThat("Response should not be null", e.response, notNullValue())
+            assertThat("Response should not be null", e.response.responseData.success, equalTo("0"))
+            throw e
+        }
+    }
+
+    @Test(expected = HttpResponseException.class)
+    public void getUnlockNoUID(){
+        try{
+            def response = apiClient.unlock("")
+        } catch(HttpResponseException e){
+            assertThat("Response should not be null", e.response, notNullValue())
+            assertThat("Response should not be null", e.response.responseData.success, equalTo("0"))
+            throw e
+        }
+    }
+
     @Test
     public void getLock(){
-        def response = apiClient.lock("", "")
+        def response = apiClient.lock("12FF6FCD")
         assertThat("Response should not be null", response, notNullValue())
         assertTrue("Response data should be success", response.data.success as Boolean)
         assertThat("Response data should be locked", response.data."Locked Door", equalTo("Success"))
@@ -54,7 +75,7 @@ class ApiClientTest {
 
     @Test
     public void getUnlock(){
-        def response = apiClient.unlock("", "")
+        def response = apiClient.unlock("12FF6FCD")
         assertThat("Response should not be null", response, notNullValue())
         assertTrue("Response data should be success", response.data.success as Boolean)
         assertThat("Response data should be locked", response.data."Unlocked Door", equalTo("Success"))

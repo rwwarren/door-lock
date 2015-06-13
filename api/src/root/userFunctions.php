@@ -538,7 +538,7 @@ function lock(){
 //    $cookie = $_POST['cookie'];
 //    $userID = isValid($apiKey);
     //is logged in?
-    if($uid !== null){
+    if($uid !== null && strlen($uid) > 0){
       $dbconn = new dbconn("read");
       $userID = $dbconn->checkCardID($uid);
       if($userID === null){
@@ -557,7 +557,6 @@ function lock(){
       exit();
     } else {
       $apiKey = getApiKey();
-      echo "tn the login function! inside";
       UnAuthError($apiKey);
       exit();
     }
@@ -584,7 +583,7 @@ function unlock(){
 //    $cookie = $_POST['cookie'];
 //    $userID = isValid($apiKey);
     //is logged in?
-    if($uid !== null){
+    if($uid !== null && strlen($uid) > 0){
       $dbconn = new dbconn("read");
       $userID = $dbconn->checkCardID($uid);
       if($userID === null){

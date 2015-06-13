@@ -69,7 +69,8 @@ class ApiClient{
         return LOCK_STATUS.LOCKED
     }
 
-    def lock(def username, def uid){
+    def lock(def uid){
+//    def lock(def username, def uid){
 //        def restClient = new RESTClient()
 //        restClient.get(path: '/login')
 //        def myheaders = [xnfcapikey: "test", sid: 'testing']
@@ -77,17 +78,20 @@ class ApiClient{
 //        def myheaders = ["X-DoorLock-Api-Key": apiKey, sid:'testing']
         def response = restClient.post(
                 headers: myheaders,
-                body: [username: "${username}", uid: "${uid}"],
+                body: [ uid: "${uid}"],
+//                body: [username: "${username}", uid: "${uid}"],
 //                body: [username: 'test', password: 'password'],
                 path: '/Lock',
 //                contentType: JSON,
                 requestContentType : URLENC,
         )
+
         println response
         return response
     }
 
-    def unlock(def username, def uid){
+    def unlock(def uid){
+//    def unlock(def username, def uid){
 //        def restClient = new RESTClient()
 //        restClient.get(path: '/login')
 //        def myheaders = [xnfcapikey: "test", sid: 'testing']
@@ -95,7 +99,8 @@ class ApiClient{
 //        def myheaders = ["X-DoorLock-Api-Key": apiKey, sid:'testing']
         def response = restClient.post(
                 headers: myheaders,
-                body: [username: "${username}", uid: "${uid}"],
+                body: [uid: "${uid}"],
+//                body: [username: "${username}", uid: "${uid}"],
 //                body: [username: 'test'],
 //                body: [username: 'test', password: 'password'],
                 path: '/Unlock',
