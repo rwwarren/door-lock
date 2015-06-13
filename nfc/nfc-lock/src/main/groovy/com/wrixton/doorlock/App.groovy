@@ -59,8 +59,13 @@ public class App {
 //      log.info("testing")
 
         //TODO add some waiting for the card and the terminal factory?
-        def uid = attemptNFCTool()
-        changeLock(uid)
+        for(;;){
+            def uid = attemptNFCTool()
+            if(uid != null && uid.length() > 0){
+                changeLock(uid)
+            }
+            sleep(1000)
+        }
 //        for(int i = 0; i < 2; i++){
 ////        for(;;){
 //            System.out.println("testing")
@@ -149,7 +154,8 @@ public class App {
             System.out.println("UID: " + sb.toString());
             return sb.toString()
         } catch(Exception e){
-            println e
+            log.info("No card present: " + e)
+//            println e
         }
         return null
     }
