@@ -80,4 +80,13 @@ class ApiClientTest {
         assertTrue("Response data should be success", response.data.success as Boolean)
         assertThat("Response data should be locked", response.data."Unlocked Door", equalTo("Success"))
     }
+
+    @Test
+    public void getLockStatus(){
+        def response = apiClient.lockStatus("12FF6FCD")
+        assertThat("Response should not be null", response, notNullValue())
+        //TODO change this
+        assertThat("Response should be locked", response, equalTo(LOCK_STATUS.LOCKED))
+
+    }
 }

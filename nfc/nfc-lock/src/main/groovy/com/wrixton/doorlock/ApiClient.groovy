@@ -65,7 +65,9 @@ class ApiClient{
 
     }
 
-    def LOCK_STATUS lockStatus(){
+    def LOCK_STATUS lockStatus(def uid){
+//        return LOCK_STATUS.valueOf("locked")
+//        return LOCK_STATUS.UNLOCKED
         return LOCK_STATUS.LOCKED
     }
 
@@ -74,7 +76,7 @@ class ApiClient{
 //        def restClient = new RESTClient()
 //        restClient.get(path: '/login')
 //        def myheaders = [xnfcapikey: "test", sid: 'testing']
-        def myheaders = ["$apiKeyName": "test", sid: 'testing']
+        def myheaders = ["${apiKeyName}": "test", sid: 'testing']
 //        def myheaders = ["X-DoorLock-Api-Key": apiKey, sid:'testing']
         def response = restClient.post(
                 headers: myheaders,
@@ -86,8 +88,8 @@ class ApiClient{
                 requestContentType : URLENC,
         )
 
-        println response
-        return response
+        println response.responseData
+        return response.responseData
     }
 
     def unlock(def uid){
@@ -95,7 +97,7 @@ class ApiClient{
 //        def restClient = new RESTClient()
 //        restClient.get(path: '/login')
 //        def myheaders = [xnfcapikey: "test", sid: 'testing']
-        def myheaders = ["$apiKeyName": "test", sid: 'testing']
+        def myheaders = ["${apiKeyName}": "test", sid: 'testing']
 //        def myheaders = ["X-DoorLock-Api-Key": apiKey, sid:'testing']
         def response = restClient.post(
                 headers: myheaders,
@@ -107,8 +109,8 @@ class ApiClient{
 //                contentType: JSON,
                 requestContentType : URLENC,
         )
-        println response
-        return response
+        println response.responseData
+        return response.responseData
     }
 
     def getUrl(){

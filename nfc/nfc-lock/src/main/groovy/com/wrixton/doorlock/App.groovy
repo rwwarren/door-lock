@@ -34,19 +34,21 @@ public class App {
 
     //TODO move this to groovy!
     //TODO move it all to groovy
-    private byte[] atr = null;
-    private String protocol = null;
-    private byte[] historical = null;
+//    private byte[] atr = null;
+//    private String protocol = null;
+//    private byte[] historical = null;
 
+//    private ApiClient apiClient;
     private static ApiClient apiClient;
 
     public App(){
         //todo spring addition
-        apiClient = new ApiClient("asdf", "asdf");
+        apiClient = new ApiClient("http://api.localhost", "testing")
     }
 
     public static void main( String[] args ) throws CardException {
 //        PropertyConfigurator.configure("log4j.properties");
+//        System.setProperty("java.util.logging.SimpleFormatter.format", '[%4$s]: %1$tF %1$tT, %c{1.}: %5$s%n')
         System.setProperty("java.util.logging.SimpleFormatter.format", '[%4$s]: %1$tF %1$tT: %5$s%n')
 //                '[%1$tF %1$tT]:%4$s:(%2$s): %5$s%n')
 //                '[%1$tF %1$tT]:%4$s:(%1$Tp): %5$s%n')
@@ -57,7 +59,8 @@ public class App {
 
 //      log.info(App.class.name);
 //      log.info("testing")
-
+//        App myApp = new App()
+        apiClient = new ApiClient("http://api.localhost", "testing")
         //TODO add some waiting for the card and the terminal factory?
         for(;;){
             def uid = attemptNFCTool()
@@ -81,14 +84,21 @@ public class App {
 
     }
 
-    private static void changeLock(uid){
-        LOCK_STATUS lockStatus = apiClient.lockStatus();
+    private static void changeLock(def uid){
+        LOCK_STATUS lockStatus = apiClient.lockStatus(uid);
+        def response;
         if(lockStatus == LOCK_STATUS.LOCKED){
-            apiClient.unlock(uid);
+            response = apiClient.unlock(uid);
         } else if (lockStatus == LOCK_STATUS.UNLOCKED){
-            apiClient.lock(uid);
+            response = apiClient.lock(uid);
+
         } else {
             throw new IllegalStateException("Lock is is illegal state: " + lockStatus);
+        }
+        if(response.success == "1"){
+            println "Successful change"
+        } else {
+            println "Change Failed!!!!!!"
         }
     }
 
@@ -136,6 +146,7 @@ public class App {
             List<CardTerminal> terminals = factory.terminals().list();
             // get the first terminal
             CardTerminal terminal = terminals.get(0);
+            println "Waiting for card to connect"
             terminal.waitForCardPresent(0);
             // establish a connection with the card
             Card c = terminal.connect("T=0");
@@ -151,6 +162,8 @@ public class App {
 //                    sb.append(String.format("%02X ", b));
                 }
             }
+            println "Card read and waiting for disconnect"
+            terminal.waitForCardAbsent(0)
             System.out.println("UID: " + sb.toString());
             return sb.toString()
         } catch(Exception e){
