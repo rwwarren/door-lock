@@ -69,16 +69,16 @@ class ApiClientTest {
     public void getLock(){
         def response = apiClient.lock("12FF6FCD")
         assertThat("Response should not be null", response, notNullValue())
-        assertTrue("Response data should be success", response.data.success as Boolean)
-        assertThat("Response data should be locked", response.data."Locked Door", equalTo("Success"))
+        assertTrue("Response data should be success", response.success as Boolean)
+        assertThat("Response data should be locked", response."Locked Door", equalTo("Success"))
     }
 
     @Test
     public void getUnlock(){
         def response = apiClient.unlock("12FF6FCD")
         assertThat("Response should not be null", response, notNullValue())
-        assertTrue("Response data should be success", response.data.success as Boolean)
-        assertThat("Response data should be locked", response.data."Unlocked Door", equalTo("Success"))
+        assertTrue("Response data should be success", response."success" as Boolean)
+        assertThat("Response data should be locked", response."Unlocked Door", equalTo("Success"))
     }
 
     @Test
