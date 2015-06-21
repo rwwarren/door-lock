@@ -8,7 +8,7 @@ import static junit.framework.TestCase.assertTrue
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.core.IsEqual.equalTo
 import static org.hamcrest.core.IsNull.notNullValue
-import static org.mockito.Mockito.when
+//import static org.mockito.Mockito.when
 
 class ApiClientTest {
 

@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 //import groovy.util.logging.Slf4j
 //import org.apache.log4j.PropertyConfigurator;
 //import org.slf4j.*;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 
 
@@ -22,14 +24,17 @@ import java.util.logging.Logger;
  * NFC Application for the doorlock
  */
 //@Slf4j
-@Log
+//@Log
 //@Log4j
 public class App {
 //    private static final Logger log = Logger.getLogger(App.class);
 //    private static final Logger log = LogManager.getLogger(App.class);
 //    private static final Logger log = LogManager.getLogger(App.class.name);
 //    private static final Logger log = Logger.getLogger(App.class.name);
+//    private static final Logger logger = Logger.getLogger(App.class.name);
 //    static Logger LOGGER = LoggerFactory.getLogger(Hello.class);
+    private static final Logger logger = LogManager.getLogger(App.class);
+
 
 
     //TODO move this to groovy!
@@ -48,14 +53,19 @@ public class App {
 
     public static void main( String[] args ) throws CardException {
 //        PropertyConfigurator.configure("log4j.properties");
+
 //        System.setProperty("java.util.logging.SimpleFormatter.format", '[%4$s]: %1$tF %1$tT, %c{1.}: %5$s%n')
-        System.setProperty("java.util.logging.SimpleFormatter.format", '[%4$s]: %1$tF %1$tT: %5$s%n')
+
+//        System.setProperty("java.util.logging.SimpleFormatter.format", '[%4$s]: %1$tF %1$tT: %5$s%n')
 //                '[%1$tF %1$tT]:%4$s:(%2$s): %5$s%n')
 //                '[%1$tF %1$tT]:%4$s:(%1$Tp): %5$s%n')
 //                '[%1$tF %1$tT]:%4$s:(%2$s): %5$s%n')
+        logger.info 'Simple sample to show log field is injected.'
         System.out.println( "Hello World! Main NFC Application" );
+//        System.out.println("Class name: " + App.class.name)
 //      log.info( "Hello World! Main NFC Application" );
-        log.info 'Simple sample to show log field is injected.'
+//        log.info 'Simple sample to show log field is injected.'
+        logger.info 'Simple sample to show log field is injected.'
 
 //      log.info(App.class.name);
 //      log.info("testing")
@@ -167,7 +177,8 @@ public class App {
             System.out.println("UID: " + sb.toString());
             return sb.toString()
         } catch(Exception e){
-            log.info("No card present: " + e)
+            logger.info("No card present: " + e)
+//            log.info("No card present: " + e)
 //            println e
         }
         return null
