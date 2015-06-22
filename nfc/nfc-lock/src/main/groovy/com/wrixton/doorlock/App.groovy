@@ -1,35 +1,36 @@
 package com.wrixton.doorlock
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.ApplicationContext
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.PropertySource
+import org.springframework.context.annotation.PropertySources
+import org.springframework.context.support.ClassPathXmlApplicationContext
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer
+import org.springframework.stereotype.Component
 
-//import org.nfctools.scio.TerminalMode
 
 import javax.smartcardio.*;
-//import com.acs.smartcard.Reader;
 import java.util.*
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-
-
 /**
  * NFC Application for the doorlock
  */
+//@Component
+//@ComponentScan(basePackages = { "com.wrixton.*" })
+//@Configuration
+//@PropertySource("classpath:application.properties")
+//@PropertySource(value = "properties/api.properties", ignoreResourceNotFound = false)
 public class App {
     private static final Logger logger = LogManager.getLogger(App.class)
 
-
-
-    //TODO move this to groovy!
-    //TODO move it all to groovy
-//    private byte[] atr = null;
-//    private String protocol = null;
-//    private byte[] historical = null;
-
     private static ApiClient apiClient
 
-//    @Value("${api.url}")
-    private String url
+//    @Value('${api.url}')
+    private static String url
 
     public App(){
         //todo spring addition
@@ -37,8 +38,11 @@ public class App {
     }
 
     public static void main( String[] args ) throws CardException {
+//        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml")
+
         System.out.println("Hello World! Main NFC Application")
         logger.info 'Simple sample to show log field is injected.'
+        logger.info 'here is the url: ' + url
 
 //        App myApp = new App()
         apiClient = new ApiClient("http://api.localhost", "testing")
@@ -50,18 +54,6 @@ public class App {
             }
             sleep(1000)
         }
-//        for(int i = 0; i < 2; i++){
-////        for(;;){
-//            System.out.println("testing")
-//            try{
-//                getCardInfo()
-//            } catch(CardException e){
-//
-//            }
-//            sleep(2000)
-////            call the cardInfo
-//        }
-
 
     }
 
@@ -85,33 +77,6 @@ public class App {
 
     private static boolean checkValidUser(){
         return apiClient.isValidUser()
-    }
-
-//    private static void getCardInfo(){
-//      TerminalFactory factory = TerminalFactory.getDefault();
-//      List<CardTerminal> terminals = factory.terminals().list();
-//
-//        System.out.println("Terminals: " + terminals);
-//      // get the first terminal
-//      CardTerminal terminal = terminals.get(0);
-//      terminal.waitForCardPresent(0);
-//      // establish a connection with the card
-//      Card card = terminal.connect("DIRECT");
-//        card.beginExclusive();
-////        putReaderInInitiatorMode();
-////      Card card = terminal.connect("T=0");
-//      System.out.println("card: " + card);
-//      println "card ATR: " + card.ATR
-//      println "card dump: " + card.dump()
-////      println "card : " + card
-//        // disconnect
-//      card.disconnect(false);
-//    }
-
-    def attemtNFCTools(){
-//        NfcAdapter nfcAdapter = new NfcAdapter(TerminalUtils.getAvailableTerminal(), TerminalMode.INITIATOR, this);
-//        MfNdefReader ndefReader = new MfNdefReader(readerWriter, decoder);
-
     }
 
     def static attemptNFCTool() {
@@ -149,10 +114,14 @@ public class App {
             return sb.toString()
         } catch(Exception e){
             logger.info("No card present: " + e)
-//            log.info("No card present: " + e)
-//            println e
         }
         return null
     }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
 
 }
