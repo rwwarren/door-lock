@@ -19,7 +19,7 @@ import org.apache.logging.log4j.LogManager;
 /**
  * NFC Application for the doorlock
  */
-//@Component
+@Component
 //@ComponentScan(basePackages = { "com.wrixton.*" })
 //@Configuration
 //@PropertySource("classpath:application.properties")
@@ -37,12 +37,14 @@ public class App {
         apiClient = new ApiClient("http://api.localhost", "testing")
     }
 
-    public static void main( String[] args ) throws CardException {
+    public static void main(String[] args) throws CardException {
 //        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml")
 
         System.out.println("Hello World! Main NFC Application")
         logger.info 'Simple sample to show log field is injected.'
         logger.info 'here is the url: ' + url
+
+
 
 //        App myApp = new App()
         apiClient = new ApiClient("http://api.localhost", "testing")
@@ -118,10 +120,10 @@ public class App {
         return null
     }
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
+//    @Bean
+//    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+//        return new PropertySourcesPlaceholderConfigurer();
+//    }
 
 
 }

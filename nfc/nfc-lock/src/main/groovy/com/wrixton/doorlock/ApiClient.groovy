@@ -4,10 +4,10 @@ import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.HttpResponseException
 
 import static groovyx.net.http.ContentType.*
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.PropertySource
+//import org.springframework.beans.factory.annotation.Value
+//import org.springframework.context.annotation.Bean
+//import org.springframework.context.annotation.Configuration
+//import org.springframework.context.annotation.PropertySource
 import groovyx.net.http.RESTClient
 import static groovyx.net.http.Method.POST
 
