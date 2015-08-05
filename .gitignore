@@ -21,7 +21,7 @@ variables.php
 backups/
 **/src/properties/**
 **/src/vendor/**
-web/build/logs/*
+**/build/logs/*
 node_modules/
 **/target/**
 
