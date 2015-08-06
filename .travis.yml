@@ -22,7 +22,8 @@ before_script:
 script:
   - composer selfupdate
   - cd web
-  - composer install
+  - npm install
+  - mocha
   - phpunit --debug -v
   - mysql --version
 
