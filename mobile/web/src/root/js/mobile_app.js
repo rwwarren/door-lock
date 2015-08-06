@@ -129,7 +129,7 @@ var LoginScreen = React.createClass({
             data: data,
             dataType: "json",
             success:function(result){
-                this.props.loginChange();
+                this.props.loginChange(result);
             }.bind(this),
             error:function(xhr,status,error){
                 console.log(status);
@@ -180,8 +180,14 @@ var MobileWebDoorlock = React.createClass({
       return "Error";
     }
   },
-  login: function() {
-    this.setState({loggedIn: true});
+  login: function(result) {
+    //TODO fix this so that the user's name shows up without refresh
+    this.setState({
+        loggedIn: true,
+        Username: result.Username,
+        Name: result.Name,
+        IsAdmin: result.IsAdmin
+        });
   },
   checkLogin: function() {
     $.ajax({
