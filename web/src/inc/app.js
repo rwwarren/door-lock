@@ -1,4 +1,5 @@
 /*
+ * @jsx React.DOM
  * PiDuinoLock web app
  */
 "use strict"
@@ -26,7 +27,6 @@ var PiLock = React.createClass({
     };
   },
   render: function() {
-        //<Nav />
 
     if(!this.state.isLoggedIn){
       this.checkLoggedIn();
@@ -91,6 +91,7 @@ var PiLock = React.createClass({
                 });
             }.bind(this),
             error:function(xhr,status,error){
+                console.log(xhr);
                 console.log(status);
                 console.log(error);
             }
@@ -125,7 +126,7 @@ var Footer = React.createClass({
     }
     return (
       <div className="footer">
-        &copy; {theYear} PiLock Web Interface
+          {'\u00A9'} {theYear} PiLock Web Interface
       </div>
     );
   },

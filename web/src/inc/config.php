@@ -1,7 +1,9 @@
 <?php
+//TODO remove this
+
 //$root = realpath($_SERVER["DOCUMENT_ROOT"]);
 //include_once("$root/../inc/member.php");
-include_once("$root/../inc/template.php");
+//include_once("$root/../inc/template.php");
 //require_once("$root/../inc/member.php");
 
 class ConfigPage {

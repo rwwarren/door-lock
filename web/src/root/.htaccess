@@ -1,6 +1,8 @@
 #Options -Indexes FollowSymLinks
 #Header set Access-Control-Allow-Origin "*"
 
+#TODO remove this
+
 RewriteEngine on
 #RewriteRule logout.php http://api.localhost/logout
 #RewriteRule ^users/?$  users.php [L]

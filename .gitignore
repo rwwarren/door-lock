@@ -16,6 +16,7 @@ composer.lock
 mysqlLogin.java
 mysqlLogin.groovy
 variables.php
+Bundle.js
 
 # Ignore directories
 backups/
