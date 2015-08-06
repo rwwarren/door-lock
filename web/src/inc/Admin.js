@@ -1,3 +1,5 @@
+
+"use strict"
 var Admin = React.createClass({
     render: function(){
         return (

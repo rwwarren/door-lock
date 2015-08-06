@@ -1,3 +1,5 @@
+
+"use strict"
 var Admin = require('./Admin');
 var Configuration = require('./Config');
 var Home = require('./Home');

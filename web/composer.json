@@ -1,4 +1,5 @@
 {
+//  TODO remove composer from the front end. remove all the PHP
     "name": "pi/door-lock-webapp",
     "description": "Electronic doorlock system",
     "authors": [

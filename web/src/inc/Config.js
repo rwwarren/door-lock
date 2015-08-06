@@ -1,3 +1,5 @@
+
+"use strict"
 var Config = React.createClass({
     render: function(){
         return (

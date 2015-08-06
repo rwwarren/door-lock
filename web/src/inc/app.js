@@ -2,7 +2,7 @@
  * @jsx React.DOM
  * PiDuinoLock web app
  */
-//"use strict"
+"use strict"
 
 var API_URL = "http://m.localhost/";
 var LOGIN = "login.php";
