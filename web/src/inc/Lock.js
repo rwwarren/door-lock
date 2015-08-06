@@ -1,5 +1,6 @@
 
-"use strict"
+'use strict';
+
 var Lock = React.createClass({
     render: function(){
         return (
