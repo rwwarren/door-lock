@@ -14,8 +14,9 @@ var watchify = require('watchify');
 es6ify.traceurOverrides = {experimental: true};
 
 var jsBundler;
-var rootJSPath = __dirname + '/../src/inc/app.js';
+var rootJSPath = __dirname + '/../src/inc/appRouter.js';
 var outputPath = __dirname + '/../src/root/js';
+var buildFile = 'Bundle.js';
 
 var JSGulp = {
   createTask: function() {
@@ -68,7 +69,7 @@ var JSGulp = {
     });
 
     stream = stream.pipe(replacestream('__DEV__', !argv.production));
-    stream = stream.pipe(source('Bundle.js'));
+    stream = stream.pipe(source(buildFile));
 
     if (argv.production) {
       // minification
@@ -88,7 +89,7 @@ var JSGulp = {
   },
 
   clean: function(done) {
-    del([outputPath + '/Bundle.js'], function(err, paths) {
+    del([outputPath + '/' + buildFile], function(err, paths) {
       if (err) {
         console.error('Error cleaning JS: ' + err.toString());
         done();
