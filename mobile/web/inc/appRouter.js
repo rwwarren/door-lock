@@ -22,11 +22,6 @@ var HistoryLocation = ReactRouter.HistoryLocation;
 var NotFoundRoute = ReactRouter.NotFoundRoute;
 var Route = ReactRouter.Route;
 
-ReactRouter.run(routes, HistoryLocation, function(Handler) {
-  React.render(<Handler />, document.body);
-});
-
-
 var routes = (
   //<Route path="/admin/" name="admin" handler={Admin}/>
 //{/* users */}
@@ -44,3 +39,8 @@ var routes = (
 
   </Route>
 );
+
+ReactRouter.run(routes, HistoryLocation, function(Handler) {
+  React.render(<Handler />, document.body);
+});
+
