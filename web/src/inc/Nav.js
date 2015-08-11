@@ -6,6 +6,23 @@ var Nav = React.createClass({
 
   render: function () {
     //<a href="javascript:void(0);" onClick={() => this.transitionTo('config')}>Config Page</a>
+    var adminNav = '';
+    var test;
+    //TODO fix this
+    var isAdmin = true;
+    if (isAdmin) {
+      //TODO fix this
+      adminNav = `<li>
+            <a href="javascript:void(0);" onClick={() => this.transitionTo('admin')}>Admin Page</a>
+          </li>
+          < li >
+            <a href="/config/">Config Page</a>
+          </li>`;
+      //test ={{__html: adminNav}}
+    //var dangerouslySetInnerHTML={{__html: thisIsMyCopy}};
+    //      dangerouslySetInnerHTML={{__html: adminNav}}
+    //      <li dangerouslySetInnerHTML={{__html: adminNav}} />
+    }
     return (
       <div className="nav">
         <ul>
@@ -21,7 +38,7 @@ var Nav = React.createClass({
           <li>
             <a href="javascript:void(0);" onClick={() => this.transitionTo('admin')}>Admin Page</a>
           </li>
-          <li>
+          < li >
             <a href="/config/">Config Page</a>
           </li>
           <li>

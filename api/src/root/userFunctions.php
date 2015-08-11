@@ -1,6 +1,7 @@
 <?php
 error_reporting(E_ALL);
-ini_set('error_log','/Users/ryan/Documents/door-lock/web/php.log');
+//ini_set('error_log','/Users/ryan/Documents/door-lock/web/php.log');
+ini_set('error_log','/Users/ryan/Documents/door-lock/api/php.log');
 
 require_once __DIR__.'/../vendor/predis/predis/src/Autoloader.php';
 Predis\Autoloader::register();
@@ -122,17 +123,22 @@ if (isset($_GET['actions']) ){
 
 //Returns the api key
 function getApiKey(){
-  $headers = array_change_key_case(getallheaders(), CASE_LOWER);
+//  $headers = array_change_key_case(getallheaders(), CASE_LOWER);
   //$headers = array_change_key_case(getallheaders()[strtolower('X-DoorLock-Api-Key')]);
   //echo $headers[strtolower('X-DoorLock-Api-Key')];
-  return isset($headers[strtolower('X-DoorLock-Api-Key')]) ? $headers[strtolower('X-DoorLock-Api-Key')] : '';
+//  error_log("TESTING: " . implode(" ", getallheaders()));
+//  return isset($headers[strtolower('X-DoorLock-Api-Key')]) ? $headers[strtolower('X-DoorLock-Api-Key')] : '';
+  return true;
+  //TODO remove this as authentication
 }
 
 //Checks if the api key is valid
 function isValid($apiKey){
-  global $client;
-  $userID = $client->hget('apiKeys', $apiKey);
-  return $userID;
+//  global $client;
+//  $userID = $client->hget('apiKeys', $apiKey);
+//  return $userID;
+  return 1;
+  //TODO remove this as authentication
 }
 
 //Returns the Unauthorized Api with headers
@@ -269,7 +275,9 @@ $mac=substr($mycom,($pmac+6),17);
 }
 
 function isAdmin() {
-  $cookie = getallheaders()['sid'];
+  //TODO change to post?
+  //$cookie = getallheaders()['sid'];
+  $cookie = $_POST['sid'];
 //  $name = $userInfo['Name'];
   global $client;
 //  $value = $client->hgetall('apiKeys');
@@ -281,7 +289,8 @@ function isAdmin() {
 }
 
 function getUserInfo(){
-  $cookie = getallheaders()['sid'];
+  $cookie = $_POST['sid'];
+  //$cookie = getallheaders()['sid'];
   global $client;
   $username = $client->hget("loggedInUsers:$cookie", "username");
   $dbconn = new dbconn("read");
@@ -294,7 +303,8 @@ function getUserInfo(){
 
 function getAllUsers(){
   //TODO get all the users
-  $cookie = getallheaders()['sid'];
+  //$cookie = getallheaders()['sid'];
+  $cookie = $_POST['sid'];
   global $client;
   $isAdmin = $client->hget("loggedInUsers:$cookie", "admin");
   if($isAdmin !== "1"){

@@ -10,7 +10,7 @@ $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 //require_once('Authy/Authy.php');
 //require_once("$root/../vendor/autoload.php");
 //require_once("$root/../vendor/autoload.php");
-require_once("$root/../../../../web/src/inc/variables.php");
+require_once("$root/../../inc/variables.php");
 //require_once("$root/../../../web/src/inc/extraFunctions.php");
 include_once("$root/../../../../web/src/vendor/door-lock/api-client/src/root/apiClient.php");
 
