@@ -1,8 +1,8 @@
 RewriteEngine on
-RewriteRule ^users/?$  index.html [L]
-RewriteRule ^lock/?$  index.html [L]
-RewriteRule ^admin/?$  index.html [L]
-RewriteRule ^config/?$  index.html [L]
+#RewriteRule ^users/?$  index.html [L]
+#RewriteRule ^lock/?$  index.html [L]
+#RewriteRule ^admin/?$  index.html [L]
+#RewriteRule ^config/?$  index.html [L]
 #RewriteRule ^ - [F]
 #RewriteRule ^ index.html [F]
 #RewriteRule ^ - [L,R=404]

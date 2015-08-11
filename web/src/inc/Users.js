@@ -1,7 +1,8 @@
-
 'use strict';
 var common = require('./Common');
 var Navigation = ReactRouter.Navigation;
+//var Container = require('./Container');
+var Nav = require('./Nav');
 
 //var Users = React.createClass({
 //    mixins: [Navigation],
@@ -19,31 +20,32 @@ var Navigation = ReactRouter.Navigation;
 //});
 
 var Users = React.createClass({
-  componentDidMount: function() {
-   $.ajax({
-            url: common.API_URL + common.USER_INFO,
-            type: "POST",
-            data: {sid: $.cookie("sid")},
-            dataType: "json",
-            success:function(result){
-                console.log(result);
-                //this.props.loginChange();
-                this.setState({
-                  allUserInfo: result,
-                });
-            }.bind(this),
-            error:function(xhr,status,error){
-                console.log(status);
-                console.log(error);
-            }
-  });
+  componentDidMount: function () {
+    $.ajax({
+      url: common.API_URL + common.USER_INFO,
+      type: "POST",
+      data: {sid: $.cookie("sid")},
+      dataType: "json",
+      success: function (result) {
+        console.log(result);
+        //this.props.loginChange();
+        this.setState({
+          allUserInfo: result,
+        });
+      }.bind(this),
+      error: function (xhr, status, error) {
+        console.log(status);
+        console.log(error);
+      }
+    });
   },
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       allUserInfo: '',
     };
   },
-  render: function() {
+  render: function () {
+    //<Nav />
     return (
       <div className="">
         <div>
@@ -70,7 +72,7 @@ var Users = React.createClass({
         </div>
         <div>
           Current Password:
-          <input type="password" />
+          <input type="password"/>
         </div>
         <div>
           <button id="update" type="button" onClick={this.updateInfo}>Update Info</button>
@@ -78,7 +80,7 @@ var Users = React.createClass({
       </div>
     );
   },
-  updateInfo: function() {
+  updateInfo: function () {
     console.log("updating user info");
     var name = this.refs.name.getDOMNode().value.trim();
     var email = this.refs.email.getDOMNode().value.trim();
