@@ -1,7 +1,7 @@
 {
   "name": "doorlock-webapp",
   "version": "1.0.0",
-  "description": "",
+  "description": "Automated door lock project",
   "main": "index.js",
   "directories": {
     "test": "tests"
@@ -37,6 +37,7 @@
   },
   "author": "Ryan Warren",
   "license": "ISC",
+  "readme": "../README.md",
   "bugs": {
     "url": "https://github.com/rwwarren/door-lock/issues"
   },
