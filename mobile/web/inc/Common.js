@@ -7,6 +7,7 @@ var makeid = function () {
   return text;
 };
 
+
 var Common = {
   //'API_URL' : 'http://m.localhost/',
   //'API_KEY': "X-DoorLock-Api-Key",

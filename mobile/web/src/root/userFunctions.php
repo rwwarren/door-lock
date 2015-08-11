@@ -194,8 +194,7 @@ function login(){
 }
 
 function checkLogin(){
-  global $root;
-  $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
+  $apiClient = new ApiClient\ApiClient();
   if(!isset($_POST['sid']) || strlen($_POST['sid']) < 1) {
     header("HTTP/1.0 400 sid not entered");
     echo "error sid not entered";

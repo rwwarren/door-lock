@@ -1,5 +1,5 @@
 {
-  "name": "doorlock-webapp",
+  "name": "doorlock-mobile-webapp",
   "version": "1.0.0",
   "description": "Automated door lock project",
   "main": "index.html",
@@ -33,13 +33,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/rwwarren/door-lock-api-client.git"
+    "url": "git://github.com/rwwarren/door-lock.git"
   },
   "author": "Ryan Warren",
   "license": "ISC",
   "readme": "../README.md",
   "bugs": {
-    "url": "https://github.com/rwwarren/door-lock-api-client/issues"
+    "url": "https://github.com/rwwarren/door-lock/issues"
   },
-  "homepage": "https://github.com/rwwarren/door-lock-api-client#readme"
+  "homepage": "https://github.com/rwwarren/door-lock#readme"
 }

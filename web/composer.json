@@ -1,5 +1,4 @@
 {
-//  TODO remove composer from the front end. remove all the PHP
     "name": "pi/door-lock-webapp",
     "description": "Electronic doorlock system",
     "authors": [
@@ -17,7 +16,7 @@
       "phing/phing": "dev-master",
       "predis/predis": "1.0.1",
       "satooshi/php-coveralls": "0.6.1",
-      "door-lock/api-client": "1.0.1"
+      "door-lock/api-client": "1.0.2"
     },
     "require-dev": {
       "phpunit/phpunit": "4.2.*",
