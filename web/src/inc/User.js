@@ -19,7 +19,7 @@ var Nav = require('./Nav');
 //    }
 //});
 
-var Users = React.createClass({
+var User = React.createClass({
   componentDidMount: function () {
     $.ajax({
       url: common.API_URL + common.USER_INFO,
@@ -91,4 +91,4 @@ var Users = React.createClass({
   },
 });
 
-module.exports = Users;
+module.exports = User;

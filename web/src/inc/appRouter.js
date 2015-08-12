@@ -5,7 +5,7 @@ var Container = require('./Container');
 var Home = require('./Home');
 var FourOFour = require('./FourOFour');
 var Lock = require('./Lock');
-var Users = require('./Users');
+var User = require('./User');
 
 //var isMobile = require('./isMobile');
 //if (isMobile()) {
@@ -31,11 +31,11 @@ var routes = (
       {/* home */}
       <DefaultRoute name="home" handler={Home}/>
       {/* admin */}
-      <Route path="/admin/" name="admin" handler={Admin}/>
+      <Route path="admin/" name="admin" handler={Admin}/>
       {/* users */}
-      <Route path="/users/" name="users" handler={Users}/>
+      <Route path="user/" name="user" handler={User}/>
       {/* lock */}
-      <Route path="/lock/" name="lock" handler={Lock}/>
+      <Route path="lock/" name="lock" handler={Lock}/>
     </Route>
     {/* 404 */}
     <NotFoundRoute handler={FourOFour}/>

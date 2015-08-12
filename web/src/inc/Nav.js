@@ -30,7 +30,7 @@ var Nav = React.createClass({
             <a href="javascript:void(0);" onClick={() => this.transitionTo('home')}>Home</a>
           </li>
           <li>
-            <a href="javascript:void(0);" onClick={() => this.transitionTo('users')}>User Info</a>
+            <a href="javascript:void(0);" onClick={() => this.transitionTo('user')}>User Info</a>
           </li>
           <li>
             <a href="javascript:void(0);" onClick={() => this.transitionTo('lock')}>Lock Status</a>
