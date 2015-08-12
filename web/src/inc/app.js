@@ -1,3 +1,5 @@
+//TODO go through and fix everything then delete this file
+
 /*
  * @jsx React.DOM
  * PiDuinoLock web app

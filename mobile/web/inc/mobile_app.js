@@ -1,3 +1,6 @@
+//TODO add login to app then remove this file
+
+
 /**
  * PiDuinoLock mobile web app
  */

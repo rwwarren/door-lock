@@ -9,6 +9,9 @@ var Nav = require('./Nav');
 
 var Container = React.createClass({
   componentDidMount: function() {
+    if($.cookie("sid") == null) {
+      $.cookie("sid", common.makeid());
+    }
     this.checkLogin();
   },
   getInitialState: function() {
