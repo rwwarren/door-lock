@@ -3,8 +3,9 @@
 var Router = ReactRouter;
 var { Route, RouteHandler, Link } = Router;
 var common = require('./Common');
-var Header = require('./Header');
 var Footer = require('./Footer');
+var Header = require('./Header');
+var Nav = require('./Nav');
 
 var Container = React.createClass({
   componentDidMount: function() {
@@ -13,25 +14,25 @@ var Container = React.createClass({
   getInitialState: function() {
     return {
       loggedIn: false,
-      Username: '',
-      Name: '',
-      IsAdmin: '',
-      selectedTab: 'Home',
-      allUserInfo: '',
-      lockStatus: '',
+      //Username: '',
+      //Name: '',
+      //IsAdmin: '',
+      //selectedTab: 'Home',
+      //allUserInfo: '',
+      //lockStatus: '',
     };
   },
-  changeTab: function() {
-    if(this.state.selectedTab === "Home") {
-      return <UserContent username={this.state.Username} name={this.state.Name} isAdmin={this.state.IsAdmin}/>;
-    } else if(this.state.selectedTab === "UserInfo") {
-      return <UserInfo info={this.state.allUserInfo} username={this.state.Username}/>;
-    } else if(this.state.selectedTab === "LockStatus") {
-      return <LockStatus info={this.state.lockStatus}/>;
-    } else {
-      return "Error";
-    }
-  },
+  //changeTab: function() {
+  //  if(this.state.selectedTab === "Home") {
+  //    return <UserContent username={this.state.Username} name={this.state.Name} isAdmin={this.state.IsAdmin}/>;
+  //  } else if(this.state.selectedTab === "UserInfo") {
+  //    return <UserInfo info={this.state.allUserInfo} username={this.state.Username}/>;
+  //  } else if(this.state.selectedTab === "LockStatus") {
+  //    return <LockStatus info={this.state.lockStatus}/>;
+  //  } else {
+  //    return "Error";
+  //  }
+  //},
   login: function(result) {
     //TODO fix this so that the user's name shows up without refresh
     this.setState({
@@ -85,6 +86,7 @@ var Container = React.createClass({
       <div className="container">
         <Header />
         <div className="body">
+          <Nav />
           <RouteHandler />
         </div>
         <Footer />

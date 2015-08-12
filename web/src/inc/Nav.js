@@ -48,18 +48,6 @@ var Nav = React.createClass({
       </div>
     );
   },
-  homePage: function () {
-    this.props.changePage("home");
-  },
-  userPage: function () {
-    this.props.changePage("user");
-  },
-  lockPage: function () {
-    this.props.changePage("lock");
-  },
-  adminPage: function () {
-    this.props.changePage("admin");
-  },
 });
 
 module.exports = Nav;
