@@ -1,3 +1,5 @@
+'use strict';
+
 var makeid = function () {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -8,9 +10,6 @@ var makeid = function () {
 };
 
 var Common = {
-  //'API_URL' : 'http://m.localhost/',
-  //'API_KEY': "X-DoorLock-Api-Key",
-  //'API_KEY_VALUE': "test",
   'API_URL': 'http://api.localhost/',
   'LOGIN': 'login',
   'LOGOUT': 'logout',
@@ -18,9 +17,7 @@ var Common = {
   'LOCK_STATUS': 'LockStatus',
   'USER_INFO': 'GetUserInfo',
   'ADMIN': 'GetAllUsers',
-  //'ADMIN' : 'admin.php',
   'makeid': makeid
 };
 
-//module.exports = API_URL;
 module.exports = Common;

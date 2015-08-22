@@ -30,13 +30,10 @@ var Container = React.createClass({
         } else {
           this.replaceWith('/');
         }
-        //}
-        //return true;
       }.bind(this),
       error: function (xhr, status, error) {
         console.log(status);
         console.log(error);
-        //return false;
       }.bind(this)
     });
   },
@@ -45,9 +42,6 @@ var Container = React.createClass({
       $.cookie("sid", common.makeid());
     }
     this.checkLoggedIn();
-    //if (!this.state.isLoggedIn) {
-    //  this.replaceWith('/');
-    //}
   },
   getInitialState: function () {
     return {
@@ -56,10 +50,6 @@ var Container = React.createClass({
     };
   },
   render: function () {
-    //{content}
-    //  {this.state.isLoggedIn ? <Nav getConfigPage={this.getConfigPage} changePage={this.changePage} logout={this.logout}/> : ''}
-    //  {page}
-    //    {this.state.isLoggedIn ? <Navigation /> : ''}
     return (
       <div className="container">
         <Logo />
@@ -70,6 +60,5 @@ var Container = React.createClass({
     );
   }
 });
-
 
 module.exports = Container;

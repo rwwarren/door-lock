@@ -1,4 +1,3 @@
-
 'use strict';
 
 var Config = React.createClass({

@@ -12,30 +12,17 @@ var Nav = React.createClass({
       dataType: "json",
       success: function (result) {
         console.log(result);
-        //if(this.state.loggedIn == false){
         if(result.success){
           window.location.href = "/";
-        //  this.setState({
-        //    isLoggedIn: true,
-        //    Username: result.Username,
-        //    Name: result.Name,
-        //    IsAdmin: result.IsAdmin
-        //  });
-        //} else {
-        //  this.replaceWith('/');
         }
-        //}
-        //return true;
       }.bind(this),
       error: function (xhr, status, error) {
         console.log(status);
         console.log(error);
-        //return false;
       }.bind(this)
     });
   },
   render: function () {
-    //<a href="javascript:void(0);" onClick={() => this.transitionTo('config')}>Config Page</a>
     var adminNav = '';
     var test;
     //TODO fix this
@@ -48,10 +35,6 @@ var Nav = React.createClass({
           < li >
             <a href="/config/">Config Page</a>
           </li>`;
-      //test ={{__html: adminNav}}
-    //var dangerouslySetInnerHTML={{__html: thisIsMyCopy}};
-    //      dangerouslySetInnerHTML={{__html: adminNav}}
-    //      <li dangerouslySetInnerHTML={{__html: adminNav}} />
     }
     return (
       <div className="nav">
@@ -77,7 +60,7 @@ var Nav = React.createClass({
         </ul>
       </div>
     );
-  },
+  }
 });
 
 module.exports = Nav;

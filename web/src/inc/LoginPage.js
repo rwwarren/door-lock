@@ -4,12 +4,12 @@ var Navigation = ReactRouter.Navigation;
 
 var LoginPage = React.createClass({
   mixins: [Navigation],
-  login: function(){
+  login: function() {
     console.log("login attempt");
     var username = this.refs.username.getDOMNode().value.trim();
     var password = this.refs.password.getDOMNode().value.trim();
     var token = this.refs.token.getDOMNode().value.trim();
-    if(!username || !password){
+    if(!username || !password) {
       console.log("something null");
       return;
     }
@@ -17,33 +17,37 @@ var LoginPage = React.createClass({
     //var data = {Username: username, Password: password, Token: token, sid: $.cookie("sid")};
     console.log(data);
     $.ajax({
-        url: common.API_URL + common.LOGIN,
-        type: "POST",
-        data: data,
-        dataType: "json",
-        success: function (result) {
-          console.log("results");
-          console.log(result);
-          if(result.success){
-            window.location.href = "/";
-          }
-        }.bind(this),
-        error: function (xhr, status, error) {
-          console.log(status);
-          console.log(error);
-        }.bind(this)});
+      url: common.API_URL + common.LOGIN,
+      type: "POST",
+      data: data,
+      dataType: "json",
+      success: function(result) {
+        console.log("results");
+        console.log(result);
+        if(result.success) {
+          window.location.href = "/";
+        }
+      }.bind(this),
+      error: function(xhr, status, error) {
+        console.log(status);
+        console.log(error);
+      }.bind(this)
+    });
   },
-  render: function(){
-    return(
+  render: function() {
+    return (
       <div className="loginpage">
         <div className="loginform">
-          <div className="inputinput">
+          <div className="logintitle">
             User Login
           </div>
-          <input className="inputinput" ref="username" id="username" placeholder="username" />
-          <input className="inputinput" type="password" ref="password" id="password" placeholder="password" />
-          <input className="inputinput" ref="token" id="token" placeholder="token" />
-          <button className="inputinput" id="update" type="button" onClick={this.login}>Login</button>
+          <input className="inputinput" ref="username" id="username" placeholder="username"/>
+          <input className="inputinput" type="password" ref="password" id="password" placeholder="password"/>
+          <input className="inputinput" ref="token" id="token" placeholder="token"/>
+          <button className="loginbutton" id="update" type="button" onClick={this.login}>Login</button>
+          <div className="forgotlink">
+            <a href="/forgotpassword">Forgot Password</a>
+          </div>
         </div>
       </div>
     );

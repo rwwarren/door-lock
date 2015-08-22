@@ -1,23 +1,7 @@
 'use strict';
 var common = require('./Common');
 var Navigation = ReactRouter.Navigation;
-//var Container = require('./Container');
 var Nav = require('./Nav');
-
-//var Users = React.createClass({
-//    mixins: [Navigation],
-//
-//    render: function(){
-//        return (
-//            <div>
-//                Users
-//                <div onClick={() => this.transitionTo('admin')}>
-//                    testing
-//                </div>
-//            </div>
-//        );
-//    }
-//});
 
 var User = React.createClass({
   componentDidMount: function () {
@@ -28,9 +12,8 @@ var User = React.createClass({
       dataType: "json",
       success: function (result) {
         console.log(result);
-        //this.props.loginChange();
         this.setState({
-          allUserInfo: result,
+          allUserInfo: result
         });
       }.bind(this),
       error: function (xhr, status, error) {
@@ -41,11 +24,10 @@ var User = React.createClass({
   },
   getInitialState: function () {
     return {
-      allUserInfo: '',
+      allUserInfo: ''
     };
   },
   render: function () {
-    //<Nav />
     return (
       <div className="">
         <div>
@@ -88,7 +70,7 @@ var User = React.createClass({
     var authyID = this.refs.authyID.getDOMNode().value.trim();
     var data = {Name: name, Email: email, CardID: cardID, AuthyID: authyID};
     console.log(data);
-  },
+  }
 });
 
 module.exports = User;
