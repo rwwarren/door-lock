@@ -2,12 +2,15 @@
 
 var Router = ReactRouter;
 var { Route, RouteHandler, Link } = Router;
+var Navigation = ReactRouter.Navigation;
 var Logo = require('./Logo');
+var LoginPage = require('./LoginPage');
 var Footer = require('./Footer');
 var Nav = require('./Nav');
 var common = require('./Common');
 
 var Container = React.createClass({
+  mixins: [Navigation],
   checkLoggedIn: function () {
     $.ajax({
       url: common.API_URL + common.CHECK_LOGIN,
@@ -17,12 +20,14 @@ var Container = React.createClass({
       success: function (result) {
         console.log(result);
         //if(this.state.loggedIn == false){
-        this.setState({
-          isLoggedIn: true,
-          Username: result.Username,
-          Name: result.Name,
-          IsAdmin: result.IsAdmin,
-        });
+        if(result.success == 1){
+          this.setState({
+            isLoggedIn: true,
+            Username: result.Username,
+            Name: result.Name,
+            IsAdmin: result.IsAdmin
+          });
+        }
         //}
         //return true;
       }.bind(this),
@@ -37,7 +42,9 @@ var Container = React.createClass({
     if ($.cookie("sid") == null) {
       $.cookie("sid", common.makeid());
     }
+    this.checkLoggedIn();
     if (!this.state.isLoggedIn) {
+      this.replaceWith('/');
       //TODO change back
       //this.checkLoggedIn();
     }
@@ -57,8 +64,8 @@ var Container = React.createClass({
       <div className="container">
         <Logo />
 
-        <Nav />
-        <RouteHandler />
+        {this.state.isLoggedIn ? <Nav /> : ''}
+        {this.state.isLoggedIn ? <RouteHandler /> : <LoginPage /> }
         <Footer />
       </div>
     );

@@ -12,7 +12,7 @@ var Common = {
   //'API_KEY': "X-DoorLock-Api-Key",
   //'API_KEY_VALUE': "test",
   'API_URL': 'http://api.localhost/',
-  'LOGIN': 'login.php',
+  'LOGIN': 'login',
   'CHECK_LOGIN': 'IsLoggedIn',
   'LOCK_STATUS': 'LockStatus',
   'USER_INFO': 'GetUserInfo',

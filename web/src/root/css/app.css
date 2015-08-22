@@ -65,6 +65,26 @@
     vertical-align: middle;
 }
 
+.loginpage {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #707070;
+    text-align: center;
+}
+
+.loginform {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inputinput {
+    width: 80%;
+    padding: 5px;
+    border: 5px;
+    margin: 5px;
+}
+
 .inputtext {
     vertical-align: middle;
     margin-left: auto;
