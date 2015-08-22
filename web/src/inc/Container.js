@@ -27,6 +27,8 @@ var Container = React.createClass({
             Name: result.Name,
             IsAdmin: result.IsAdmin
           });
+        } else {
+          this.replaceWith('/');
         }
         //}
         //return true;
@@ -43,16 +45,14 @@ var Container = React.createClass({
       $.cookie("sid", common.makeid());
     }
     this.checkLoggedIn();
-    if (!this.state.isLoggedIn) {
-      this.replaceWith('/');
-      //TODO change back
-      //this.checkLoggedIn();
-    }
+    //if (!this.state.isLoggedIn) {
+    //  this.replaceWith('/');
+    //}
   },
   getInitialState: function () {
     return {
       //content: ''
-      //isLoggedIn: false
+      isLoggedIn: false
     };
   },
   render: function () {
@@ -63,9 +63,8 @@ var Container = React.createClass({
     return (
       <div className="container">
         <Logo />
-
         {this.state.isLoggedIn ? <Nav /> : ''}
-        {this.state.isLoggedIn ? <RouteHandler /> : <LoginPage /> }
+        {this.state.isLoggedIn ? <RouteHandler Username={this.state.Username} Password={this.state.Password} IsAdmin={this.state.IsAdmin} /> : <LoginPage /> }
         <Footer />
       </div>
     );

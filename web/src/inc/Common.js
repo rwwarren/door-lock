@@ -13,6 +13,7 @@ var Common = {
   //'API_KEY_VALUE': "test",
   'API_URL': 'http://api.localhost/',
   'LOGIN': 'login',
+  'LOGOUT': 'logout',
   'CHECK_LOGIN': 'IsLoggedIn',
   'LOCK_STATUS': 'LockStatus',
   'USER_INFO': 'GetUserInfo',

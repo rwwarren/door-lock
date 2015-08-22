@@ -1,7 +1,9 @@
 'use strict';
 var common = require('./Common');
+var Navigation = ReactRouter.Navigation;
 
 var LoginPage = React.createClass({
+  mixins: [Navigation],
   login: function(){
     console.log("login attempt");
     var username = this.refs.username.getDOMNode().value.trim();
@@ -20,17 +22,11 @@ var LoginPage = React.createClass({
         data: data,
         dataType: "json",
         success: function (result) {
+          console.log("results");
           console.log(result);
-          //if(this.state.loggedIn == false){
-          if(result.success == 1){
-            this.setState({
-              isLoggedIn: true,
-              Username: result.Username,
-              Name: result.Name,
-              IsAdmin: result.IsAdmin
-            });
+          if(result.success){
+            window.location.href = "/";
           }
-          //}
         }.bind(this),
         error: function (xhr, status, error) {
           console.log(status);

@@ -52,7 +52,7 @@ var User = React.createClass({
           User Info Page
         </div>
         <div>
-          Username: {this.state.allUserInfo.Username} TODO fix this
+          Username: {this.props.Username} TODO fix this
         </div>
         <div>
           Name:
