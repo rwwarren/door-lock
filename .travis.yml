@@ -1,3 +1,5 @@
+sudo: false
+
 language: php
 
 php:
@@ -20,8 +22,8 @@ before_script:
 script:
   - composer selfupdate
   - cd web
-  - composer install
+  - npm install
+  - mocha
   - phpunit --debug -v
   - mysql --version
-  - php vendor/bin/coveralls
 

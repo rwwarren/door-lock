@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Doorlock" default="build" basedir="." description="PiDuino Lock - Electronic Deadbolt System">
+  <exec command="pwd" outputProperty="current.dir"/>
+  <property value="build.properties" name="build.filename" />
+  <property file="${current.dir}/${build.filename}"/>
+  <target name="update-apache" description="builds package property files">
+    <copy file="${current.dir}/default-door-lock.conf" tofile="${current.dir}/${apache.filename}">
+      <filterchain>
+        <expandproperties/>
+      </filterchain>
+    </copy>
+    <exec command="sudo mv ${current.dir}/${apache.filename} ${apache.dir}/${apache.filename}"/>
+    <!--<exec command="sudo mv ${current.dir}/api-default-door-lock.conf ${current.dir}/${apache.filename}"/>-->
+    <!-- <copy file="${current.dir}/${apache.filename}" tofile="${apache.dir}/${apache.filename}"/> -->
+    <exec command="sudo a2ensite ${apache.name}"/>
+    <exec command="sudo service apache2 reload"/>
+  </target>
+  <target name="help" description="builds package property files">
+    <exec command="cat help.txt" passthru="true"/>
+    <exec command="cat example.properties" passthru="true"/>
+  </target>
+  <target name="prepare" description="builds package property files">
+    <if>
+      <available file='${current.dir}/${build.filename}' type='file'/>
+      <else>
+        <exec command="cat help.txt" passthru="true"/>
+        <fail>Please read help.txt and make a ${build.filename} file</fail>
+      </else>
+    </if>
+  </target>
+  <target name="build" description="Runs a clean dev build">
+    <phingcall target="prepare"/>
+    <phingcall target="clean"/>
+    <phingcall target="properties"/>
+    <phingcall target="update"/>
+    <!-- <phingcall target="prepare" /> -->
+    <!-- <phingcall target="build" /> -->
+    <!-- <phingcall target="runtests" /> -->
+  </target>
+  <target name="update" description="rebuilds this package">
+    <echo msg="${env}"/>
+    <echo msg="${webserver.root}"/>
+    <!-- create env target that sets env variable-->
+    <echo msg="${api.url}"/>
+    <!-- <delete dir="${webserver.root}" /> -->
+    <copy file="./build.properties" tofile="${current.dir}/../src/properties/secure.ini"/>
+    <copy todir="${webserver.root}">
+      <!-- <copy todir="${webserver.root}" overwrite="true"> -->
+      <fileset dir="../src">
+        <include name="**"></include>
+        <!--<exclude name="*/properties/*"></exclude>-->
+      </fileset>
+    </copy>
+    <!-- Hack way for the variables.php for the time being -->
+    <copy file="${webserver.root}/inc/variablesTEST.php" tofile="${webserver.root}/inc/variables.php"/>
+  </target>
+  <target name="clean" description="rebuilds this package">
+    <delete dir="${webserver.root}"/>
+  </target>
+  <target name="properties" description="builds package property files">
+    <property name="config.file.location" value="${current.dir}/../src/properties/config.ini"/>
+    <delete file="${config.file.location}"/>
+    <echo msg="${api.url}"/>
+    <touch file="${config.file.location}"/>
+    <exec command="git rev-parse --abbrev-ref HEAD" outputProperty="branch.name"/>
+    <exec command="git log --pretty=format:'%h' -1" outputProperty="git.sha1"/>
+    <exec command="git describe --tags" outputProperty="git.version"/>
+    <append destFile="${config.file.location}" text="[config]${line.separator}"/>
+    <append destFile="${config.file.location}" text="branch.name=${branch.name}${line.separator}"/>
+    <append destFile="${config.file.location}" text="git.sha1=${git.sha1}${line.separator}"/>
+    <append destFile="${config.file.location}" text="git.version=${git.version}${line.separator}"/>
+    <append destFile="${config.file.location}" text="api.url=${api.url}${line.separator}"/>
+    <append destFile="${config.file.location}" text="webserver.root=${webserver.root}${line.separator}"/>
+    <append destFile="${config.file.location}" text="env=${env}${line.separator}"/>
+  </target>
+  <target name="runtests" description="builds package property files">
+    <phpunit haltonfailure="true" printsummary="true">
+      <batchtest>
+        <fileset dir="../tests">
+          <include name="**/**"/>
+        </fileset>
+      </batchtest>
+    </phpunit>
+  </target>
+
+</project>

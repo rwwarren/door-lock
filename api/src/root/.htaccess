@@ -1,0 +1,23 @@
+#Header set Access-Control-Allow-Origin "*"
+
+RewriteEngine on
+RewriteRule ^login/?$  userFunctions.php?actions=login [L]
+RewriteRule ^logout/?$  userFunctions.php?actions=logout [L]
+RewriteRule ^IsLoggedIn/?$  userFunctions.php?actions=isLoggedIn [L]
+RewriteRule ^IsAdmin/?$  userFunctions.php?actions=isAdmin [L]
+RewriteRule ^GetUserInfo/?$  userFunctions.php?actions=getUserInfo [L]
+RewriteRule ^GetAllUsers/?$  userFunctions.php?actions=getAllUsers [L]
+RewriteRule ^RegisterUser/?$  userFunctions.php?actions=registerUser [L]
+RewriteRule ^ChangeUserType/?$  userFunctions.php?actions=changeUserType [L]
+RewriteRule ^UpdateUserInfo/?$  userFunctions.php?actions=updateUserInfo [L]
+# RewriteRule ^ChangePassword/?$  userFunctions.php?actions=changePassword [L]
+RewriteRule ^ForgotPassword/?$  userFunctions.php?actions=forgotPassword [L]
+RewriteRule ^ResetPassword/?$  userFunctions.php?actions=resetPassword [L]
+RewriteRule ^LockStatus/?$  userFunctions.php?actions=lockStatus [L]
+RewriteRule ^Lock/?$  userFunctions.php?actions=lock [L]
+RewriteRule ^Unlock/?$  userFunctions.php?actions=unlock [L]
+
+#Header add Access-Control-Allow-Origin "*"
+#Header add Access-Control-Allow-Headers "origin, x-requested-with, content-type"
+#Header add Access-Control-Allow-Methods "PUT, GET, POST, DELETE, OPTIONS"
+

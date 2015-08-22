@@ -1,0 +1,13 @@
+{
+  "name": "doorlock-app",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "react-native start"
+  },
+  "dependencies": {
+    "react": "^0.13.1",
+    "react-form-data": "^0.2.2",
+    "react-native": "^0.3.1"
+  }
+}

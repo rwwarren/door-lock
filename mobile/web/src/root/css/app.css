@@ -1,0 +1,85 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  width: 350px;
+  background-color: #cccccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+      0 25px 50px 0 rgba(0, 0, 0, 0.1);
+}
+
+.body {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.login {
+  margin-left: 20px;
+  margin-right: 25px;
+}
+
+.logo {
+  margin-top: 15px;
+  background-image: url('/images/logo.gif'); 
+  background-size: 300px 77.5px;
+  background-repeat: no-repeat;
+  background-position: center; 
+  height: 100px;
+}
+
+.footer {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+  border-top: 1px solid #707070;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+}
+
+.textbox {
+  width: 100%;
+}
+
+.infotextbox {
+  /*
+  width: 80%;
+  */
+}
+
+.userInfo {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.navigation {
+  padding: 5px;
+  text-align: center;
+  border-bottom: 1px solid #707070;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5px;
+}
+.navigation a {
+  text-decoration: none;
+}
+
+.links {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.content {
+  padding: 5px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}

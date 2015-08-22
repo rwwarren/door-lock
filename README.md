@@ -6,13 +6,15 @@
 
 # Dependecnies:
 
-1) Authy-PHP: https://github.com/authy/authy-php
+1) Composer: https://getcomposer.org/
 
-2) PHPMailer: https://github.com/PHPMailer/PHPMailer
+2) Authy-PHP: https://github.com/authy/authy-php
 
-3) Redis: http://redis.io/
+3) PHPMailer: https://github.com/PHPMailer/PHPMailer
 
-4) Predis: https://github.com/nrk/predis
+4) Redis: http://redis.io/
+
+5) Predis: https://github.com/nrk/predis
 
 # Installation Instructions:
 
@@ -37,5 +39,3 @@ Composer install
 # Option Choices:
 
 1) Authy
-
-

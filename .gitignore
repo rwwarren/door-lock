@@ -1,20 +1,28 @@
-# Compiled code
+# Ignore certain file extensions and compiled code
 *.class
+*.properties
+*.ini
+*.swp
+*.idea
+*.jar
+*.log
+*.iml
+*.log
+*.conf
 
-# current testing files
-web/includedPackages
-backups/
-
-# ignore the .something files
+# Ignore specific files
 .coveralls.yml
 composer.lock
-*.swp
 mysqlLogin.java
-*.jar
-web/inc/mysqlUser.php
-web/inc/variables.php
-web/lock_error.log
-build/logs/clover.xml
+mysqlLogin.groovy
+variables.php
+Bundle.js
 
-web/vendor/
-web/build/logs/*
+# Ignore directories
+backups/
+**/src/properties/**
+**/src/vendor/**
+**/build/logs/*
+node_modules/
+**/target/**
+

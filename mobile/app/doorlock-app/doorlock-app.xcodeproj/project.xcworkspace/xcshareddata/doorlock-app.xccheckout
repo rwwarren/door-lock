@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>014DEE37-4D5E-4A76-B29D-E6CEE11D1825</string>
+	<key>IDESourceControlProjectName</key>
+	<string>doorlock-app</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>94F3BDEEE965E15178F98BE5D7219B9676F71A69</key>
+		<string>github.com:rwwarren/door-lock.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>mobile/app/doorlock-app/doorlock-app.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>94F3BDEEE965E15178F98BE5D7219B9676F71A69</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:rwwarren/door-lock.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>94F3BDEEE965E15178F98BE5D7219B9676F71A69</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>94F3BDEEE965E15178F98BE5D7219B9676F71A69</string>
+			<key>IDESourceControlWCCName</key>
+			<string>door-lock</string>
+		</dict>
+	</array>
+</dict>
+</plist>
