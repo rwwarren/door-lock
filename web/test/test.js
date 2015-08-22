@@ -1,6 +1,7 @@
 'use strict';
-var common = require('../src/inc/Common');
 var assert = require("assert");
+var common = require('../src/inc/Common');
+var User = require('../src/inc/User');
 
 describe('Constants Testing', function() {
   describe('Common File Testing', function () {
@@ -21,6 +22,14 @@ describe('Constants Testing', function() {
     });
     it('should return user info constant properly', function () {
       assert.equal(common.USER_INFO, "GetUserInfo");
+    });
+  });
+});
+
+describe('Constants Testing', function() {
+  describe('Common File Testing', function () {
+    it('should return Admin constant properly', function () {
+      assert.equal(User.updateInfo(), "GetAllUsers");
     });
   });
 });
