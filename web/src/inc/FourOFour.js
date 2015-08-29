@@ -4,7 +4,7 @@
 //var NestedStatus = require('../../node_modules/react-nested-status/index');
 //var NestedStatus = NestedStatus;
 
-var Admin = React.createClass({
+var FourOFour = React.createClass({
     //mixins: [NestedStatus],
 
     render: function(){
@@ -18,4 +18,4 @@ var Admin = React.createClass({
     }
 });
 
-module.exports = Admin;
+module.exports = FourOFour;
