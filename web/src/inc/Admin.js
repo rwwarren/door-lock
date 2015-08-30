@@ -13,6 +13,7 @@ var Admin = React.createClass({
         console.log(result);
         this.setState({
           adminData: result,
+          loaded: true
         });
       }.bind(this),
       error: function(xhr, status, error) {
@@ -24,7 +25,30 @@ var Admin = React.createClass({
   getInitialState: function() {
     return {
       adminData: '',
+      loaded: false
     };
+  },
+  createlist: function(userList) {
+    if(this.state.loaded) {
+      console.log("createList called");
+      console.log(userList);
+      return (
+        <ul>
+          <li>
+            {
+              userList.map(function(username) {
+                  return (
+                    <li key={username}>
+                      {username}
+                    </li>
+                  );
+                }
+              )
+            }
+          </li>
+        </ul>
+      )
+    }
   },
   render: function() {
     //<div>
@@ -62,13 +86,13 @@ var Admin = React.createClass({
           </tr>
           <tr>
             <td>
-              {this.state.adminData.Admins}
+              {this.createlist(this.state.adminData.Admins)}
             </td>
             <td>
-              {this.state.adminData.ActiveUsers}
+              {this.createlist(this.state.adminData.ActiveUsers)}
             </td>
             <td>
-              {this.state.adminData.InactiveUsers}
+              {this.createlist(this.state.adminData.InactiveUsers)}
             </td>
           </tr>
         </table>
