@@ -126,3 +126,49 @@
     padding-top: 5px;
     margin-bottom: 5px;
 }
+
+table {
+    width: 100%;
+    /*border-width: 1px;*/
+    /*border-color: #006600;*/
+    /*border: 1;*/
+    /*border: 10px #ffffff;*/
+
+}
+
+tr, td {
+    /*border: 1;*/
+    border: 1px solid black;
+
+}
+
+th {
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid black;
+    
+}
+
+.adminPage {
+
+}
+
+.userList {
+    /*float: left;*/
+    width: 100%;
+    /*border-width: 1px;*/
+    /*border-color: #006600;*/
+    border: 1px solid black;
+}
+
+#admins {
+
+}
+
+#actives {
+
+}
+
+#inactives {
+
+}
