@@ -28,7 +28,7 @@ var Admin = React.createClass({
       loaded: false
     };
   },
-  createlist: function(userList) {
+  createlist: function(userList, type) {
     if(this.state.loaded) {
       console.log("createList called");
       console.log(userList);
@@ -38,7 +38,7 @@ var Admin = React.createClass({
             {
               userList.map(function(username) {
                   return (
-                    <li key={username}>
+                    <li key={username} className={type}>
                       {username}
                     </li>
                   );
@@ -86,13 +86,13 @@ var Admin = React.createClass({
           </tr>
           <tr>
             <td>
-              {this.createlist(this.state.adminData.Admins)}
+              {this.createlist(this.state.adminData.Admins, "admin")}
             </td>
             <td>
-              {this.createlist(this.state.adminData.ActiveUsers)}
+              {this.createlist(this.state.adminData.ActiveUsers, "active")}
             </td>
             <td>
-              {this.createlist(this.state.adminData.InactiveUsers)}
+              {this.createlist(this.state.adminData.InactiveUsers, "inactive")}
             </td>
           </tr>
         </table>

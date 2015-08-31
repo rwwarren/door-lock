@@ -26,6 +26,9 @@ var LoginPage = React.createClass({
         console.log(result);
         if(result.success) {
           window.location.href = "/";
+        } else {
+          //TODO fix this
+          $('#passwordCheck').css({'color':'#cccccc','display':'block'}).html('Error, username or password no entered!')
         }
       }.bind(this),
       error: function(xhr, status, error) {
@@ -45,6 +48,7 @@ var LoginPage = React.createClass({
           <input className="inputinput" type="password" ref="password" id="password" placeholder="password"/>
           <input className="inputinput" ref="token" id="token" placeholder="token"/>
           <button className="loginbutton" id="update" type="button" onClick={this.login}>Login</button>
+          <div id="passwordCheck"></div>
           <div className="forgotlink">
             <a href="/forgotpassword">Forgot Password</a>
           </div>

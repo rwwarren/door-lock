@@ -149,6 +149,17 @@ th {
 
 }
 
+td li:first-child {
+    /*padding-top: 3px;*/
+    padding-top: 0;
+}
+
+td li {
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 .adminPage {
 
 }
@@ -161,14 +172,20 @@ th {
     border: 1px solid black;
 }
 
-#admins {
+.admin {
 
 }
 
-#actives {
+.active {
 
 }
 
-#inactives {
+.inactive {
 
 }
+
+#passwordCheck {
+    display: none;
+}
+
+/*$(document).ready(function(){$('#username').focus()});function check_login(){$.ajax({type:'POST',url:'login.php', data: { Username: $('#username').val(), Password: $('#password').val(), Token: $('#token').val()},statusCode: {200: function() {window.location = '/';},403: function(){ $('#loginStatus').css({'color':'#cccccc','display':'block'}).html('Error, wrong username or password!')},401: function(){ $('#loginStatus').css({'color':'#cccccc','display':'block'}).html('Error, Token invalid!')},400: function(){ $('#loginStatus').css({'color':'#cccccc','display':'block'}).html('Error, username or password no entered!')}}});};*/
