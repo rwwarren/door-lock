@@ -28,7 +28,10 @@ var LoginPage = React.createClass({
           window.location.href = "/";
         } else {
           //TODO fix this
-          $('#passwordCheck').css({'color':'#cccccc','display':'block'}).html('Error, username or password no entered!')
+          $('#passwordCheck').css({
+            'color': '#cccccc',
+            'display': 'block'
+          }).html('Error, username or password no entered!')
         }
       }.bind(this),
       error: function(xhr, status, error) {
