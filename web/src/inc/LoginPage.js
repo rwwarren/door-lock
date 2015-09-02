@@ -11,6 +11,10 @@ var LoginPage = React.createClass({
     var token = this.refs.token.getDOMNode().value.trim();
     if(!username || !password) {
       console.log("something null");
+      $('#passwordCheck').css({
+        'color': '#000000',
+        'display': 'block'
+      }).html('Error, No username or password entered!');
       return;
     }
     var data = {username: username, password: password, Token: token, sid: $.cookie("sid")};
@@ -26,17 +30,16 @@ var LoginPage = React.createClass({
         console.log(result);
         if(result.success) {
           window.location.href = "/";
-        } else {
-          //TODO fix this
-          $('#passwordCheck').css({
-            'color': '#cccccc',
-            'display': 'block'
-          }).html('Error, username or password no entered!')
         }
       }.bind(this),
       error: function(xhr, status, error) {
         console.log(status);
         console.log(error);
+        console.log("error! such login!");
+        $('#passwordCheck').css({
+          'color': '#000000',
+          'display': 'block'
+        }).html('Error, username or password incorrect!');
       }.bind(this)
     });
   },
