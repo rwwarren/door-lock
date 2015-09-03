@@ -17,6 +17,8 @@ var jsBundler;
 var rootJSPath = __dirname + '/../src/inc/appRouter.js';
 var outputPath = __dirname + '/../src/root/js';
 var buildFile = 'Bundle.js';
+var devreact = '/js/react-with-addons-0.13.3.js';
+var prodreact = '/js/react-with-addons-0.13.3.min.js';
 
 var JSGulp = {
   createTask: function() {
