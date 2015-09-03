@@ -17,6 +17,7 @@ mysqlLogin.java
 mysqlLogin.groovy
 variables.php
 Bundle.js
+react.js
 
 # Ignore directories
 backups/

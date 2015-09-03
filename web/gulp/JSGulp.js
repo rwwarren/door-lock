@@ -6,6 +6,7 @@ var es6ify = require('es6ify');
 var gulp = require('gulp');
 var notify = require('gulp-notify');
 var reactify = require('reactify');
+var rename = require("gulp-rename");
 var replacestream = require('replacestream');
 var source = require('vinyl-source-stream');
 var uglify = require('gulp-uglify');
@@ -17,8 +18,9 @@ var jsBundler;
 var rootJSPath = __dirname + '/../src/inc/appRouter.js';
 var outputPath = __dirname + '/../src/root/js';
 var buildFile = 'Bundle.js';
-var devreact = '/js/react-with-addons-0.13.3.js';
-var prodreact = '/js/react-with-addons-0.13.3.min.js';
+var devreact = __dirname + '/../src/inc/react-with-addons-0.13.3.js';
+var prodreact = __dirname + '/../src/inc/react-with-addons-0.13.3.min.js';
+var reactFile = 'react.js';
 
 var JSGulp = {
   createTask: function() {
@@ -76,8 +78,18 @@ var JSGulp = {
     if (argv.production) {
       // minification
       console.log('In production mode');
+      gulp.src(prodreact)
+        .pipe(rename(reactFile))
+        .pipe(gulp.dest(outputPath));
+
       stream = stream.pipe(buffer());
       stream = stream.pipe(uglify());
+    } else {
+      console.log('In dev mode');
+      //stream = stream.pipe(source(devreact));
+      gulp.src(devreact)
+        .pipe(rename(reactFile))
+        .pipe(gulp.dest(outputPath));
     }
 
     stream = stream.pipe(gulp.dest(outputPath));
@@ -99,7 +111,17 @@ var JSGulp = {
         return;
       }
 
-      console.log('Cleaned JS');
+      console.log('Cleaned Bundle JS');
+      done();
+    });
+    del([outputPath + '/' + reactFile], function(err, paths) {
+      if (err) {
+        console.error('Error cleaning JS: ' + err.toString());
+        done();
+        return;
+      }
+
+      console.log('Cleaned React JS');
       done();
     });
   },
