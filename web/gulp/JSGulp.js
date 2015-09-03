@@ -73,6 +73,7 @@ var JSGulp = {
 
     if (argv.production) {
       // minification
+      console.log('In production mode');
       stream = stream.pipe(buffer());
       stream = stream.pipe(uglify());
     }
