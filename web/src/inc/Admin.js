@@ -34,40 +34,21 @@ var Admin = React.createClass({
       console.log(userList);
       return (
         <ul>
-            {
-              userList.map(function(username) {
-                  return (
-                    <li key={username} className={type}>
-                      {username}
-                    </li>
-                  );
-                }
-              )
-            }
+          {
+            userList.map(function(username) {
+                return (
+                  <li key={username} className={type}>
+                    {username}
+                  </li>
+                );
+              }
+            )
+          }
         </ul>
       )
     }
   },
   render: function() {
-    //<div>
-    //  {JSON.stringify(this.state.adminData)}
-    //</div>
-    //<div>
-    //  Admin Page. Sorry, but this has a lot of security work to do. Needs API redesign as well
-    //</div>
-    //return (
-    //  <div className="adminPage">
-    //    <div className="userList" id="admins">
-    //      Admins: {this.state.adminData.Admins}
-    //    </div>
-    //    <div className="userList" id="actives">
-    //      Active: {this.state.adminData.ActiveUsers}
-    //    </div>
-    //    <div className="userList" id="inactives">
-    //      Inactive: {this.state.adminData.InactiveUsers}
-    //    </div>
-    //  </div>
-    //);
     return (
       <div className="adminPage">
         <table className="userList">
