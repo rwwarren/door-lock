@@ -12,11 +12,6 @@ var User = require('./User');
 //    React.initializeTouchEvents(true);
 //}
 
-// DO NOT REMOVE
-//require('./ErrorHandling').init();
-//require('./FBSDK').init();
-//require('./URLFix').fix();
-
 var DefaultRoute = ReactRouter.DefaultRoute;
 var HistoryLocation = ReactRouter.HistoryLocation;
 var NotFoundRoute = ReactRouter.NotFoundRoute;
@@ -43,6 +38,6 @@ var routes = (
 );
 
 
-ReactRouter.run(routes, HistoryLocation, function (Handler) {
+ReactRouter.run(routes, HistoryLocation, function(Handler) {
   React.render(<Handler />, document.body);
 });

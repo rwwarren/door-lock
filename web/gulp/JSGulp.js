@@ -43,7 +43,7 @@ var JSGulp = {
     bundler.transform(reactify);
     bundler.transform(es6ify.configure(/.js/));
 
-    if (watch) {
+    if(watch) {
       bundler = watchify(bundler);
       bundler.on('update', JSGulp.getBundleStream);
     }
@@ -52,7 +52,7 @@ var JSGulp = {
   },
 
   getBundleStream: function() {
-    if (!jsBundler) {
+    if(!jsBundler) {
       JSGulp._createBundler(false);
     }
 
@@ -62,10 +62,10 @@ var JSGulp = {
 
     var stream = jsBundler.bundle();
     stream.on('error', notify.onError({
-        title: 'JS Gulp',
-        subtitle: 'Failure!',
-        message: 'Error: <%= error.message %>',
-        sound: 'beep',
+      title: 'JS Gulp',
+      subtitle: 'Failure!',
+      message: 'Error: <%= error.message %>',
+      sound: 'beep',
     }));
     stream.on('end', function() {
       var time = Date.now() - start;
@@ -75,7 +75,7 @@ var JSGulp = {
     stream = stream.pipe(replacestream('__DEV__', !argv.production));
     stream = stream.pipe(source(buildFile));
 
-    if (argv.production) {
+    if(argv.production) {
       // minification
       console.log('In production mode');
       gulp.src(prodreact)
@@ -86,7 +86,6 @@ var JSGulp = {
       stream = stream.pipe(uglify());
     } else {
       console.log('In dev mode');
-      //stream = stream.pipe(source(devreact));
       gulp.src(devreact)
         .pipe(rename(reactFile))
         .pipe(gulp.dest(outputPath));
@@ -105,7 +104,7 @@ var JSGulp = {
 
   clean: function(done) {
     del([outputPath + '/' + buildFile], function(err, paths) {
-      if (err) {
+      if(err) {
         console.error('Error cleaning JS: ' + err.toString());
         done();
         return;
@@ -115,7 +114,7 @@ var JSGulp = {
       done();
     });
     del([outputPath + '/' + reactFile], function(err, paths) {
-      if (err) {
+      if(err) {
         console.error('Error cleaning JS: ' + err.toString());
         done();
         return;
@@ -124,7 +123,7 @@ var JSGulp = {
       console.log('Cleaned React JS');
       done();
     });
-  },
+  }
 };
 
 module.exports = JSGulp;

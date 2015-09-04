@@ -2,32 +2,32 @@
 var common = require('./Common');
 
 var Lock = React.createClass({
-  componentDidMount: function () {
+  componentDidMount: function() {
     $.ajax({
       url: common.API_URL + common.LOCK_STATUS,
       type: "POST",
       data: {sid: $.cookie("sid")},
       dataType: "json",
-      success: function (result) {
+      success: function(result) {
         console.log(result);
         this.setState({
           isLocked: result.isLocked,
-          Status: result.Status,
+          Status: result.Status
         });
       }.bind(this),
-      error: function (xhr, status, error) {
+      error: function(xhr, status, error) {
         console.log(status);
         console.log(error);
       }
     });
   },
-  getInitialState: function () {
+  getInitialState: function() {
     return {
       isLocked: '',
       Status: '',
     };
   },
-  render: function () {
+  render: function() {
     var lockOrUnlock = (this.state.isLocked == "1") ? "Unlock" : "Lock";
     return (
       <div className="">
@@ -43,9 +43,9 @@ var Lock = React.createClass({
       </div>
     );
   },
-  changeLock: function () {
+  changeLock: function() {
     console.log("Updating lock status");
-  },
+  }
 });
 
 module.exports = Lock;

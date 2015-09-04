@@ -1,4 +1,3 @@
-
 'use strict';
 
 var Header = React.createClass({
@@ -7,7 +6,7 @@ var Header = React.createClass({
       <div className="logo">
       </div>
     );
-  },
+  }
 });
 
 module.exports = Header;

@@ -4,7 +4,7 @@ var Home = React.createClass({
   render: function () {
     return (
       <div>
-        Home {this.props.Username}
+        Welcome to the home page {this.props.Username}!
       </div>
     );
   }

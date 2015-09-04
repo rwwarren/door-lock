@@ -18,7 +18,6 @@ var LoginPage = React.createClass({
       return;
     }
     var data = {username: username, password: password, Token: token, sid: $.cookie("sid")};
-    //var data = {Username: username, Password: password, Token: token, sid: $.cookie("sid")};
     console.log(data);
     $.ajax({
       url: common.API_URL + common.LOGIN,

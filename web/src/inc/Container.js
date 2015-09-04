@@ -11,16 +11,15 @@ var common = require('./Common');
 
 var Container = React.createClass({
   mixins: [Navigation],
-  checkLoggedIn: function () {
+  checkLoggedIn: function() {
     $.ajax({
       url: common.API_URL + common.CHECK_LOGIN,
       type: "POST",
       data: {sid: $.cookie("sid")},
       dataType: "json",
-      success: function (result) {
+      success: function(result) {
         console.log(result);
-        //if(this.state.loggedIn == false){
-        if(result.success == 1){
+        if(result.success == 1) {
           this.setState({
             isLoggedIn: true,
             Username: result.Username,
@@ -31,30 +30,31 @@ var Container = React.createClass({
           this.replaceWith('/');
         }
       }.bind(this),
-      error: function (xhr, status, error) {
+      error: function(xhr, status, error) {
         console.log(status);
         console.log(error);
       }.bind(this)
     });
   },
-  componentDidMount: function () {
-    if ($.cookie("sid") == null) {
+  componentDidMount: function() {
+    if($.cookie("sid") == null) {
       $.cookie("sid", common.makeid());
     }
     this.checkLoggedIn();
   },
-  getInitialState: function () {
+  getInitialState: function() {
     return {
-      //content: ''
       isLoggedIn: false
     };
   },
-  render: function () {
+  render: function() {
     return (
       <div className="container">
         <Logo />
         {this.state.isLoggedIn ? <Nav /> : ''}
-        {this.state.isLoggedIn ? <RouteHandler Username={this.state.Username} Password={this.state.Password} IsAdmin={this.state.IsAdmin} /> : <LoginPage /> }
+        {this.state.isLoggedIn ?
+          <RouteHandler Username={this.state.Username} Password={this.state.Password} IsAdmin={this.state.IsAdmin}/> :
+          <LoginPage /> }
         <Footer />
       </div>
     );

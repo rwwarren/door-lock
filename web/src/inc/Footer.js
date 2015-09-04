@@ -1,10 +1,10 @@
 'use strict';
 
 var Footer = React.createClass({
-  render: function () {
+  render: function() {
     var now = new Date;
     var theYear = now.getYear();
-    if (theYear < 1900) {
+    if(theYear < 1900) {
       theYear = theYear + 1900
     }
     return (

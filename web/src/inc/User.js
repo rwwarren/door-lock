@@ -4,30 +4,30 @@ var Navigation = ReactRouter.Navigation;
 var Nav = require('./Nav');
 
 var User = React.createClass({
-  componentDidMount: function () {
+  componentDidMount: function() {
     $.ajax({
       url: common.API_URL + common.USER_INFO,
       type: "POST",
       data: {sid: $.cookie("sid")},
       dataType: "json",
-      success: function (result) {
+      success: function(result) {
         console.log(result);
         this.setState({
           allUserInfo: result
         });
       }.bind(this),
-      error: function (xhr, status, error) {
+      error: function(xhr, status, error) {
         console.log(status);
         console.log(error);
       }
     });
   },
-  getInitialState: function () {
+  getInitialState: function() {
     return {
       allUserInfo: ''
     };
   },
-  render: function () {
+  render: function() {
     return (
       <div className="">
         <div>
@@ -62,7 +62,7 @@ var User = React.createClass({
       </div>
     );
   },
-  updateInfo: function () {
+  updateInfo: function() {
     console.log("updating user info");
     var name = this.refs.name.getDOMNode().value.trim();
     var email = this.refs.email.getDOMNode().value.trim();

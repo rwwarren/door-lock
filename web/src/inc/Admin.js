@@ -7,7 +7,6 @@ var Admin = React.createClass({
       url: common.API_URL + common.ADMIN,
       type: "POST",
       data: {sid: $.cookie("sid")},
-      //headers: common.HEADERS,
       dataType: "json",
       success: function(result) {
         console.log(result);
