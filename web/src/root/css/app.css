@@ -146,18 +146,32 @@ th {
     text-align: center;
     font-weight: bold;
     border: 1px solid black;
+}
+
+td {
+    padding: 0;
+    margin: 0;
 
 }
 
-td li:first-child {
+.userList li:first-child {
     /*padding-top: 3px;*/
     padding-top: 0;
 }
 
-td li {
-    padding-top: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
+.userList li:last-child {
+    /*padding-top: 3px;*/
+    margin-bottom: 5px;
+}
+
+.userList li {
+    padding-top: 2px;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 1px solid black;
 }
 
 .adminPage {

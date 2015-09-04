@@ -34,7 +34,6 @@ var Admin = React.createClass({
       console.log(userList);
       return (
         <ul>
-          <li>
             {
               userList.map(function(username) {
                   return (
@@ -45,7 +44,6 @@ var Admin = React.createClass({
                 }
               )
             }
-          </li>
         </ul>
       )
     }
