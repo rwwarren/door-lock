@@ -9,7 +9,6 @@ var User = require('./User');
 
 //var isMobile = require('./isMobile');
 //if (isMobile()) {
-//    React.initializeTouchEvents(true);
 //}
 
 var DefaultRoute = ReactRouter.DefaultRoute;
