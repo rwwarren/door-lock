@@ -575,5 +575,41 @@ Also returns success = 1 for success. Returns success = 0 for fail.
                 "Invalid API key": "{Api-Key}",
                 "success": 0
             }
-            
+
+
+## POST /config
+Returns the doorlock configuration.
+Also returns success = 1 for success. Returns success = 0 for fail.
++ Request (application/json)
+
+    + Headers
+
+            X-DoorLock-Api-Key: {Api-Key}
+            "cookie": "{sid}"
+
+    + Body
+
+
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "branch.name":"{branch name}",
+                "git.sha1":"{git sha}",
+                "git.version":"{version}",
+                "api.url":"{some url}",
+                "webserver.root":"{root}",
+                "env":"{environment}"
+            }
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "Invalid API key": "{Api-Key}",
+                "success": 0
+            }
             
