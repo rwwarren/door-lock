@@ -63,6 +63,9 @@ if (isset($_GET['actions'])) {
     case $type == 'unlock':
       unlock();
       break;
+    case $type == 'config':
+      config();
+      break;
     default:
       echo "You don't have permission to call that function so back off!";
       header("HTTP/1.0 403 User Forbidden");
@@ -532,6 +535,22 @@ function unlock() {
     }
   }
   incorrectPostError();
+}
+
+function config() {
+  if (isset($_POST['sid'])) {
+    $cookie = $_POST['sid'];
+    global $client;
+    $isAdmin = $client->hget("loggedInUsers:$cookie", "admin");
+    if ($isAdmin !== "1") {
+      echo "not admin";
+      exit();
+    }
+    //TODO figure out how to udage config
+    header("HTTP/1.0 200 Success");
+    header('Content-Type: application/json');
+    echo json_encode(parse_ini_file("../properties/config.ini"));
+  }
 }
 
 ?>

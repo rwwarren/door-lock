@@ -16,6 +16,7 @@ RewriteRule ^ResetPassword/?$  userFunctions.php?actions=resetPassword [L]
 RewriteRule ^LockStatus/?$  userFunctions.php?actions=lockStatus [L]
 RewriteRule ^Lock/?$  userFunctions.php?actions=lock [L]
 RewriteRule ^Unlock/?$  userFunctions.php?actions=unlock [L]
+RewriteRule ^config/?$  userFunctions.php?actions=config [L]
 
 #Header add Access-Control-Allow-Origin "*"
 #Header add Access-Control-Allow-Headers "origin, x-requested-with, content-type"

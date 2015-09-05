@@ -19,7 +19,6 @@ var Route = ReactRouter.Route;
 var routes = (
   //{/* config */}
   //TODO add this back in
-  //<Route path="/config" name="config" handler={Configuration}/>
   <Route path="">
     <Route path="/" handler={Container}>
       {/* home */}
@@ -31,11 +30,11 @@ var routes = (
       {/* lock */}
       <Route path="lock/" name="lock" handler={Lock}/>
     </Route>
+    <Route path="/config/" name="config" handler={Configuration}/>
     {/* 404 */}
     <NotFoundRoute handler={FourOFour}/>
   </Route>
 );
-
 
 ReactRouter.run(routes, HistoryLocation, function(Handler) {
   React.render(<Handler />, document.body);
