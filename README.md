@@ -16,26 +16,3 @@
 
 5) Predis: https://github.com/nrk/predis
 
-# Installation Instructions:
-
-1) Clone the repo.
-
-2) Copy the dependencies into a folder under "web" titled "includedPackages".
-
-3) Create a MYSQL database.
-
-4) Create mysqlUser.php and variables.php from mysqlUserTemplate.php and variablesTemplate.php.
-
-5) Select different options.
-
-6) Install composer
-
-7) Do composer install
-
-# Examples:
-
-Composer install
-
-# Option Choices:
-
-1) Authy
