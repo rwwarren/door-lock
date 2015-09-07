@@ -16,3 +16,7 @@
 
 5) Predis: https://github.com/nrk/predis
 
+
+TODO:
+Using gulp
+setting up api
