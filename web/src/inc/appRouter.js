@@ -16,6 +16,24 @@ var HistoryLocation = ReactRouter.HistoryLocation;
 var NotFoundRoute = ReactRouter.NotFoundRoute;
 var Route = ReactRouter.Route;
 
+//var routes = (
+//  //{/* config */}
+//  //TODO add this back in
+//  //<Route path="/config/" name="config" handler={Configuration}/>
+//  <Route path="/" handler={Container}>
+//    {/* home */}
+//    <DefaultRoute name="home" handler={Home}/>
+//    {/* admin */}
+//    <Route path="admin/" name="admin" handler={Admin}/>
+//    {/* users */}
+//    <Route path="user/" name="user" handler={User}/>
+//    {/* lock */}
+//    <Route path="lock/" name="lock" handler={Lock}/>
+//    {/* 404 */}
+//    <NotFoundRoute handler={FourOFour}/>
+//  </Route>
+//);
+
 var routes = (
   //{/* config */}
   //TODO add this back in
