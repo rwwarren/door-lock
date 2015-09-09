@@ -20,3 +20,15 @@
 TODO:
 Using gulp
 setting up api
+
+Things to install
+hhvm
+nodejs
+iojs?
+reactjs
+react native
+
+to add:
+jest
+relay
+graphql
