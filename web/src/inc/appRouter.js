@@ -35,6 +35,7 @@ var Route = ReactRouter.Route;
 //);
 
 var routes = (
+//module.exports = [
   //{/* config */}
   //TODO add this back in
   <Route path="">
@@ -52,7 +53,12 @@ var routes = (
     {/* 404 */}
     <NotFoundRoute handler={FourOFour}/>
   </Route>
+//]
 );
+
+//export default (
+//  <Route handler={ Container } path="/" />
+//);
 
 ReactRouter.run(routes, HistoryLocation, function(Handler) {
   React.render(<Handler />, document.body);
