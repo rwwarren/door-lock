@@ -1,4 +1,4 @@
-<?hh
+<?php
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, "http://docs.doorlock.apiary.io/");
