@@ -18,6 +18,7 @@
     "gulp-watch": "^4.3.3",
     "jade": "^1.11.0",
     "mocha": "^2.2.5",
+    "nodemon": "^1.4.1",
     "react": "^0.13.3",
     "react-jsx": "^0.13.0",
     "react-nested-status": "^0.1.2",
@@ -31,7 +32,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/server/app.js"
   },
   "repository": {
     "type": "git",
