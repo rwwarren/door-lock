@@ -65,7 +65,7 @@ var JSGulp = {
       title: 'JS Gulp',
       subtitle: 'Failure!',
       message: 'Error: <%= error.message %>',
-      sound: 'beep',
+      sound: 'beep'
     }));
     stream.on('end', function() {
       var time = Date.now() - start;
@@ -81,7 +81,6 @@ var JSGulp = {
       gulp.src(prodreact)
         .pipe(rename(reactFile))
         .pipe(gulp.dest(outputPath));
-
       stream = stream.pipe(buffer());
       stream = stream.pipe(uglify());
     } else {
