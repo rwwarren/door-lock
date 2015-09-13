@@ -4,7 +4,7 @@
   "description": "Automated door lock project",
   "main": "index.html",
   "directories": {
-    "test": "tests"
+    "test": "test"
   },
   "dependencies": {
     "browserify": "^6.3.2",

@@ -119,7 +119,6 @@ var JSGulp = {
         done();
         return;
       }
-
       console.log('Cleaned React JS');
       done();
     });
