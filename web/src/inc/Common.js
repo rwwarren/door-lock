@@ -1,6 +1,6 @@
 'use strict';
 
-var makeid = function() {
+var makesid = function() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for(var i = 0; i < 103; i++) {
@@ -19,7 +19,7 @@ var Common = {
   'USER_INFO': 'GetUserInfo',
   'ADMIN': 'GetAllUsers',
   'CONFIG': 'config',
-  'makeid': makeid
+  'makeid': makesid
 };
 
 module.exports = Common;

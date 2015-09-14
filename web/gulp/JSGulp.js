@@ -38,7 +38,7 @@ var JSGulp = {
       entries: rootJSPath,
       extensions: ['.js'],
       packageCache: {},
-      fullPaths: true,
+      fullPaths: true
     });
     bundler.transform(reactify);
     bundler.transform(es6ify.configure(/.js/));
