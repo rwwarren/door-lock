@@ -51,10 +51,11 @@ app.get('*', function(req, res) {
     .send('Not found');
 });
 
-var serverPort = 3000;
+var serverPort = process.env.PORT || 3000;
 var server = app.listen(serverPort, function() {
   var host = server.address().address;
-  var port = server.address().port;
+  //var port = server.address().port;
+  var port = serverPort;
 
   console.log('Example app listening at http://%s:%s', host, port);
 });
