@@ -29,13 +29,13 @@ RewriteRule ^config/?$  userFunctions.php?actions=config [L]
 #RewriteRule ^RegisterUser/?$  userFunctions.hh?actions=registerUser [L]
 #RewriteRule ^ChangeUserType/?$  userFunctions.hh?actions=changeUserType [L]
 #RewriteRule ^UpdateUserInfo/?$  userFunctions.hh?actions=updateUserInfo [L]
-## RewriteRule ^ChangePassword/?$  userFunctions.hh?actions=changePassword [L]
+##RewriteRule ^ChangePassword/?$  userFunctions.hh?actions=changePassword [L]
 #RewriteRule ^ForgotPassword/?$  userFunctions.hh?actions=forgotPassword [L]
 #RewriteRule ^ResetPassword/?$  userFunctions.hh?actions=resetPassword [L]
 #RewriteRule ^LockStatus/?$  userFunctions.hh?actions=lockStatus [L]
 #RewriteRule ^Lock/?$  userFunctions.hh?actions=lock [L]
 #RewriteRule ^Unlock/?$  userFunctions.hh?actions=unlock [L]
-#RewriteRule ^config/?$  userFunctions.hh?
+#RewriteRule ^config/?$  userFunctions.hh?actions=config [L]
 
 #Header add Access-Control-Allow-Origin "*"
 #Header add Access-Control-Allow-Headers "origin, x-requested-with, content-type"
