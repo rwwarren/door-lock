@@ -52,10 +52,12 @@ app.get('*', function(req, res) {
 });
 
 var serverPort = process.env.PORT || 3000;
-var server = app.listen(serverPort, function() {
+var serverAddress = process.env.ADDRESS || 'localhost';
+var server = app.listen(serverPort, serverAddress, function() {
   var host = server.address().address;
-  //var port = server.address().port;
-  var port = serverPort;
-
-  console.log('Example app listening at http://%s:%s', host, port);
+  var port = server.address().port;
+  //var port = serverPort;
+  //console.log(server);
+  console.log(server.address());
+  console.log('Doorlock web app listening at http://%s:%s', host, port);
 });
