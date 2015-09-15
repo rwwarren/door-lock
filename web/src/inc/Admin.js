@@ -31,8 +31,9 @@ var Admin = React.createClass({
     if(this.state.loaded) {
       console.log("createList called");
       console.log(userList);
+        //<ul id={type} className="connectedSortable ui-sortable">
       return (
-        <ul>
+        <ul id={type} className="connectedSortable">
           {
             userList.map(function(username) {
                 return (
