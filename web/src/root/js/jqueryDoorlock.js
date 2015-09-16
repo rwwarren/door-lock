@@ -27,7 +27,9 @@
 //});
 
 $(function() {
+//$(document).ready(function() {
   $("#active").sortable({
     connectWith: ".connectedSortable"
-  }).disableSelection();
+  //}).disableSelection();
+  });
 });
