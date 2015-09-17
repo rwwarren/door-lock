@@ -14,6 +14,7 @@ var Admin = React.createClass({
           adminData: result,
           loaded: true
         });
+        $.getScript("/js/jqueryDoorlock.js");
       }.bind(this),
       error: function(xhr, status, error) {
         console.log(status);
@@ -29,14 +30,17 @@ var Admin = React.createClass({
   },
   createlist: function(userList, type) {
     if(this.state.loaded) {
-      $.getScript( "/js/jqueryDoorlock.js")
-      console.log("createList called");
-      console.log(userList);
-        //<ul id={type} className="connectedSortable ui-sortable">
+      //console.log("createList called");
+      //console.log(userList);
+      //<ul id={type} className="connectedSortable ui-sortable">
       return (
         <ul id={type} className="connectedSortable">
           {
-            userList.map(function(username) {
+            userList
+              .filter(function(username) {
+                return username !== 'test';
+              })
+              .map(function(username) {
                 return (
                   <li key={username} className={type}>
                     {username}
@@ -48,6 +52,16 @@ var Admin = React.createClass({
         </ul>
       )
     }
+  },
+  addCurrentAdmin: function() {
+    console.log(this.props.Username);
+    return (
+      <ul className="connectedSortable">
+        <li className="currentUser">
+          {this.props.Username}
+        </li>
+      </ul>
+    );
   },
   render: function() {
     return (
@@ -66,6 +80,7 @@ var Admin = React.createClass({
           </tr>
           <tr>
             <td>
+              {this.addCurrentAdmin(this.props.Username)}
               {this.createlist(this.state.adminData.Admins, "admin")}
             </td>
             <td>

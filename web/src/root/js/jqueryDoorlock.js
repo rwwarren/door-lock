@@ -27,10 +27,13 @@
 //});
 
 $(function() {
-//$(document).ready(function() {
-  $(".connectedSortable").sortable({
-  //$("#active").sortable({
-    connectWith: ".connectedSortable"
+  $("ul.connectedSortable").sortable({
+    dropOnEmpty: true,
+    connectWith: "ul", items: "li:not(.currentUser)", update: function(event, ui) {
+    //connectWith: "ul", items: "li:not(.currentUser)", containment: "document", update: function(event, ui) {
+      if(ui.sender) {
+        console.log("selected");
+      }
+    }
   }).disableSelection();
-  //});
 });
