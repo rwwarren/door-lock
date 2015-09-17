@@ -1,6 +1,6 @@
 'use strict';
 
-var makeid = function() {
+var makesid = function() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for(var i = 0; i < 103; i++) {
@@ -11,6 +11,7 @@ var makeid = function() {
 
 var Common = {
   'API_URL': 'http://api.localhost/',
+  //'API_URL': 'http://api.localhost:8080/',
   'LOGIN': 'login',
   'LOGOUT': 'logout',
   'CHECK_LOGIN': 'IsLoggedIn',
@@ -18,7 +19,7 @@ var Common = {
   'USER_INFO': 'GetUserInfo',
   'ADMIN': 'GetAllUsers',
   'CONFIG': 'config',
-  'makeid': makeid
+  'makeid': makesid
 };
 
 module.exports = Common;

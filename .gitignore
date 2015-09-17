@@ -24,6 +24,6 @@ backups/
 **/src/properties/**
 **/src/vendor/**
 **/build/logs/*
-node_modules/
+**/node_modules/**
 **/target/**
 

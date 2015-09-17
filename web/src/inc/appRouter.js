@@ -19,9 +19,11 @@ var Route = ReactRouter.Route;
 var routes = (
   //{/* config */}
   //TODO add this back in
-  <Route path="">
-    <Route path="/" handler={Container}>
-      {/* home */}
+  //<Route path="/config/" name="config" handler={Configuration}/>
+    //<NotFoundRoute handler={FourOFour}/>
+  //TODO fix the / at the end
+  <Route path="/" handler={Container}>
+    {/* home */}
       <DefaultRoute name="home" handler={Home}/>
       {/* admin */}
       <Route path="admin/" name="admin" handler={Admin}/>
@@ -29,12 +31,29 @@ var routes = (
       <Route path="user/" name="user" handler={User}/>
       {/* lock */}
       <Route path="lock/" name="lock" handler={Lock}/>
-    </Route>
-    <Route path="/config/" name="config" handler={Configuration}/>
     {/* 404 */}
-    <NotFoundRoute handler={FourOFour}/>
   </Route>
 );
+
+//var routes = (
+//  //{/* config */}
+//  //TODO add this back in
+//  //<Route path="/config/" name="config" handler={Configuration}/>
+//  <Route path="">
+//    <Route path="/" handler={Container}>
+//    {/* home */}
+//      <DefaultRoute name="home" handler={Home}/>
+//      {/* admin */}
+//      <Route path="admin/" name="admin" handler={Admin}/>
+//      {/* users */}
+//      <Route path="user/" name="user" handler={User}/>
+//      {/* lock */}
+//      <Route path="lock/" name="lock" handler={Lock}/>
+//    </Route>
+//    {/* 404 */}
+//    <NotFoundRoute handler={FourOFour}/>
+//  </Route>
+//);
 
 ReactRouter.run(routes, HistoryLocation, function(Handler) {
   React.render(<Handler />, document.body);

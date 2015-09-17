@@ -1,5 +1,6 @@
 <?php
 error_reporting(E_ALL);
+ini_set('display_errors', '1');
 //ini_set('error_log','/Users/ryan/Documents/door-lock/web/php.log');
 ini_set('error_log', '/Users/ryan/Documents/door-lock/api/php.log');
 
@@ -553,4 +554,3 @@ function config() {
   }
 }
 
-?>

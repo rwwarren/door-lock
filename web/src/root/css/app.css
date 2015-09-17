@@ -129,6 +129,7 @@
 
 table {
     width: 100%;
+    table-layout: fixed;
     /*border-width: 1px;*/
     /*border-color: #006600;*/
     /*border: 1;*/
@@ -162,6 +163,10 @@ td {
 .userList li:last-child {
     /*padding-top: 3px;*/
     margin-bottom: 5px;
+}
+
+.userList ul {
+    padding: 5px;
 }
 
 .userList li {

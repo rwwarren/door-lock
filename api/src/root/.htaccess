@@ -18,6 +18,25 @@ RewriteRule ^Lock/?$  userFunctions.php?actions=lock [L]
 RewriteRule ^Unlock/?$  userFunctions.php?actions=unlock [L]
 RewriteRule ^config/?$  userFunctions.php?actions=config [L]
 
+
+#RewriteEngine on
+#RewriteRule ^login/?$  userFunctions.hh?actions=login [L]
+#RewriteRule ^logout/?$  userFunctions.hh?actions=logout [L]
+#RewriteRule ^IsLoggedIn/?$  userFunctions.hh?actions=isLoggedIn [L]
+#RewriteRule ^IsAdmin/?$  userFunctions.hh?actions=isAdmin [L]
+#RewriteRule ^GetUserInfo/?$  userFunctions.hh?actions=getUserInfo [L]
+#RewriteRule ^GetAllUsers/?$  userFunctions.hh?actions=getAllUsers [L]
+#RewriteRule ^RegisterUser/?$  userFunctions.hh?actions=registerUser [L]
+#RewriteRule ^ChangeUserType/?$  userFunctions.hh?actions=changeUserType [L]
+#RewriteRule ^UpdateUserInfo/?$  userFunctions.hh?actions=updateUserInfo [L]
+##RewriteRule ^ChangePassword/?$  userFunctions.hh?actions=changePassword [L]
+#RewriteRule ^ForgotPassword/?$  userFunctions.hh?actions=forgotPassword [L]
+#RewriteRule ^ResetPassword/?$  userFunctions.hh?actions=resetPassword [L]
+#RewriteRule ^LockStatus/?$  userFunctions.hh?actions=lockStatus [L]
+#RewriteRule ^Lock/?$  userFunctions.hh?actions=lock [L]
+#RewriteRule ^Unlock/?$  userFunctions.hh?actions=unlock [L]
+#RewriteRule ^config/?$  userFunctions.hh?actions=config [L]
+
 #Header add Access-Control-Allow-Origin "*"
 #Header add Access-Control-Allow-Headers "origin, x-requested-with, content-type"
 #Header add Access-Control-Allow-Methods "PUT, GET, POST, DELETE, OPTIONS"
