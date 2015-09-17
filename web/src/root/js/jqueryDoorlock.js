@@ -28,8 +28,9 @@
 
 $(function() {
 //$(document).ready(function() {
-  $("#active").sortable({
+  $(".connectedSortable").sortable({
+  //$("#active").sortable({
     connectWith: ".connectedSortable"
-  //}).disableSelection();
-  });
+  }).disableSelection();
+  //});
 });

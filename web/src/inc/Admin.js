@@ -29,6 +29,7 @@ var Admin = React.createClass({
   },
   createlist: function(userList, type) {
     if(this.state.loaded) {
+      $.getScript( "/js/jqueryDoorlock.js")
       console.log("createList called");
       console.log(userList);
         //<ul id={type} className="connectedSortable ui-sortable">
