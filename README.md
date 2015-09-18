@@ -5,7 +5,7 @@
 
 TODO:
 Using gulp
-setting up api
+setting up api -> dropwizard 
 
 Things to install
 hhvm
@@ -13,6 +13,7 @@ nodejs
 iojs?
 reactjs
 react native
+maven
 
 to add:
 jest
