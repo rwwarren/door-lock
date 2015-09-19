@@ -1,14 +1,11 @@
 package com.wrixton.doorlock.db;
 
 import com.google.common.base.Preconditions;
+import com.wrixton.doorlock.DAO.DoorlockUser;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Queries {
-
 
     private Connection conn = null;
 
@@ -24,6 +21,26 @@ public class Queries {
             System.out.println(e);
             throw e;
         }
+    }
+
+    public DoorlockUser login(String username, String password) {
+        try {
+            String query = "SELECT ID, Name, Username, IsAdmin FROM Users WHERE Username= ? AND Password = PASSWORD(?) AND IsActive = 1 LIMIT 1";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String retreivedUsername = rs.getString("Username");
+                String name = rs.getString("Name");
+                long id = rs.getLong("ID");
+                boolean isAdmin = rs.getBoolean("IsAdmin");
+                return new DoorlockUser(id, name, retreivedUsername, isAdmin);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public String getName() {
