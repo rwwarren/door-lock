@@ -21,7 +21,7 @@ relay
 graphql
 
 
-Api
+Api ->json and post variables
 Mobile
 Web
 NFC
