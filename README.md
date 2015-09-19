@@ -19,7 +19,7 @@ to add:
 jest
 relay
 graphql
-
+swagger for api??
 
 Api ->json and post variables
 Mobile
