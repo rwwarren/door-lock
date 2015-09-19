@@ -1,11 +1,12 @@
 package com.wrixton.doorlock.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import com.wrixton.doorlock.DAO.DoorlockUser;
+import com.wrixton.doorlock.LoginRequest;
+import com.wrixton.doorlock.db.Queries;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.validation.Valid;
+import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -28,9 +29,17 @@ public class DoorlockApiAppResource {
 
     @POST
     @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/login")
-    public String login(String body) {
-//    public Login login(String body){
+    public DoorlockUser login(@Valid LoginRequest body) {
+        try {
+            Queries queries = new Queries();
+            body.getSid();
+            return queries.login(body.getUsername(), body.getPassword());
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
         return null;
     }
 
