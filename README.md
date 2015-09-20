@@ -13,6 +13,7 @@ nodejs
 iojs?
 reactjs
 react native
+jquery
 maven
 
 to add:
