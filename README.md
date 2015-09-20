@@ -23,7 +23,7 @@ graphql
 swagger for api??
 
 Api ->json and post variables
-Mobile
+Mobile -> web & application
 Web
 NFC
 Servo
