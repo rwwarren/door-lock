@@ -47,6 +47,62 @@ public class Queries {
         return null;
     }
 
+    public void logout() {
+
+    }
+
+    public void isLoggedIn() {
+
+    }
+
+//    public void isAdmin() {
+//    // not needed?
+//    }
+
+    public void getUserInfo() {
+
+    }
+
+    public void getAllUsers() {
+
+    }
+
+    public void registerUser() {
+
+    }
+
+    public void updateCurrentUser() {
+
+    }
+
+    public void updateOtherUser() {
+
+    }
+
+    public void forgotPassword() {
+
+    }
+
+    public void resetPassword() {
+
+    }
+
+    public void lockStatus() {
+
+    }
+
+    public void lock() {
+
+    }
+
+    public void unlock() {
+
+    }
+
+    public void getConfig() {
+
+    }
+
     public String getName() {
         try {
             ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Users");
