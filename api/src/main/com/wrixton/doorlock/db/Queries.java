@@ -2,6 +2,8 @@ package com.wrixton.doorlock.db;
 
 import com.google.common.base.Preconditions;
 import com.wrixton.doorlock.DAO.DoorlockUser;
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jetty.util.StringUtil;
 
 import java.sql.*;
 
@@ -24,6 +26,8 @@ public class Queries {
     }
 
     public DoorlockUser login(String username, String password) {
+        Preconditions.checkState(StringUtils.isNotBlank(username), "username can't be null/empty");
+        Preconditions.checkState(StringUtils.isNotBlank(password), "password can't be null/empty");
         try {
             String query = "SELECT ID, Name, Username, IsAdmin FROM Users WHERE Username= ? AND Password = PASSWORD(?) AND IsActive = 1 LIMIT 1";
             PreparedStatement ps = conn.prepareStatement(query);
