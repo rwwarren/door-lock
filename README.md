@@ -26,4 +26,4 @@ Api ->json and post variables
 Mobile -> web (move to web and use the same thing) & application
 Web
 NFC
-Servo
+Servo -> use java api client
