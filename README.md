@@ -13,6 +13,7 @@ nodejs
 iojs?
 reactjs
 react native
+jquery
 maven
 
 to add:
@@ -22,7 +23,7 @@ graphql
 swagger for api??
 
 Api ->json and post variables
-Mobile
+Mobile -> web (move to web and use the same thing) & application
 Web
 NFC
 Servo
