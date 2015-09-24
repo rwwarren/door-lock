@@ -6,6 +6,7 @@
 TODO:
 Using gulp
 setting up api -> dropwizard 
+Remove all files that are no longer needed (many in the base dir)
 
 Things to install
 hhvm
@@ -28,4 +29,4 @@ Api ->json and post variables
 Mobile -> web (move to web and use the same thing) & application
 Web
 NFC
-Servo
+Servo -> use java api client
