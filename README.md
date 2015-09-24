@@ -21,6 +21,8 @@ jest
 relay
 graphql
 swagger for api??
+flyway for db migration
+make db trigger for uuid after insert
 
 Api ->json and post variables
 Mobile -> web (move to web and use the same thing) & application
