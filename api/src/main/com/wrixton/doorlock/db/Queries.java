@@ -47,13 +47,10 @@ public class Queries {
         return null;
     }
 
-    public void logout() {
-
-    }
-
-    public void isLoggedIn() {
-
-    }
+//    public void logout() {
+//
+//    }
+//
 
 //    public void isAdmin() {
 //    // not needed?
@@ -87,21 +84,17 @@ public class Queries {
 
     }
 
-    public void lockStatus() {
-
-    }
-
-    public void lock() {
-
-    }
-
-    public void unlock() {
-
-    }
-
-    public void getConfig() {
-
-    }
+//    public void lockStatus() {
+//
+//    }
+//
+//    public void lock() {
+//
+//    }
+//
+//    public void unlock() {
+//
+//    }
 
     public String getName() {
         try {

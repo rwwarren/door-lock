@@ -126,7 +126,7 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/GetUserInfo")
-    public void getUserInfo() {
+    public void getUserInfo(@Valid SessionRequest sid) {
 
     }
 
@@ -134,7 +134,7 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/GetAllUsers")
-    public void getAllUsers() {
+    public void getAllUsers(@Valid SessionRequest sid) {
 
     }
 
@@ -142,7 +142,7 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/RegisterUser")
-    public void registerUser() {
+    public void registerUser(@Valid SessionRequest sid) {
 
     }
 
@@ -150,7 +150,7 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/UpdateCurrentUser")
-    public void updateCurrentUser() {
+    public void updateCurrentUser(@Valid SessionRequest sid) {
 
     }
 
@@ -158,7 +158,7 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/UpdateOtherUser")
-    public void updateOtherUser() {
+    public void updateOtherUser(@Valid SessionRequest sid) {
 
     }
 
@@ -166,7 +166,7 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/ForgotPassword")
-    public void forgotPassword() {
+    public void forgotPassword(@Valid SessionRequest sid) {
 
     }
 
@@ -174,7 +174,7 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/ResetPassword")
-    public void resetPassword() {
+    public void resetPassword(@Valid SessionRequest sid) {
 
     }
 
@@ -182,24 +182,24 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/LockStatus")
-    public void lockStatus() {
-
+    public String lockStatus(@Valid SessionRequest sid) {
+        return "a status";
     }
 
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/Lock")
-    public void lock() {
-
+    public String lock(@Valid SessionRequest sid) {
+        return "some other status";
     }
 
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/Unlock")
-    public void unlock() {
-
+    public String unlock(@Valid SessionRequest sid) {
+        return "some status";
     }
 
     @POST
