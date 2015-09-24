@@ -4,20 +4,20 @@ import java.util.Objects;
 
 public class DoorlockUser {
 
-    private final long id;
+    private final String userID;
     private final String name;
     private final String username;
     private final boolean isAdmin;
 
-    public DoorlockUser(long id, String name, String username, boolean isAdmin) {
-        this.id = id;
+    public DoorlockUser(String userID, String name, String username, boolean isAdmin) {
+        this.userID = userID;
         this.name = name;
         this.username = username;
         this.isAdmin = isAdmin;
     }
 
-    public long getId() {
-        return id;
+    public String getUserID() {
+        return userID;
     }
 
     public String getName() {
@@ -37,7 +37,7 @@ public class DoorlockUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DoorlockUser that = (DoorlockUser) o;
-        return Objects.equals(id, that.id) &&
+        return Objects.equals(userID, that.userID) &&
                 Objects.equals(isAdmin, that.isAdmin) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(username, that.username);
@@ -45,13 +45,13 @@ public class DoorlockUser {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, username, isAdmin);
+        return Objects.hash(userID, name, username, isAdmin);
     }
 
     @Override
     public String toString() {
         return "DoorlockUser{" +
-                "id=" + id +
+                "userID=" + userID +
                 ", name='" + name + '\'' +
                 ", username='" + username + '\'' +
                 ", isAdmin=" + isAdmin +

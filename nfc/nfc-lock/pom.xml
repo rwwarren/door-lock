@@ -143,7 +143,7 @@
                 <version>1.5</version>
                 <executions>
                     <execution>
-                        <id>add-source</id>
+                        <userID>add-source</userID>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>add-source</goal>
@@ -155,7 +155,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>add-test-source</id>
+                        <userID>add-test-source</userID>
                         <phase>generate-test-sources</phase>
                         <goals>
                             <goal>add-test-source</goal>
@@ -173,7 +173,7 @@
                 <!--<version>1.7</version>-->
                 <!--<executions>-->
                     <!--<execution>-->
-                        <!--<id>compile</id>-->
+                        <!--<userID>compile</userID>-->
                         <!--<phase>generate-sources</phase>-->
                         <!--<configuration>-->
                             <!--<target>-->
@@ -191,7 +191,7 @@
                         <!--</goals>-->
                     <!--</execution>-->
                     <!--<execution>-->
-                        <!--<id>test-compile</id>-->
+                        <!--<userID>test-compile</userID>-->
                         <!--<phase>generate-test-sources</phase>-->
                         <!--<configuration>-->
                             <!--<target>-->

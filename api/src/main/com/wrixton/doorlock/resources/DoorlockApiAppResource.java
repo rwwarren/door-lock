@@ -5,13 +5,11 @@ import com.wrixton.doorlock.DAO.DoorlockUser;
 import com.wrixton.doorlock.LoginRequest;
 import com.wrixton.doorlock.SessionRequest;
 import com.wrixton.doorlock.db.Queries;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
-import sun.misc.IOUtils;
 
 import javax.validation.Valid;
 import javax.ws.rs.client.Client;
@@ -24,8 +22,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
-import java.io.InputStream;
-import java.util.Set;
 
 
 @Path("/")
@@ -61,7 +57,7 @@ public class DoorlockApiAppResource {
                 String foobar = jedis.get("foo");
                 jedis.hset("loggedInUsers:" + sid, "name", user.getName());
                 jedis.hset("loggedInUsers:" + sid, "username", user.getUsername());
-                jedis.hset("loggedInUsers:" + sid, "UID", "" + user.getId());
+                jedis.hset("loggedInUsers:" + sid, "UserID", "" + user.getUserID());
                 jedis.hset("loggedInUsers:" + sid, "admin", "" + user.isAdmin());
                 System.out.println(foobar);
 //                jedis.zadd("sose", 0, "car");
@@ -88,7 +84,7 @@ public class DoorlockApiAppResource {
             /// ... do stuff here ... for example
             jedis.hdel("loggedInUsers:" + sid.getSid(), "name");
             jedis.hdel("loggedInUsers:" + sid.getSid(), "username");
-            jedis.hdel("loggedInUsers:" + sid.getSid(), "UID");
+            jedis.hdel("loggedInUsers:" + sid.getSid(), "UserID");
             jedis.hdel("loggedInUsers:" + sid.getSid(), "admin");
         }
         /// ... when closing your application:
@@ -105,12 +101,12 @@ public class DoorlockApiAppResource {
         DoorlockUser user = null;
         try (Jedis jedis = pool.getResource()) {
             /// ... do stuff here ... for example
-            String id = jedis.hget("loggedInUsers:" + sid.getSid(), "UID");
+            String id = jedis.hget("loggedInUsers:" + sid.getSid(), "UserID");
             String name = jedis.hget("loggedInUsers:" + sid.getSid(), "name");
             String username = jedis.hget("loggedInUsers:" + sid.getSid(), "username");
             String admin = jedis.hget("loggedInUsers:" + sid.getSid(), "admin");
             if (id != null && name != null && username != null && admin != null) {
-                user = new DoorlockUser(Long.parseLong(id), name, username, Boolean.valueOf(admin));
+                user = new DoorlockUser(id, name, username, Boolean.valueOf(admin));
             }
         }
         /// ... when closing your application:
