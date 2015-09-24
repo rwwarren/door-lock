@@ -22,6 +22,7 @@ jest
 relay
 graphql
 swagger for api??
+add uuid to db
 
 Api ->json and post variables
 Mobile -> web (move to web and use the same thing) & application
