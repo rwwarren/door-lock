@@ -1,5 +1,5 @@
 var express = require('express');
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
 var React = require('react');
 var Router = require('react-router');
 var Request = require('request');
@@ -10,6 +10,15 @@ app.set('views', __dirname + '/../src/views');
 app.set('view engine', 'jade');
 app.use(cookieParser());
 app.use(express.static(__dirname + '/../src/root'));
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+  res.header("Access-Control-Allow-Origin", "http://localhost");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", "http://api.localhost");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+  next();
+});
 
 app.get('/', function(req, res) {
   res.render('index')
