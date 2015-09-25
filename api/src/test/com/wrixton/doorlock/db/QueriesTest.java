@@ -5,6 +5,7 @@ import com.wrixton.doorlock.DAO.BasicDoorlockUser;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
@@ -75,13 +76,14 @@ public class QueriesTest {
     @Test
     public void testQueriesLogin() {
         try {
-            DoorlockUser testUser = new DoorlockUser("1", "Test", "test", true);
+            DoorlockUser testUser = new DoorlockUser("a64f0604-6270-11e5-9d70-feff819cdc9f", "Test", "test", true);
             Queries queries = new Queries();
             DoorlockUser login = queries.login(testUser.getUsername(), "password");
             assertNotNull(login);
             assertThat(login, equalTo(testUser));
         } catch (Exception e) {
             e.printStackTrace();
+            fail("Should not have thrown an error");
         }
     }
 
@@ -94,6 +96,51 @@ public class QueriesTest {
             assertThat(allAdmins.size(), equalTo(1));
         } catch (Exception e) {
             e.printStackTrace();
+            fail("Should not have thrown an error");
+        }
+    }
+
+    @Test
+    public void testQueriesGetAllActives() {
+        try {
+            Queries queries = new Queries();
+            List<BasicDoorlockUser> allActives = queries.getAllActiveUsers();
+            assertNotNull(allActives);
+            assertThat(allActives.size(), equalTo(3));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Should not have thrown an error");
+        }
+    }
+
+    @Test
+    public void testQueriesGetAllInactives() {
+        try {
+            Queries queries = new Queries();
+            List<BasicDoorlockUser> allInactives = queries.getAllInactiveUsers();
+            assertNotNull(allInactives);
+            assertThat(allInactives.size(), equalTo(1));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Should not have thrown an error");
+        }
+    }
+
+    @Test
+    public void testQueriesGetAll() {
+        try {
+            Queries queries = new Queries();
+            Map<String, List<BasicDoorlockUser>> allUsers = queries.getAllUsers();
+            assertNotNull(allUsers);
+            assertThat(allUsers.keySet().size(), equalTo(3));
+
+            assertThat(allUsers.get("Admins").size(), equalTo(1));
+            assertThat(allUsers.get("Active").size(), equalTo(3));
+            assertThat(allUsers.get("Inactive").size(), equalTo(1));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Should not have thrown an error");
         }
     }
 
