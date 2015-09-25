@@ -22,6 +22,7 @@ jest
 relay
 graphql
 swagger for api??
+fix the cross domain origin error in nodejs app
 
 Api ->json and post variables
 Mobile -> web (move to web and use the same thing) & application
