@@ -23,6 +23,8 @@ relay
 graphql
 swagger for api??
 fix the cross domain origin error in nodejs app
+add 'corsproxy' to the package json and when running
+
 
 Api ->json and post variables
 Mobile -> web (move to web and use the same thing) & application
