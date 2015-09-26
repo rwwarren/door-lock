@@ -22,8 +22,6 @@ var Container = React.createClass({
       dataType: "json",
       contentType: "application/json",
       success: function(result) {
-        console.log("result");
-        console.log(result.success === 1);
         console.log(result);
         if(result.success == 1) {
           this.setState({

@@ -9,6 +9,7 @@ var User = React.createClass({
       url: common.API_URL + common.USER_INFO,
       type: "POST",
       //data: {sid: $.cookie("sid")},
+      contentType: "application/json",
       data: JSON.stringify({
         sid: $.cookie("sid")
       }),

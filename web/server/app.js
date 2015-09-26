@@ -12,20 +12,8 @@ app.set('view engine', 'jade');
 //app.use(cors());
 app.use(cookieParser());
 app.use(express.static(__dirname + '/../src/root'));
-//app.use(function (req, res, next) {
-//  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
-//  res.header("Access-Control-Allow-Origin", "http://localhost");
-//  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-//  res.header("Access-Control-Allow-Origin", "http://api.localhost");
-//  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
-//  next();
-//});
 
 app.get('/', function(req, res) {
-  //res.header('Access-Control-Allow-Origin', '*');
-  //res.header('Access-Control-Allow-Methods', 'GET, POST');
-  //res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   res.render('index')
 });
 
