@@ -5,6 +5,7 @@ import com.wrixton.doorlock.DAO.DoorlockUser;
 import com.wrixton.doorlock.LoginRequest;
 import com.wrixton.doorlock.SessionRequest;
 import com.wrixton.doorlock.db.Queries;
+import org.apache.commons.lang3.BooleanUtils;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import redis.clients.jedis.Jedis;
@@ -106,7 +107,8 @@ public class DoorlockApiAppResource {
             String username = jedis.hget("loggedInUsers:" + sid.getSid(), "username");
             String admin = jedis.hget("loggedInUsers:" + sid.getSid(), "admin");
             if (id != null && name != null && username != null && admin != null) {
-                user = new DoorlockUser(id, name, username, Boolean.valueOf(admin));
+                //make success = 1
+                user = new DoorlockUser(id, name, username, BooleanUtils.toBoolean(Integer.valueOf(admin)));
             }
         }
         /// ... when closing your application:

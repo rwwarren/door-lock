@@ -8,12 +8,14 @@ public class DoorlockUser {
     private final String name;
     private final String username;
     private final boolean isAdmin;
+    private final String success;
 
     public DoorlockUser(String userID, String name, String username, boolean isAdmin) {
         this.userID = userID;
         this.name = name;
         this.username = username;
         this.isAdmin = isAdmin;
+        success = "1";
     }
 
     public String getUserID() {
@@ -30,6 +32,10 @@ public class DoorlockUser {
 
     public boolean isAdmin() {
         return isAdmin;
+    }
+
+    public String getSuccess() {
+        return success;
     }
 
     @Override

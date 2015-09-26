@@ -6,7 +6,10 @@ var Admin = React.createClass({
     $.ajax({
       url: common.API_URL + common.ADMIN,
       type: "POST",
-      data: {sid: $.cookie("sid")},
+      //data: {sid: $.cookie("sid")},
+      data: JSON.stringify({
+        sid: $.cookie("sid")
+      }),
       dataType: "json",
       success: function(result) {
         console.log(result);

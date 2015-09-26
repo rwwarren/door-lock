@@ -15,16 +15,25 @@ var Container = React.createClass({
     $.ajax({
       url: common.API_URL + common.CHECK_LOGIN,
       type: "POST",
-      data: {sid: $.cookie("sid")},
+      //data: {sid: $.cookie("sid")},
+      data: JSON.stringify({
+        sid: $.cookie("sid")
+      }),
       dataType: "json",
+      contentType: "application/json",
       success: function(result) {
+        console.log("result");
+        console.log(result.success === 1);
         console.log(result);
         if(result.success == 1) {
           this.setState({
             isLoggedIn: true,
-            Username: result.Username,
-            Name: result.Name,
-            IsAdmin: result.IsAdmin
+            Username: result.username,
+            Name: result.name,
+            IsAdmin: result.admin
+            //Username: result.Username,
+            //Name: result.Name,
+            //IsAdmin: result.IsAdmin
           });
         } else {
           this.replaceWith('/');
