@@ -47,6 +47,8 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/login")
+//    @Api()
+//    @Api(value = "/pet", description = "Operations about pets")
     public LoginStatus login(@Valid LoginRequest body) {
         try {
             Queries queries = new Queries();
