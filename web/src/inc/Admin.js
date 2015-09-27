@@ -6,7 +6,11 @@ var Admin = React.createClass({
     $.ajax({
       url: common.API_URL + common.ADMIN,
       type: "POST",
-      data: {sid: $.cookie("sid")},
+      //data: {sid: $.cookie("sid")},
+      contentType: "application/json",
+      data: JSON.stringify({
+        sid: $.cookie("sid")
+      }),
       dataType: "json",
       success: function(result) {
         console.log(result);
@@ -33,17 +37,18 @@ var Admin = React.createClass({
       //console.log("createList called");
       //console.log(userList);
       //<ul id={type} className="connectedSortable ui-sortable">
+      var currentUser = this.props.Username;
       return (
         <ul id={type} className="connectedSortable">
           {
             userList
               .filter(function(username) {
-                return username !== 'test';
+                return username.username !== currentUser;
               })
               .map(function(username) {
                 return (
-                  <li key={username} className={type}>
-                    {username}
+                  <li key={username.username} className={type} id={username.userID}>
+                    {username.username}
                   </li>
                 );
               }

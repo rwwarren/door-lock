@@ -6,7 +6,10 @@ var Lock = React.createClass({
     $.ajax({
       url: common.API_URL + common.LOCK_STATUS,
       type: "POST",
-      data: {sid: $.cookie("sid")},
+      contentType: "application/json",
+      data: JSON.stringify({
+        sid: $.cookie("sid")
+      }),
       dataType: "json",
       success: function(result) {
         console.log(result);
@@ -24,7 +27,7 @@ var Lock = React.createClass({
   getInitialState: function() {
     return {
       isLocked: '',
-      Status: '',
+      Status: ''
     };
   },
   render: function() {

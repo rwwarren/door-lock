@@ -15,16 +15,27 @@ var Container = React.createClass({
     $.ajax({
       url: common.API_URL + common.CHECK_LOGIN,
       type: "POST",
-      data: {sid: $.cookie("sid")},
+      //data: {sid: $.cookie("sid")},
+      data: JSON.stringify({
+        sid: $.cookie("sid")
+      }),
       dataType: "json",
+      contentType: "application/json",
       success: function(result) {
+        console.log("result check login")
         console.log(result);
-        if(result.success == 1) {
+        console.log(result.success);
+        console.log(result.loginCheck);
+        //TODO fix null pointer below
+        if(result.success) {
           this.setState({
             isLoggedIn: true,
-            Username: result.Username,
-            Name: result.Name,
-            IsAdmin: result.IsAdmin
+            Username: result.loginCheck.username,
+            Name: result.loginCheck.name,
+            IsAdmin: result.loginCheck.admin
+            //Username: result.Username,
+            //Name: result.Name,
+            //IsAdmin: result.IsAdmin
           });
         } else {
           this.replaceWith('/');

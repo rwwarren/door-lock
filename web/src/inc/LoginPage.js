@@ -17,13 +17,14 @@ var LoginPage = React.createClass({
       }).html('Error, No username or password entered!');
       return;
     }
-    var data = {username: username, password: password, Token: token, sid: $.cookie("sid")};
+    var data = {username: username, password: password, token: token, sid: $.cookie("sid")};
     console.log(data);
     $.ajax({
       url: common.API_URL + common.LOGIN,
       type: "POST",
-      data: data,
+      data: JSON.stringify(data),
       dataType: "json",
+      contentType: "application/json",
       success: function(result) {
         console.log("results");
         console.log(result);

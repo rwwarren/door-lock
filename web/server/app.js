@@ -1,13 +1,15 @@
 var express = require('express');
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
 var React = require('react');
 var Router = require('react-router');
 var Request = require('request');
+//var cors = require('cors');
 
 var app = express();
 
 app.set('views', __dirname + '/../src/views');
 app.set('view engine', 'jade');
+//app.use(cors());
 app.use(cookieParser());
 app.use(express.static(__dirname + '/../src/root'));
 
@@ -32,9 +34,11 @@ app.get('/config', function(req, res) {
   var url = common.API_URL + common.CHECK_LOGIN;
   var sid = req.cookies.sid;
   if(sid != null) {
-    Request.post(url, {form: {sid: sid}}, function(err, resp, body) {
-      body = JSON.parse(body);
-      if(err == null && resp.statusCode === 200 && body.success && body.IsAdmin) {
+    Request.post(url, {json: {sid: sid}}, function(err, resp, body) {
+      console.log(body);
+      console.log(body.success);
+      console.log(body.admin);
+      if(err == null && resp.statusCode === 200 && body.success && body.loginCheck.admin) {
         var config = require('../src/properties/config.json');
         res.send(config);
       } else {
