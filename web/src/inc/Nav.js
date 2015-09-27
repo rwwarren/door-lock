@@ -8,11 +8,14 @@ var Nav = React.createClass({
     $.ajax({
       url: common.API_URL + common.LOGOUT,
       type: "POST",
-      data: {sid: $.cookie("sid")},
+      contentType: "application/json",
+      data: JSON.stringify({
+        sid: $.cookie("sid")
+      }),
       dataType: "json",
       success: function(result) {
         console.log(result);
-        if(result.success) {
+        if(result.Success) {
           window.location.href = "/";
         }
       }.bind(this),

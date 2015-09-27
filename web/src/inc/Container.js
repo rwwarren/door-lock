@@ -22,14 +22,17 @@ var Container = React.createClass({
       dataType: "json",
       contentType: "application/json",
       success: function(result) {
+        console.log("result check login")
         console.log(result);
+        console.log(result.success);
+        console.log(result.loginCheck);
         //TODO fix null pointer below
-        if(result.success == 1) {
+        if(result.success) {
           this.setState({
             isLoggedIn: true,
-            Username: result.username,
-            Name: result.name,
-            IsAdmin: result.admin
+            Username: result.loginCheck.username,
+            Name: result.loginCheck.name,
+            IsAdmin: result.loginCheck.admin
             //Username: result.Username,
             //Name: result.Name,
             //IsAdmin: result.IsAdmin
