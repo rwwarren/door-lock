@@ -37,17 +37,18 @@ var Admin = React.createClass({
       //console.log("createList called");
       //console.log(userList);
       //<ul id={type} className="connectedSortable ui-sortable">
+      var currentUser = this.props.Username;
       return (
         <ul id={type} className="connectedSortable">
           {
             userList
               .filter(function(username) {
-                return username !== 'test';
+                return username.username !== currentUser;
               })
               .map(function(username) {
                 return (
-                  <li key={username} className={type}>
-                    {username}
+                  <li key={username.username} className={type} id={username.userID}>
+                    {username.username}
                   </li>
                 );
               }

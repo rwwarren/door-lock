@@ -1,6 +1,6 @@
 package com.wrixton.doorlock.db;
 
-import com.wrixton.doorlock.DAO.DoorlockUser;
+import com.wrixton.doorlock.DAO.DoorlockUserLoginCheck;
 import com.wrixton.doorlock.DAO.BasicDoorlockUser;
 import org.junit.Test;
 
@@ -27,7 +27,7 @@ public class QueriesTest {
 
     @Test(expected = IllegalStateException.class)
     public void testQueriesLoginUsernameNull() throws Exception {
-        DoorlockUser testUser = new DoorlockUser("1", "Test", "test", true);
+        DoorlockUserLoginCheck testUser = new DoorlockUserLoginCheck("1", "Test", "test", true);
         Queries queries = new Queries();
         queries.login(null, "password");
         fail("Should have failed already");
@@ -35,7 +35,7 @@ public class QueriesTest {
 
     @Test(expected = IllegalStateException.class)
     public void testQueriesLoginUsernameEmpty() throws Exception {
-        DoorlockUser testUser = new DoorlockUser("1", "Test", "test", true);
+        DoorlockUserLoginCheck testUser = new DoorlockUserLoginCheck("1", "Test", "test", true);
         Queries queries = new Queries();
         queries.login("", "password");
         fail("Should have failed already");
@@ -43,7 +43,7 @@ public class QueriesTest {
 
     @Test(expected = IllegalStateException.class)
     public void testQueriesLoginPasswordNull() throws Exception {
-        DoorlockUser testUser = new DoorlockUser("1", "Test", "test", true);
+        DoorlockUserLoginCheck testUser = new DoorlockUserLoginCheck("1", "Test", "test", true);
         Queries queries = new Queries();
         queries.login("test", null);
         fail("Should have failed already");
@@ -51,7 +51,7 @@ public class QueriesTest {
 
     @Test(expected = IllegalStateException.class)
     public void testQueriesLoginPasswordEmpty() throws Exception {
-        DoorlockUser testUser = new DoorlockUser("1", "Test", "test", true);
+        DoorlockUserLoginCheck testUser = new DoorlockUserLoginCheck("1", "Test", "test", true);
         Queries queries = new Queries();
         queries.login("test", "");
         fail("Should have failed already");
@@ -59,26 +59,26 @@ public class QueriesTest {
 
     @Test
     public void testQueriesLoginNotValidUsername() throws Exception {
-        DoorlockUser testUser = new DoorlockUser("1", "Test", "test", true);
+        DoorlockUserLoginCheck testUser = new DoorlockUserLoginCheck("1", "Test", "test", true);
         Queries queries = new Queries();
-        DoorlockUser user = queries.login("test1", "password");
+        DoorlockUserLoginCheck user = queries.login("test1", "password");
         assertNull(user);
     }
 
     @Test
     public void testQueriesLoginNotValidPassword() throws Exception {
-        DoorlockUser testUser = new DoorlockUser("1", "Test", "test", true);
+        DoorlockUserLoginCheck testUser = new DoorlockUserLoginCheck("1", "Test", "test", true);
         Queries queries = new Queries();
-        DoorlockUser user = queries.login("test", "password1");
+        DoorlockUserLoginCheck user = queries.login("test", "password1");
         assertNull(user);
     }
 
     @Test
     public void testQueriesLogin() {
         try {
-            DoorlockUser testUser = new DoorlockUser("a64f0604-6270-11e5-9d70-feff819cdc9f", "Test", "test", true);
+            DoorlockUserLoginCheck testUser = new DoorlockUserLoginCheck("a64f0604-6270-11e5-9d70-feff819cdc9f", "Test", "test", true);
             Queries queries = new Queries();
-            DoorlockUser login = queries.login(testUser.getUsername(), "password");
+            DoorlockUserLoginCheck login = queries.login(testUser.getUsername(), "password");
             assertNotNull(login);
             assertThat(login, equalTo(testUser));
         } catch (Exception e) {

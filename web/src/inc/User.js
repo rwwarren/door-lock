@@ -38,23 +38,23 @@ var User = React.createClass({
           User Info Page
         </div>
         <div>
-          Username: {this.props.Username} TODO fix this
+          Username: {this.props.Username}
         </div>
         <div>
           Name:
-          <input ref="name" id="name" placeholder={this.state.allUserInfo.Name}/>
+          <input ref="name" id="name" placeholder={this.state.allUserInfo.name}/>
         </div>
         <div>
           Email:
-          <input ref="email" id="email" placeholder={this.state.allUserInfo.Email}/>
+          <input ref="email" id="email" placeholder={this.state.allUserInfo.email}/>
         </div>
         <div>
           CardID:
-          <input ref="cardID" id="cardID" placeholder={this.state.allUserInfo.CardID}/>
+          <input ref="cardID" id="cardID" placeholder={this.state.allUserInfo.cardID}/>
         </div>
         <div>
           AuthyID:
-          <input ref="authyID" id="authyID" placeholder={this.state.allUserInfo.AuthyID}/>
+          <input ref="authyID" id="authyID" placeholder={this.state.allUserInfo.authyID}/>
         </div>
         <div>
           Current Password:

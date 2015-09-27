@@ -3,8 +3,8 @@ package com.wrixton.doorlock.db;
 import com.google.common.base.Preconditions;
 import com.wrixton.doorlock.DAO.BasicDoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUser;
+import com.wrixton.doorlock.DAO.DoorlockUserLoginCheck;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jetty.util.StringUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class Queries {
         }
     }
 
-    public DoorlockUser login(String username, String password) {
+    public DoorlockUserLoginCheck login(String username, String password) {
         Preconditions.checkState(StringUtils.isNotBlank(username), "username can't be null/empty");
         Preconditions.checkState(StringUtils.isNotBlank(password), "password can't be null/empty");
         try {
@@ -44,7 +44,7 @@ public class Queries {
                 String name = rs.getString("Name");
                 String userID = rs.getString("UserID");
                 boolean isAdmin = rs.getBoolean("IsAdmin");
-                return new DoorlockUser(userID, name, retreivedUsername, isAdmin);
+                return new DoorlockUserLoginCheck(userID, name, retreivedUsername, isAdmin);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,8 +61,29 @@ public class Queries {
 //    // not needed?
 //    }
 
-    public void getUserInfo() {
-
+    public DoorlockUser getUserInfo(String username) {
+        Preconditions.checkState(StringUtils.isNotBlank(username), "username can't be null/empty");
+        try {
+            String query = "SELECT Username, UserID, ID, Email, Name, CardID, AuthyID, IsAdmin FROM Users WHERE Username = ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            DoorlockUser user = null;
+            while (rs.next()) {
+                String retreivedUsername = rs.getString("Username");
+                String userID = rs.getString("UserID");
+                String name = rs.getString("Name");
+                String email = rs.getString("Email");
+                String cardID = rs.getString("CardID");
+                String authyID = rs.getString("AuthyID");
+                boolean isAdmin = rs.getBoolean("IsAdmin");
+                user = new DoorlockUser(userID, name, retreivedUsername, email, cardID, authyID, isAdmin);
+            }
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Map<String, List<BasicDoorlockUser>> getAllUsers() {
@@ -71,8 +92,8 @@ public class Queries {
         List<BasicDoorlockUser> allActiveUsers = getAllActiveUsers();
         List<BasicDoorlockUser> allInactiveUsers = getAllInactiveUsers();
         results.put("Admins", allAdmins);
-        results.put("Active", allActiveUsers);
-        results.put("Inactive", allInactiveUsers);
+        results.put("ActiveUsers", allActiveUsers);
+        results.put("InactiveUsers", allInactiveUsers);
         return results;
     }
 

@@ -23,6 +23,7 @@ var Container = React.createClass({
       contentType: "application/json",
       success: function(result) {
         console.log(result);
+        //TODO fix null pointer below
         if(result.success == 1) {
           this.setState({
             isLoggedIn: true,

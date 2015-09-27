@@ -1,7 +1,9 @@
 package com.wrixton.doorlock.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import com.wrixton.doorlock.DAO.BasicDoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUser;
+import com.wrixton.doorlock.DAO.DoorlockUserLoginCheck;
 import com.wrixton.doorlock.LoginRequest;
 import com.wrixton.doorlock.SessionRequest;
 import com.wrixton.doorlock.db.Queries;
@@ -23,6 +25,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
+import java.util.List;
+import java.util.Map;
 
 
 @Path("/")
@@ -42,12 +46,13 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/login")
-    public DoorlockUser login(@Valid LoginRequest body) {
+    public DoorlockUserLoginCheck login(@Valid LoginRequest body) {
         try {
             Queries queries = new Queries();
             String sid = body.getSid();
+            String token = body.getToken();
             System.out.println(sid);
-            DoorlockUser user = queries.login(body.getUsername(), body.getPassword());
+            DoorlockUserLoginCheck user = queries.login(body.getUsername(), body.getPassword());
             if (user == null) {
                 return null;
             }
@@ -97,9 +102,9 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/IsLoggedIn")
-    public DoorlockUser isLoggedIn(@Valid SessionRequest sid) {
+    public DoorlockUserLoginCheck isLoggedIn(@Valid SessionRequest sid) {
         JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
-        DoorlockUser user = null;
+        DoorlockUserLoginCheck user = null;
         try (Jedis jedis = pool.getResource()) {
             /// ... do stuff here ... for example
             String id = jedis.hget("loggedInUsers:" + sid.getSid(), "UserID");
@@ -108,7 +113,7 @@ public class DoorlockApiAppResource {
             String admin = jedis.hget("loggedInUsers:" + sid.getSid(), "admin");
             if (id != null && name != null && username != null && admin != null) {
                 //make success = 1
-                user = new DoorlockUser(id, name, username, BooleanUtils.toBoolean(Integer.valueOf(admin)));
+                user = new DoorlockUserLoginCheck(id, name, username, BooleanUtils.toBoolean(admin));
             }
         }
         /// ... when closing your application:
@@ -124,16 +129,54 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/GetUserInfo")
-    public void getUserInfo(@Valid SessionRequest sid) {
-
+    public DoorlockUser getUserInfo(@Valid SessionRequest sid) {
+        try {
+            JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
+            String username = null;
+            try (Jedis jedis = pool.getResource()) {
+                /// ... do stuff here ... for example
+                username = jedis.hget("loggedInUsers:" + sid.getSid(), "username");
+            }
+            /// ... when closing your application:
+            pool.destroy();
+            if (username != null) {
+                Queries queries = new Queries();
+                return queries.getUserInfo(username);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/GetAllUsers")
-    public void getAllUsers(@Valid SessionRequest sid) {
-
+    public Map<String, List<BasicDoorlockUser>> getAllUsers(@Valid SessionRequest sid) {
+        try {
+            Map<String, List<BasicDoorlockUser>> allUsers = null;
+            Queries queries = new Queries();
+            System.out.println(sid);
+            JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
+            String admin;
+            try (Jedis jedis = pool.getResource()) {
+                /// ... do stuff here ... for example
+                admin = jedis.hget("loggedInUsers:" + sid.getSid(), "admin");
+            }
+            /// ... when closing your application:
+            pool.destroy();
+            boolean isAdmin = BooleanUtils.toBoolean(admin);
+            if (isAdmin) {
+                allUsers = queries.getAllUsers();
+            }
+            return allUsers;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     @POST
