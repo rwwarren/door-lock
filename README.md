@@ -22,7 +22,6 @@ jest
 relay
 graphql
 swagger for api??
-fix the cross domain origin error in nodejs app
 add 'corsproxy' to the package json and when running
 
 
