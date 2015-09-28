@@ -7,6 +7,7 @@ import com.wrixton.doorlock.DAO.DoorlockUserLoginCheck;
 import com.wrixton.doorlock.DAO.LoginStatus;
 import com.wrixton.doorlock.DAO.Status;
 import com.wrixton.doorlock.LoginRequest;
+import com.wrixton.doorlock.RegisterUserRequest;
 import com.wrixton.doorlock.SessionRequest;
 import com.wrixton.doorlock.db.Queries;
 import org.apache.commons.lang3.BooleanUtils;
@@ -159,15 +160,7 @@ public class DoorlockApiAppResource {
         try {
             Queries queries = new Queries();
             System.out.println(sid);
-            JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
-            String admin;
-            try (Jedis jedis = pool.getResource()) {
-                /// ... do stuff here ... for example
-                admin = jedis.hget("loggedInUsers:" + sid.getSid(), "admin");
-            }
-            /// ... when closing your application:
-            pool.destroy();
-            boolean isAdmin = BooleanUtils.toBoolean(admin);
+            boolean isAdmin = isAdmin(sid);
             if (isAdmin) {
                 return queries.getAllUsers();
             }
@@ -178,13 +171,35 @@ public class DoorlockApiAppResource {
         return null;
     }
 
+    private boolean isAdmin(@Valid SessionRequest sid) {
+        JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
+        String admin;
+        try (Jedis jedis = pool.getResource()) {
+            /// ... do stuff here ... for example
+            admin = jedis.hget("loggedInUsers:" + sid.getSid(), "admin");
+        }
+        /// ... when closing your application:
+        pool.destroy();
+        return BooleanUtils.toBoolean(admin);
+    }
+
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/RegisterUser")
-    public Status registerUser(@Valid SessionRequest sid) {
-//    public Status registerUser(@Valid SessionRequest sid, @Valid DoorlockUser user, @NotNull String password) {
-        return new Status(true);
+    public Status registerUser(@Valid RegisterUserRequest registerUserRequest) {
+        try {
+            if (isAdmin(registerUserRequest.getSid())) {
+                Queries queries = new Queries();
+                queries.registerUser(registerUserRequest.getUsername(), registerUserRequest.getName(),
+                        registerUserRequest.getPassword(), registerUserRequest.getEmail(),
+                        registerUserRequest.getAuthyID(), registerUserRequest.getCardID(), registerUserRequest.isAdmin());
+                return new Status(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Status(false);
     }
 
     @POST

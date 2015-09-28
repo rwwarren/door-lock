@@ -1,7 +1,5 @@
 package com.wrixton.doorlock.DAO;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.util.Objects;
 
 public class Status {

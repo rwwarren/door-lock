@@ -6,7 +6,11 @@ import com.wrixton.doorlock.DAO.DoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUserLoginCheck;
 import org.apache.commons.lang3.StringUtils;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +38,7 @@ public class Queries {
         Preconditions.checkState(StringUtils.isNotBlank(username), "username can't be null/empty");
         Preconditions.checkState(StringUtils.isNotBlank(password), "password can't be null/empty");
         try {
+            password = encryptPassword(password);
             String query = "SELECT UserID, Name, Username, IsAdmin FROM Users WHERE Username= ? AND Password = PASSWORD(?) AND IsActive = 1 LIMIT 1";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, username);
@@ -151,24 +156,103 @@ public class Queries {
         return null;
     }
 
-    public void registerUser() {
-
+    public boolean registerUser(String username, String name, String password, String email, String authyID, String cardID, boolean admin) {
+        password = encryptPassword(password);
+        String query = "INSERT INTO Users (Name, Username, Password, Email, AuthyID, CardID, IsAdmin) VALUES (?, ?, ?, ?, ?, ? ,?)";
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, name);
+            ps.setString(2, username);
+            ps.setString(3, password);
+            ps.setString(4, email);
+            ps.setString(5, authyID);
+            ps.setString(6, cardID);
+            ps.setBoolean(7, admin);
+            //TODO look at bottom method
+            ResultSet rs = ps.executeQuery();
+            //insert then look up right after
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        //lookup after this
+        return true;
     }
 
-    public void updateCurrentUser() {
-
+    private String encryptPassword(String password) {
+        //TODO encrypt
+//        HashFunction hashFunction = sha256();
+        return password;
     }
 
-    public void updateOtherUser() {
-
+    public void updateCurrentUser(String username, String name, String password, String email, String authyID, String cardID, boolean admin) {
+        password = encryptPassword(password);
+        String query = "UPDATE Users SET Name = ?, Email = ?, AuthyID = ?, CardID = ?, IsAdmin = ? WHERE Username = ? AND Password = PASSWORD(?)";
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, name);
+            ps.setString(2, email);
+            ps.setString(3, authyID);
+            ps.setString(4, cardID);
+            ps.setBoolean(5, admin);
+            ps.setString(6, username);
+            ps.setString(7, password);
+            //TODO look at bottom method
+            ResultSet rs = ps.executeQuery();
+            //insert then look up right after
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void forgotPassword() {
-
+    public void updateOtherUser(String usernameToChange, boolean admin, boolean active) {
+        String query = "UPDATE Users SET IsAdmin = ?, IsActive = ? WHERE Username = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setBoolean(1, admin);
+            ps.setBoolean(2, active);
+            ps.setString(3, usernameToChange);
+            //TODO look at bottom method
+            ResultSet rs = ps.executeQuery();
+            //insert then look up right after
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void resetPassword() {
+    public void forgotPassword(String username, String email) {
+        //todo check email and username + join
+        String userID = "";
+        //todo sha256 generate
+        String resetUrl = "";
+        String query = "INSERT INTO ResetURLs (UserID, ResetURL) VALUES (?, ?)";
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, userID);
+            ps.setString(2, resetUrl);
+            //TODO look at bottom method
+            //TODO also invalidate ResetURLs
+            ResultSet rs = ps.executeQuery();
+            //insert then look up right after
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void resetPassword(String username, String password) {
+        password = encryptPassword(password);
+        String query = "UPDATE Users SET Password = PASSWORD(?), IsActive = 1 WHERE Username = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, password);
+            ps.setString(2, username);
+            //TODO look at bottom method
+            //TODO also invalidate ResetURLs
+            ResultSet rs = ps.executeQuery();
+            //insert then look up right after
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 //    public void lockStatus() {
