@@ -28,7 +28,7 @@ var LoginPage = React.createClass({
       success: function(result) {
         console.log("results");
         console.log(result);
-        if(result.success) {
+        if(result.status.success) {
           window.location.href = "/";
         }
       }.bind(this),

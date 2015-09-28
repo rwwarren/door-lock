@@ -14,8 +14,9 @@ var Nav = React.createClass({
       }),
       dataType: "json",
       success: function(result) {
+        console.log("result:");
         console.log(result);
-        if(result.Success) {
+        if(result.success) {
           window.location.href = "/";
         }
       }.bind(this),

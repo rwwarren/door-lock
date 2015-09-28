@@ -27,6 +27,11 @@ make db trigger for uuid after insert
 fix the cross domain origin error in nodejs app
 add 'corsproxy' to the package json and when running
 
+remove legacy php from mobile
+rewrite mobile to use web optimzied
+fix/investigate bug if you logout but page not refresh you can still use the site
+
+
 
 Api ->json and post variables
 Mobile -> web (move to web and use the same thing) & application
