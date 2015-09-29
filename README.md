@@ -38,3 +38,18 @@ Mobile -> web (move to web and use the same thing) & application
 Web
 NFC
 Servo -> use java api client
+
+
+
+##Api
+-Java
+
+##Web
+-nodejs
+-reactjs
+
+##NFC/Servo
+-java
+
+##Mobile Application
+-react native
