@@ -1,6 +1,7 @@
 package com.wrixton.doorlock.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import com.newrelic.api.agent.NewRelic;
 import com.wrixton.doorlock.DAO.BasicDoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUserLoginCheck;
