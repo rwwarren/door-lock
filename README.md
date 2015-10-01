@@ -30,7 +30,7 @@ add 'corsproxy' to the package json and when running
 remove legacy php from mobile
 rewrite mobile to use web optimzied
 fix/investigate bug if you logout but page not refresh you can still use the site
-
+newrelic
 
 
 Api ->json and post variables
