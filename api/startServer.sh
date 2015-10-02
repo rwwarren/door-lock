@@ -21,7 +21,7 @@ stdout_log="$ROOT/$env.log"
 stderr_log="$ROOT/$env.err"
 #stderr_log="/var/log/$name.err"
 
-pid_file="$ROOT/$envpid"
+pid_file="$ROOT/$env.pid"
 
 isRunning() {
 	[ -f "$pid_file" ] && ps `cat $pid_file` > /dev/null 2>&1
