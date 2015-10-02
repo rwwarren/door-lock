@@ -2,7 +2,7 @@
 
 #java -Dnewrelic.environment=local -javaagent:/Users/ryan/Documents/door-lock/api/target/dependency/newrelic-agent.jar -jar ./target/api-lock-1.0-SNAPSHOT.jar server
 
-ROOT="/home/ubuntu/wrixtonCom/dev/door-lock/api"
+ROOT=$(pwd)
 
 env="development"
 
