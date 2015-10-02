@@ -11,7 +11,7 @@ user="root"
 JAR="./target/api-lock-1.0-SNAPSHOT.jar"
 CONFIG="drop.yml"
 
-CMD="java -Dnewrelic.environment=$env  -javaagent:$ROOT/target/dependency/newrelic-agent.jar -jar $JAR server $CONFIG"
+CMD="java -Dnewrelic.environment=$env -javaagent:$ROOT/target/dependency/newrelic-agent.jar -jar $JAR server $CONFIG"
 
 
 #name=`basename $0`
