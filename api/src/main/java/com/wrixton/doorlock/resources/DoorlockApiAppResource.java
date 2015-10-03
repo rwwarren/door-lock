@@ -114,7 +114,6 @@ public class DoorlockApiAppResource {
             String username = jedis.hget("loggedInUsers:" + sid.getSid(), "username");
             String admin = jedis.hget("loggedInUsers:" + sid.getSid(), "admin");
             if (id != null && name != null && username != null && admin != null) {
-                //make success = 1
                 user = new DoorlockUserLoginCheck(id, name, username, BooleanUtils.toBoolean(admin));
                 status = new Status(true);
             }
