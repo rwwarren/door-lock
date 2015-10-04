@@ -9,6 +9,8 @@
 *.iml
 *.log
 *.conf
+*.err
+*.pid
 
 # Ignore specific files
 .coveralls.yml
