@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
-#java -Dnewrelic.environment=local -javaagent:/Users/ryan/Documents/door-lock/api/target/dependency/newrelic-agent.jar -jar ./target/api-lock-1.0-SNAPSHOT.jar server
-
 ROOT=$(pwd)
 
-env="development"
+if [ ! -n "${env}" ]; then
+	env="development"
+fi
+
 
 user="root"
 
@@ -34,8 +35,9 @@ case $1 in
 		if isRunning; then
 			echo "Already started"
 		else
-			echo "Starting $name"
-			sudo -u "$user" $CMD > "$stdout_log" 2> "$stderr_log" & echo $! > "$pid_file"
+			echo "Starting api"
+#			sudo -u "$user" $CMD > "$stdout_log" 2> "$stderr_log" & echo $! > "$pid_file"
+			$CMD > "$stdout_log" 2> "$stderr_log" & echo $! > "$pid_file"
 			if ! isRunning; then
 				echo "Unable to start, see $stdout_log and $stderr_log"
 				exit 1
