@@ -23,10 +23,27 @@
             <scope>test</scope>
         </dependency>
         <!--<dependency>-->
-        <!--<groupId>io.swagger</groupId>-->
-        <!--<artifactId>swagger-jersey-jaxrs</artifactId>-->
-        <!--<artifactId>swagger-project</artifactId>-->
-        <!--<version>1.5.3</version>-->
+            <!--<groupId>io.federecio</groupId>-->
+            <!--<artifactId>dropwizard-swagger</artifactId>-->
+            <!--<version>0.7.0</version>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<artifactId>swagger-jersey2-jaxrs</artifactId>-->
+                    <!--<groupId>com.wordnik</groupId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>io.swagger</groupId>-->
+            <!--<artifactId>swagger-jersey-jaxrs</artifactId>-->
+            <!--&lt;!&ndash;<artifactId>swagger-project</artifactId>&ndash;&gt;-->
+            <!--<version>1.5.3</version>-->
+            <!--&lt;!&ndash;<exclusions>&ndash;&gt;-->
+                <!--&lt;!&ndash;<exclusion>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<groupId>javax.ws.rs</groupId>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<artifactId>*</artifactId>&ndash;&gt;-->
+                <!--&lt;!&ndash;</exclusion>&ndash;&gt;-->
+            <!--&lt;!&ndash;</exclusions>&ndash;&gt;-->
         <!--</dependency>-->
         <dependency>
             <groupId>com.newrelic.agent.java</groupId>

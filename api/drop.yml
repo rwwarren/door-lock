@@ -1,2 +1,15 @@
 logging:
   level: DEBUG
+
+server:
+
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8081
+
+
+#swagger:
+#  resourcePackage: com.wrixton.doorlock.resources
