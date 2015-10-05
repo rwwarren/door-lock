@@ -43,6 +43,7 @@ Servo -> use java api client
 
 ##Api
 -Java
+[API](api/README.md)
 
 ##Web
 -nodejs
