@@ -44,6 +44,8 @@ Servo -> use java api client
 ##Api
 -Java
 [API](api/README.md)
+-dropwizard
+-maven
 
 ##Web
 -nodejs
