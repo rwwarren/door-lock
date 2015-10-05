@@ -4,6 +4,9 @@ import com.wrixton.doorlock.resources.DoorlockApiAppResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+//import io.federecio.dropwizard.swagger.SwaggerBundle;
+//import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
+import io.swagger.jaxrs.config.BeanConfig;
 
 public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
 
@@ -23,6 +26,12 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
     @Override
     public void initialize(Bootstrap<DoorlockApiAppConfiguration> bootstrap) {
         // nothing to do yet
+//        bootstrap.addBundle(new SwaggerBundle<DoorlockApiAppConfiguration>() {
+//            @Override
+//            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(DoorlockApiAppConfiguration configuration) {
+//                return configuration.swaggerBundleConfiguration;
+//            }
+//        });
     }
 
     @Override
@@ -34,6 +43,12 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
         final healthcheck healthCheck =
                 new healthcheck(doorlockApiAppConfiguration.toString());
         environment.healthChecks().register("template", healthCheck);
+
+        BeanConfig config = new BeanConfig();
+        config.setTitle("Swagger sample app");
+        config.setVersion("1.0.0");
+        config.setResourcePackage("com.wrixton.doorlock.resources");
+        config.setScan(true);
 
     }
 }

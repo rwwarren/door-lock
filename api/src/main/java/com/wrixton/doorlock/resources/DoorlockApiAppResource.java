@@ -14,9 +14,10 @@ import com.wrixton.doorlock.SessionRequest;
 import com.wrixton.doorlock.UpdateCurrentUserRequest;
 import com.wrixton.doorlock.UpdateOtherUserRequest;
 import com.wrixton.doorlock.db.Queries;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.BooleanUtils;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -36,7 +37,7 @@ import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
 
-
+@Api
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class DoorlockApiAppResource {
@@ -45,6 +46,7 @@ public class DoorlockApiAppResource {
     private String HOST = "localhost";
     private int PORT = 6379;
 
+    @ApiOperation("Sample endpoint")
     @GET
     @Timed
     @Produces(MediaType.TEXT_HTML)
