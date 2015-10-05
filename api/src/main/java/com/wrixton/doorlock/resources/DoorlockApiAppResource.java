@@ -1,15 +1,18 @@
 package com.wrixton.doorlock.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import com.newrelic.api.agent.NewRelic;
 import com.wrixton.doorlock.DAO.BasicDoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUserLoginCheck;
 import com.wrixton.doorlock.DAO.LoginStatus;
 import com.wrixton.doorlock.DAO.Status;
+import com.wrixton.doorlock.ForgotPasswordRequest;
 import com.wrixton.doorlock.LoginRequest;
 import com.wrixton.doorlock.RegisterUserRequest;
+import com.wrixton.doorlock.ResetPasswordRequest;
 import com.wrixton.doorlock.SessionRequest;
+import com.wrixton.doorlock.UpdateCurrentUserRequest;
+import com.wrixton.doorlock.UpdateOtherUserRequest;
 import com.wrixton.doorlock.db.Queries;
 import org.apache.commons.lang3.BooleanUtils;
 import org.json.simple.parser.JSONParser;
@@ -19,17 +22,17 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Produces;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Path;
+import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +40,10 @@ import java.util.Map;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class DoorlockApiAppResource {
+
+    private final String CONFIG_FILE = "config.json";
+    private String HOST = "localhost";
+    private int PORT = 6379;
 
     @GET
     @Timed
@@ -63,7 +70,7 @@ public class DoorlockApiAppResource {
             if (user == null) {
                 return new LoginStatus(null, new Status(false));
             }
-            JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
+            JedisPool pool = new JedisPool(new JedisPoolConfig(), HOST, PORT);
             try (Jedis jedis = pool.getResource()) {
                 /// ... do stuff here ... for example
                 jedis.hset("loggedInUsers:" + sid, "name", user.getName());
@@ -86,13 +93,13 @@ public class DoorlockApiAppResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/logout")
     public Status logout(@Valid SessionRequest sid) {
-        JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
+        JedisPool pool = new JedisPool(new JedisPoolConfig(), HOST, PORT);
         try (Jedis jedis = pool.getResource()) {
             /// ... do stuff here ... for example
-            jedis.hdel("loggedInUsers:" + sid.getSid(), "name");
-            jedis.hdel("loggedInUsers:" + sid.getSid(), "username");
-            jedis.hdel("loggedInUsers:" + sid.getSid(), "UserID");
-            jedis.hdel("loggedInUsers:" + sid.getSid(), "admin");
+            jedis.hdel(getRedisKey(sid), "name");
+            jedis.hdel(getRedisKey(sid), "username");
+            jedis.hdel(getRedisKey(sid), "UserID");
+            jedis.hdel(getRedisKey(sid), "admin");
         }
         /// ... when closing your application:
         pool.destroy();
@@ -104,15 +111,15 @@ public class DoorlockApiAppResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/IsLoggedIn")
     public LoginStatus isLoggedIn(@Valid SessionRequest sid) {
-        JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
+        JedisPool pool = new JedisPool(new JedisPoolConfig(), HOST, PORT);
         DoorlockUserLoginCheck user = null;
         Status status = new Status(false);
         try (Jedis jedis = pool.getResource()) {
             /// ... do stuff here ... for example
-            String id = jedis.hget("loggedInUsers:" + sid.getSid(), "UserID");
-            String name = jedis.hget("loggedInUsers:" + sid.getSid(), "name");
-            String username = jedis.hget("loggedInUsers:" + sid.getSid(), "username");
-            String admin = jedis.hget("loggedInUsers:" + sid.getSid(), "admin");
+            String id = jedis.hget(getRedisKey(sid), "UserID");
+            String name = jedis.hget(getRedisKey(sid), "name");
+            String username = jedis.hget(getRedisKey(sid), "username");
+            String admin = jedis.hget(getRedisKey(sid), "admin");
             if (id != null && name != null && username != null && admin != null) {
                 user = new DoorlockUserLoginCheck(id, name, username, BooleanUtils.toBoolean(admin));
                 status = new Status(true);
@@ -123,21 +130,17 @@ public class DoorlockApiAppResource {
         return new LoginStatus(user, status);
     }
 
-//    public void isAdmin() {
-//    // not needed?
-//    }
-
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/GetUserInfo")
     public DoorlockUser getUserInfo(@Valid SessionRequest sid) {
         try {
-            JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
+            JedisPool pool = new JedisPool(new JedisPoolConfig(), HOST, PORT);
             String username;
             try (Jedis jedis = pool.getResource()) {
                 /// ... do stuff here ... for example
-                username = jedis.hget("loggedInUsers:" + sid.getSid(), "username");
+                username = jedis.hget(getRedisKey(sid), "username");
             }
             /// ... when closing your application:
             pool.destroy();
@@ -172,11 +175,11 @@ public class DoorlockApiAppResource {
     }
 
     private boolean isAdmin(@Valid SessionRequest sid) {
-        JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
+        JedisPool pool = new JedisPool(new JedisPoolConfig(), HOST, PORT);
         String admin;
         try (Jedis jedis = pool.getResource()) {
             /// ... do stuff here ... for example
-            admin = jedis.hget("loggedInUsers:" + sid.getSid(), "admin");
+            admin = jedis.hget(getRedisKey(sid), "admin");
         }
         /// ... when closing your application:
         pool.destroy();
@@ -206,32 +209,33 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/UpdateCurrentUser")
-    public void updateCurrentUser(@Valid SessionRequest sid) {
+    public Status updateCurrentUser(@Valid UpdateCurrentUserRequest updateCurrentUserRequest) {
 
+        return new Status(false);
     }
 
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/UpdateOtherUser")
-    public void updateOtherUser(@Valid SessionRequest sid) {
-
+    public Status updateOtherUser(@Valid UpdateOtherUserRequest updateOtherUserRequest) {
+        return new Status(false);
     }
 
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/ForgotPassword")
-    public void forgotPassword(@Valid SessionRequest sid) {
-
+    public Status forgotPassword(@Valid ForgotPasswordRequest forgotPasswordRequest) {
+        return new Status(false);
     }
 
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/ResetPassword")
-    public void resetPassword(@Valid SessionRequest sid) {
-
+    public Status resetPassword(@Valid ResetPasswordRequest resetPasswordRequest) {
+        return new Status(false);
     }
 
     @POST
@@ -247,7 +251,7 @@ public class DoorlockApiAppResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/Lock")
     public String lock(@Valid SessionRequest sid) {
-        return "some other status";
+        return "{\"Status\":\"some other status\"}";
     }
 
     @POST
@@ -255,7 +259,7 @@ public class DoorlockApiAppResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/Unlock")
     public String unlock(@Valid SessionRequest sid) {
-        return "some status";
+        return "{\"Status\":\"some status\"}";
     }
 
     @POST
@@ -263,11 +267,10 @@ public class DoorlockApiAppResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/config")
     public Object getConfig(@Valid SessionRequest sid) {
-//    public JSONObject getConfig() {
-        JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost", 6379);
+        JedisPool pool = new JedisPool(new JedisPoolConfig(), HOST, PORT);
         try (Jedis jedis = pool.getResource()) {
             /// ... do stuff here ... for example
-            String admin = jedis.hget("loggedInUsers:" + sid.getSid(), "admin");
+            String admin = jedis.hget(getRedisKey(sid), "admin");
             if (admin == null) {
                 return null;
             }
@@ -276,12 +279,15 @@ public class DoorlockApiAppResource {
         pool.destroy();
         JSONParser jp = new JSONParser();
         try {
-//        InputStream is = JsonParsing.class.getResourceAsStream( "sample-json.txt");
-            return jp.parse("{\"config\":\"testing\"}");
-        } catch (ParseException e) {
+            return jp.parse(new FileReader(CONFIG_FILE));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private String getRedisKey(@Valid SessionRequest sid) {
+        return "loggedInUsers:" + sid.getSid();
     }
 
 }
