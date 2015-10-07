@@ -48,11 +48,14 @@ Servo -> use java api client
 -maven
 
 ##Web
+[Web](web/README.md)
 -nodejs
 -reactjs
 
 ##NFC/Servo
+[NFC](nfc/README.md)
 -java
 
 ##Mobile Application
+[Mobile](mobile/README.md)
 -react native
