@@ -74,7 +74,6 @@ public class DoorlockApiAppResource {
             }
             JedisPool pool = new JedisPool(new JedisPoolConfig(), HOST, PORT);
             try (Jedis jedis = pool.getResource()) {
-                /// ... do stuff here ... for example
                 jedis.hset("loggedInUsers:" + sid, "name", user.getName());
                 jedis.hset("loggedInUsers:" + sid, "username", user.getUsername());
                 jedis.hset("loggedInUsers:" + sid, "UserID", "" + user.getUserID());
@@ -97,7 +96,6 @@ public class DoorlockApiAppResource {
     public Status logout(@Valid SessionRequest sid) {
         JedisPool pool = new JedisPool(new JedisPoolConfig(), HOST, PORT);
         try (Jedis jedis = pool.getResource()) {
-            /// ... do stuff here ... for example
             jedis.hdel(getRedisKey(sid), "name");
             jedis.hdel(getRedisKey(sid), "username");
             jedis.hdel(getRedisKey(sid), "UserID");
@@ -117,7 +115,6 @@ public class DoorlockApiAppResource {
         DoorlockUserLoginCheck user = null;
         Status status = new Status(false);
         try (Jedis jedis = pool.getResource()) {
-            /// ... do stuff here ... for example
             String id = jedis.hget(getRedisKey(sid), "UserID");
             String name = jedis.hget(getRedisKey(sid), "name");
             String username = jedis.hget(getRedisKey(sid), "username");
@@ -141,7 +138,6 @@ public class DoorlockApiAppResource {
             JedisPool pool = new JedisPool(new JedisPoolConfig(), HOST, PORT);
             String username;
             try (Jedis jedis = pool.getResource()) {
-                /// ... do stuff here ... for example
                 username = jedis.hget(getRedisKey(sid), "username");
             }
             /// ... when closing your application:
@@ -180,7 +176,6 @@ public class DoorlockApiAppResource {
         JedisPool pool = new JedisPool(new JedisPoolConfig(), HOST, PORT);
         String admin;
         try (Jedis jedis = pool.getResource()) {
-            /// ... do stuff here ... for example
             admin = jedis.hget(getRedisKey(sid), "admin");
         }
         /// ... when closing your application:
