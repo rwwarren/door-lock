@@ -42,10 +42,11 @@ Servo -> use java api client
 
 
 ##Api
--Java
+-Java 8
 [API](api/README.md)
 -dropwizard
 -maven
+-jdbi
 
 ##Web
 [Web](web/README.md)
