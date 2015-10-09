@@ -23,6 +23,13 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.bendb.dropwizard</groupId>
+            <artifactId>dropwizard-redis</artifactId>
+            <version>0.8.1-0</version>
+        </dependency>
+
         <!--<dependency>-->
             <!--<groupId>io.federecio</groupId>-->
             <!--<artifactId>dropwizard-swagger</artifactId>-->

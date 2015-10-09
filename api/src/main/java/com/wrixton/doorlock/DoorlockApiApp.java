@@ -1,5 +1,7 @@
 package com.wrixton.doorlock;
 
+import com.bendb.dropwizard.redis.JedisBundle;
+import com.bendb.dropwizard.redis.JedisFactory;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.wrixton.doorlock.resources.DoorlockApiAppResource;
 import io.dropwizard.Application;
@@ -36,6 +38,12 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
 //                return configuration.swaggerBundleConfiguration;
 //            }
 //        });
+        bootstrap.addBundle(new JedisBundle<DoorlockApiAppConfiguration>() {
+            @Override
+            public JedisFactory getJedisFactory(DoorlockApiAppConfiguration configuration) {
+                return configuration.getJedisFactory();
+            }
+        });
     }
 
     @Override
