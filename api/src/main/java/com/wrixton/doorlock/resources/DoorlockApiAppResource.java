@@ -14,6 +14,8 @@ import com.wrixton.doorlock.SessionRequest;
 import com.wrixton.doorlock.UpdateCurrentUserRequest;
 import com.wrixton.doorlock.UpdateOtherUserRequest;
 import com.wrixton.doorlock.db.Queries;
+//import io.swagger.annotations.Api;
+//import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.BooleanUtils;
