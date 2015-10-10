@@ -5,6 +5,8 @@ import com.wrixton.doorlock.DAO.BasicDoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUserLoginCheck;
 import org.apache.commons.lang3.StringUtils;
+import org.skife.jdbi.v2.sqlobject.Bind;
+import org.skife.jdbi.v2.sqlobject.SqlQuery;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -56,15 +58,6 @@ public class Queries {
         }
         return null;
     }
-
-//    public void logout() {
-//
-//    }
-//
-
-//    public void isAdmin() {
-//    // not needed?
-//    }
 
     public DoorlockUser getUserInfo(String username) {
         Preconditions.checkState(StringUtils.isNotBlank(username), "username can't be null/empty");

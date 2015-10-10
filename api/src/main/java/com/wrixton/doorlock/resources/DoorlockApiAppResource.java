@@ -36,9 +36,6 @@ import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
 
-//import io.swagger.annotations.Api;
-//import io.swagger.annotations.ApiOperation;
-
 @Api
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
