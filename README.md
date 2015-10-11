@@ -46,7 +46,7 @@ Servo -> use java api client
 [API](api/README.md)
 -dropwizard
 -maven
--jdbi
+-jdbi -> postgresql
 
 ##Web
 [Web](web/README.md)
