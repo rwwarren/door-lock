@@ -21,7 +21,7 @@ to add:
 jest
 relay
 graphql
-swagger for api??
+swagger for api?? finish up swagger ui
 flyway for db migration
 make db trigger for uuid after insert
 fix the cross domain origin error in nodejs app
