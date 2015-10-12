@@ -9,7 +9,6 @@ setting up api -> dropwizard
 Remove all files that are no longer needed (many in the base dir)
 
 Things to install
-hhvm
 nodejs
 iojs?
 reactjs
