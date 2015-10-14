@@ -10,7 +10,6 @@ Remove all files that are no longer needed (many in the base dir)
 
 Things to install
 nodejs
-iojs?
 reactjs
 react native
 jquery
