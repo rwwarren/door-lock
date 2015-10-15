@@ -44,7 +44,7 @@ Servo -> use java api client
 [API](api/README.md)
 -dropwizard .09-rc
 -maven
--jdbi -> postgresql
+-jdbi -> postgresql using jdbi dropwizard
 -swagger 1.5.3 api documentation
 
 ##Web
