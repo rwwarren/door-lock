@@ -1,10 +1,12 @@
 package com.wrixton.doorlock.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.wrixton.doorlock.DAO.BasicDoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUserLoginCheck;
 import com.wrixton.doorlock.DAO.LoginStatus;
+import com.wrixton.doorlock.DAO.QueryDAO;
 import com.wrixton.doorlock.DAO.Status;
 import com.wrixton.doorlock.ForgotPasswordRequest;
 import com.wrixton.doorlock.LoginRequest;
@@ -16,6 +18,9 @@ import com.wrixton.doorlock.UpdateOtherUserRequest;
 import com.wrixton.doorlock.db.Queries;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.jaxrs.listing.SwaggerSerializers;
 import org.apache.commons.lang3.BooleanUtils;
 import org.json.simple.parser.JSONParser;
 import redis.clients.jedis.Jedis;
@@ -36,27 +41,49 @@ import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
 
-@Api
 @Path("/")
+//@Api("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class DoorlockApiAppResource {
 
     private final String CONFIG_FILE = "config.json";
+    private final QueryDAO personDAO;
+
+    public DoorlockApiAppResource(QueryDAO personDAO) {
+        this.personDAO = personDAO;
+    }
+
+    @GET
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/testing")
+    public Object testing(){
+        return personDAO.findNameById(2);
+    }
 
     @ApiOperation("Sample endpoint")
     @GET
     @Timed
-    @Produces(MediaType.TEXT_PLAIN)
-//    @Produces(MediaType.TEXT_HTML)
-    public Response getIndex() {
+//    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_HTML)
+    public Object getIndex() {
+//    public Response getIndex() {
+//        try{
+//            return new FileReader("index.html");
+//
+//        } catch (Exception e ){
+//            e.printStackTrace();
+//        }
+//        return null;
         Client myClient = ClientBuilder.newClient();
-        WebTarget target = myClient.target("http://petstore.swagger.io/?url=http://localhost:8080/swagger.json");
+        WebTarget target = myClient.target("http://generator.swagger.io/?url=http://localhost:8080/swagger.json");
+//        WebTarget target = myClient.target("http://petstore.swagger.io/?url=http://localhost:8080/swagger.json");
 //        WebTarget target = myClient.target("http://generator.swagger.io/");
 //        WebTarget target = myClient.target("http://docs.doorlock.apiary.io/");
 //        String payload = "{\"swaggerUrl\":\"http://localhost:8080/swagger.json\"}";
 //        return target.request(MediaType.TEXT_HTML).post(Entity.entity(payload, MediaType.APPLICATION_JSON));
-        return target.request(MediaType.TEXT_PLAIN).get();
-//        return target.request(MediaType.TEXT_HTML).get();
+//        return target.request(MediaType.TEXT_PLAIN).get();
+        return target.request(MediaType.TEXT_HTML).get();
     }
 
     @POST
