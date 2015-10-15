@@ -9,9 +9,7 @@ setting up api -> dropwizard
 Remove all files that are no longer needed (many in the base dir)
 
 Things to install
-hhvm
 nodejs
-iojs?
 reactjs
 react native
 jquery
@@ -21,7 +19,7 @@ to add:
 jest
 relay
 graphql
-swagger for api??
+swagger for api?? finish up swagger ui
 flyway for db migration
 make db trigger for uuid after insert
 fix the cross domain origin error in nodejs app
@@ -42,10 +40,12 @@ Servo -> use java api client
 
 
 ##Api
--Java
+-Java 8
 [API](api/README.md)
--dropwizard
+-dropwizard .09-rc
 -maven
+-jdbi -> postgresql
+-swagger 1.5.3 api documentation
 
 ##Web
 [Web](web/README.md)
