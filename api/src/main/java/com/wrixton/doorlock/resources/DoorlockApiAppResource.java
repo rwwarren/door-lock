@@ -1,7 +1,6 @@
 package com.wrixton.doorlock.resources;
 
 import com.codahale.metrics.annotation.Timed;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.wrixton.doorlock.DAO.BasicDoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUserLoginCheck;
@@ -15,13 +14,11 @@ import com.wrixton.doorlock.ResetPasswordRequest;
 import com.wrixton.doorlock.SessionRequest;
 import com.wrixton.doorlock.UpdateCurrentUserRequest;
 import com.wrixton.doorlock.UpdateOtherUserRequest;
-import com.wrixton.doorlock.db.Queries;
+//import com.wrixton.doorlock.db.Queries;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.jaxrs.listing.SwaggerSerializers;
 import org.apache.commons.lang3.BooleanUtils;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import redis.clients.jedis.Jedis;
 
@@ -36,29 +33,53 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
 
 @Path("/")
+@Api
 //@Api("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class DoorlockApiAppResource {
 
+    public static final String SALT_FILE = "src/main/resources/salt.json";
     private final String CONFIG_FILE = "config.json";
-    private final QueryDAO personDAO;
+    private final QueryDAO queryDAO;
 
-    public DoorlockApiAppResource(QueryDAO personDAO) {
-        this.personDAO = personDAO;
+    public DoorlockApiAppResource(QueryDAO queryDAO) {
+        this.queryDAO = queryDAO;
     }
 
+    @ApiOperation("test")
     @GET
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/testing")
-    public Object testing(){
-        return personDAO.findNameById(2);
+    public Object testing() {
+        try {
+//            DoorlockUserLoginCheck doorlockUserLoginCheck = queryDAO.loginUser(null, null);
+            DoorlockUserLoginCheck doorlockUserLoginCheck = queryDAO.loginUser("test", saltPassword("test", "test"));
+            return doorlockUserLoginCheck;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+//        return queryDAO.findNameById(2);
+    }
+
+    private String saltPassword(String username, String password) {
+        JSONParser parser = new JSONParser();
+        try {
+            JSONObject parsed = (JSONObject) parser.parse(new FileReader(SALT_FILE));
+            String firstPart = parsed.get("firstPart").toString();
+            String secondPart = parsed.get("secondPart").toString();
+            String thirdPart = parsed.get("thirdPart").toString();
+            return String.format("doorlock%s\\%s//%s__%s+%sjava", firstPart, username, secondPart, password, thirdPart);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @ApiOperation("Sample endpoint")
@@ -94,11 +115,12 @@ public class DoorlockApiAppResource {
 //    @Api(value = "/pet", description = "Operations about pets")
     public LoginStatus login(@Valid LoginRequest body, @Context Jedis jedis) {
         try {
-            Queries queries = new Queries();
+//            Queries queries = new Queries();
             String sid = body.getSid();
             String token = body.getToken();
             System.out.println(sid);
-            DoorlockUserLoginCheck user = queries.login(body.getUsername(), body.getPassword());
+            DoorlockUserLoginCheck user = queryDAO.loginUser(body.getUsername(), saltPassword(body.getUsername(), body.getPassword()));
+//            DoorlockUserLoginCheck user = queries.login(body.getUsername(), body.getPassword());
             if (user == null) {
                 return new LoginStatus(null, new Status(false));
             }

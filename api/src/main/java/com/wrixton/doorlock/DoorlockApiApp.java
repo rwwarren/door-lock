@@ -100,12 +100,13 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
         BeanConfig config = new BeanConfig();
         config.setTitle("Doorlock Api App");
         config.setVersion("1.0.0");
+//        config.setResourcePackage("com.wrixton.doorlock.resources.DoorlockApiAppResource");
         config.setResourcePackage("com.wrixton.doorlock.resources");
         config.setScan(true);
         config.setHost("localhost");
         config.setBasePath("/");
         config.setSchemes(new String[]{"http"});
-//        environment.jersey().register(config);
+        environment.jersey().register(config);
 
         environment.jersey().setUrlPattern("/css/*");
         environment.jersey().setUrlPattern("/lib/*");
