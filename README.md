@@ -24,6 +24,7 @@ flyway for db migration
 make db trigger for uuid after insert
 fix the cross domain origin error in nodejs app
 add 'corsproxy' to the package json and when running
+authy to api
 
 remove legacy php from mobile
 rewrite mobile to use web optimzied
