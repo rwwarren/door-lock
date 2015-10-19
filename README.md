@@ -43,21 +43,21 @@ Servo -> use java api client
 ##Api
 -Java 8
 [API](api/README.md)
--dropwizard .09-rc
+- dropwizard .09-rc
 - dropwizard java 8
--maven
--jdbi -> postgresql using jdbi dropwizard
--swagger 1.5.3 api documentation
+- maven
+- jdbi -> postgresql using jdbi dropwizard
+- swagger 1.5.3 api documentation
 
 ##Web
 [Web](web/README.md)
--nodejs
--reactjs
+- nodejs
+- reactjs
 
 ##NFC/Servo
 [NFC](nfc/README.md)
--java
+- java
 
 ##Mobile Application
 [Mobile](mobile/README.md)
--react native
+- react native
