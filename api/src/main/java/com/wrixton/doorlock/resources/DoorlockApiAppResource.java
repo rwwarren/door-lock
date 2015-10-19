@@ -14,7 +14,6 @@ import com.wrixton.doorlock.ResetPasswordRequest;
 import com.wrixton.doorlock.SessionRequest;
 import com.wrixton.doorlock.UpdateCurrentUserRequest;
 import com.wrixton.doorlock.UpdateOtherUserRequest;
-//import com.wrixton.doorlock.db.Queries;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.BooleanUtils;
@@ -34,6 +33,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.io.FileReader;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,10 +45,10 @@ public class DoorlockApiAppResource {
 
     public static final String SALT_FILE = "src/main/resources/salt.json";
     private final String CONFIG_FILE = "config.json";
-    private final QueryDAO queryDAO;
+    private final QueryDAO queriesDAO;
 
-    public DoorlockApiAppResource(QueryDAO queryDAO) {
-        this.queryDAO = queryDAO;
+    public DoorlockApiAppResource(QueryDAO queriesDAO) {
+        this.queriesDAO = queriesDAO;
     }
 
     @ApiOperation("test")
@@ -58,14 +58,14 @@ public class DoorlockApiAppResource {
     @Path("/testing")
     public Object testing() {
         try {
-//            DoorlockUserLoginCheck doorlockUserLoginCheck = queryDAO.loginUser(null, null);
-            DoorlockUserLoginCheck doorlockUserLoginCheck = queryDAO.loginUser("test", saltPassword("test", "test"));
+//            DoorlockUserLoginCheck doorlockUserLoginCheck = queriesDAO.loginUser(null, null);
+            DoorlockUserLoginCheck doorlockUserLoginCheck = queriesDAO.loginUser("test", saltPassword("test", "test"));
             return doorlockUserLoginCheck;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-//        return queryDAO.findNameById(2);
+//        return queriesDAO.findNameById(2);
     }
 
     private String saltPassword(String username, String password) {
@@ -119,7 +119,7 @@ public class DoorlockApiAppResource {
             String sid = body.getSid();
             String token = body.getToken();
             System.out.println(sid);
-            DoorlockUserLoginCheck user = queryDAO.loginUser(body.getUsername(), saltPassword(body.getUsername(), body.getPassword()));
+            DoorlockUserLoginCheck user = queriesDAO.loginUser(body.getUsername(), saltPassword(body.getUsername(), body.getPassword()));
 //            DoorlockUserLoginCheck user = queries.login(body.getUsername(), body.getPassword());
             if (user == null) {
                 return new LoginStatus(null, new Status(false));
@@ -175,8 +175,7 @@ public class DoorlockApiAppResource {
             String username;
             username = jedis.hget(getRedisKey(sid), "username");
             if (username != null) {
-                Queries queries = new Queries();
-                return queries.getUserInfo(username);
+                return queriesDAO.getUserInfo(username);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -191,11 +190,10 @@ public class DoorlockApiAppResource {
     @Path("/GetAllUsers")
     public Map<String, List<BasicDoorlockUser>> getAllUsers(@Valid SessionRequest sid, @Context Jedis jedis) {
         try {
-            Queries queries = new Queries();
             System.out.println(sid);
             boolean isAdmin = isAdmin(sid, jedis);
             if (isAdmin) {
-                return queries.getAllUsers();
+                return getAllUsers();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -217,8 +215,8 @@ public class DoorlockApiAppResource {
     public Status registerUser(@Valid RegisterUserRequest registerUserRequest, @Context Jedis jedis) {
         try {
             if (isAdmin(registerUserRequest.getSid(), jedis)) {
-                Queries queries = new Queries();
-                queries.registerUser(registerUserRequest.getUsername(), registerUserRequest.getName(),
+                queriesDAO.registerUser(registerUserRequest.getUsername(), registerUserRequest.getName(),
+                        //TODO salt password
                         registerUserRequest.getPassword(), registerUserRequest.getEmail(),
                         registerUserRequest.getAuthyID(), registerUserRequest.getCardID(), registerUserRequest.isAdmin());
                 return new Status(true);
@@ -305,6 +303,17 @@ public class DoorlockApiAppResource {
 
     private String getRedisKey(@Valid SessionRequest sid) {
         return "loggedInUsers:" + sid.getSid();
+    }
+
+    private Map<String, List<BasicDoorlockUser>> getAllUsers() {
+        Map<String, List<BasicDoorlockUser>> results = new HashMap<>(3);
+        List<BasicDoorlockUser> allAdmins = queriesDAO.getAllAdmins();
+        List<BasicDoorlockUser> allActiveUsers = queriesDAO.getAllActiveUsers();
+        List<BasicDoorlockUser> allInactiveUsers = queriesDAO.getAllInactiveUsers();
+        results.put("Admins", allAdmins);
+        results.put("ActiveUsers", allActiveUsers);
+        results.put("InactiveUsers", allInactiveUsers);
+        return results;
     }
 
 }

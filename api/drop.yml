@@ -42,7 +42,8 @@ database:
   password: PASSWORD
 
   # the JDBC URL
-  url: jdbc:postgresql://localhost/doorlock
+  url: jdbc:postgresql://localhost/application_data
+#  url: jdbc:postgresql://localhost/doorlock
 #  url: jdbc:mysql://localhost:3306/doorlock
 
   # any properties specific to your JDBC driver:
