@@ -1,7 +1,6 @@
 package com.wrixton.doorlock.mappers;
 
 import com.wrixton.doorlock.DAO.DoorlockUser;
-import com.wrixton.doorlock.DAO.DoorlockUserLoginCheck;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 

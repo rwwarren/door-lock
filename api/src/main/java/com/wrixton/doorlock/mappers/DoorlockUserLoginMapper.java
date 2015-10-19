@@ -14,9 +14,6 @@ public class DoorlockUserLoginMapper implements ResultSetMapper<DoorlockUserLogi
         String retreivedUsername = rs.getString("username");
         String userID = rs.getString("user_uuid");
         String name = rs.getString("name");
-//        String email = rs.getString("Email");
-//        String cardID = rs.getString("CardID");
-//        String authyID = rs.getString("AuthyID");
         boolean isAdmin = rs.getBoolean("is_admin");
         return new DoorlockUserLoginCheck(userID, name, retreivedUsername, isAdmin);
     }
