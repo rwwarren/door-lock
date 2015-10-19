@@ -216,9 +216,9 @@ public class DoorlockApiAppResource {
         try {
             if (isAdmin(registerUserRequest.getSid(), jedis)) {
                 queriesDAO.registerUser(registerUserRequest.getUsername(), registerUserRequest.getName(),
-                        //TODO salt password
-                        registerUserRequest.getPassword(), registerUserRequest.getEmail(),
-                        registerUserRequest.getAuthyID(), registerUserRequest.getCardID(), registerUserRequest.isAdmin());
+                        saltPassword(registerUserRequest.getUsername(), registerUserRequest.getPassword()),
+                        registerUserRequest.getEmail(), registerUserRequest.getAuthyID(), registerUserRequest.getCardID(),
+                        registerUserRequest.isAdmin());
                 return new Status(true);
             }
         } catch (Exception e) {

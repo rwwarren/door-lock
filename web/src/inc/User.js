@@ -58,13 +58,20 @@ var User = React.createClass({
         </div>
         <div>
           Current Password:
-          <input type="password"/>
+          <input id="password" type="password" onChange={this.changePassword}/>
         </div>
         <div>
-          <button id="update" type="button" onClick={this.updateInfo}>Update Info</button>
+          <button id="update" type="button" onClick={this.updateInfo} disabled>Update Info</button>
         </div>
       </div>
     );
+  },
+  changePassword: function() {
+    if($.trim($('#password').val()).length != 0){
+      $('#update').prop('disabled', false);
+    } else {
+      $('#update').prop('disabled', true);
+    }
   },
   updateInfo: function() {
     console.log("updating user info");
