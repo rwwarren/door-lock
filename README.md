@@ -41,8 +41,8 @@ Servo -> use java api client
 
 
 ##Api
--Java 8
 [API](api/README.md)
+- Java 8
 - dropwizard .09-rc
 - dropwizard java 8
 - maven
