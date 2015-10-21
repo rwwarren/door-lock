@@ -51,6 +51,7 @@ public class DoorlockApiAppResource {
         this.queriesDAO = queriesDAO;
     }
 
+    //TODO remove this
     @ApiOperation("test")
     @GET
     @Timed
@@ -58,14 +59,12 @@ public class DoorlockApiAppResource {
     @Path("/testing")
     public Object testing() {
         try {
-//            DoorlockUserLoginCheck doorlockUserLoginCheck = queriesDAO.loginUser(null, null);
             DoorlockUserLoginCheck doorlockUserLoginCheck = queriesDAO.loginUser("test", saltPassword("test", "test"));
             return doorlockUserLoginCheck;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-//        return queriesDAO.findNameById(2);
     }
 
     private String saltPassword(String username, String password) {
