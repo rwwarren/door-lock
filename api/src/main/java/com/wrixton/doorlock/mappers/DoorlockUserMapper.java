@@ -14,9 +14,15 @@ public class DoorlockUserMapper implements ResultSetMapper<DoorlockUser> {
         String retreivedUsername = rs.getString("Username").trim();
         String userID = rs.getString("user_uuid");
         String name = rs.getString("name").trim();
-        String email = rs.getString("email");
+        String email = rs.getString("email").trim();
         String cardID = rs.getString("card_id");
+        if(cardID != null){
+            cardID = cardID.trim();
+        }
         String authyID = rs.getString("authy_id");
+        if(authyID != null){
+            authyID = authyID.trim();
+        }
         boolean isAdmin = rs.getBoolean("is_admin");
         return new DoorlockUser(userID, name, retreivedUsername, email, cardID, authyID, isAdmin);
     }

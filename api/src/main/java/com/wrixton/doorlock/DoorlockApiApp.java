@@ -70,6 +70,7 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
     @Override
     public void run(DoorlockApiAppConfiguration doorlockApiAppConfiguration, Environment environment) throws Exception {
 
+        //TODO likely delete cors
         final FilterRegistration.Dynamic cors =
                 environment.servlets().addFilter("CORS", CrossOriginFilter.class);
         environment.jersey().register(new ApiListingResource());
@@ -83,10 +84,10 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
         cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
         final DBIFactory factory = new DBIFactory();
-        final DBI jdbi = factory.build(environment, doorlockApiAppConfiguration.getDataSourceFactory(), "mysql");
-//        final DBI jdbi = factory.build(environment, doorlockApiAppConfiguration.getDataSourceFactory(), "postgres");
-        final QueryDAO personDAO = jdbi.onDemand(QueryDAO.class);
-        final DoorlockApiAppResource resource = new DoorlockApiAppResource(personDAO);
+//        final DBI jdbi = factory.build(environment, doorlockApiAppConfiguration.getDataSourceFactory(), "mysql");
+        final DBI jdbi = factory.build(environment, doorlockApiAppConfiguration.getDataSourceFactory(), "postgres");
+        final QueryDAO queryDAO = jdbi.onDemand(QueryDAO.class);
+        final DoorlockApiAppResource resource = new DoorlockApiAppResource(queryDAO);
         environment.jersey().register(resource);
 
         final healthcheck healthCheck =
@@ -95,7 +96,6 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
 
 
 //        environment.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
 
         BeanConfig config = new BeanConfig();
         config.setTitle("Doorlock Api App");
