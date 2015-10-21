@@ -12,7 +12,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <dropwizard.version>0.9.0-rc4</dropwizard.version>
+        <dropwizard.version>0.9.0-rc5</dropwizard.version>
         <!--<dropwizard.version>0.8.4</dropwizard.version>-->
         <jackson.version>2.6.3</jackson.version>
     </properties>
@@ -77,11 +77,11 @@
             <!--<artifactId>jackson-databind</artifactId>-->
             <!--<version>${jackson.version}</version>-->
         <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.fasterxml.jackson.core</groupId>-->
-            <!--<artifactId>jackson-core</artifactId>-->
-            <!--<version>${jackson.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
 
         <!--<dependency>-->
             <!--<groupId>io.swagger</groupId>-->
@@ -133,11 +133,11 @@
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-core</artifactId>
             <version>${dropwizard.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>com.fasterxml.jackson.core</groupId>-->
+                    <!--<artifactId>*</artifactId>-->
+                <!--</exclusion>-->
                 <!--<exclusion>-->
                     <!--<groupId>com.fasterxml.jackson.datatype</groupId>-->
                     <!--<artifactId>*</artifactId>-->
@@ -146,7 +146,7 @@
                     <!--<groupId>com.fasterxml.jackson.dataformat</groupId>-->
                     <!--<artifactId>*</artifactId>-->
                 <!--</exclusion>-->
-            </exclusions>
+            <!--</exclusions>-->
         </dependency>
         <!--<dependency>-->
             <!--<groupId>com.fasterxml.jackson.datatype</groupId>-->
