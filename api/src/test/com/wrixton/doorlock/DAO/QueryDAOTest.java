@@ -33,6 +33,7 @@ public class QueryDAOTest {
         final DBI jdbi = factory.build(environment, dataSourceFactory, "postgres");
         queryDAO = jdbi.onDemand(QueryDAO.class);
     }
+
     @Test
     public void testgetUserInfo() throws Exception {
         DoorlockUser user = queryDAO.getUserInfo("test");

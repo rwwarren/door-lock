@@ -74,7 +74,6 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
         final FilterRegistration.Dynamic cors =
                 environment.servlets().addFilter("CORS", CrossOriginFilter.class);
         environment.jersey().register(new ApiListingResource());
-
         // Configure CORS parameters
         cors.setInitParameter("allowedOrigins", "*");
         cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
@@ -94,7 +93,6 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
                 new healthcheck(doorlockApiAppConfiguration.toString());
         environment.healthChecks().register("template", healthCheck);
 
-
 //        environment.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
         BeanConfig config = new BeanConfig();
@@ -110,21 +108,6 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
 
         environment.jersey().setUrlPattern("/css/*");
         environment.jersey().setUrlPattern("/lib/*");
-
-//        FilterRegistration.Dynamic filter = environment.servlets().addFilter("CORSFilter", CrossOriginFilter.class);
-//        filter.setInitParameter("allowedOrigins", "*");
-//        filter.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
-//        filter.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
-        // Add URL mapping
-//        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
-//        environment.addFilter(CrossOriginFilter.class, "/*")
-//                .setInitParam("allowedOrigins", "*")
-//                .setInitParam("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin")
-//                .setInitParam("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
-
-//        environment.jersey().setUrlPattern("/application/*");
-
-//        environment.servlets().addServlet(assetsName, createServlet()).addMapping(uriPath + '*');
 
     }
 }
