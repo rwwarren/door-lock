@@ -54,7 +54,7 @@ Servo -> use java api client
 
 ##NFC/Servo
 [NFC](nfc/README.md)
-- java
+- java 8
 
 ##Mobile Application
 [Mobile](mobile/README.md)
