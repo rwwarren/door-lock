@@ -47,7 +47,7 @@ Servo -> use java api client
 - jdbi -> postgresql using jdbi dropwizard
 - swagger 1.5.4 api documentation
 
-##Web
+##Web (+ mobile optimized)
 [Web](web/README.md)
 - nodejs
 - reactjs
