@@ -70,17 +70,17 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
     @Override
     public void run(DoorlockApiAppConfiguration doorlockApiAppConfiguration, Environment environment) throws Exception {
 
-        //TODO likely delete cors
-        final FilterRegistration.Dynamic cors =
-                environment.servlets().addFilter("CORS", CrossOriginFilter.class);
         environment.jersey().register(new ApiListingResource());
-        // Configure CORS parameters
-        cors.setInitParameter("allowedOrigins", "*");
-        cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
-        cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
+        //TODO likely delete cors
+//        final FilterRegistration.Dynamic cors =
+//                environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+//        // Configure CORS parameters
+//        cors.setInitParameter("allowedOrigins", "*");
+//        cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
+//        cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
 
         // Add URL mapping
-        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+//        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
         final DBIFactory factory = new DBIFactory();
 //        final DBI jdbi = factory.build(environment, doorlockApiAppConfiguration.getDataSourceFactory(), "mysql");

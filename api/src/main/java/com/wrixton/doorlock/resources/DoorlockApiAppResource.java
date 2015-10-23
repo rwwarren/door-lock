@@ -17,7 +17,6 @@ import com.wrixton.doorlock.UpdateOtherUserRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.BooleanUtils;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import redis.clients.jedis.Jedis;
 
@@ -37,13 +36,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.wrixton.doorlock.ConfigurationMethods.saltPassword;
+
 @Path("/")
 @Api
 //@Api("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class DoorlockApiAppResource {
 
-    public static final String SALT_FILE = "src/main/resources/salt.json";
     private final String CONFIG_FILE = "config.json";
     private final QueryDAO queriesDAO;
 
@@ -65,20 +65,6 @@ public class DoorlockApiAppResource {
             e.printStackTrace();
             return null;
         }
-    }
-
-    private String saltPassword(String username, String password) {
-        JSONParser parser = new JSONParser();
-        try {
-            JSONObject parsed = (JSONObject) parser.parse(new FileReader(SALT_FILE));
-            String firstPart = parsed.get("firstPart").toString();
-            String secondPart = parsed.get("secondPart").toString();
-            String thirdPart = parsed.get("thirdPart").toString();
-            return String.format("doorlock%s\\%s//%s__%s+%sjava", firstPart, username, secondPart, password, thirdPart);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @ApiOperation("Sample endpoint")

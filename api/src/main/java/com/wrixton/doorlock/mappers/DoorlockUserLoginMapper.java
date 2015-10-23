@@ -11,9 +11,9 @@ public class DoorlockUserLoginMapper implements ResultSetMapper<DoorlockUserLogi
 
     @Override
     public DoorlockUserLoginCheck map(int i, ResultSet rs, StatementContext statementContext) throws SQLException {
-        String retreivedUsername = rs.getString("username");
+        String retreivedUsername = rs.getString("username").trim();
         String userID = rs.getString("user_uuid");
-        String name = rs.getString("name");
+        String name = rs.getString("name").trim();
         boolean isAdmin = rs.getBoolean("is_admin");
         return new DoorlockUserLoginCheck(userID, name, retreivedUsername, isAdmin);
     }
