@@ -9,6 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.skife.jdbi.v2.DBI;
 
+import java.util.List;
+
 import static com.wrixton.doorlock.ConfigurationMethods.saltPassword;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
@@ -60,41 +62,45 @@ public class QueryDAOTest {
 
     @Test
     public void testGetAllAdmins() throws Exception {
-
+        List<BasicDoorlockUser> allAdmins = queryDAO.getAllAdmins();
+        assertNotNull(allAdmins);
     }
 
     @Test
     public void testGetAllActiveUsers() throws Exception {
-
+        List<BasicDoorlockUser> allActiveUsers = queryDAO.getAllActiveUsers();
+        assertNotNull(allActiveUsers);
     }
 
     @Test
     public void testGetAllInactiveUsers() throws Exception {
-
+        List<BasicDoorlockUser> allInactiveUsers = queryDAO.getAllInactiveUsers();
+        assertNotNull(allInactiveUsers);
     }
 
     @Test
     public void testRegisterUser() throws Exception {
-
+//        queryDAO.registerUser();
     }
 
     @Test
     public void testUpdateCurrentUser() throws Exception {
-
+//        queryDAO.updateCurrentUser();
     }
 
     @Test
     public void testUpdateOtherUser() throws Exception {
-
+//        queryDAO.updateOtherUser();
     }
 
     @Test
     public void testForgotPassword() throws Exception {
-
+        //make user inactive as well
+//        queryDAO.forgotPassword();
     }
 
     @Test
     public void testResetPassword() throws Exception {
-
+//        queryDAO.resetPassword();
     }
 }
