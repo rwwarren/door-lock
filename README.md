@@ -21,7 +21,6 @@ relay
 graphql
 swagger for api?? finish up swagger ui -> ui not working dropwizard 
 flyway for db migration
-make db trigger for uuid after insert
 fix the cross domain origin error in nodejs app
 add 'corsproxy' to the package json and when running
 authy to api
