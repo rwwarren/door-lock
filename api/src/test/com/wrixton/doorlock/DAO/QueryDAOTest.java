@@ -4,6 +4,7 @@ import com.codahale.metrics.MetricRegistry;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.java8.jdbi.DBIFactory;
 import io.dropwizard.setup.Environment;
+import org.flywaydb.core.Flyway;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -23,13 +24,19 @@ public class QueryDAOTest {
 
     @BeforeClass
     public static void setUp() {
+        //add flyway bundle https://github.com/dropwizard/dropwizard-flyway
+//        Flyway flyway = new Flyway();
+//        flyway.setSchemas("doorlock");
+//        int migrate = flyway.migrate();
+
         final DBIFactory factory = new DBIFactory();
         Environment environment = new Environment("dev", null, null, new MetricRegistry(), null);
         DataSourceFactory dataSourceFactory = new DataSourceFactory();
         dataSourceFactory.setDriverClass("org.postgresql.Driver");
         dataSourceFactory.getProperties().put("stringtype", "unspecified");
         dataSourceFactory.getProperties().put("charSet", "UTF-8");
-        dataSourceFactory.setUrl("jdbc:postgresql://localhost:5432/application_data");
+        dataSourceFactory.setUrl("jdbc:postgresql://localhost:5432/test_application_data");
+//        dataSourceFactory.setUrl("jdbc:postgresql://localhost:5432/application_data");
         dataSourceFactory.setUser("read");
         dataSourceFactory.setPassword("PASSWORD");
         final DBI jdbi = factory.build(environment, dataSourceFactory, "postgres");

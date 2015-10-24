@@ -42,6 +42,13 @@
 
         <dependency>
             <groupId>io.dropwizard.modules</groupId>
+            <artifactId>dropwizard-flyway</artifactId>
+            <version>0.8.0-2</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.dropwizard.modules</groupId>
             <artifactId>dropwizard-java8</artifactId>
             <version>${dropwizard.modules.version}</version>
         </dependency>
