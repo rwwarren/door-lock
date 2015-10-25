@@ -5,6 +5,7 @@ import com.wrixton.doorlock.mappers.DoorlockUserLoginMapper;
 import com.wrixton.doorlock.mappers.DoorlockUserMapper;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
+import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
 import java.util.List;
@@ -32,16 +33,21 @@ public interface QueryDAO {
     @SqlQuery("SELECT user_uuid, username FROM doorlock.Users WHERE is_admin = false AND is_active = false")
     List<BasicDoorlockUser> getAllInactiveUsers();
 
-    @SqlQuery("INSERT INTO Users (name, username, password, email, authy_id, card_id, is_admin) VALUES " +
-            "(:name, :username, digest(:password, 'sha256'), :email, :authyId, :cardId, :isAdmin)")
-    boolean registerUser(@Bind("name") String name, @Bind("username") String username, @Bind("password") String password,
-                         @Bind("email") String email, @Bind("authyId") String authyId, @Bind("cardId") String cardId,
+//    @RegisterMapper(DoorlockUserMapper.class)
+    @SqlUpdate("INSERT INTO doorlock.Users (name, username, password, email, authy_id, card_id, is_admin) VALUES " +
+//    @SqlQuery("INSERT INTO doorlock.Users (name, username, password, email, authy_id, card_id, is_admin) VALUES " +
+            "(:name, :username, digest(:password, 'sha256'), :email, :authyId, :cardId, :isAdmin)" +
+//            "RETURNING user_uuid" +
+            "")
+//    void registerUser(@Bind("name") String name, @Bind("username") String username, @Bind("password") String password,
+    int registerUser(@Bind("name") String name, @Bind("username") String username, @Bind("password") String password,
+                         @Bind("email") String email, @Bind("authyId") long authyId, @Bind("cardId") String cardId,
                          @Bind("isAdmin") boolean isAdmin);
 
     @SqlQuery("UPDATE doorlock.Users SET name = :name, email = :email, authy_id = :authyId, card_id = :cardId," +
             " is_admin = :isAdmin WHERE username = :username AND password = digest(:password, 'sha256')")
     boolean updateCurrentUser(@Bind("name") String name, @Bind("username") String username, @Bind("password") String password,
-                              @Bind("email") String email, @Bind("authyId") String authyId, @Bind("cardId") String cardId,
+                              @Bind("email") String email, @Bind("authyId") long authyId, @Bind("cardId") String cardId,
                               @Bind("isAdmin") boolean isAdmin);
 
     @SqlQuery("UPDATE doorlock.Users SET is_admin = :isAdmin, is_active = :isActive WHERE username = :username")

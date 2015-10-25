@@ -9,16 +9,16 @@ public class DoorlockUser {
     private final String username;
     private final String email;
     private final String cardID;
-    private final String authyID;
+    private final Long authyID;
     private final boolean isAdmin;
 
-    public DoorlockUser(String userID, String name, String username, String email, String cardID, String authyID, boolean isAdmin) {
+    public DoorlockUser(String userID, String name, String username, String email, Long authyID, String cardID, boolean isAdmin) {
         this.userID = userID;
         this.name = name;
         this.username = username;
         this.email = email;
-        this.cardID = cardID;
         this.authyID = authyID;
+        this.cardID = cardID;
         this.isAdmin = isAdmin;
     }
 
@@ -46,7 +46,7 @@ public class DoorlockUser {
         return cardID;
     }
 
-    public String getAuthyID() {
+    public Long getAuthyID() {
         return authyID;
     }
 
@@ -76,8 +76,8 @@ public class DoorlockUser {
                 ", name='" + name + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", cardID='" + cardID + '\'' +
                 ", authyID='" + authyID + '\'' +
+                ", cardID='" + cardID + '\'' +
                 ", isAdmin=" + isAdmin +
                 '}';
     }

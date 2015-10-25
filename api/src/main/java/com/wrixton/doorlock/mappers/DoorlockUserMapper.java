@@ -19,12 +19,9 @@ public class DoorlockUserMapper implements ResultSetMapper<DoorlockUser> {
         if(cardID != null){
             cardID = cardID.trim();
         }
-        String authyID = rs.getString("authy_id");
-        if(authyID != null){
-            authyID = authyID.trim();
-        }
+        Long authyID = rs.getLong("authy_id");
         boolean isAdmin = rs.getBoolean("is_admin");
-        return new DoorlockUser(userID, name, retreivedUsername, email, cardID, authyID, isAdmin);
+        return new DoorlockUser(userID, name, retreivedUsername, email, authyID, cardID, isAdmin);
     }
 
 }
