@@ -21,7 +21,6 @@ relay
 graphql
 swagger for api?? finish up swagger ui -> ui not working dropwizard 
 flyway for db migration
-make db trigger for uuid after insert
 fix the cross domain origin error in nodejs app
 add 'corsproxy' to the package json and when running
 authy to api
@@ -29,14 +28,13 @@ authy to api
 remove legacy php from mobile
 rewrite mobile to use web optimzied
 fix/investigate bug if you logout but page not refresh you can still use the site
-newrelic -> fix
+newrelic -> fix naming
 
 Api ->json and post variables
 Mobile -> web (move to web and use the same thing) & application
 Web
 NFC
 Servo -> use java api client
-
 
 ##Api
 [API](api/README.md)
@@ -45,16 +43,16 @@ Servo -> use java api client
 - dropwizard java 8
 - maven
 - jdbi -> postgresql using jdbi dropwizard
-- swagger 1.5.3 api documentation
+- swagger 1.5.4 api documentation
 
-##Web
+##Web (+ mobile optimized)
 [Web](web/README.md)
 - nodejs
 - reactjs
 
 ##NFC/Servo
 [NFC](nfc/README.md)
-- java
+- java 8
 
 ##Mobile Application
 [Mobile](mobile/README.md)
