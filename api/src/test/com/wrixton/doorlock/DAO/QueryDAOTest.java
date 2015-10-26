@@ -112,11 +112,17 @@ public class QueryDAOTest {
 
     @Test
     public void testRegisterUser() throws Exception {
-        DoorlockUser user = new DoorlockUser("", "asdf", "ASDFFF", "asdf@g.c", 1234l, "12345", true);
-        int amountChanged = queryDAO.registerUser("asdf", "ASDFFF", "testing", "asdf@g.c", 1234l, "12345", true);
+        String name = "asdf";
+        String username = "ASDFFF";
+        String email = "asdf@g.c";
+        long authyID = 1234l;
+        String cardID = "12345";
+        boolean isAdmin = true;
+        DoorlockUser user = new DoorlockUser("", name, username, email, authyID, cardID, isAdmin);
+        int amountChanged = queryDAO.registerUser(name, username, "testing", email, authyID, cardID, isAdmin);
         assertNotNull(amountChanged);
         assertThat(amountChanged, equalTo(1));
-        DoorlockUser insertedUser = queryDAO.getUserInfo("ASDFFF");
+        DoorlockUser insertedUser = queryDAO.getUserInfo(username);
         assertNotNull(insertedUser);
         assertNotNull(insertedUser.getUserID());
         UUID fromStringUUID = UUID.fromString(insertedUser.getUserID());
@@ -131,7 +137,23 @@ public class QueryDAOTest {
 
     @Test
     public void testUpdateCurrentUser() throws Exception {
-//        queryDAO.updateCurrentUser();
+        String name = "testing";
+        String username = "Test";
+        String email = "fdsa@g.c";
+        long authyID = 4312l;
+        String cardID = "234";
+        boolean isAdmin = false;
+        DoorlockUser user = new DoorlockUser("", name, username, email, authyID, cardID, isAdmin);
+
+        int updatedRows = queryDAO.updateCurrentUser(name, email, authyID, cardID, isAdmin, username, "");
+        assertNotNull(updatedRows);
+        assertThat(updatedRows, equalTo(1));
+        DoorlockUser insertedUser = queryDAO.getUserInfo(username);
+        assertThat(insertedUser.isAdmin(), equalTo(user.isAdmin()));
+        assertThat(insertedUser.getUsername(), equalTo(user.getUsername()));
+        assertThat(insertedUser.getName(), equalTo(user.getName()));
+        assertThat(insertedUser.getAuthyID(), equalTo(user.getAuthyID()));
+        assertThat(insertedUser.getCardID(), equalTo(user.getCardID()));
     }
 
     @Test
