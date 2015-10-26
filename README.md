@@ -28,7 +28,7 @@ authy to api
 remove legacy php from mobile
 rewrite mobile to use web optimzied
 fix/investigate bug if you logout but page not refresh you can still use the site
-newrelic -> fix
+newrelic -> fix naming
 
 Api ->json and post variables
 Mobile -> web (move to web and use the same thing) & application
