@@ -179,11 +179,20 @@ public class QueryDAOTest {
     @Test
     public void testForgotPassword() throws Exception {
         //make user inactive as well
+        //make db trigger to mark user inactive
+        //TODO change contains or something to make sure that it Contains a username not equals a user
 //        queryDAO.forgotPassword();
     }
 
     @Test
     public void testResetPassword() throws Exception {
-//        queryDAO.resetPassword();
+        String username = "updateuser";
+        int rowsUpdated = queryDAO.resetPassword(username, "test");
+        assertNotNull(rowsUpdated);
+        assertThat(rowsUpdated, equalTo(1));
+        DoorlockUserLoginCheck doorlockUserLoginCheck = queryDAO.loginUser(username, "test");
+        assertNotNull(doorlockUserLoginCheck);
+        assertThat(doorlockUserLoginCheck.getUsername(), equalTo(username));
+
     }
 }

@@ -51,8 +51,8 @@ public interface QueryDAO {
     @SqlQuery("INSERT INTO doorlock.ResetURLs (user_id, reset_url) VALUES (:userID, :resetURL)")
     boolean forgotPassword(@Bind("userID") String userID, @Bind("resetURL") String resetURL);
 
-    @SqlQuery("UPDATE doorlock.Users SET Password = digest(:password, 'sha256'), is_active = 1 WHERE username = ? = :username")
-    boolean resetPassword(@Bind("username") String username, @Bind("password") String password);
+    @SqlUpdate("UPDATE doorlock.Users SET Password = digest(:password, 'sha256'), is_active = true WHERE username = :username")
+    int resetPassword(@Bind("username") String username, @Bind("password") String password);
 
 
 }
