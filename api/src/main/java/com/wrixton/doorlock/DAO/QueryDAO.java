@@ -30,7 +30,7 @@ public interface QueryDAO {
     List<BasicDoorlockUser> getAllActiveUsers();
 
     @RegisterMapper(BasicDoorlockUserMapper.class)
-    @SqlQuery("SELECT user_uuid, username FROM doorlock.Users WHERE is_admin = false AND is_active = false")
+    @SqlQuery("SELECT user_uuid, username FROM doorlock.Users WHERE is_active = false")
     List<BasicDoorlockUser> getAllInactiveUsers();
 
     @SqlUpdate("INSERT INTO doorlock.Users (name, username, password, email, authy_id, card_id, is_admin) VALUES " +
@@ -45,8 +45,8 @@ public interface QueryDAO {
                               @Bind("cardId") String cardId, @Bind("isAdmin") boolean isAdmin, @Bind("username") String username,
                               @Bind("password") String password);
 
-    @SqlQuery("UPDATE doorlock.Users SET is_admin = :isAdmin, is_active = :isActive WHERE username = :username")
-    boolean updateOtherUser(@Bind("isAdmin") boolean isAdmin, @Bind("isActive") boolean isActive, @Bind("username") String username);
+    @SqlUpdate("UPDATE doorlock.Users SET is_admin = :isAdmin, is_active = :isActive WHERE username = :username")
+    int updateOtherUser(@Bind("username") String username, @Bind("isAdmin") boolean isAdmin, @Bind("isActive") boolean isActive);
 
     @SqlQuery("INSERT INTO doorlock.ResetURLs (user_id, reset_url) VALUES (:userID, :resetURL)")
     boolean forgotPassword(@Bind("userID") String userID, @Bind("resetURL") String resetURL);

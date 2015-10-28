@@ -17,12 +17,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.google.common.io.Resources.getResource;
 import static com.google.common.io.Resources.readLines;
 import static com.wrixton.doorlock.ConfigurationMethods.saltPassword;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -75,11 +77,11 @@ public class QueryDAOTest {
 
     @Test
     public void testLoginUser() throws Exception {
-        String password = saltPassword("test", "test");
+        String password = saltPassword("test", "password");
         DoorlockUserLoginCheck loginCheck = queryDAO.loginUser("test", password);
         assertNotNull(loginCheck);
         DoorlockUserLoginCheck expected = new DoorlockUserLoginCheck("249c61eb-3b76-49ed-a2a7-8e70aa3cc7d9",
-                "test", "test", true);
+                "testing", "test", true);
         assertEquals(expected, loginCheck);
     }
 
@@ -88,7 +90,7 @@ public class QueryDAOTest {
         DoorlockUser user = queryDAO.getUserInfo("test");
         assertThat(user, notNullValue());
         DoorlockUser doorlockUser = new DoorlockUser("249c61eb-3b76-49ed-a2a7-8e70aa3cc7d9",
-                "test", "test", "asdf", null, null, true);
+                "testing", "test", "asdf@s.com", 12l, "21", true);
         assertEquals(doorlockUser, user);
     }
 
@@ -137,14 +139,13 @@ public class QueryDAOTest {
 
     @Test
     public void testUpdateCurrentUser() throws Exception {
-        String name = "testing";
-        String username = "Test";
+        String name = "updatecurrentuser";
+        String username = "updatecurrentusername";
         String email = "fdsa@g.c";
         long authyID = 4312l;
         String cardID = "234";
         boolean isAdmin = false;
-        DoorlockUser user = new DoorlockUser("", name, username, email, authyID, cardID, isAdmin);
-
+        DoorlockUser user = new DoorlockUser("249a61eb-3b76-49ed-a2b7-8e70aa3cc7d9", name, username, email, authyID, cardID, isAdmin);
         int updatedRows = queryDAO.updateCurrentUser(name, email, authyID, cardID, isAdmin, username, "");
         assertNotNull(updatedRows);
         assertThat(updatedRows, equalTo(1));
@@ -158,7 +159,21 @@ public class QueryDAOTest {
 
     @Test
     public void testUpdateOtherUser() throws Exception {
-//        queryDAO.updateOtherUser();
+        String username = "updateuser";
+        DoorlockUser initialUser = queryDAO.getUserInfo(username);
+        int updatedRows = queryDAO.updateOtherUser(username, false, false);
+        assertNotNull(updatedRows);
+        assertThat(updatedRows, equalTo(1));
+        DoorlockUser updatedUser = queryDAO.getUserInfo(username);
+        assertNotNull(updatedUser);
+        assertThat(updatedUser, not(equalTo(initialUser)));
+        assertThat(updatedUser.getUsername(), equalTo(username));
+        assertThat(updatedUser.isAdmin(), equalTo(false));
+        List<BasicDoorlockUser> allInactiveUsers = queryDAO.getAllInactiveUsers();
+        allInactiveUsers.stream()
+                .filter(basicDoorlockUser -> basicDoorlockUser.getUsername().equals(username))
+                .collect(Collectors.toList());
+        assertThat(allInactiveUsers.size(), equalTo(1));
     }
 
     @Test
