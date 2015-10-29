@@ -7,6 +7,7 @@ TODO:
 Using gulp
 setting up api -> dropwizard 
 Remove all files that are no longer needed (many in the base dir)
+setup gulp script
 
 Things to install
 nodejs
