@@ -42,7 +42,7 @@ Servo -> use java api client
 - dropwizard .9-rc
 - dropwizard java 8
 - maven
-- jdbi -> postgresql using jdbi dropwizard
+- jdbi -> postgresql (9.4.4) using jdbi dropwizard
 - swagger 1.5.4 api documentation
 
 ##Web (+ mobile optimized)
