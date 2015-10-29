@@ -48,11 +48,19 @@ public interface QueryDAO {
     @SqlUpdate("UPDATE doorlock.Users SET is_admin = :isAdmin, is_active = :isActive WHERE username = :username")
     int updateOtherUser(@Bind("username") String username, @Bind("isAdmin") boolean isAdmin, @Bind("isActive") boolean isActive);
 
-    @SqlQuery("INSERT INTO doorlock.ResetURLs (user_id, reset_url) VALUES (:userID, :resetURL)")
-    boolean forgotPassword(@Bind("userID") String userID, @Bind("resetURL") String resetURL);
+    @SqlUpdate("INSERT INTO doorlock.ResetURLs (user_id, reset_url) VALUES (:userID, :resetURL)")
+    int forgotPassword(@Bind("userID") long userID, @Bind("resetURL") String resetURL);
 
     @SqlUpdate("UPDATE doorlock.Users SET Password = digest(:password, 'sha256'), is_active = true WHERE username = :username")
     int resetPassword(@Bind("username") String username, @Bind("password") String password);
 
+    @SqlUpdate("UPDATE doorlock.Users SET is_active = :isActive WHERE username = :username")
+    int changeUserStatus(@Bind("username") String username, @Bind("isActive") boolean isActive);
+
+    @SqlQuery("SELECT user_id FROM doorlock.reseturls WHERE reset_url = :resetUrl AND is_valid = true AND expiration >= now()")
+    long checkResetUrl(@Bind("resetUrl") String resetUrl);
+
+    @SqlUpdate("UPDATE doorlock.reseturls SET is_valid = false WHERE reset_url = :resetUrl")
+    int deactivateResetUrl(@Bind("resetUrl") String resetUrl);
 
 }

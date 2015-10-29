@@ -241,6 +241,8 @@ public class DoorlockApiAppResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/ResetPassword")
     public Status resetPassword(@Valid ResetPasswordRequest resetPasswordRequest) {
+//        queriesDAO.forgotPassword();
+//        queriesDAO.changeUserStatus();
         return new Status(false);
     }
 

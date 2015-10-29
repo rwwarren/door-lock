@@ -181,7 +181,9 @@ public class QueryDAOTest {
         //make user inactive as well
         //make db trigger to mark user inactive
         //TODO change contains or something to make sure that it Contains a username not equals a user
-//        queryDAO.forgotPassword();
+        int rowsUpdated = queryDAO.forgotPassword(1, "reset-url");
+        assertNotNull(rowsUpdated);
+        assertThat(rowsUpdated, equalTo(1));
     }
 
     @Test
@@ -193,6 +195,32 @@ public class QueryDAOTest {
         DoorlockUserLoginCheck doorlockUserLoginCheck = queryDAO.loginUser(username, "test");
         assertNotNull(doorlockUserLoginCheck);
         assertThat(doorlockUserLoginCheck.getUsername(), equalTo(username));
+    }
 
+    @Test
+    public void testChangeUserStatus() throws Exception {
+        String username = "updateuser";
+        int rowsUpdated = queryDAO.changeUserStatus(username, false);
+        assertNotNull(rowsUpdated);
+        assertThat(rowsUpdated, equalTo(1));
+        List<BasicDoorlockUser> allInactiveUsers = queryDAO.getAllInactiveUsers();
+        List<BasicDoorlockUser> myUser = allInactiveUsers.stream()
+                .filter(basicDoorlockUser -> basicDoorlockUser.getUsername().equals(username))
+                .collect(Collectors.toList());
+        assertThat(myUser.size(), equalTo(1));
+    }
+
+    @Test
+    public void testCheckResetUrl(){
+        long userId = queryDAO.checkResetUrl("reset-url-first");
+        assertNotNull(userId);
+        assertThat(userId, equalTo(1l));
+    }
+
+    @Test
+    public void testDeactivateResetUrl(){
+        int updatedRows = queryDAO.deactivateResetUrl("reset-url-second");
+        assertNotNull(updatedRows);
+        assertThat(updatedRows, equalTo(1));
     }
 }
