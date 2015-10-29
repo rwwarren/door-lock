@@ -31,13 +31,17 @@ app.get('/lock', function(req, res) {
 
 app.get('/config', function(req, res) {
   var common = require('../src/inc/Common');
-  var url = common.API_URL + common.CHECK_LOGIN;
+  var url = common.API_URL + common.CONFIG;
+  //var url = common.API_URL + common.CHECK_LOGIN;
   var sid = req.cookies.sid;
   if(sid != null) {
     Request.post(url, {json: {sid: sid}}, function(err, resp, body) {
-      if(err == null && resp.statusCode === 200 && body.status.success && body.loginCheck.admin) {
-        var config = require('../src/properties/config.json');
-        res.send(config);
+      if(err == null && resp.statusCode === 200) {
+      //if(err == null && resp.statusCode === 200 && body.status.success && body.loginCheck.admin) {
+        //var config = require('../src/properties/config.json');
+        //res.send(config);
+        res.send(body);
+        //res.send(resp);
       } else {
         res.redirect('/');
       }

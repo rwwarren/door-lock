@@ -2,6 +2,7 @@ package com.wrixton.doorlock;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.Email;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -25,13 +26,14 @@ public class RegisterUserRequest {
     private final String password;
 
     @NotNull
+    @Email
     private final String email;
 
     @NotNull
     private final String cardID;
 
     @NotNull
-    private final String authyID;
+    private final long authyID;
 
     @NotNull
     private final boolean isAdmin;
@@ -43,7 +45,7 @@ public class RegisterUserRequest {
                                @JsonProperty("password") String password,
                                @JsonProperty("email") String email,
                                @JsonProperty("cardID") String cardID,
-                               @JsonProperty("authyID") String authyID,
+                               @JsonProperty("authyID") long authyID,
                                @JsonProperty("isAdmin") boolean isAdmin) {
         this.sid = sid;
         this.userID = userID;
@@ -84,7 +86,7 @@ public class RegisterUserRequest {
         return cardID;
     }
 
-    public String getAuthyID() {
+    public long getAuthyID() {
         return authyID;
     }
 

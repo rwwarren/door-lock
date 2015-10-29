@@ -13,7 +13,13 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
+import io.swagger.jaxrs.listing.SwaggerSerializers;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.skife.jdbi.v2.DBI;
+
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import java.util.EnumSet;
 //import io.swagger.jaxrs.config.BeanConfig;
 //import io.federecio.dropwizard.swagger.SwaggerBundle;
 //import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
@@ -52,34 +58,53 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
             }
         });
 //        bootstrap.addBundle(new AssetsBundle());
-        bootstrap.addBundle(new AssetsBundle("/assets"));
-//        bootstrap.addBundle(new AssetsBundle("/assets", "/", "index.html"));
+//        bootstrap.addBundle(new AssetsBundle("/assets/css", "/css"));
+        bootstrap.addBundle(new AssetsBundle("/assets/css", "/css", "index.htm", "/css"));
+        bootstrap.addBundle(new AssetsBundle("/assets/lib", "/lib", "index.htm", "/lib"));
+//        bootstrap.addBundle(new AssetsBundle("/assets/lib", "/lib"));
+//        bootstrap.addBundle(new AssetsBundle("/assets"));
+//        bootstrap.addBundle(new AssetsBundle("/assets", "/css", "index.html"));
+//        bootstrap.addBundle(new SwaggerSerializers());
     }
 
     @Override
     public void run(DoorlockApiAppConfiguration doorlockApiAppConfiguration, Environment environment) throws Exception {
 
+        environment.jersey().register(new ApiListingResource());
+        //TODO likely delete cors
+//        final FilterRegistration.Dynamic cors =
+//                environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+//        // Configure CORS parameters
+//        cors.setInitParameter("allowedOrigins", "*");
+//        cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
+//        cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
+
+        // Add URL mapping
+//        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+
         final DBIFactory factory = new DBIFactory();
-        final DBI jdbi = factory.build(environment, doorlockApiAppConfiguration.getDataSourceFactory(), "mysql");
-        final QueryDAO personDAO = jdbi.onDemand(QueryDAO.class);
-        final DoorlockApiAppResource resource = new DoorlockApiAppResource();
+//        final DBI jdbi = factory.build(environment, doorlockApiAppConfiguration.getDataSourceFactory(), "mysql");
+        final DBI jdbi = factory.build(environment, doorlockApiAppConfiguration.getDataSourceFactory(), "postgres");
+        final QueryDAO queryDAO = jdbi.onDemand(QueryDAO.class);
+        final DoorlockApiAppResource resource = new DoorlockApiAppResource(queryDAO);
         environment.jersey().register(resource);
 
         final healthcheck healthCheck =
                 new healthcheck(doorlockApiAppConfiguration.toString());
         environment.healthChecks().register("template", healthCheck);
 
-
 //        environment.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
-        environment.jersey().register(new ApiListingResource());
 
         BeanConfig config = new BeanConfig();
         config.setTitle("Doorlock Api App");
         config.setVersion("1.0.0");
+//        config.setResourcePackage("com.wrixton.doorlock.resources.DoorlockApiAppResource");
         config.setResourcePackage("com.wrixton.doorlock.resources");
         config.setScan(true);
-//        environment.jersey().register(config);
+        config.setHost("localhost");
+        config.setBasePath("/");
+        config.setSchemes(new String[]{"http"});
+        environment.jersey().register(config);
 
         environment.jersey().setUrlPattern("/css/*");
         environment.jersey().setUrlPattern("/lib/*");

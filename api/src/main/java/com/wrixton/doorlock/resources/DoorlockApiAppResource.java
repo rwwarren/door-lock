@@ -5,6 +5,7 @@ import com.wrixton.doorlock.DAO.BasicDoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUser;
 import com.wrixton.doorlock.DAO.DoorlockUserLoginCheck;
 import com.wrixton.doorlock.DAO.LoginStatus;
+import com.wrixton.doorlock.DAO.QueryDAO;
 import com.wrixton.doorlock.DAO.Status;
 import com.wrixton.doorlock.ForgotPasswordRequest;
 import com.wrixton.doorlock.LoginRequest;
@@ -13,7 +14,6 @@ import com.wrixton.doorlock.ResetPasswordRequest;
 import com.wrixton.doorlock.SessionRequest;
 import com.wrixton.doorlock.UpdateCurrentUserRequest;
 import com.wrixton.doorlock.UpdateOtherUserRequest;
-import com.wrixton.doorlock.db.Queries;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.BooleanUtils;
@@ -31,32 +31,65 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.io.FileReader;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Api
+import static com.wrixton.doorlock.ConfigurationMethods.saltPassword;
+
 @Path("/")
+@Api
+//@Api("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class DoorlockApiAppResource {
 
     private final String CONFIG_FILE = "config.json";
+    private final QueryDAO queriesDAO;
+
+    public DoorlockApiAppResource(QueryDAO queriesDAO) {
+        this.queriesDAO = queriesDAO;
+    }
+
+    //TODO remove this
+    @ApiOperation("test")
+    @GET
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/testing")
+    public Object testing() {
+        try {
+            DoorlockUserLoginCheck doorlockUserLoginCheck = queriesDAO.loginUser("test", saltPassword("test", "test"));
+            return doorlockUserLoginCheck;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     @ApiOperation("Sample endpoint")
     @GET
     @Timed
-    @Produces(MediaType.TEXT_PLAIN)
-//    @Produces(MediaType.TEXT_HTML)
-    public Response getIndex() {
+//    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_HTML)
+    public Object getIndex() {
+//    public Response getIndex() {
+//        try{
+//            return new FileReader("index.html");
+//
+//        } catch (Exception e ){
+//            e.printStackTrace();
+//        }
+//        return null;
         Client myClient = ClientBuilder.newClient();
-        WebTarget target = myClient.target("http://petstore.swagger.io/?url=http://localhost:8080/swagger.json");
+        WebTarget target = myClient.target("http://generator.swagger.io/?url=http://localhost:8080/swagger.json");
+//        WebTarget target = myClient.target("http://petstore.swagger.io/?url=http://localhost:8080/swagger.json");
 //        WebTarget target = myClient.target("http://generator.swagger.io/");
 //        WebTarget target = myClient.target("http://docs.doorlock.apiary.io/");
 //        String payload = "{\"swaggerUrl\":\"http://localhost:8080/swagger.json\"}";
 //        return target.request(MediaType.TEXT_HTML).post(Entity.entity(payload, MediaType.APPLICATION_JSON));
-        return target.request(MediaType.TEXT_PLAIN).get();
-//        return target.request(MediaType.TEXT_HTML).get();
+//        return target.request(MediaType.TEXT_PLAIN).get();
+        return target.request(MediaType.TEXT_HTML).get();
     }
 
     @POST
@@ -67,11 +100,12 @@ public class DoorlockApiAppResource {
 //    @Api(value = "/pet", description = "Operations about pets")
     public LoginStatus login(@Valid LoginRequest body, @Context Jedis jedis) {
         try {
-            Queries queries = new Queries();
+//            Queries queries = new Queries();
             String sid = body.getSid();
             String token = body.getToken();
             System.out.println(sid);
-            DoorlockUserLoginCheck user = queries.login(body.getUsername(), body.getPassword());
+            DoorlockUserLoginCheck user = queriesDAO.loginUser(body.getUsername(), saltPassword(body.getUsername(), body.getPassword()));
+//            DoorlockUserLoginCheck user = queries.login(body.getUsername(), body.getPassword());
             if (user == null) {
                 return new LoginStatus(null, new Status(false));
             }
@@ -126,8 +160,7 @@ public class DoorlockApiAppResource {
             String username;
             username = jedis.hget(getRedisKey(sid), "username");
             if (username != null) {
-                Queries queries = new Queries();
-                return queries.getUserInfo(username);
+                return queriesDAO.getUserInfo(username);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -142,11 +175,10 @@ public class DoorlockApiAppResource {
     @Path("/GetAllUsers")
     public Map<String, List<BasicDoorlockUser>> getAllUsers(@Valid SessionRequest sid, @Context Jedis jedis) {
         try {
-            Queries queries = new Queries();
             System.out.println(sid);
             boolean isAdmin = isAdmin(sid, jedis);
             if (isAdmin) {
-                return queries.getAllUsers();
+                return getAllUsers();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,10 +200,10 @@ public class DoorlockApiAppResource {
     public Status registerUser(@Valid RegisterUserRequest registerUserRequest, @Context Jedis jedis) {
         try {
             if (isAdmin(registerUserRequest.getSid(), jedis)) {
-                Queries queries = new Queries();
-                queries.registerUser(registerUserRequest.getUsername(), registerUserRequest.getName(),
-                        registerUserRequest.getPassword(), registerUserRequest.getEmail(),
-                        registerUserRequest.getAuthyID(), registerUserRequest.getCardID(), registerUserRequest.isAdmin());
+                queriesDAO.registerUser(registerUserRequest.getUsername(), registerUserRequest.getName(),
+                        saltPassword(registerUserRequest.getUsername(), registerUserRequest.getPassword()),
+                        registerUserRequest.getEmail(), registerUserRequest.getAuthyID(), registerUserRequest.getCardID(),
+                        registerUserRequest.isAdmin());
                 return new Status(true);
             }
         } catch (Exception e) {
@@ -209,6 +241,8 @@ public class DoorlockApiAppResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/ResetPassword")
     public Status resetPassword(@Valid ResetPasswordRequest resetPasswordRequest) {
+//        queriesDAO.forgotPassword();
+//        queriesDAO.changeUserStatus();
         return new Status(false);
     }
 
@@ -256,6 +290,17 @@ public class DoorlockApiAppResource {
 
     private String getRedisKey(@Valid SessionRequest sid) {
         return "loggedInUsers:" + sid.getSid();
+    }
+
+    private Map<String, List<BasicDoorlockUser>> getAllUsers() {
+        Map<String, List<BasicDoorlockUser>> results = new HashMap<>(3);
+        List<BasicDoorlockUser> allAdmins = queriesDAO.getAllAdmins();
+        List<BasicDoorlockUser> allActiveUsers = queriesDAO.getAllActiveUsers();
+        List<BasicDoorlockUser> allInactiveUsers = queriesDAO.getAllInactiveUsers();
+        results.put("Admins", allAdmins);
+        results.put("ActiveUsers", allActiveUsers);
+        results.put("InactiveUsers", allInactiveUsers);
+        return results;
     }
 
 }
