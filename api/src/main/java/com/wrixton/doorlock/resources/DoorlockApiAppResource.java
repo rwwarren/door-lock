@@ -52,20 +52,20 @@ public class DoorlockApiAppResource {
     }
 
     //TODO remove this
-    @ApiOperation("test")
-    @GET
-    @Timed
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/testing")
-    public Object testing() {
-        try {
-            DoorlockUserLoginCheck doorlockUserLoginCheck = queriesDAO.loginUser("test", saltPassword("test", "test"));
-            return doorlockUserLoginCheck;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    @ApiOperation("test")
+//    @GET
+//    @Timed
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Path("/testing")
+//    public Object testing() {
+//        try {
+//            DoorlockUserLoginCheck doorlockUserLoginCheck = queriesDAO.loginUser("test", saltPassword("test", "test"));
+//            return doorlockUserLoginCheck;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
     @ApiOperation("Sample endpoint")
     @GET
@@ -157,14 +157,18 @@ public class DoorlockApiAppResource {
     @Path("/GetUserInfo")
     public DoorlockUser getUserInfo(@Valid SessionRequest sid, @Context Jedis jedis) {
         try {
-            String username;
-            username = jedis.hget(getRedisKey(sid), "username");
+            String redisKey = getRedisKey(sid);
+            Long amount = jedis.incr(redisKey);
+            jedis.expire(redisKey, 10);
+            if(amount <= 10){
+                System.out.println("starting to rate limit");
+            }
+            String username = jedis.hget(redisKey, "username");
             if (username != null) {
                 return queriesDAO.getUserInfo(username);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -184,7 +188,7 @@ public class DoorlockApiAppResource {
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
-        return null;
+        return new HashMap<>();
     }
 
     private boolean isAdmin(@Valid SessionRequest sid, @Context Jedis jedis) {
@@ -217,6 +221,7 @@ public class DoorlockApiAppResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/UpdateCurrentUser")
     public Status updateCurrentUser(@Valid UpdateCurrentUserRequest updateCurrentUserRequest) {
+//        queriesDAO.updateCurrentUser(updateCurrentUserRequest.get)
         return new Status(false);
     }
 
@@ -225,6 +230,7 @@ public class DoorlockApiAppResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/UpdateOtherUser")
     public Status updateOtherUser(@Valid UpdateOtherUserRequest updateOtherUserRequest) {
+//        queriesDAO.updateOtherUser();
         return new Status(false);
     }
 
@@ -233,6 +239,7 @@ public class DoorlockApiAppResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/ForgotPassword")
     public Status forgotPassword(@Valid ForgotPasswordRequest forgotPasswordRequest) {
+//        queriesDAO.forgotPassword()
         return new Status(false);
     }
 
@@ -243,6 +250,7 @@ public class DoorlockApiAppResource {
     public Status resetPassword(@Valid ResetPasswordRequest resetPasswordRequest) {
 //        queriesDAO.forgotPassword();
 //        queriesDAO.changeUserStatus();
+//        queriesDAO.resetPassword()
         return new Status(false);
     }
 
@@ -250,7 +258,8 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/LockStatus")
-    public String lockStatus(@Valid SessionRequest sid) {
+    public String lockStatus(@Valid SessionRequest sid, @Context Jedis jedis) {
+        //        String lockStatus = jedis.get("lockStatus");
         return "{\"Status\":\"open\",\"isLocked\":\"1\"}";
     }
 
@@ -258,7 +267,8 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/Lock")
-    public String lock(@Valid SessionRequest sid) {
+    public String lock(@Valid SessionRequest sid, @Context Jedis jedis) {
+//        jedis.set("lockStatus", "isLocked");
         return "{\"Status\":\"some other status\"}";
     }
 
@@ -266,7 +276,8 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/Unlock")
-    public String unlock(@Valid SessionRequest sid) {
+    public String unlock(@Valid SessionRequest sid, @Context Jedis jedis) {
+//        jedis.set("lockStatus", "isLocked");
         return "{\"Status\":\"some status\"}";
     }
 
