@@ -159,8 +159,9 @@ public class DoorlockApiAppResource {
         try {
             String redisKey = getRedisKey(sid);
             Long amount = jedis.incr(redisKey);
-            jedis.expire(redisKey, 10);
-            if(amount <= 10){
+            int limit = 10;
+            jedis.expire(redisKey, limit);
+            if(amount <= limit){
                 System.out.println("starting to rate limit");
             }
             String username = jedis.hget(redisKey, "username");
