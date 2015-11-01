@@ -40,7 +40,7 @@ Servo -> use java api client
 ##Api
 [API](api/README.md)
 - Java 8
-- dropwizard .9-rc
+- dropwizard .9
 - dropwizard java 8
 - maven
 - jdbi -> postgresql (9.4.4) using jdbi dropwizard
