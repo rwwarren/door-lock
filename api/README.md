@@ -5,3 +5,5 @@ mvn clean install
 
 How to start the server:
 ./startServer.sh start
+
+newrelic
