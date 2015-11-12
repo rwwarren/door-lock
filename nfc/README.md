@@ -5,3 +5,4 @@ Can use:
 - iPhone 6/6s
 - [nymi] (http://www.nymi.com)
 - nfc card
+- java 8
