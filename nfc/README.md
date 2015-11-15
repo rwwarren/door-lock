@@ -2,7 +2,7 @@
 
 
 Can use:
-- iPhone 6/6s
+- iPhone 6/6s + iPhone 6/6s Plus
 - [nymi] (http://www.nymi.com)
 - nfc card
 - java 8
