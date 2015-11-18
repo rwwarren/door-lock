@@ -1,5 +1,6 @@
 # [PiLock] (http://api.doorlock.war.re/) - Electronic Deadbolt System NFC
 
+The goal of this is so that anyone with any type of nfc can open the door with proper access.
 
 Can use:
 - iPhone 6/6s + iPhone 6/6s Plus
