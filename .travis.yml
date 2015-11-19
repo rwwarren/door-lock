@@ -7,15 +7,9 @@ php:
 
 services:
   - redis-server
+  - postgresql
 
 before_script:
-  - mysql -u root -e 'create database doorlock;'
-  - mysql -u root -e "CREATE USER 'read'@'localhost' IDENTIFIED BY 'PASSWORD';"
-  - mysql -u root -e "GRANT SELECT ON doorlock.* TO 'read'@'localhost';"
-  - mysql -u root -e "CREATE USER 'write'@'localhost' IDENTIFIED BY 'PASSWORD';"
-  - mysql -u root -e "GRANT SELECT, INSERT, UPDATE, CREATE ON doorlock.* TO 'write'@'localhost';"
-  - mysql -u root -e "FLUSH PRIVILEGES;"
-  - mysql -u root doorlock < createDB.sql
 
 script:
   - composer selfupdate
