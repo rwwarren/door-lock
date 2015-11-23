@@ -2,7 +2,6 @@ logging:
   level: DEBUG
 
 server:
-
   applicationConnectors:
     - type: http
       port: 8080
@@ -42,8 +41,6 @@ database:
 
   # the JDBC URL
   url: jdbc:postgresql://localhost/application_data
-#  url: jdbc:postgresql://localhost/doorlock
-#  url: jdbc:mysql://localhost:3306/doorlock
 
   # any properties specific to your JDBC driver:
   properties:
