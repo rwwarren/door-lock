@@ -16,5 +16,3 @@ script:
   - cd web
   - npm install
   - mocha
-  - mysql --version
-
