@@ -27,7 +27,6 @@ isRunning() {
 }
 
 
-
 case $1 in
 	start)
 		if isRunning; then
