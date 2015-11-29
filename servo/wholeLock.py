@@ -1,4 +1,3 @@
 class wholeLock:
   """ """
-  print "asdf"
-
+  print "turning the lock"

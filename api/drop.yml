@@ -27,7 +27,6 @@ redis:
   # The maximum number of connections allowed in the pool.  (default: 1024)
 #  maxTotal: 1924
 
-
 database:
   # the name of your JDBC driver
 #  driverClass: com.mysql.jdbc.driver

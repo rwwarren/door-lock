@@ -40,7 +40,7 @@ Servo -> use java api client
 ##Api
 [API](api/README.md)
 - Java 8
-- dropwizard .9
+- dropwizard 0.9.1
 - dropwizard java 8
 - maven
 - jdbi -> postgresql (9.4.4) using jdbi dropwizard
@@ -53,7 +53,7 @@ Servo -> use java api client
 
 ##NFC/Servo
 [NFC](nfc/README.md)
-- java 8
+- Java 8
 
 ##Mobile Application
 [Mobile](mobile/README.md)
