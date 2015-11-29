@@ -19,6 +19,7 @@
         <!--<swagger.version>1.5.5-SNAPSHOT</swagger.version>-->
         <dropwizard.modules.version>0.9.0-1</dropwizard.modules.version>
         <newrelic.version>3.22.1</newrelic.version>
+        <jackson-datatype.version>2.6.3</jackson-datatype.version>
     </properties>
 
     <dependencies>
@@ -109,12 +110,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.6.3</version>
+            <version>${jackson-datatype.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.6.3</version>
+            <version>${jackson-datatype.version}</version>
         </dependency>
 
 
