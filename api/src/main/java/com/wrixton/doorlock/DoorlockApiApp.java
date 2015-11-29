@@ -85,6 +85,7 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
         final DBIFactory factory = new DBIFactory();
 //        final DBI jdbi = factory.build(environment, doorlockApiAppConfiguration.getDataSourceFactory(), "mysql");
         final DBI jdbi = factory.build(environment, doorlockApiAppConfiguration.getDataSourceFactory(), "postgres");
+//        final DBI jdbi = factory.build(environment, doorlockApiAppConfiguration.getDataSourceFactory(), "postgres");
         final QueryDAO queryDAO = jdbi.onDemand(QueryDAO.class);
         final DoorlockApiAppResource resource = new DoorlockApiAppResource(queryDAO);
         environment.jersey().register(resource);
