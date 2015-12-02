@@ -16,9 +16,7 @@ CMD="java -Dnewrelic.environment=$env -javaagent:$ROOT/target/dependency/newreli
 #name=`basename $0`
 
 stdout_log="$ROOT/$env.log"
-#stdout_log="/var/log/$name.log"
 stderr_log="$ROOT/$env.err"
-#stderr_log="/var/log/$name.err"
 
 pid_file="$ROOT/$env.pid"
 
