@@ -42,12 +42,10 @@ var JSGulp = {
     });
     bundler.transform(reactify);
     bundler.transform(es6ify.configure(/.js/));
-
     if(watch) {
       bundler = watchify(bundler);
       bundler.on('update', JSGulp.getBundleStream);
     }
-
     jsBundler = bundler;
   },
 
@@ -89,14 +87,12 @@ var JSGulp = {
         .pipe(rename(reactFile))
         .pipe(gulp.dest(outputPath));
     }
-
     stream = stream.pipe(gulp.dest(outputPath));
     return stream;
   },
 
   watch: function() {
     JSGulp._createBundler(true);
-
     var stream = JSGulp.getBundleStream();
     stream.read();
   },
@@ -108,7 +104,6 @@ var JSGulp = {
         done();
         return;
       }
-
       console.log('Cleaned Bundle JS');
       done();
     });
