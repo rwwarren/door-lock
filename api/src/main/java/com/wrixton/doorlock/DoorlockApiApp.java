@@ -11,14 +11,19 @@ import io.dropwizard.java8.Java8Bundle;
 import io.dropwizard.java8.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.swagger.config.ScannerFactory;
 import io.swagger.jaxrs.config.BeanConfig;
+import io.swagger.jaxrs.config.ReflectiveJaxrsScanner;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
+import io.swagger.models.Swagger;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.skife.jdbi.v2.DBI;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import java.util.EnumSet;
 //import io.swagger.jaxrs.config.BeanConfig;
 //import io.federecio.dropwizard.swagger.SwaggerBundle;
@@ -61,6 +66,8 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
 //        bootstrap.addBundle(new AssetsBundle("/assets/css", "/css"));
         bootstrap.addBundle(new AssetsBundle("/assets/css", "/css", "index.htm", "/css"));
         bootstrap.addBundle(new AssetsBundle("/assets/lib", "/lib", "index.htm", "/lib"));
+        bootstrap.addBundle(new AssetsBundle("/assets/fonts", "/fonts", "index.htm", "/fonts"));
+        bootstrap.addBundle(new AssetsBundle("/assets/images", "/images", "index.htm", "/images"));
 //        bootstrap.addBundle(new AssetsBundle("/assets/lib", "/lib"));
 //        bootstrap.addBundle(new AssetsBundle("/assets"));
 //        bootstrap.addBundle(new AssetsBundle("/assets", "/css", "index.html"));
@@ -72,15 +79,15 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
 
         environment.jersey().register(new ApiListingResource());
         //TODO likely delete cors
-//        final FilterRegistration.Dynamic cors =
-//                environment.servlets().addFilter("CORS", CrossOriginFilter.class);
-//        // Configure CORS parameters
-//        cors.setInitParameter("allowedOrigins", "*");
-//        cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
-//        cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
+        final FilterRegistration.Dynamic cors =
+                environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+        // Configure CORS parameters
+        cors.setInitParameter("allowedOrigins", "*");
+        cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
+        cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
 
         // Add URL mapping
-//        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
         final DBIFactory factory = new DBIFactory();
 //        final DBI jdbi = factory.build(environment, doorlockApiAppConfiguration.getDataSourceFactory(), "mysql");
@@ -96,19 +103,43 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
 
 //        environment.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-        BeanConfig config = new BeanConfig();
-        config.setTitle("Doorlock Api App");
-        config.setVersion("1.0.0");
-//        config.setResourcePackage("com.wrixton.doorlock.resources.DoorlockApiAppResource");
-        config.setResourcePackage("com.wrixton.doorlock.resources");
-        config.setScan(true);
-        config.setHost("localhost");
-        config.setBasePath("/");
-        config.setSchemes(new String[]{"http"});
-        environment.jersey().register(config);
+//        BeanConfig config = new BeanConfig();
+//        config.setTitle("Doorlock Api App");
+//        config.setVersion("1.0.0");
+////        config.setResourcePackage("com.wrixton.doorlock.resources.DoorlockApiAppResource");
+//        config.setResourcePackage("com.wrixton.doorlock.resources");
+//        config.setScan(true);
+//        config.setHost("localhost");
+//        config.setBasePath("/");
+//        config.setSchemes(new String[]{"http"});
+//        environment.jersey().register(config);
 
         environment.jersey().setUrlPattern("/css/*");
         environment.jersey().setUrlPattern("/lib/*");
 
+        final Swagger swagger = new Swagger();
+
+        ReflectiveJaxrsScanner reflectiveJaxrsScanner = new ReflectiveJaxrsScanner();
+        reflectiveJaxrsScanner.setResourcePackage("com.wrixton.doorlock.resources");
+        reflectiveJaxrsScanner.setPrettyPrint(true);
+        ScannerFactory.setScanner(reflectiveJaxrsScanner);
+
+        environment.servlets().addServletListeners(new ServletContextListener() {
+            @Override
+            public void contextInitialized(ServletContextEvent servletContextEvent) {
+                servletContextEvent.getServletContext().setAttribute("swagger", swagger);
+            }
+
+            @Override
+            public void contextDestroyed(ServletContextEvent servletContextEvent) {
+
+            }
+        });
+
+        //PROVIDER
+        environment.jersey().register(io.swagger.jaxrs.listing.SwaggerSerializers.class);
+
+        //RESOURCE
+        environment.jersey().register(io.swagger.jaxrs.listing.ApiListingResource.class);
     }
 }
