@@ -22,7 +22,7 @@ import javax.servlet.ServletContextListener;
 
 public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
 
-    private String VERSION = "0.09";
+    private String VERSION = "0.08";
 
     public static void main(String[] args) {
         try {
