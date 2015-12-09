@@ -31,20 +31,15 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.wrixton.doorlock.ConfigurationMethods.saltPassword;
 
+@Api(tags = {"Api"})
 @Path("/")
-@Api
-//@Api("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class DoorlockApiAppResource {
 
@@ -55,79 +50,17 @@ public class DoorlockApiAppResource {
         this.queriesDAO = queriesDAO;
     }
 
-    //TODO remove this
-//    @ApiOperation("test")
-//    @GET
-//    @Timed
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Path("/testing")
-//    public Object testing() {
-//        try {
-//            DoorlockUserLoginCheck doorlockUserLoginCheck = queriesDAO.loginUser("test", saltPassword("test", "test"));
-//            return doorlockUserLoginCheck;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-
-    @ApiOperation("Sample endpoint")
+    @ApiOperation("Index")
     @GET
     @Timed
-//    @Produces(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_HTML)
     public Object getIndex() throws Exception {
-//    public Response getIndex() {
-//        try{
-//            return new FileReader("index.html");
-//
-//        } catch (Exception e ){
-//            e.printStackTrace();
-//        }
-//        return null;
         Client myClient = ClientBuilder.newClient();
         WebTarget target = myClient.target("http://localhost:8080/lib/index.htm");
-//        WebTarget target = myClient.target("http://generator.swagger.io/?url=http://localhost:8080/swagger.json");
-//        WebTarget target = myClient.target("http://petstore.swagger.io/?url=http://localhost:8080/swagger.json");
-//        WebTarget target = myClient.target("http://generator.swagger.io/");
-//        WebTarget target = myClient.target("http://docs.doorlock.apiary.io/");
-//        String payload = "{\"swaggerUrl\":\"http://localhost:8080/swagger.json\"}";
-//        return target.request(MediaType.TEXT_HTML).post(Entity.entity(payload, MediaType.APPLICATION_JSON));
-//        return target.request(MediaType.TEXT_PLAIN).get();
         return target.request(MediaType.TEXT_HTML).get();
-//        String sURL = "http://generator.swagger.io/?url=http://localhost:8080/swagger.json";
-//        System.out.println(sURL);
-//        URL url = new URL(sURL);
-//        HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
-//        //set http request headers
-//        httpCon.addRequestProperty("Host", "www.cumhuriyet.com.tr");
-//        httpCon.addRequestProperty("Connection", "keep-alive");
-//        httpCon.addRequestProperty("Cache-Control", "max-age=0");
-//        httpCon.addRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-//        httpCon.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36");
-//        httpCon.addRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
-//        httpCon.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
-//        //httpCon.addRequestProperty("Cookie", "JSESSIONID=EC0F373FCC023CD3B8B9C1E2E2F7606C; lang=tr; __utma=169322547.1217782332.1386173665.1386173665.1386173665.1; __utmb=169322547.1.10.1386173665; __utmc=169322547; __utmz=169322547.1386173665.1.1.utmcsr=stackoverflow.com|utmccn=(referral)|utmcmd=referral|utmcct=/questions/8616781/how-to-get-a-web-pages-source-code-from-java; __gads=ID=3ab4e50d8713e391:T=1386173664:S=ALNI_Mb8N_wW0xS_wRa68vhR0gTRl8MwFA; scrElm=body");
-//        HttpURLConnection.setFollowRedirects(false);
-//        httpCon.setInstanceFollowRedirects(false);
-//        httpCon.setDoOutput(true);
-//        httpCon.setUseCaches(true);
-//
-//        httpCon.setRequestMethod("GET");
-//
-//        BufferedReader in = new BufferedReader(new InputStreamReader(httpCon.getInputStream(), "UTF-8"));
-//        String inputLine;
-//        StringBuilder a = new StringBuilder();
-//        while ((inputLine = in.readLine()) != null)
-//            a.append(inputLine);
-//        in.close();
-//
-//        System.out.println(a.toString());
-//
-//        httpCon.disconnect();
-//        return a.toString();
     }
 
+    @ApiOperation("Log user in")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -136,12 +69,10 @@ public class DoorlockApiAppResource {
 //    @Api(value = "/pet", description = "Operations about pets")
     public LoginStatus login(@Valid LoginRequest body, @Context Jedis jedis) {
         try {
-//            Queries queries = new Queries();
             String sid = body.getSid();
             String token = body.getToken();
             System.out.println(sid);
             DoorlockUserLoginCheck user = queriesDAO.loginUser(body.getUsername(), saltPassword(body.getUsername(), body.getPassword()));
-//            DoorlockUserLoginCheck user = queries.login(body.getUsername(), body.getPassword());
             if (user == null) {
                 return new LoginStatus(null, new Status(false));
             }
@@ -157,6 +88,7 @@ public class DoorlockApiAppResource {
         return new LoginStatus(null, new Status(false));
     }
 
+    @ApiOperation("Logout user in")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -169,6 +101,7 @@ public class DoorlockApiAppResource {
         return new Status(true);
     }
 
+    @ApiOperation("Check if user is logged in")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -187,6 +120,7 @@ public class DoorlockApiAppResource {
         return new LoginStatus(user, status);
     }
 
+    @ApiOperation("Get user information")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -197,7 +131,7 @@ public class DoorlockApiAppResource {
             Long amount = jedis.incr(redisKey);
             int limit = 10;
             jedis.expire(redisKey, limit);
-            if(amount <= limit){
+            if (amount <= limit) {
                 System.out.println("starting to rate limit");
             }
             String username = jedis.hget(redisKey, "username");
@@ -210,6 +144,7 @@ public class DoorlockApiAppResource {
         return null;
     }
 
+    @ApiOperation("Get all users")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -234,6 +169,7 @@ public class DoorlockApiAppResource {
         return BooleanUtils.toBoolean(admin);
     }
 
+    @ApiOperation("Register new user")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -253,6 +189,7 @@ public class DoorlockApiAppResource {
         return new Status(false);
     }
 
+    @ApiOperation("Update current user")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -262,6 +199,7 @@ public class DoorlockApiAppResource {
         return new Status(false);
     }
 
+    @ApiOperation("Update other user")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -271,6 +209,7 @@ public class DoorlockApiAppResource {
         return new Status(false);
     }
 
+    @ApiOperation("Submit forgot user forgot password")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -280,6 +219,7 @@ public class DoorlockApiAppResource {
         return new Status(false);
     }
 
+    @ApiOperation("Reset user password")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -291,6 +231,7 @@ public class DoorlockApiAppResource {
         return new Status(false);
     }
 
+    @ApiOperation("Check lock status")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -300,6 +241,7 @@ public class DoorlockApiAppResource {
         return "{\"Status\":\"open\",\"isLocked\":\"1\"}";
     }
 
+    @ApiOperation("Lock the lock")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -309,6 +251,7 @@ public class DoorlockApiAppResource {
         return "{\"Status\":\"some other status\"}";
     }
 
+    @ApiOperation("Unlock the lock")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -318,6 +261,7 @@ public class DoorlockApiAppResource {
         return "{\"Status\":\"some status\"}";
     }
 
+    @ApiOperation("Get config information")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
