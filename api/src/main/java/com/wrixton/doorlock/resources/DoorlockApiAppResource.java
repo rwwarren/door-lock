@@ -38,9 +38,8 @@ import java.util.Map;
 
 import static com.wrixton.doorlock.ConfigurationMethods.saltPassword;
 
+@Api(tags = {"Api"})
 @Path("/")
-@Api
-//@Api("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class DoorlockApiAppResource {
 
@@ -51,47 +50,17 @@ public class DoorlockApiAppResource {
         this.queriesDAO = queriesDAO;
     }
 
-    //TODO remove this
-//    @ApiOperation("test")
-//    @GET
-//    @Timed
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Path("/testing")
-//    public Object testing() {
-//        try {
-//            DoorlockUserLoginCheck doorlockUserLoginCheck = queriesDAO.loginUser("test", saltPassword("test", "test"));
-//            return doorlockUserLoginCheck;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-
-    @ApiOperation("Sample endpoint")
+    @ApiOperation("Index")
     @GET
     @Timed
-//    @Produces(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_HTML)
-    public Object getIndex() {
-//    public Response getIndex() {
-//        try{
-//            return new FileReader("index.html");
-//
-//        } catch (Exception e ){
-//            e.printStackTrace();
-//        }
-//        return null;
+    public Object getIndex() throws Exception {
         Client myClient = ClientBuilder.newClient();
-        WebTarget target = myClient.target("http://generator.swagger.io/?url=http://localhost:8080/swagger.json");
-//        WebTarget target = myClient.target("http://petstore.swagger.io/?url=http://localhost:8080/swagger.json");
-//        WebTarget target = myClient.target("http://generator.swagger.io/");
-//        WebTarget target = myClient.target("http://docs.doorlock.apiary.io/");
-//        String payload = "{\"swaggerUrl\":\"http://localhost:8080/swagger.json\"}";
-//        return target.request(MediaType.TEXT_HTML).post(Entity.entity(payload, MediaType.APPLICATION_JSON));
-//        return target.request(MediaType.TEXT_PLAIN).get();
+        WebTarget target = myClient.target("http://localhost:8080/lib/index.htm");
         return target.request(MediaType.TEXT_HTML).get();
     }
 
+    @ApiOperation("Log user in")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -100,12 +69,10 @@ public class DoorlockApiAppResource {
 //    @Api(value = "/pet", description = "Operations about pets")
     public LoginStatus login(@Valid LoginRequest body, @Context Jedis jedis) {
         try {
-//            Queries queries = new Queries();
             String sid = body.getSid();
             String token = body.getToken();
             System.out.println(sid);
             DoorlockUserLoginCheck user = queriesDAO.loginUser(body.getUsername(), saltPassword(body.getUsername(), body.getPassword()));
-//            DoorlockUserLoginCheck user = queries.login(body.getUsername(), body.getPassword());
             if (user == null) {
                 return new LoginStatus(null, new Status(false));
             }
@@ -121,6 +88,7 @@ public class DoorlockApiAppResource {
         return new LoginStatus(null, new Status(false));
     }
 
+    @ApiOperation("Logout user in")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -133,6 +101,7 @@ public class DoorlockApiAppResource {
         return new Status(true);
     }
 
+    @ApiOperation("Check if user is logged in")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -151,6 +120,7 @@ public class DoorlockApiAppResource {
         return new LoginStatus(user, status);
     }
 
+    @ApiOperation("Get user information")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -161,7 +131,7 @@ public class DoorlockApiAppResource {
             Long amount = jedis.incr(redisKey);
             int limit = 10;
             jedis.expire(redisKey, limit);
-            if(amount <= limit){
+            if (amount <= limit) {
                 System.out.println("starting to rate limit");
             }
             String username = jedis.hget(redisKey, "username");
@@ -174,6 +144,7 @@ public class DoorlockApiAppResource {
         return null;
     }
 
+    @ApiOperation("Get all users")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -198,6 +169,7 @@ public class DoorlockApiAppResource {
         return BooleanUtils.toBoolean(admin);
     }
 
+    @ApiOperation("Register new user")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -217,6 +189,7 @@ public class DoorlockApiAppResource {
         return new Status(false);
     }
 
+    @ApiOperation("Update current user")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -226,6 +199,7 @@ public class DoorlockApiAppResource {
         return new Status(false);
     }
 
+    @ApiOperation("Update other user")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -235,6 +209,7 @@ public class DoorlockApiAppResource {
         return new Status(false);
     }
 
+    @ApiOperation("Submit forgot user forgot password")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -244,6 +219,7 @@ public class DoorlockApiAppResource {
         return new Status(false);
     }
 
+    @ApiOperation("Reset user password")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -255,6 +231,7 @@ public class DoorlockApiAppResource {
         return new Status(false);
     }
 
+    @ApiOperation("Check lock status")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -264,6 +241,7 @@ public class DoorlockApiAppResource {
         return "{\"Status\":\"open\",\"isLocked\":\"1\"}";
     }
 
+    @ApiOperation("Lock the lock")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -273,6 +251,7 @@ public class DoorlockApiAppResource {
         return "{\"Status\":\"some other status\"}";
     }
 
+    @ApiOperation("Unlock the lock")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
@@ -282,6 +261,7 @@ public class DoorlockApiAppResource {
         return "{\"Status\":\"some status\"}";
     }
 
+    @ApiOperation("Get config information")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
