@@ -3,7 +3,8 @@ package com.wrixton.doorlock;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.TestCase.assertTrue;
+
 
 /**
  * Unit test for simple App.
