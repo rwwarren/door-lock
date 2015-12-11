@@ -2,18 +2,18 @@ package com.wrixton.doorlock;
 
 import com.codahale.metrics.health.HealthCheck;
 
-public class healthcheck extends HealthCheck {
-    private final String template;
+public class Healthcheck extends HealthCheck {
 
-    public healthcheck(String template) {
-        this.template = template;
+    private final String appName;
+
+    public Healthcheck(String appName) {
+        this.appName = appName;
     }
 
     @Override
     protected Result check() throws Exception {
-        final String saying = String.format(template, "TEST");
-        if (!saying.contains("TEST")) {
-            return Result.unhealthy("template doesn't include a name");
+        if (!appName.equals("doorlock-api")) {
+            return Result.unhealthy("app-name does not match");
         }
         return Result.healthy();
     }
