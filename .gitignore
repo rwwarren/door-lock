@@ -20,6 +20,8 @@ mysqlLogin.groovy
 variables.php
 Bundle.js
 react.js
+salt.json
+newrelic.yml
 
 # Ignore directories
 backups/

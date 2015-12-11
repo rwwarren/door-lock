@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 
 public class DoorlockApiAppConfiguration extends Configuration {
 
-
     @JsonProperty("redis")
     public JedisFactory jedisFactory;
 
@@ -28,4 +27,11 @@ public class DoorlockApiAppConfiguration extends Configuration {
         return database;
     }
 
+    @NotNull
+    @JsonProperty("app-name")
+    private String appName;
+
+    public String getAppName() {
+        return appName;
+    }
 }

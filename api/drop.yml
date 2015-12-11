@@ -1,3 +1,5 @@
+app-name: doorlock-api
+
 logging:
   level: DEBUG
 
@@ -8,9 +10,6 @@ server:
   adminConnectors:
     - type: http
       port: 8081
-
-#swagger:
-#  resourcePackage: com.wrixton.doorlock.resources
 
 redis:
   # The redis server's address; required.

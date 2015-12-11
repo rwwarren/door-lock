@@ -63,8 +63,8 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
         final DoorlockApiAppResource resource = new DoorlockApiAppResource(queryDAO);
         environment.jersey().register(resource);
 
-        final healthcheck healthCheck =
-                new healthcheck(doorlockApiAppConfiguration.toString());
+        final Healthcheck healthCheck =
+                new Healthcheck(doorlockApiAppConfiguration.getAppName());
         environment.healthChecks().register("template", healthCheck);
         environment.jersey().setUrlPattern("/css/*");
         environment.jersey().setUrlPattern("/lib/*");
