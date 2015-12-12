@@ -11,11 +11,8 @@ public class ForgotPasswordRequest {
     @NotNull
     private final SessionRequest sessionRequest;
 
-//    private final User user;
-
     public ForgotPasswordRequest(@JsonProperty("sessionRequest") SessionRequest sessionRequest) {
         this.sessionRequest = sessionRequest;
     }
-
 
 }
