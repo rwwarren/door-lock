@@ -38,7 +38,7 @@ NFC
 Servo -> use java api client
 
 ##Api
-[API](api/README.md)
+[API](api/)
 - Java 8
 - dropwizard 0.9.1
 - dropwizard java 8
@@ -47,14 +47,14 @@ Servo -> use java api client
 - swagger 1.5.4 api documentation
 
 ##Web (+ mobile optimized)
-[Web](web/README.md)
+[Web](web/)
 - nodejs
 - reactjs
 
 ##NFC/Servo
-[NFC](nfc/README.md)
+[NFC](nfc/)
 - Java 8
 
 ##Mobile Application
-[Mobile](mobile/README.md)
+[Mobile](mobile/)
 - react native
