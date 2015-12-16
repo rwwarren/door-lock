@@ -30,4 +30,3 @@ backups/
 **/build/logs/*
 **/node_modules/**
 **/target/**
-
