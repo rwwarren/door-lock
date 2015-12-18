@@ -1,18 +1,17 @@
 sudo: false
 
-language: php
+language: java
 
-php:
-  - 5.5
+jdk:
+  - oraclejdk8
 
 services:
   - redis-server
   - postgresql
-
-before_script:
 
 script:
   - composer selfupdate
   - cd web
   - npm install
   - mocha
+  - cd api && mvn clean install
