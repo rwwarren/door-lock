@@ -6,7 +6,6 @@
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>nfc-lock</name>
-    <!-- TODO change the URL and update ALL versions -->
     <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
@@ -42,16 +41,6 @@
             <artifactId>spring-core</artifactId>
             <version>4.1.6.RELEASE</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-beans</artifactId>-->
-            <!--<version>4.1.6.RELEASE</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.integration</groupId>-->
-            <!--<artifactId>spring-integration-groovy</artifactId>-->
-            <!--<version>4.1.5.RELEASE</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
@@ -62,77 +51,31 @@
             <artifactId>mockito-all</artifactId>
             <version>1.10.19</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.codehaus.groovy</groupId>-->
-            <!--<artifactId>http-builder</artifactId>-->
-            <!--<version>0.4.1</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.codehaus.groovy.modules.http-builder</groupId>
             <artifactId>http-builder</artifactId>
             <version>0.7.1</version>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>org.nfctools</groupId>-->
-            <!--<artifactId>nfctools-api</artifactId>-->
-            <!--<version>1.0.M8</version>-->
-        <!--</dependency>-->
-
-
-        <!--<dependency>-->
-            <!--<groupId>org.codehaus.groovy.maven</groupId>-->
-            <!--<artifactId>gmaven-plugin</artifactId>-->
-            <!--<version>1.0</version>-->
-        <!--</dependency>-->
     </dependencies>
     <build>
-        <!--<resources>-->
-            <!--<resource>-->
-                <!--<directory>src/main/resources</directory>-->
-                <!--&lt;!&ndash;<targetPath>${project.build.directory}</targetPath>&ndash;&gt;-->
-                <!--&lt;!&ndash;<includes>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<include>log4j.xml</include>&ndash;&gt;-->
-                <!--&lt;!&ndash;</includes>&ndash;&gt;-->
-                <!--<filtering>true</filtering>-->
-            <!--</resource>-->
-        <!--</resources>-->
         <plugins>
             <plugin>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-eclipse-compiler</artifactId>
                 <version>2.9.1-01</version>
-                <!--<extensions>true</extensions>-->
             </plugin>
-            <!--<plugin>-->
-            <!--<groupId>org.apache.maven.plugins</groupId>-->
-            <!--<artifactId>maven-surefire-plugin</artifactId>-->
-            <!--<version>2.18.1</version>-->
-            <!--</plugin>-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.4.0</version>
-                <!--<configuration>-->
-                    <!--<systemProperties>-->
-                        <!--<property>-->
-                            <!--<name>log4j.configuration</name>-->
-                            <!--<value>file:src/main/resources/log4j.xml</value>-->
-                        <!--</property>-->
-                    <!--</systemProperties>-->
-                <!--</configuration>-->
                 <executions>
                     <execution>
                         <phase>test</phase>
                         <goals>
-                            <!--<goal>groovy</goal>-->
                             <goal>java</goal>
                         </goals>
                         <configuration>
                             <mainClass>com.wrixton.doorlock.App</mainClass>
-                            <!--<arguments>-->
-                                <!--<argument>arg0</argument>-->
-                            <!--</arguments>-->
                         </configuration>
                     </execution>
                 </executions>
@@ -168,55 +111,8 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin>-->
-                <!--<artifactId>maven-antrun-plugin</artifactId>-->
-                <!--<version>1.7</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<userID>compile</userID>-->
-                        <!--<phase>generate-sources</phase>-->
-                        <!--<configuration>-->
-                            <!--<target>-->
-                                <!--<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">-->
-                                    <!--<classpath refid="maven.compile.classpath" />-->
-                                <!--</taskdef>-->
-                                <!--<mkdir dir="${project.build.outputDirectory}" />-->
-                                <!--<groovyc srcdir="${basedir}/src/main/groovy" destdir="${project.build.outputDirectory}" encoding="${project.build.sourceEncoding}">-->
-                                    <!--<classpath refid="maven.compile.classpath" />-->
-                                <!--</groovyc>-->
-                            <!--</target>-->
-                        <!--</configuration>-->
-                        <!--<goals>-->
-                            <!--<goal>run</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                    <!--<execution>-->
-                        <!--<userID>test-compile</userID>-->
-                        <!--<phase>generate-test-sources</phase>-->
-                        <!--<configuration>-->
-                            <!--<target>-->
-                                <!--<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">-->
-                                    <!--<classpath refid="maven.test.classpath" />-->
-                                <!--</taskdef>-->
-                                <!--<mkdir dir="${project.build.testOutputDirectory}" />-->
-                                <!--<groovyc srcdir="${basedir}/src/test/groovy" destdir="${project.build.testOutputDirectory}" encoding="${project.build.sourceEncoding}">-->
-                                    <!--<classpath refid="maven.test.classpath" />-->
-                                <!--</groovyc>-->
-                            <!--</target>-->
-                        <!--</configuration>-->
-                        <!--<goals>-->
-                            <!--<goal>run</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-            <!--<plugin>-->
-                <!--<artifactId>maven-compiler-plugin</artifactId>-->
-                <!--<version>3.1</version>-->
-            <!--</plugin>-->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <!-- 2.8.0-01 and later require maven-compiler-plugin 3.1 or higher -->
                 <version>3.3</version>
                 <configuration>
                     <compilerId>groovy-eclipse-compiler</compilerId>
@@ -227,7 +123,6 @@
                         <artifactId>groovy-eclipse-compiler</artifactId>
                         <version>2.9.2-01</version>
                     </dependency>
-                    <!-- for 2.8.0-01 and later you must have an explicit dependency on groovy-eclipse-batch -->
                     <dependency>
                         <groupId>org.codehaus.groovy</groupId>
                         <artifactId>groovy-eclipse-batch</artifactId>
