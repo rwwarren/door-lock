@@ -13,11 +13,6 @@
 *.pid
 
 # Ignore specific files
-.coveralls.yml
-composer.lock
-mysqlLogin.java
-mysqlLogin.groovy
-variables.php
 Bundle.js
 react.js
 salt.json

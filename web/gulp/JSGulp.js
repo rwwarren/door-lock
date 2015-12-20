@@ -97,24 +97,20 @@ var JSGulp = {
     stream.read();
   },
 
-  clean: function(done) {
+  clean: function() {
     del([outputPath + '/' + buildFile], function(err, paths) {
       if(err) {
         console.error('Error cleaning JS: ' + err.toString());
-        done();
         return;
       }
       console.log('Cleaned Bundle JS');
-      done();
     });
     del([outputPath + '/' + reactFile], function(err, paths) {
       if(err) {
         console.error('Error cleaning JS: ' + err.toString());
-        done();
         return;
       }
       console.log('Cleaned React JS');
-      done();
     });
   }
 };
