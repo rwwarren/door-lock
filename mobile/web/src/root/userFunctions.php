@@ -5,23 +5,14 @@ session_name('sid');
 session_start();
 
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-//require_once("$root/../inc/dbcon.php");
-//require '../includedPackages/authy-php/Authy.php';
-//require_once('Authy/Authy.php');
-//require_once("$root/../vendor/autoload.php");
-//require_once("$root/../vendor/autoload.php");
 require_once("$root/../../inc/variables.php");
-//require_once("$root/../../../web/src/inc/extraFunctions.php");
 include_once("$root/../../../../web/src/vendor/door-lock/api-client/src/root/apiClient.php");
-
-
 if (isset($_GET['actions']) && (strpos($_SERVER["REQUEST_URI"], 'userFunctions.php') === false)){
   //TODO make sure that request comes from localhost
   $type = $_GET['actions'];
   if ($type === 'login'){
     login();
   } else if ($type == 'logout'){
-  //} else if ($type == 'logout' && isLoggedIn()){
     logout();
   } else if ($type == 'checkLogin'){
     checkLogin();
@@ -80,115 +71,21 @@ function login(){
     $pass = $_POST['Password'];
     $token = $_POST['Token'];
     global $root;
-
-    //
-//    $root = realpath(dirname(__FILE__));
-//    include_once($root . "/../../../../door-lock-api-client/src/root/apiClient.php");
-//    include_once($root . "/../../../api-client/src/root/apiClient.php");
-//    include_once("/Users/ryan/Documents/door-lock/api-client/src/root/apiClient.php");
     $apiClient = new ApiClient\ApiClient("$root/../properties/secure.ini");
     $results = $apiClient->login($_POST, $_POST['sid']);
-    //print_r($results);
-
-//    echo "This is a success";
-//    echo "<br>";
-//    print_r(session_id());
-//    print_r(session_get_cookie_params());
-//    print_r($results);
     if($results !== null){
       $_SESSION['username'] = $_POST['Username'];
-//      print_r($results);
-//      $decoded = json_encode($results);
-//      $intermediate = json_decode($results);
-//      $decoded = json_decode($intermediate, true);
-      //HERE
-//      print_r($decoded);
-//      echo "sadf: " . $decoded['name'] . "sdf <br>";
-
-//      $test = json_encode('{"username":"test","name":"Test","success":"1"}');
-////      print_r($test);
-//      $newone = json_decode($test);
-//      $newone = json_decode($newone, true);
-////      $newone = zend_json($test);
-////      $newone = json_decode(html_entity_decode($test, ENT_QUOTES), true);
-//      print_r($newone);
-////      echo "class: " . get_class($newone);
-////      echo "test: " . $newone->{'name'};
-//      echo "test: " . $newone['name'];
-////      $_SESSION['name'] = $decoded['name'];
-
-//      $_SESSION['name'] = $decoded['name'];
-//      $_SESSION['username'] = $decoded['username'];
-//      $_SESSION['isAdmin'] = $decoded['isAdmin'];
       $_SESSION['name'] = $results['name'];
       $_SESSION['username'] = $results['username'];
       $_SESSION['isAdmin'] = $results['isAdmin'];
       header("HTTP/1.0 200 Login Successful");
       echo json_encode("success", true);
       exit();
-
-//      $_SESSION['username'] = $results['username'];
-//      $_SESSION['userID'] = $userInfo['ID'];
-//      $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
-//      session_write_close();
-//      exit();
     }
-//    exit();
-
-    //
-//    $dbconn = new dbconn("read");
-    //$user = mysqli_real_escape_string($dbconn, $user);
-    //$pass = mysqli_real_escape_string($dbconn, $pass);
-    //$dbconn->close();
-    //TODO this is the sandbox one
-    //TODO also remove my secret key
-    //TODO add this to the database
-    //TODO check if there is an authyID THEN: verifyAuthy
-    //$authy_id = get from DB;
-    //$dbconn->connect("read");
-    //$authyValid = $dbconn->checkAuthy($user, $token);
-    //$dbconn->close();
-    //TODO add this back in to the check
-    //$verification = $authy_api->verifyToken("$authy_id", "$token");
-    //$verification = $authy_api->verifyToken(234, "$token");
-    //$authy_api = new Authy_Api('#your_api_key', 'http://sandbox-api.authy.com');
-    //if($authyValid && $verification->ok()){
-    //TODO above commented out to save testing hassle
-    //$_SESSION['username'] = 'asdf';
-//    $test = true;
-//    $test = false;
-//    if($test == true){
-//      echo '<br> authy token is okay';
-//      //$dbconn->connect("read");
-//      //$dbconn->login($user, $pass);
-//      //$_SESSION['username'] = 'asdf';
-//      $userInfo = array();
-//      $userInfo = $dbconn->login($user, $pass);
-//      //if($userInfo !== NULL){
-//      if($userInfo !== false){
-//        $_SESSION['name'] = $userInfo['Name'];
-//        $_SESSION['username'] = $userInfo['Username'];
-//        $_SESSION['userID'] = $userInfo['ID'];
-//        $_SESSION['isAdmin'] = $userInfo['IsAdmin'];
-//        session_write_close();
-////      } else if($test === true){
-//      } else {
-//        header("HTTP/1.0 403 Error Username or Password incorrect");
-//        header('Content-Type: application/json');
-//        echo json_encode(array('Invalid Username or Password' => $user, 'success' => '0' ));
-//      }
-//
-//      //}
-//      //$dbconn->close();
-//    } else { //authy is not right
-//      header("HTTP/1.0 401 Authy key wrong");
-//      exit();
-//    }
   } else {
     header("HTTP/1.0 400 Username or password not entered");
     echo "nope";
     echo '<br>No username or password entered';
-//    print_r($_POST);
     exit();
   }
 }
@@ -200,15 +97,11 @@ function checkLogin(){
     echo "error sid not entered";
     exit();
   }
-  //echo "testing";
   $results = $apiClient->isLoggedIn($_POST['sid']);
-  //echo $results;
-  //$results = $apiClient->checkLogin($_COOKIE['sid']);
   if($results['success'] === "1") {
     header("HTTP/1.0 200 logged in");
     echo json_encode($results, true);
     //TODO get this not to open another page
-    //header("Location: http://$_SERVER[SERVER_NAME]");
     exit();
   } else {
     header("HTTP/1.0 400 not logged in");
@@ -224,16 +117,11 @@ function userInfo(){
     echo "error sid not entered";
     exit();
   }
-  //echo "testing";
   $results = $apiClient->getUserInfo($_POST['sid']);
-  //print_r($results);
-  //echo $results;
-  //$results = $apiClient->checkLogin($_COOKIE['sid']);
   if($results['success'] === "1") {
     header("HTTP/1.0 200 logged in");
     echo json_encode($results, true);
     //TODO get this not to open another page
-    //header("Location: http://$_SERVER[SERVER_NAME]");
     exit();
   } else {
     header("HTTP/1.0 400 not logged in");
@@ -249,15 +137,11 @@ function lockStatus(){
     echo "error sid not entered";
     exit();
   }
-  //echo "testing";
   $results = $apiClient->lockStatus($_POST['sid']);
-  //echo $results;
-  //$results = $apiClient->checkLogin($_COOKIE['sid']);
   if($results['success'] === "1") {
     header("HTTP/1.0 200 logged in");
     echo json_encode($results, true);
     //TODO get this not to open another page
-    //header("Location: http://$_SERVER[SERVER_NAME]");
     exit();
   } else {
     header("HTTP/1.0 400 not logged in");
@@ -273,16 +157,11 @@ function admin(){
     echo "error sid not entered";
     exit();
   }
-  //echo "testing";
   $results = $apiClient->getAllUsers($_POST['sid']);
-  //print_r($results);
-  //echo $results;
-  //$results = $apiClient->checkLogin($_COOKIE['sid']);
   if($results['success'] === "1") {
     header("HTTP/1.0 200 logged in");
     echo json_encode($results, true);
     //TODO get this not to open another page
-    //header("Location: http://$_SERVER[SERVER_NAME]");
     exit();
   } else {
     header("HTTP/1.0 400 not logged in");
@@ -321,9 +200,7 @@ function changeUser(){
     $type = $_POST['type'];
     $user = mysql_real_escape_string($user);
     $dbconn = new dbconn("write");
-    //$dbconn->connect("write");
     $dbconn->changeUser($user, $type);
-    //$dbconn->close();
   } else {
     echo "nope";
     echo '<br>No username entered';
@@ -346,9 +223,7 @@ function registerUser(){
     $password = mysql_real_escape_string($password);
     $email = mysql_real_escape_string($email);
     $dbconn = new dbconn("write");
-    //$dbconn->connect("write");
     $dbconn->registerUser($personName, $username, $password, $email, $admin, $authyID);
-    //$dbconn->close();
   } else {
     echo 'nothing returned';
     header("HTTP/1.0 403 User Forbidden");
@@ -372,15 +247,9 @@ function changeUserInfo(){
       return false;
       exit();
     } else {
-//      $username = mysql_real_escape_string($username);
-//      $oldPassword = mysql_real_escape_string($oldPassword);
-//      $newPassword = mysql_real_escape_string($newPassword);
       $dbconn = new dbconn("write");
-      //$dbconn->connect("write");
       $result = $dbconn->updateUserInfo($username, $oldPassword, $newPassword, $confNewPassword, $authy, $card, $email, $name);
         //TODO this is the function name below
-      //$dbconn->close();
-      //print_r($_SERVER);
       if($result == 202){
         logout();
       }
@@ -402,17 +271,13 @@ function forgotPassword(){
     $pass = $_POST['pass'];
     $otherPass = $_POST['confirmPass'];
     $dbconn = new dbconn("write");
-    //$dbconn->connect("write");
     $results = $dbconn->findResetToken($resetToken);
-    //$dbconn->close();
     if ($results && (strcmp($pass, $otherPass) == 0)){
       //resets the password....
       echo 'Found!';
       $dbconn = new dbconn("write");
-      //$dbconn->connect("write");
       $userID = $dbconn->resetChangePassword($pass, $resetToken);
       $results = $dbconn->invalidateResetURL($resetToken, $userID);
-      //$dbconn->close();
       return true;
       exit();
     } else {
@@ -434,9 +299,7 @@ function resetPassword(){
     $email = $_POST['email'];
 
     $dbconn = new dbconn("write");
-    //$dbconn->connect("write");
     $dbconn->resetPassword($username, $email);
-    //$dbconn->close();
 
     echo 'Email sent to: ' . $email . '. Password for username: ' . $username . ' has been reset!';
     echo '<br> Please check your email';
