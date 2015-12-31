@@ -56,7 +56,7 @@ Servo -> use java api client
 - Java 8
 
 ##Servo
-[Servo](Servo/)
+[Servo](servo/)
 - python
 
 ##Mobile Application
