@@ -7,3 +7,9 @@ Can use:
 - [nymi] (http://www.nymi.com)
 - nfc card
 - java 8
+
+
+## How to install
+```
+mvn clean install
+```
