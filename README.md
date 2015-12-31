@@ -51,9 +51,13 @@ Servo -> use java api client
 - nodejs
 - reactjs
 
-##NFC/Servo
+##NFC
 [NFC](nfc/)
 - Java 8
+
+##Servo
+[Servo](Servo/)
+- python
 
 ##Mobile Application
 [Mobile](mobile/)
