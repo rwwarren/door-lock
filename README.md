@@ -57,6 +57,7 @@ Servo -> use java api client
 
 ##Servo
 [Servo](servo/)
+- Moves the deadbolt using a servo
 - python
 
 ##Mobile Application
