@@ -1,0 +1,8 @@
+languages:
+  Ruby: true
+  JavaScript: true
+  PHP: true
+  Java: true
+exclude_paths:
+- api/src/main/resources/assets/**
+- web/node_modules/**
