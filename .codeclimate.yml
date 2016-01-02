@@ -1,8 +1,37 @@
-languages:
-  Ruby: true
-  JavaScript: true
-  PHP: true
-exclude_paths:
+---
+engines:
+  csslint:
+    enabled: true
+  coffeelint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - ruby
+      - javascript
+      - python
+      - php
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+  phpmd:
+    enabled: true
+  radon:
+    enabled: true
+ratings:
+  paths:
+  - "**.css"
+  - "**.coffee"
+  - "**.inc"
+  - "**.js"
+  - "**.jsx"
+  - "**.module"
+  - "**.php"
+  - "**.py"
+  - "**.rb"
+exclude_paths: 
 - "web/src/inc/react-with-addons-0.13.3.js"
 - api/src/main/resources/assets/**/*
 - web/node_modules/**/*
