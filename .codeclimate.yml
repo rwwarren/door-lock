@@ -33,5 +33,8 @@ ratings:
   - "**.rb"
 exclude_paths: 
 - "web/src/inc/react-with-addons-0.13.3.js"
+- "web/src/root/js/jquery-ui.min.js"
+- web/src/root/js/*.min.js
+- "web/src/root/js/jquery.cookie.js"
 - api/src/main/resources/assets/**/*
 - web/node_modules/**/*
