@@ -4,5 +4,5 @@ languages:
   PHP: true
   Java: true
 exclude_paths:
-- api/src/main/resources/assets/**
-- web/node_modules/**
+- api/src/main/resources/assets/**/*
+- web/node_modules/**/*
