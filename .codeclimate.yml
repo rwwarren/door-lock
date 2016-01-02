@@ -41,5 +41,6 @@ exclude_paths:
 - "web/src/root/js/showdown.min.js"
 - "mobile/web/src/root/js/react-with-addons-0.13.3.min.js"
 - "mobile/web/src/root/js/ReactRouter.min.js"
+- "web/src/inc/react-with-addons-0.13.3.min.js"
 - api/src/main/resources/assets/**/*
 - web/node_modules/**/*
