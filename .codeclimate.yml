@@ -2,7 +2,6 @@ languages:
   Ruby: true
   JavaScript: true
   PHP: true
-  Java: true
 exclude_paths:
 - "web/src/inc/react-with-addons-0.13.3.js"
 - api/src/main/resources/assets/**/*
