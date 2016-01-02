@@ -34,7 +34,10 @@ ratings:
 exclude_paths: 
 - "web/src/inc/react-with-addons-0.13.3.js"
 - "web/src/root/js/jquery-ui.min.js"
-- web/src/root/js/*.min.js
 - "web/src/root/js/jquery.cookie.js"
+- "web/src/root/js/jquery.min.js"
+- "web/src/root/js/ReactRouter.min.js"
+- "web/src/root/js/react.js"
+- "web/src/root/js/showdown.min.js"
 - api/src/main/resources/assets/**/*
 - web/node_modules/**/*
