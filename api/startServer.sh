@@ -13,8 +13,6 @@ CONFIG="drop.yml"
 
 CMD="java -Dnewrelic.environment=$env -javaagent:$ROOT/target/dependency/newrelic-agent.jar -jar $JAR server $CONFIG"
 
-#name=`basename $0`
-
 stdout_log="$ROOT/$env.log"
 stderr_log="$ROOT/$env.err"
 
@@ -23,7 +21,6 @@ pid_file="$ROOT/$env.pid"
 isRunning() {
 	[ -f "$pid_file" ] && ps `cat $pid_file` > /dev/null 2>&1
 }
-
 
 case $1 in
 	start)
