@@ -10,4 +10,3 @@ How to start the server:
 ./startServer.sh start
 ```
 
-java newrelic agent
