@@ -3,13 +3,11 @@ var cookieParser = require('cookie-parser');
 var React = require('react');
 var Router = require('react-router');
 var Request = require('request');
-//var cors = require('cors');
 
 var app = express();
 
 app.set('views', __dirname + '/../src/views');
 app.set('view engine', 'jade');
-//app.use(cors());
 app.use(cookieParser());
 app.use(express.static(__dirname + '/../src/root'));
 
@@ -32,16 +30,11 @@ app.get('/lock', function(req, res) {
 app.get('/config', function(req, res) {
   var common = require('../src/inc/Common');
   var url = common.API_URL + common.CONFIG;
-  //var url = common.API_URL + common.CHECK_LOGIN;
   var sid = req.cookies.sid;
   if(sid != null) {
     Request.post(url, {json: {sid: sid}}, function(err, resp, body) {
       if(err == null && resp.statusCode === 200) {
-      //if(err == null && resp.statusCode === 200 && body.status.success && body.loginCheck.admin) {
-        //var config = require('../src/properties/config.json');
-        //res.send(config);
         res.send(body);
-        //res.send(resp);
       } else {
         res.redirect('/');
       }
@@ -61,8 +54,6 @@ var serverAddress = process.env.ADDRESS || 'localhost';
 var server = app.listen(serverPort, serverAddress, function() {
   var host = server.address().address;
   var port = server.address().port;
-  //var port = serverPort;
-  //console.log(server);
   console.log(server.address());
   console.log('Doorlock web app listening at http://%s:%s', host, port);
 });
