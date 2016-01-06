@@ -12,10 +12,7 @@ server:
       port: 8081
 
 redis:
-  # The redis server's address; required.
    endpoint: localhost:6379
-#  hostname: localhost
-#  port: 6379
 # Auth password for redis server connection.  (default: null)
 #  password: null
   # The minimum number of idle connections to maintain in the pool.  (default: 0)
