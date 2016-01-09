@@ -15,7 +15,6 @@ var Container = React.createClass({
     $.ajax({
       url: common.API_URL + common.CHECK_LOGIN,
       type: "POST",
-      //data: {sid: $.cookie("sid")},
       data: JSON.stringify({
         sid: $.cookie("sid")
       }),
@@ -29,9 +28,6 @@ var Container = React.createClass({
             Username: result.loginCheck.username,
             Name: result.loginCheck.name,
             IsAdmin: result.loginCheck.admin
-            //Username: result.Username,
-            //Name: result.Name,
-            //IsAdmin: result.IsAdmin
           });
         } else {
           this.replaceWith('/');
