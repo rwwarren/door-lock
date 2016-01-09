@@ -32,17 +32,11 @@ var serialize = function (data) {
     return encodeURIComponent(keyName) + '=' + encodeURIComponent(data[keyName])
   }).join('&');
 };
-//var Icon = require('FAKIconImage');
-//var SMXTabBarIOS = require('SMXTabBarIOS');
-//var SMXTabBarItemIOS = SMXTabBarIOS.Item;
 
 var GetLoggedInUser = React.createClass({
   getInitialState: function() {
       return {
         loaded: false,
-        //isLoggedIn: false,
-        //searchGetAll: 'asdf',
-        //getUser: '',
         selectedTab: 'homeTab',
         userResponseData: '',
         lockStatusResponseData: '',
@@ -130,14 +124,6 @@ var GetLoggedInUser = React.createClass({
         </TouchableHighlight>
       </View>
     );
-    //return (
-    //  <View style={styles.container}>
-    //    <Text>HomeTab</Text>
-    //    <TouchableHighlight onPress={this.props.navigator.pop()}>
-    //      <Text>LOGOUT</Text>
-    //    </TouchableHighlight>
-    //  </View>
-    //);
   },
   renderUserInfo: function(){
     return (
@@ -300,4 +286,3 @@ function _ix_DEPRECATED(imageUri) {
 }
 
 module.exports = GetLoggedInUser;
-
