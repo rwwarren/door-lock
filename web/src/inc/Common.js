@@ -10,10 +10,7 @@ var makesid = function() {
 };
 
 var Common = {
-  //'API_URL': 'http://localhost:1337/localhost:8080/',
   'API_URL': 'http://localhost:1337/api.localhost/',
-  //'API_URL': 'http://api.localhost/',
-  //'API_URL': 'http://api.localhost:8080/',
   'LOGIN': 'login',
   'LOGOUT': 'logout',
   'CHECK_LOGIN': 'IsLoggedIn',
