@@ -43,7 +43,6 @@ var doorlockapp = React.createClass({
         .then((value) => {
           if (value !== null){
             this.setState({'sid': value});
-            //this.setState({selectedValue: value});
             console.log("found a state: " + value);
             this.checkLogin();
           }
@@ -70,15 +69,8 @@ var doorlockapp = React.createClass({
   userPage: function(){
     //FIX THIS LOGIN
     //USE NAVIGATOR
-    //backButtonTitle: 'Logout',
-    //console.log("Checking if loggedin: " + (this.state.responseData.success === "1"));
-    //if(this.state.responseData.success === "1") {
-          //onRightButtonPress: () => this.props.navigator.pop(),
-          //onRightButtonPress: () => this.props.navigator.replace(prev),
     var prev = this.props.route;
     console.log("this route: " + this.props.route);
-        //passProps: {deck: deck, onPress: onPress},
-      //this.props.navigator.push({
     return(
         <Navigator
           initialRoute={{name: 'My First Scene', index: 0, navigator}}
@@ -102,18 +94,6 @@ var doorlockapp = React.createClass({
           }
         />
     );
-    //return (
-    //  <NavigatorIOS
-    //    style={styles.container}
-    //    ref="nav"
-    //    initialRoute={{
-    //      title: 'Home Page',
-    //      rightButtonTitle: 'Logout',
-    //      onRightButtonPress: () => this.props.navigator.replace(this),
-    //      component: GetLoggedInUser,
-    //      passProps: {responseData: this.state.responseData},
-    //  }}/>
-    //);
   },
   renderLoginPage: function() {
     if(this.state.loaded && this.state.responseData.success === "1"){
@@ -176,16 +156,12 @@ var doorlockapp = React.createClass({
          this.setState({
            loaded: true,
            responseData: responseDatas,
-           //responseDatass: response,
-           //isLoggedIn: true,
          });
-         //console.log(response);
        })
       .done();
       console.log(this.state.responseData);
       console.log(this.state.username);
       console.log(this.state.responseData.success);
-      //console.log(this.state.responseDatass);
 
   },
   checkLogin: function() {
@@ -207,10 +183,8 @@ var doorlockapp = React.createClass({
          });
        })
       .done();
-      //console.log("While checking the login: " + this.state.responseData);
       console.log(this.state.username);
       console.log("success?? " + this.state.responseData.success);
-      //console.log(this.state.responseDatass);
 
   },
 });
@@ -236,4 +210,3 @@ var styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('doorlock-app', () => doorlockapp);
-
