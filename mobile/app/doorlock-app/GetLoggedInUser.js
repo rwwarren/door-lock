@@ -16,10 +16,6 @@ var {
   Image,
 } = React;
 
-//var GetAll = require('./GetAll');
-//var GetIncomplete = require('./GetIncomplete');
-//var CreateTask = require('./CreateTask');
-
 //touchable getall and incomplete (for marking complete)
 //Create page
 //Add USER to search
@@ -212,8 +208,6 @@ var GetLoggedInUser = React.createClass({
          this.setState({
            loaded: true,
            userResponseData: responseDatas,
-           //responseDatass: response,
-           //isLoggedIn: true,
          });
          console.log(responseDatas);
        })
@@ -232,8 +226,6 @@ var GetLoggedInUser = React.createClass({
          this.setState({
            loaded: true,
            lockStatusResponseData: responseDatas,
-           //responseDatass: response,
-           //isLoggedIn: true,
          });
          console.log(responseDatas);
        })
