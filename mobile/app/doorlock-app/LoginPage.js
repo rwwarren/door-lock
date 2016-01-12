@@ -17,8 +17,6 @@ var {
   TouchableHighlight,
   TextInput,
   AsyncStorage,
-  //Fetch,
-  //FormData,
 } = React;
 
 
@@ -38,7 +36,6 @@ var LoginPage = React.createClass({
         .then((value) => {
           if (value !== null){
             this.setState({'sid': value});
-            //this.setState({selectedValue: value});
             console.log("found a state: " + value);
             this.checkLogin();
           }
@@ -65,23 +62,8 @@ var LoginPage = React.createClass({
   userPage: function(){
     //FIX THIS LOGIN
     //USE NAVIGATOR
-    //backButtonTitle: 'Logout',
-    //console.log("Checking if loggedin: " + (this.state.responseData.success === "1"));
-    //if(this.state.responseData.success === "1") {
-          //onRightButtonPress: () => this.props.navigator.pop(),
-          //onRightButtonPress: () => this.props.navigator.replace(prev),
     var prev = this.props.route;
     console.log("this route: " + this.props.route);
-        //passProps: {deck: deck, onPress: onPress},
-      //this.props.navigator.push({
-      //return navigator.push({
-      //return this.props.navigator.push({
-      //  title: "test",
-      //  component: GetLoggedInUser,
-      //});
-            //if (route.index > 0) {
-            //  navigator.pop();
-            //}
       console.log("LOGIN all the props: " + JSON.stringify(this.props));
       return(
         <Navigator
@@ -107,50 +89,6 @@ var LoginPage = React.createClass({
           }
         />
       );
-      //return(
-      //  <GetLoggedInUser
-      //    name={"asdf"}
-      //    navigator={this.props.navigator}
-      //    onBack={() => {
-      //        navigator.pop();
-      //    }}
-      //  />
-      //);
-      //    props={"res":"asdf"}
-    //return(
-    //    <Navigator
-    //      initialRoute={{name: 'My First Scene', index: 0}}
-    //      renderScene={(route, navigator) =>
-    //        <GetLoggedInUser
-    //          name={route.name}
-    //          onForward={() => {
-    //            var nextIndex = route.index + 1;
-    //            navigator.push({
-    //              name: 'Scene ' + nextIndex,
-    //              index: nextIndex,
-    //            });
-    //          }}
-    //          onBack={() => {
-    //            if (route.index > 0) {
-    //              navigator.pop();
-    //            }
-    //          }}
-    //        />
-    //      }
-    //    />
-    //);
-    //return (
-    //  <NavigatorIOS
-    //    style={styles.container}
-    //    ref="nav"
-    //    initialRoute={{
-    //      title: 'Home Page',
-    //      rightButtonTitle: 'Logout',
-    //      onRightButtonPress: () => this.props.navigator.pop(),
-    //      component: GetLoggedInUser,
-    //      passProps: {responseData: this.state.responseData},
-    //  }}/>
-    //);
   },
   renderLoginPage: function() {
     if(this.state.loaded && this.state.responseData.success === "1"){
@@ -213,22 +151,17 @@ var LoginPage = React.createClass({
          this.setState({
            loaded: true,
            responseData: responseDatas,
-           //responseDatass: response,
-           //isLoggedIn: true,
          });
-         //console.log(response);
        })
       .done();
       console.log(this.state.responseData);
       console.log(this.state.username);
       console.log(this.state.responseData.success);
-      //console.log(this.state.responseDatass);
 
   },
   checkLogin: function() {
     fetch((REQUEST_URL + "/IsLoggedIn"), {
       method: 'POST', 
-      //method: 'GET', 
       headers: {
         'x-doorlock-api-key': API_KEY,
         'sid': this.state.sid,
@@ -245,10 +178,8 @@ var LoginPage = React.createClass({
          });
        })
       .done();
-      //console.log("While checking the login: " + this.state.responseData);
       console.log(this.state.username);
       console.log("success?? " + this.state.responseData.success);
-      //console.log(this.state.responseDatass);
 
   },
 });
