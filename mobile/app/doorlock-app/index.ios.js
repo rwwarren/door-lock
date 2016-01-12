@@ -21,8 +21,6 @@ var {
   TouchableHighlight,
   TextInput,
   AsyncStorage,
-  //Fetch,
-  //FormData,
 } = React;
 
 var LoginPage = require('./LoginPage');
