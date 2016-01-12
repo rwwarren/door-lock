@@ -28,7 +28,6 @@ case $1 in
 			echo "Already started"
 		else
 			echo "Starting api"
-#			sudo -u "$user" $CMD > "$stdout_log" 2> "$stderr_log" & echo $! > "$pid_file"
 			$CMD > "$stdout_log" 2> "$stderr_log" & echo $! > "$pid_file"
 			if ! isRunning; then
 				echo "Unable to start, see $stdout_log and $stderr_log"
