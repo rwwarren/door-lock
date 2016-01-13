@@ -165,7 +165,6 @@ var doorlockapp = React.createClass({
   checkLogin: function() {
     fetch((REQUEST_URL + "/IsLoggedIn"), {
       method: 'POST', 
-      //method: 'GET', 
       headers: {
         'x-doorlock-api-key': API_KEY,
         'sid': this.state.sid,
@@ -173,17 +172,12 @@ var doorlockapp = React.createClass({
     })
        .then((response) => response.json())
        .then((responseDatas) => {
-        console.log("While checking the login: " + responseDatas);
-        console.log("While checking the login: " + JSON.stringify(responseDatas));
          this.setState({
            loaded: true,
            responseData: responseDatas,
          });
        })
       .done();
-      console.log(this.state.username);
-      console.log("success?? " + this.state.responseData.success);
-
   },
 });
 function makeid() {
