@@ -45,7 +45,7 @@ app.get('/config', function(req, res) {
 });
 
 app.get('*', function(req, res) {
-  res.status(404)        // HTTP status 404: NotFound
+  res.status(404) 
     .send('Not found');
 });
 
