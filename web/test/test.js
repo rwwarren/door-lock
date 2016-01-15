@@ -1,7 +1,6 @@
 'use strict';
 var assert = require("assert");
 var common = require('../src/inc/Common');
-//var User = require('../src/inc/User');
 
 describe('Constants Testing', function() {
   describe('Common File Testing', function () {
