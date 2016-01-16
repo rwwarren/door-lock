@@ -8,7 +8,6 @@ import static junit.framework.TestCase.assertTrue
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.core.IsEqual.equalTo
 import static org.hamcrest.core.IsNull.notNullValue
-//import static org.mockito.Mockito.when
 
 class ApiClientTest {
 
@@ -87,6 +86,5 @@ class ApiClientTest {
         assertThat("Response should not be null", response, notNullValue())
         //TODO change this
         assertThat("Response should be locked", response, equalTo(LOCK_STATUS.LOCKED))
-
     }
 }
