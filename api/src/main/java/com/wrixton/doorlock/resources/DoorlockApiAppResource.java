@@ -128,9 +128,10 @@ public class DoorlockApiAppResource {
     public DoorlockUser getUserInfo(@Valid SessionRequest sid, @Context Jedis jedis) {
         try {
             String redisKey = getRedisKey(sid);
-            Long amount = jedis.incr(redisKey);
+            String redisRateKey = "rate:" + redisKey;
+            Long amount = jedis.incr(redisRateKey);
             int limit = 10;
-            jedis.expire(redisKey, limit);
+            jedis.expire(redisRateKey, limit);
             if (amount <= limit) {
                 System.out.println("starting to rate limit");
             }
@@ -139,6 +140,7 @@ public class DoorlockApiAppResource {
                 return queriesDAO.getUserInfo(username);
             }
         } catch (Exception e) {
+            //TODO add logging
             e.printStackTrace();
         }
         return null;
