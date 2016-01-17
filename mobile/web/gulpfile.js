@@ -14,7 +14,6 @@ gulp.task('clean', function(done) {
   var totalDone = 0;
   function childDone() {
     if (++totalDone === 1) {
-    //if (++totalDone === 2) {
       done();
     }
   };
