@@ -35,6 +35,7 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static com.wrixton.doorlock.ConfigurationMethods.saltPassword;
 
@@ -42,6 +43,8 @@ import static com.wrixton.doorlock.ConfigurationMethods.saltPassword;
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class DoorlockApiAppResource {
+
+    private static final Logger LOG = Logger.getLogger(DoorlockApiAppResource.class.getName());
 
     private final String CONFIG_FILE = "config.json";
     private final QueryDAO queriesDAO;
@@ -142,6 +145,7 @@ public class DoorlockApiAppResource {
         } catch (Exception e) {
             //TODO add logging
             e.printStackTrace();
+            LOG.severe(e.getLocalizedMessage());
         }
         return null;
     }

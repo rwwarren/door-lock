@@ -19,9 +19,11 @@ import org.skife.jdbi.v2.DBI;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.util.logging.Logger;
 
 public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
 
+    private static final Logger LOG = Logger.getLogger(DoorlockApiApp.class.getName());
     private String VERSION = "0.08";
 
     public static void main(String[] args) {
@@ -94,5 +96,6 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
         });
         environment.jersey().register(io.swagger.jaxrs.listing.SwaggerSerializers.class);
         environment.jersey().register(io.swagger.jaxrs.listing.ApiListingResource.class);
+        LOG.info("Started up!");
     }
 }
