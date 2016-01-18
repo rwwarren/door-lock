@@ -31,8 +31,8 @@
             if (url && url.length > 1) {
                 url = decodeURIComponent(url[1]);
             } else {
-                url = "http://localhost:8080/swagger.json";
-//                url = "https://generator.swagger.io/api/swagger.json";
+                var basepath = window.location.href ;
+                url = basepath + "swagger.json";
             }
             window.swaggerUi = new SwaggerUi({
                 url: url,

@@ -24,6 +24,7 @@ import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.http.HttpServletRequest;
 import java.util.EnumSet;
 import java.util.logging.Logger;
 
@@ -64,15 +65,6 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
 
     @Override
     public void run(DoorlockApiAppConfiguration doorlockApiAppConfiguration, Environment environment) throws Exception {
-
-//        FilterRegistration.Dynamic filter = environment.servlets().addFilter("CORSFilter", CrossOriginFilter.class);
-//
-//        filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, environment.getApplicationContext().getContextPath() + "*");
-//        filter.setInitParameter(ALLOWED_METHODS_PARAM, "GET,PUT,POST,OPTIONS");
-//        filter.setInitParameter(ALLOWED_ORIGINS_PARAM, GOOD_ORIGIN);
-//        filter.setInitParameter(ALLOWED_HEADERS_PARAM, "Origin, Content-Type, Accept");
-//        filter.setInitParameter(ALLOW_CREDENTIALS_PARAM, "true");
-
         environment.jersey().register(new ApiListingResource());
 
         final DBIFactory factory = new DBIFactory();

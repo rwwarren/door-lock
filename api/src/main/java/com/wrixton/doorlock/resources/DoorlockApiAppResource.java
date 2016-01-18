@@ -20,6 +20,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.json.simple.parser.JSONParser;
 import redis.clients.jedis.Jedis;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -57,9 +58,9 @@ public class DoorlockApiAppResource {
     @GET
     @Timed
     @Produces(MediaType.TEXT_HTML)
-    public Object getIndex() throws Exception {
+    public Object getIndex(@Context HttpServletRequest request) throws Exception {
         Client myClient = ClientBuilder.newClient();
-        WebTarget target = myClient.target("http://localhost:8080/lib/index.htm");
+        WebTarget target = myClient.target(request.getRequestURL().toString() + "lib/index.htm");
         return target.request(MediaType.TEXT_HTML).get();
     }
 
