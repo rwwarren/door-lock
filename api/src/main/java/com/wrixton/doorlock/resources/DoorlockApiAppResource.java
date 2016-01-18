@@ -143,8 +143,6 @@ public class DoorlockApiAppResource {
                 return queriesDAO.getUserInfo(username);
             }
         } catch (Exception e) {
-            //TODO add logging
-            e.printStackTrace();
             LOG.severe(e.getLocalizedMessage());
         }
         return null;
