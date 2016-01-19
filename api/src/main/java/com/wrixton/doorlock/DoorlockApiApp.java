@@ -15,17 +15,10 @@ import io.swagger.jaxrs.config.ReflectiveJaxrsScanner;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.models.Info;
 import io.swagger.models.Swagger;
-import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.skife.jdbi.v2.DBI;
-import static org.eclipse.jetty.servlets.CrossOriginFilter.*;
 
-
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.http.HttpServletRequest;
-import java.util.EnumSet;
 import java.util.logging.Logger;
 
 public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
