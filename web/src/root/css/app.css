@@ -157,7 +157,7 @@ td {
 
 .userList li:first-child {
     /*padding-top: 3px;*/
-    padding-top: 0;
+    /*padding-top: 0;*/
 }
 
 .userList li:last-child {
@@ -170,9 +170,9 @@ td {
 }
 
 .userList li {
-    padding-top: 2px;
+    /*padding-top: 2px;
     padding-left: 3px;
-    padding-right: 3px;
+    padding-right: 3px;*/
     margin-top: 5px;
     margin-left: 10px;
     margin-right: 10px;
@@ -192,15 +192,19 @@ td {
 }
 
 .admin {
-
+  padding: 5px;
 }
 
 .active {
-
+  padding: 5px;
 }
 
 .inactive {
+  padding: 5px;
+}
 
+.currentUser {
+  padding: 5px;
 }
 
 #passwordCheck {

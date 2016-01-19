@@ -17,6 +17,7 @@ var Common = {
   'LOCK_STATUS': 'LockStatus',
   'USER_INFO': 'GetUserInfo',
   'ADMIN': 'GetAllUsers',
+  'ADMIN_UPDATE': 'UpdateOtherUser',
   'CONFIG': 'config',
   'makeid': makesid
 };
