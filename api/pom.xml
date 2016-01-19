@@ -194,6 +194,12 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.0.2</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
@@ -245,6 +251,14 @@
                 <exclusion>
                     <artifactId>jackson-jaxrs-json-provider</artifactId>
                     <groupId>com.fasterxml.jackson.jaxrs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jsr311-api</artifactId>
+                    <groupId>javax.ws.rs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>annotations</artifactId>
+                    <groupId>com.google.code.findbugs</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
