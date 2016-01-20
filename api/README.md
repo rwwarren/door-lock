@@ -13,5 +13,5 @@ How to start the server:
 
 How to start the dev server:
 ```
-./run-api.sh start
+./run-api.sh
 ```
