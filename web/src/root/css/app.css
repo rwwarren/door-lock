@@ -130,17 +130,10 @@
 table {
     width: 100%;
     table-layout: fixed;
-    /*border-width: 1px;*/
-    /*border-color: #006600;*/
-    /*border: 1;*/
-    /*border: 10px #ffffff;*/
-
 }
 
 tr, td {
-    /*border: 1;*/
     border: 1px solid black;
-
 }
 
 th {
