@@ -28,7 +28,6 @@ var JSGulp = {
       return JSGulp.getBundleStream();
     });
   },
-
   _createBundler: function(watch) {
     var bundler = browserify({
       basedir: __dirname,
@@ -48,16 +47,13 @@ var JSGulp = {
     }
     jsBundler = bundler;
   },
-
   getBundleStream: function() {
     if(!jsBundler) {
       JSGulp._createBundler(false);
     }
-
     console.log('Bundling JS');
     var start = Date.now();
     var filename = rootJSPath.substring(rootJSPath.lastIndexOf('/') + 1);
-
     var stream = jsBundler.bundle();
     stream.on('error', notify.onError({
       title: 'JS Gulp',
