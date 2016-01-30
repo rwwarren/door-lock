@@ -2,39 +2,6 @@
 #Header set Access-Control-Allow-Origin "*"
 
 RewriteEngine on
-#RewriteRule logout.php http://api.localhost/logout
-#RewriteRule ^users/?$  users.php [L]
-#RewriteRule ^lock/?$  lock.php [L]
-#RewriteRule ^admin/?$  admin.php [L]
-#RewriteRule ^config/?$  config.php [L]
-#RewriteRule login.php http://api.localhost/login
-#RewriteRule register.php userFunctions.php?actions=registerUser
-#RewriteRule changeUser.php userFunctions.php?actions=changeUser
-#RewriteRule changePassword.php userFunctions.php?actions=changePassword
-#RewriteRule changeUserInfo.php userFunctions.php?actions=changeUserInfo
-#RewriteRule resetPassword.php userFunctions.php?actions=resetPassword
-#RewriteRule ^forgotPassword/([^/]*)$ resetToken.php?resetToken=$1 [L]
-#RewriteRule ^submitPassReset/([^/]*)$ userFunctions.php?actions=forgotPassword&resetToken=$1 [L]
-
-
-
-#RewriteRule ^users/?$  users.php [L]
-#RewriteRule ^lock/?$  lock.php [L]
-#RewriteRule ^admin/?$  admin.php [L]
-#RewriteRule ^config/?$  config.php [L]
-#RewriteRule checklogin.php userFunctions.php?actions=checkLogin
-#RewriteRule admin.php userFunctions.php?actions=admin
-#RewriteRule lockStatus.php userFunctions.php?actions=lockStatus
-#RewriteRule userInfo.php userFunctions.php?actions=userInfo
-#RewriteRule login.php userFunctions.php?actions=login
-#RewriteRule ^logout/?$ userFunctions.php?actions=logout
-#RewriteRule register.php userFunctions.php?actions=registerUser
-#RewriteRule changeUser.php userFunctions.php?actions=changeUser
-#RewriteRule changePassword.php userFunctions.php?actions=changePassword
-#RewriteRule changeUserInfo.php userFunctions.php?actions=changeUserInfo
-#RewriteRule resetPassword.php userFunctions.php?actions=resetPassword
-#RewriteRule ^forgotPassword/([^/]*)$ resetToken.php?resetToken=$1 [L]
-#RewriteRule ^submitPassReset/([^/]*)$ userFunctions.php?actions=forgotPassword&resetToken=$1 [L]
 RewriteCond %{SCRIPT_FILENAME} !-f
 # check if the request is not an existing directory
 RewriteCond %{SCRIPT_FILENAME} !-d
