@@ -10,7 +10,6 @@ var Config = React.createClass({
         dataType: "json",
         success: function(result) {
           console.log(result);
-          //React.render(result, document.body);
           this.setState({
             config: result,
             loaded: true
@@ -36,9 +35,6 @@ var Config = React.createClass({
           {JSON.stringify(this.state.config, null, '\t')}
         </div>
       );
-      //return React.DOM.body(
-      //  this.state.config
-      //);
     }
   })
   ;
