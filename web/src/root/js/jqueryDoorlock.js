@@ -6,11 +6,15 @@ $(function() {
         //TODO make sure username is correct and not tampored with
         console.log("selected");
         //TODO validate this.... not the best way to do this
-        var username = ui.item[0].innerText;
+        var username = ui.item[0].id;
+        // var username = ui.item[0].innerText;
+        var type = event.target.className;
+        console.log("type: " + type);
         console.log(username);
         $.ajax({
           //TODO define this
-          url: common.API_URL + common.ADMIN_UPDATE,
+          url: "http://localhost:1337/api.localhost/UpdateOtherUser",
+          // url: common.API_URL + common.ADMIN_UPDATE,
           type: "POST",
           contentType: "application/json",
           data: JSON.stringify({

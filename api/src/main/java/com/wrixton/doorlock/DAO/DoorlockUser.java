@@ -1,10 +1,11 @@
 package com.wrixton.doorlock.DAO;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class DoorlockUser {
 
-    private final String userID;
+    private final UUID userID;
     private final String name;
     private final String username;
     private final String email;
@@ -12,7 +13,7 @@ public class DoorlockUser {
     private final Long authyID;
     private final boolean isAdmin;
 
-    public DoorlockUser(String userID, String name, String username, String email, Long authyID, String cardID, boolean isAdmin) {
+    public DoorlockUser(UUID userID, String name, String username, String email, Long authyID, String cardID, boolean isAdmin) {
         this.userID = userID;
         this.name = name;
         this.username = username;
@@ -22,7 +23,7 @@ public class DoorlockUser {
         this.isAdmin = isAdmin;
     }
 
-    public String getUserID() {
+    public UUID getUserID() {
         return userID;
     }
 

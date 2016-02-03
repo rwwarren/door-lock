@@ -9,6 +9,7 @@ import com.wrixton.doorlock.DAO.QueryDAO;
 import com.wrixton.doorlock.DAO.Status;
 import com.wrixton.doorlock.ForgotPasswordRequest;
 import com.wrixton.doorlock.LoginRequest;
+import com.wrixton.doorlock.OtherUserUpdate;
 import com.wrixton.doorlock.RegisterUserRequest;
 import com.wrixton.doorlock.ResetPasswordRequest;
 import com.wrixton.doorlock.SessionRequest;
@@ -209,9 +210,19 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/UpdateOtherUser")
-    public Status updateOtherUser(@Valid UpdateOtherUserRequest updateOtherUserRequest) {
-//        queriesDAO.updateOtherUser();
-        return new Status(false);
+    public Status updateOtherUser(@Valid UpdateOtherUserRequest updateOtherUserRequest, @Context Jedis jedis) {
+        SessionRequest sid = updateOtherUserRequest.getSid();
+        boolean isAdmin = isAdmin(sid, jedis);
+        if(!isAdmin){
+            return new Status(false);
+        }
+        OtherUserUpdate update = updateOtherUserRequest.getOtherUserUpdate();
+        int result = queriesDAO.updateOtherUser(update.getUuid(), update.isAdmin(), update.isActive());
+        if (result != 1) {
+            LOG.severe("Error with updateOtherUser, updated " + result + " rows with: " + updateOtherUserRequest);
+            return new Status(false);
+        }
+        return new Status(true);
     }
 
     @ApiOperation("Submit forgot user forgot password")

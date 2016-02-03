@@ -6,6 +6,7 @@ import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class DoorlockUserMapper implements ResultSetMapper<DoorlockUser> {
 
@@ -21,7 +22,7 @@ public class DoorlockUserMapper implements ResultSetMapper<DoorlockUser> {
         }
         Long authyID = rs.getLong("authy_id");
         boolean isAdmin = rs.getBoolean("is_admin");
-        return new DoorlockUser(userID, name, retreivedUsername, email, authyID, cardID, isAdmin);
+        return new DoorlockUser(UUID.fromString(userID), name, retreivedUsername, email, authyID, cardID, isAdmin);
     }
 
 }

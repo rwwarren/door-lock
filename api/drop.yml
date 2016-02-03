@@ -26,7 +26,8 @@ database:
   # the name of your JDBC driver
   driverClass: org.postgresql.Driver
   # the username
-  user: read
+  user: write
+  # user: read
   # the password
   password: PASSWORD
   # the JDBC URL

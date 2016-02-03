@@ -9,6 +9,7 @@ import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface QueryDAO {
 
@@ -45,8 +46,8 @@ public interface QueryDAO {
                               @Bind("cardId") String cardId, @Bind("isAdmin") boolean isAdmin, @Bind("username") String username,
                               @Bind("password") String password);
 
-    @SqlUpdate("UPDATE doorlock.Users SET is_admin = :isAdmin, is_active = :isActive WHERE username = :username")
-    int updateOtherUser(@Bind("username") String username, @Bind("isAdmin") boolean isAdmin, @Bind("isActive") boolean isActive);
+    @SqlUpdate("UPDATE doorlock.Users SET is_admin = :isAdmin, is_active = :isActive WHERE user_uuid = :uuid")
+    int updateOtherUser(@Bind("uuid") UUID uuid, @Bind("isAdmin") boolean isAdmin, @Bind("isActive") boolean isActive);
 
     @SqlUpdate("INSERT INTO doorlock.ResetURLs (user_id, reset_url) VALUES (:userID, :resetURL)")
     int forgotPassword(@Bind("userID") long userID, @Bind("resetURL") String resetURL);
