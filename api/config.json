@@ -1,0 +1,10 @@
+{
+  "config": "todo build this",
+  "branch.name": "dev",
+  "git.sha1": "0d9904c",
+  "git.version": "v.07-46-g0d9904c",
+  "api.url": "api.dev.doorlock.wrixton.net",
+  "webserver.root": "/Users/ryan/Site/Lock",
+  "env": "dev"
+}
+

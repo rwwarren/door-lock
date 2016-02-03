@@ -1,3 +1,3 @@
 class wholeLock:
   """ """
-  print "turning the lock"
+  print "turning the automated door lock"

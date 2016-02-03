@@ -1,4 +1,3 @@
-
 'use strict';
 
 var Header = React.createClass({

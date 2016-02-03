@@ -48,7 +48,6 @@ public class QueryDAOTest {
         dataSourceFactory.getProperties().put("stringtype", "unspecified");
         dataSourceFactory.getProperties().put("charSet", "UTF-8");
         dataSourceFactory.setUrl("jdbc:postgresql://localhost:5432/test_application_data");
-//        dataSourceFactory.setUrl("jdbc:postgresql://localhost:5432/application_data");
         dataSourceFactory.setUser("write");
 //        dataSourceFactory.setUser("read");
         dataSourceFactory.setPassword("PASSWORD");

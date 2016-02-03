@@ -24,13 +24,6 @@
             <artifactId>groovy-all</artifactId>
             <version>2.4.3</version>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>com.wrixton.doorlock</groupId>-->
-        <!--<artifactId>nfc-lock-api-client</artifactId>-->
-        <!--<version>1.0-SNAPSHOT</version>-->
-        <!--<scope>system</scope>-->
-        <!--<systemPath>${project.basedir}/../nfc-lock-api/target/nfc-lock-api-client-1.0-SNAPSHOT.jar</systemPath>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
