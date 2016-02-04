@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <dropwizard.version>0.9.1</dropwizard.version>
+        <dropwizard.version>0.9.2</dropwizard.version>
         <jackson.version>2.7.0-rc1</jackson.version>
         <swagger.version>1.5.4</swagger.version>
         <dropwizard.modules.version>0.9.0-1</dropwizard.modules.version>
