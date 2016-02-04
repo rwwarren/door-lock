@@ -11,10 +11,7 @@ import java.util.Objects;
 public class RegisterUserRequest {
 
     @NotNull
-    private final SessionRequest sid;
-
-    @NotNull
-    private final String userID;
+    private final SessionRequest sessionRequest;
 
     @NotNull
     private final String name;
@@ -38,8 +35,7 @@ public class RegisterUserRequest {
     @NotNull
     private final boolean isAdmin;
 
-    public RegisterUserRequest(@JsonProperty("sid") SessionRequest sid,
-                               @JsonProperty("userID") String userID,
+    public RegisterUserRequest(@JsonProperty("sessionRequest") SessionRequest sessionRequest,
                                @JsonProperty("name") String name,
                                @JsonProperty("username") String username,
                                @JsonProperty("password") String password,
@@ -47,8 +43,7 @@ public class RegisterUserRequest {
                                @JsonProperty("cardID") String cardID,
                                @JsonProperty("authyID") long authyID,
                                @JsonProperty("isAdmin") boolean isAdmin) {
-        this.sid = sid;
-        this.userID = userID;
+        this.sessionRequest = sessionRequest;
         this.name = name;
         this.username = username;
         this.password = password;
@@ -58,13 +53,10 @@ public class RegisterUserRequest {
         this.isAdmin = isAdmin;
     }
 
-    public SessionRequest getSid() {
-        return sid;
+    public SessionRequest getSessionRequest() {
+        return sessionRequest;
     }
 
-    public String getUserID() {
-        return userID;
-    }
 
     public String getName() {
         return name;
@@ -100,8 +92,7 @@ public class RegisterUserRequest {
         if (o == null || getClass() != o.getClass()) return false;
         RegisterUserRequest that = (RegisterUserRequest) o;
         return Objects.equals(isAdmin, that.isAdmin) &&
-                Objects.equals(sid, that.sid) &&
-                Objects.equals(userID, that.userID) &&
+                Objects.equals(sessionRequest, that.sessionRequest) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(username, that.username) &&
                 Objects.equals(password, that.password) &&
@@ -112,14 +103,13 @@ public class RegisterUserRequest {
 
     @Override
     public int hashCode() {
-        return Objects.hash(sid, userID, name, username, password, email, cardID, authyID, isAdmin);
+        return Objects.hash(sessionRequest, name, username, password, email, cardID, authyID, isAdmin);
     }
 
     @Override
     public String toString() {
         return "RegisterUserRequest{" +
-                "sid=" + sid +
-                ", userID='" + userID + '\'' +
+                "sessionRequest=" + sessionRequest +
                 ", name='" + name + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +

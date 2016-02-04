@@ -184,7 +184,7 @@ public class DoorlockApiAppResource {
     @Path("/RegisterUser")
     public Status registerUser(@Valid RegisterUserRequest registerUserRequest, @Context Jedis jedis) {
         try {
-            if (isAdmin(registerUserRequest.getSid(), jedis)) {
+            if (isAdmin(registerUserRequest.getSessionRequest(), jedis)) {
                 queriesDAO.registerUser(registerUserRequest.getUsername(), registerUserRequest.getName(),
                         saltPassword(registerUserRequest.getUsername(), registerUserRequest.getPassword()),
                         registerUserRequest.getEmail(), registerUserRequest.getAuthyID(), registerUserRequest.getCardID(),

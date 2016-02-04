@@ -28,7 +28,8 @@ var Admin = React.createClass({
   getInitialState: function() {
     return {
       adminData: '',
-      loaded: false
+      loaded: false,
+      isAddingUser: true
     };
   },
   createlist: function(userList, type) {
@@ -61,6 +62,31 @@ var Admin = React.createClass({
       </ul>
     );
   },
+  addUserText: function(){
+    if(this.state.isAddingUser){
+      this.showAddUser();
+    } else {
+      this.hideAddUser();
+    }
+  },
+  showAddUser: function(){
+    // document.getElementById('addUser').style.display = "block";
+    $(".addUser").show();
+    $("#addUserButton").text("Cancel Add User");
+    console.log("test 1234");
+    this.setState({
+      isAddingUser: false
+    });
+  },
+  hideAddUser: function(){
+    // document.getElementById('addUser').style.display = "block";
+    $("#addUserButton").text("Add User");
+    $(".addUser").hide();
+    this.setState({
+      isAddingUser: true
+    });
+    console.log("test 1234");
+  },
   render: function() {
     return (
       <div className="adminPage">
@@ -89,6 +115,18 @@ var Admin = React.createClass({
             </td>
           </tr>
         </table>
+        <button onClick={this.addUserText} id="addUserButton">
+          Add User
+        </button>
+        <div className="addUser">
+          <input type="text" name="username" placeholder="username"></input>
+          <input type="password" name="password" placeholder="password"></input>
+          <input type="text" name="email" placeholder="email"></input>
+          <input type="text" name="cardID" placeholder="cardID"></input>
+          <input type="text" name="authyID" placeholder="authyID"></input>
+          <input type="checkbox" name="isAdmin"></input>
+          <input type="submit" value="Submit"/>
+        </div>
       </div>
     );
   }

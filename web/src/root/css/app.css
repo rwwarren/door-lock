@@ -206,4 +206,8 @@ td {
     /*display: none;*/
 }
 
+.addUser {
+  display: none;
+}
+
 /*$(document).ready(function(){$('#username').focus()});function check_login(){$.ajax({type:'POST',url:'login.php', data: { Username: $('#username').val(), Password: $('#password').val(), Token: $('#token').val()},statusCode: {200: function() {window.location = '/';},403: function(){ $('#loginStatus').css({'color':'#cccccc','display':'block'}).html('Error, wrong username or password!')},401: function(){ $('#loginStatus').css({'color':'#cccccc','display':'block'}).html('Error, Token invalid!')},400: function(){ $('#loginStatus').css({'color':'#cccccc','display':'block'}).html('Error, username or password no entered!')}}});};*/
