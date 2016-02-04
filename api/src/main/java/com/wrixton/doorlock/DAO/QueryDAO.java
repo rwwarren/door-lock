@@ -23,8 +23,8 @@ public interface QueryDAO {
     DoorlockUser getUserInfo(@Bind("username") String username);
 
     @RegisterMapper(BasicDoorlockUserMapper.class)
-    @SqlQuery("SELECT user_uuid, username FROM doorlock.Users WHERE is_admin = true AND is_active = true")
-    List<BasicDoorlockUser> getAllAdmins();
+    @SqlQuery("SELECT user_uuid, username FROM doorlock.Users WHERE is_admin = true AND is_active = true AND :username != username")
+    List<BasicDoorlockUser> getAllAdmins(@Bind("username") String username);
 
     @RegisterMapper(BasicDoorlockUserMapper.class)
     @SqlQuery("SELECT user_uuid, username FROM doorlock.Users WHERE is_admin = false AND is_active = true")

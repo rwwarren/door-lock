@@ -6,7 +6,9 @@ import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.java8.jdbi.DBIFactory;
 import io.dropwizard.setup.Environment;
 import org.flywaydb.core.Flyway;
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.skife.jdbi.v2.DBI;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 import static com.google.common.io.Resources.getResource;
 import static com.google.common.io.Resources.readLines;
 import static com.wrixton.doorlock.ConfigurationMethods.saltPassword;
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.in;
@@ -34,8 +37,8 @@ public class QueryDAOTest {
 
     private static QueryDAO queryDAO;
 
-    @BeforeClass
-    public static void setUp() {
+    @Before
+    public void setUp() {
         //add flyway bundle https://github.com/dropwizard/dropwizard-flyway
         Flyway flyway = new Flyway();
         flyway.setDataSource("jdbc:postgresql://localhost:5432/test_application_data", "db_builder", "PASSWORD");
@@ -57,8 +60,8 @@ public class QueryDAOTest {
         prepareTestSql("test_setup.sql");
     }
 
-    @AfterClass
-    public static void tearDown() {
+    @After
+    public void tearDown() {
         prepareTestSql("test_teardown.sql");
     }
 
@@ -97,20 +100,23 @@ public class QueryDAOTest {
 
     @Test
     public void testGetAllAdmins() throws Exception {
-        List<BasicDoorlockUser> allAdmins = queryDAO.getAllAdmins();
+        List<BasicDoorlockUser> allAdmins = queryDAO.getAllAdmins("test");
         assertNotNull(allAdmins);
+        assertEquals(2, allAdmins.size());
     }
 
     @Test
     public void testGetAllActiveUsers() throws Exception {
         List<BasicDoorlockUser> allActiveUsers = queryDAO.getAllActiveUsers();
         assertNotNull(allActiveUsers);
+        assertTrue(allActiveUsers.isEmpty());
     }
 
     @Test
     public void testGetAllInactiveUsers() throws Exception {
         List<BasicDoorlockUser> allInactiveUsers = queryDAO.getAllInactiveUsers();
         assertNotNull(allInactiveUsers);
+        assertTrue(allInactiveUsers.isEmpty());
     }
 
     @Test

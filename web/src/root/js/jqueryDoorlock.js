@@ -6,11 +6,12 @@ $(function() {
         //TODO make sure username is correct and not tampored with
         console.log("selected");
         //TODO validate this.... not the best way to do this
-        var username = ui.item[0].id;
+        var uuid = ui.item[0].id;
         // var username = ui.item[0].innerText;
-        var type = event.target.className;
+        var type = ui.item.closest('ul').attr('id');
+        // var type = event.target.className;
         console.log("type: " + type);
-        console.log(username);
+        console.log(uuid);
         $.ajax({
           //TODO define this
           url: "http://localhost:1337/api.localhost/UpdateOtherUser",
@@ -18,7 +19,13 @@ $(function() {
           type: "POST",
           contentType: "application/json",
           data: JSON.stringify({
-            sid: $.cookie("sid")
+            sessionRequest: {
+              sid: $.cookie("sid")
+            },
+            otherUserUpdate: {
+              uuid: uuid,
+              type: type
+            }
           }),
           dataType: "json",
           success: function(result) {

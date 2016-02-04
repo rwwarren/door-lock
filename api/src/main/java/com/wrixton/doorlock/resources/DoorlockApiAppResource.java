@@ -13,6 +13,7 @@ import com.wrixton.doorlock.OtherUserUpdate;
 import com.wrixton.doorlock.RegisterUserRequest;
 import com.wrixton.doorlock.ResetPasswordRequest;
 import com.wrixton.doorlock.SessionRequest;
+import com.wrixton.doorlock.USER_TYPE;
 import com.wrixton.doorlock.UpdateCurrentUserRequest;
 import com.wrixton.doorlock.UpdateOtherUserRequest;
 import io.swagger.annotations.Api;
@@ -160,7 +161,8 @@ public class DoorlockApiAppResource {
             System.out.println(sid);
             boolean isAdmin = isAdmin(sid, jedis);
             if (isAdmin) {
-                return getAllUsers();
+                String username = jedis.hget(getRedisKey(sid), "username");
+                return getAllUsers(username);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -211,13 +213,28 @@ public class DoorlockApiAppResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/UpdateOtherUser")
     public Status updateOtherUser(@Valid UpdateOtherUserRequest updateOtherUserRequest, @Context Jedis jedis) {
-        SessionRequest sid = updateOtherUserRequest.getSid();
+        SessionRequest sid = updateOtherUserRequest.getSessionRequest();
         boolean isAdmin = isAdmin(sid, jedis);
-        if(!isAdmin){
+        if (!isAdmin) {
             return new Status(false);
         }
         OtherUserUpdate update = updateOtherUserRequest.getOtherUserUpdate();
-        int result = queriesDAO.updateOtherUser(update.getUuid(), update.isAdmin(), update.isActive());
+        boolean userIsAdmin = false;
+        boolean userIsActive = false;
+        USER_TYPE type = updateOtherUserRequest.getOtherUserUpdate().getType();
+        switch (type) {
+            case ADMIN:
+                userIsAdmin = true;
+                userIsActive = true;
+                break;
+            case ACTIVE:
+                userIsActive = true;
+                break;
+            case INACTIVE:
+            default:
+                break;
+        }
+        int result = queriesDAO.updateOtherUser(update.getUuid(), userIsAdmin, userIsActive);
         if (result != 1) {
             LOG.severe("Error with updateOtherUser, updated " + result + " rows with: " + updateOtherUserRequest);
             return new Status(false);
@@ -300,9 +317,9 @@ public class DoorlockApiAppResource {
         return "loggedInUsers:" + sid.getSid();
     }
 
-    private Map<String, List<BasicDoorlockUser>> getAllUsers() {
+    private Map<String, List<BasicDoorlockUser>> getAllUsers(String currentUsername) {
         Map<String, List<BasicDoorlockUser>> results = new HashMap<>(3);
-        List<BasicDoorlockUser> allAdmins = queriesDAO.getAllAdmins();
+        List<BasicDoorlockUser> allAdmins = queriesDAO.getAllAdmins(currentUsername);
         List<BasicDoorlockUser> allActiveUsers = queriesDAO.getAllActiveUsers();
         List<BasicDoorlockUser> allInactiveUsers = queriesDAO.getAllInactiveUsers();
         results.put("Admins", allAdmins);

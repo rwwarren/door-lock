@@ -7,16 +7,16 @@ import javax.validation.constraints.NotNull;
 public class UpdateOtherUserRequest {
 
     @NotNull
-    private final SessionRequest sid;
+    private final SessionRequest sessionRequest;
     private final OtherUserUpdate otherUserUpdate;
 
-    public UpdateOtherUserRequest(@JsonProperty("sid") SessionRequest sid, @JsonProperty("otherUserUpdate") OtherUserUpdate otherUserUpdate) {
-        this.sid = sid;
+    public UpdateOtherUserRequest(@JsonProperty("sessionRequest") SessionRequest sessionRequest, @JsonProperty("otherUserUpdate") OtherUserUpdate otherUserUpdate) {
+        this.sessionRequest = sessionRequest;
         this.otherUserUpdate = otherUserUpdate;
     }
 
-    public SessionRequest getSid() {
-        return sid;
+    public SessionRequest getSessionRequest() {
+        return sessionRequest;
     }
 
     public OtherUserUpdate getOtherUserUpdate() {
@@ -26,7 +26,7 @@ public class UpdateOtherUserRequest {
     @Override
     public String toString() {
         return "UpdateOtherUserRequest{" +
-                "sid=" + sid +
+                "sessionRequest=" + sessionRequest +
                 '}';
     }
 }
