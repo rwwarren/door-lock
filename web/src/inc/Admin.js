@@ -125,7 +125,7 @@ var Admin = React.createClass({
           <input type="text" name="email" placeholder="email"></input>
           <input type="text" name="cardID" placeholder="cardID"></input>
           <input type="text" name="authyID" placeholder="authyID"></input>
-          <input type="checkbox" name="isAdmin"></input>
+          Admin? <input type="checkbox" name="isAdmin"></input>
           <input type="submit" value="Submit"/>
         </div>
       </div>

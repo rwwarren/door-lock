@@ -56,6 +56,14 @@ var User = React.createClass({
           <input ref="authyID" id="authyID" placeholder={this.state.allUserInfo.authyID}/>
         </div>
         <div>
+          New Password:
+          <input id="password" type="newPassword"/>
+        </div>
+        <div>
+          Confirm New Password:
+          <input id="password" type="confirmNewPassword"/>
+        </div>
+        <div>
           Current Password:
           <input id="password" type="password" onChange={this.changePassword}/>
         </div>
