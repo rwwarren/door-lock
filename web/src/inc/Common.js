@@ -18,6 +18,7 @@ var Common = {
   'USER_INFO': 'GetUserInfo',
   'ADMIN': 'GetAllUsers',
   'ADMIN_UPDATE': 'UpdateOtherUser',
+  'REGISTER_USER': 'RegisterUser',
   'CONFIG': 'config',
   'makeid': makesid
 };

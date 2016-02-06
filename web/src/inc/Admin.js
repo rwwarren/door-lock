@@ -62,6 +62,66 @@ var Admin = React.createClass({
       </ul>
     );
   },
+  validateEmail: function(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  },
+  validateAuthyID: function(authyID) {
+    var reg = /^[0-9]{1,10}$/;
+    return reg.test(authyID);
+  },
+  registerUser: function(){
+    //TODO check username is unique
+    //email password reset?
+    //fix 0 to null authyId
+    //check on frontend
+    var username = this.refs.username.getDOMNode().value.trim();
+    var password = this.refs.password.getDOMNode().value.trim();
+    var email = this.refs.email.getDOMNode().value.trim();
+    var name = this.refs.name.getDOMNode().value.trim();
+    var cardID = this.refs.cardID.getDOMNode().value.trim();
+    var authyID = this.refs.authyID.getDOMNode().value.trim();
+    var isAdmin = this.refs.isAdmin.getDOMNode().checked;
+    var isValidEmail = this.validateEmail(email);
+    var truth = true;
+    console.log("username: " + username);
+    console.log("password: " + password);
+    console.log("email: " + email);
+    console.log("isValidEmail: " + isValidEmail);
+    console.log("isAdmin: " + isAdmin);
+    if(username && password && name && isValidEmail && (!authyID || this.validateAuthyID(authyID))){
+      console.log("all valid");
+      $.ajax({
+        url: common.API_URL + common.REGISTER_USER,
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+          sessionRequest: {
+            sid: $.cookie("sid")
+          },
+          name: name,
+          username: username,
+          password: password,
+          email: email,
+          cardID: cardID,
+          authyID: parseInt(authyID),
+          isAdmin: isAdmin
+        }),
+        dataType: "json",
+        success: function(result) {
+          console.log(result);
+          // this.setState({
+          //   adminData: result,
+          //   loaded: true
+          // });
+        }.bind(this),
+        error: function(xhr, status, error) {
+          console.log(status);
+          console.log(error);
+        }
+      });
+    }
+  },
   addUserText: function(){
     if(this.state.isAddingUser){
       this.showAddUser();
@@ -121,25 +181,28 @@ var Admin = React.createClass({
         <div className="addUser">
           Create new user:
           <div>
-          <input type="text" name="username" placeholder="username"></input>
+          <input type="text" name="username" ref="username" placeholder="username"></input>
           </div>
           <div>
-          <input type="password" name="password" placeholder="password"></input>
+          <input type="password" name="password" ref="password" placeholder="password"></input>
           </div>
           <div>
-          <input type="text" name="email" placeholder="email"></input>
+          <input type="text" name="name" ref="name" ref="name" placeholder="name"></input>
           </div>
           <div>
-          <input type="text" name="cardID" placeholder="cardID"></input>
+          <input type="text" name="email" ref="email" placeholder="email"></input>
           </div>
           <div>
-          <input type="text" name="authyID" placeholder="authyID"></input>
+          <input type="text" name="cardID" ref="cardID" placeholder="cardID"></input>
           </div>
           <div>
-          Admin? <input type="checkbox" name="isAdmin"></input>
+          <input type="text" name="authyID" ref="authyID" placeholder="authyID"></input>
           </div>
           <div>
-          <input type="submit" value="Submit"/>
+          Admin? <input type="checkbox" ref="isAdmin" name="isAdmin"></input>
+          </div>
+          <div>
+          <input type="submit" value="Submit" onClick={this.registerUser}/>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ package com.wrixton.doorlock;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -14,22 +15,23 @@ public class RegisterUserRequest {
     private final SessionRequest sessionRequest;
 
     @NotNull
-    private final String name;
-
-    @NotNull
+    @NotEmpty
     private final String username;
 
     @NotNull
+    @NotEmpty
+    private final String name;
+
+    @NotNull
+    @NotEmpty
     private final String password;
 
     @NotNull
     @Email
     private final String email;
 
-    @NotNull
     private final String cardID;
 
-    @NotNull
     private final long authyID;
 
     @NotNull

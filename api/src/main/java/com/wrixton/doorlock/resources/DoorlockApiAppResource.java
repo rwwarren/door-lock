@@ -185,9 +185,9 @@ public class DoorlockApiAppResource {
     public Status registerUser(@Valid RegisterUserRequest registerUserRequest, @Context Jedis jedis) {
         try {
             if (isAdmin(registerUserRequest.getSessionRequest(), jedis)) {
-                queriesDAO.registerUser(registerUserRequest.getUsername(), registerUserRequest.getName(),
+                queriesDAO.registerUser(registerUserRequest.getName(), registerUserRequest.getUsername(),
                         saltPassword(registerUserRequest.getUsername(), registerUserRequest.getPassword()),
-                        registerUserRequest.getEmail(), registerUserRequest.getAuthyID(), registerUserRequest.getCardID(),
+                        registerUserRequest.getEmail(), registerUserRequest.getAuthyID(), registerUserRequest.getCardID().trim(),
                         registerUserRequest.isAdmin());
                 return new Status(true);
             }
