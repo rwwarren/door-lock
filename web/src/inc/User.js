@@ -57,11 +57,11 @@ var User = React.createClass({
         </div>
         <div>
           New Password:
-          <input id="password" type="newPassword"/>
+          <input id="newPassword" type="password"/>
         </div>
         <div>
           Confirm New Password:
-          <input id="password" type="confirmNewPassword"/>
+          <input id="confirmNewPassword" type="password"/>
         </div>
         <div>
           Current Password:

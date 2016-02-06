@@ -120,13 +120,27 @@ var Admin = React.createClass({
         </button>
         <div className="addUser">
           Create new user:
+          <div>
           <input type="text" name="username" placeholder="username"></input>
+          </div>
+          <div>
           <input type="password" name="password" placeholder="password"></input>
+          </div>
+          <div>
           <input type="text" name="email" placeholder="email"></input>
+          </div>
+          <div>
           <input type="text" name="cardID" placeholder="cardID"></input>
+          </div>
+          <div>
           <input type="text" name="authyID" placeholder="authyID"></input>
+          </div>
+          <div>
           Admin? <input type="checkbox" name="isAdmin"></input>
+          </div>
+          <div>
           <input type="submit" value="Submit"/>
+          </div>
         </div>
       </div>
     );
