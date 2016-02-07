@@ -34,7 +34,6 @@ public class RegisterUserRequest {
 
     private final long authyID;
 
-    @NotNull
     private final boolean isAdmin;
 
     public RegisterUserRequest(@JsonProperty("sessionRequest") SessionRequest sessionRequest,
