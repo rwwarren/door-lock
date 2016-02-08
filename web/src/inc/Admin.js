@@ -84,13 +84,7 @@ var Admin = React.createClass({
     var isAdmin = this.refs.isAdmin.getDOMNode().checked;
     var isValidEmail = this.validateEmail(email);
     var truth = true;
-    console.log("username: " + username);
-    console.log("password: " + password);
-    console.log("email: " + email);
-    console.log("isValidEmail: " + isValidEmail);
-    console.log("isAdmin: " + isAdmin);
     if(username && password && name && isValidEmail && (!authyID || this.validateAuthyID(authyID))){
-      console.log("all valid");
       $.ajax({
         url: common.API_URL + common.REGISTER_USER,
         type: "POST",
@@ -110,10 +104,6 @@ var Admin = React.createClass({
         dataType: "json",
         success: function(result) {
           console.log(result);
-          // this.setState({
-          //   adminData: result,
-          //   loaded: true
-          // });
         }.bind(this),
         error: function(xhr, status, error) {
           console.log(status);
