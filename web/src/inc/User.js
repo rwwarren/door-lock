@@ -81,7 +81,6 @@ var User = React.createClass({
     }
   },
   updateInfo: function() {
-    console.log("updating user info");
     var name = this.refs.name.getDOMNode().value.trim();
     var email = this.refs.email.getDOMNode().value.trim();
     var cardID = this.refs.cardID.getDOMNode().value.trim();
