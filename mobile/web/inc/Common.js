@@ -9,18 +9,13 @@ var makeid = function () {
 
 
 var Common = {
-  //'API_URL' : 'http://m.localhost/',
-  //'API_KEY': "X-DoorLock-Api-Key",
-  //'API_KEY_VALUE': "test",
   'API_URL': 'http://api.localhost/',
   'LOGIN': 'login.php',
   'CHECK_LOGIN': 'IsLoggedIn',
   'LOCK_STATUS': 'LockStatus',
   'USER_INFO': 'GetUserInfo',
   'ADMIN': 'GetAllUsers',
-  //'ADMIN' : 'admin.php',
   'makeid': makeid
 };
 
-//module.exports = API_URL;
 module.exports = Common;
