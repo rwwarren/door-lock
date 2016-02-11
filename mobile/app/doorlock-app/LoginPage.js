@@ -154,10 +154,6 @@ var LoginPage = React.createClass({
          });
        })
       .done();
-      console.log(this.state.responseData);
-      console.log(this.state.username);
-      console.log(this.state.responseData.success);
-
   },
   checkLogin: function() {
     fetch((REQUEST_URL + "/IsLoggedIn"), {
@@ -169,8 +165,6 @@ var LoginPage = React.createClass({
     })
        .then((response) => response.json())
        .then((responseDatas) => {
-        console.log("While checking the login: " + responseDatas);
-        console.log("While checking the login: " + JSON.stringify(responseDatas));
          this.setState({
            loaded: true,
            responseData: responseDatas,
@@ -178,9 +172,6 @@ var LoginPage = React.createClass({
          });
        })
       .done();
-      console.log(this.state.username);
-      console.log("success?? " + this.state.responseData.success);
-
   },
 });
 function makeid() {
