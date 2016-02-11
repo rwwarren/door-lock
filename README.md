@@ -41,7 +41,7 @@ Servo -> use java api client
 ##Api
 [API](api/)
 - Java 8
-- dropwizard 0.9.1
+- dropwizard 0.9.2
 - dropwizard java 8
 - maven
 - jdbi -> postgresql (9.4.4) using jdbi dropwizard
