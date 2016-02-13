@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 ROOT=$(pwd)
 
 if [ ! -n "${env}" ]; then
