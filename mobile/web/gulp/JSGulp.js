@@ -38,12 +38,10 @@ var JSGulp = {
     });
     bundler.transform(reactify);
     bundler.transform(es6ify.configure(/.js/));
-
     if (watch) {
       bundler = watchify(bundler);
       bundler.on('update', JSGulp.getBundleStream);
     }
-
     jsBundler = bundler;
   },
 
@@ -51,11 +49,9 @@ var JSGulp = {
     if (!jsBundler) {
       JSGulp._createBundler(false);
     }
-
     console.log('Bundling JS');
     var start = Date.now();
     var filename = rootJSPath.substring(rootJSPath.lastIndexOf('/') + 1);
-
     var stream = jsBundler.bundle();
     stream.on('error', notify.onError({
         title: 'JS Gulp',
@@ -67,23 +63,19 @@ var JSGulp = {
       var time = Date.now() - start;
       console.log('Bundled JS (' + time + ' ms)');
     });
-
     stream = stream.pipe(replacestream('__DEV__', !argv.production));
     stream = stream.pipe(source(buildFile));
-
     if (argv.production) {
       // minification
       stream = stream.pipe(buffer());
       stream = stream.pipe(uglify());
     }
-
     stream = stream.pipe(gulp.dest(outputPath));
     return stream;
   },
 
   watch: function() {
     JSGulp._createBundler(true);
-
     var stream = JSGulp.getBundleStream();
     stream.read();
   },
@@ -95,7 +87,6 @@ var JSGulp = {
         done();
         return;
       }
-
       console.log('Cleaned JS');
       done();
     });
