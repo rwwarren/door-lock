@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    
     <groupId>com.wrixton.doorlock</groupId>
     <artifactId>api-lock</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -32,7 +32,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>com.bendb.dropwizard</groupId>
             <artifactId>dropwizard-redis</artifactId>
@@ -44,7 +43,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>io.dropwizard.modules</groupId>
             <artifactId>dropwizard-flyway</artifactId>
@@ -56,7 +54,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>io.dropwizard.modules</groupId>
             <artifactId>dropwizard-java8</artifactId>
@@ -104,7 +101,6 @@
             <artifactId>postgresql</artifactId>
             <version>9.4-1203-jdbc42</version>
         </dependency>
-
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-core</artifactId>
@@ -136,7 +132,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
@@ -174,7 +169,6 @@
             <version>${newrelic.version}</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-core</artifactId>
@@ -337,7 +331,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <!--<version>2.6</version>-->
                 <version>2.10</version>
                 <executions>
                     <execution>
