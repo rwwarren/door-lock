@@ -15,7 +15,6 @@ $(function() {
         $.ajax({
           //TODO define this
           url: "http://localhost:1337/api.localhost/UpdateOtherUser",
-          // url: common.API_URL + common.ADMIN_UPDATE,
           type: "POST",
           contentType: "application/json",
           data: JSON.stringify({
