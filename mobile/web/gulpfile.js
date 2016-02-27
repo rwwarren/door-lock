@@ -17,7 +17,6 @@ gulp.task('clean', function(done) {
       done();
     }
   };
-
   JSGulp.clean(childDone);
 });
 
