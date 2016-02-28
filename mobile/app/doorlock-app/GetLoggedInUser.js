@@ -19,7 +19,6 @@ var {
 //touchable getall and incomplete (for marking complete)
 //Create page
 //Add USER to search
-
 var REQUEST_URL = "http://api.localhost";
 var API_KEY = "test";
 var TabBarItemIOS = TabBarIOS.Item;
@@ -94,7 +93,6 @@ var GetLoggedInUser = React.createClass({
         </TabBarItemIOS>
       </TabBarIOS>
     );
-
   },
   _renderContent: function(color: string, pageText: string) {
     return (
