@@ -1,6 +1,5 @@
 function checkText(confPass, newPass) {
   if(confPass == newPass){
-    //console.log("They are the same");
     document.getElementById("submit").disabled = false;
     document.getElementById("checkPass").innerHTML = "";
     return true;
