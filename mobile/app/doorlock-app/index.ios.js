@@ -156,7 +156,6 @@ var doorlockapp = React.createClass({
       console.log(this.state.responseData);
       console.log(this.state.username);
       console.log(this.state.responseData.success);
-
   },
   checkLogin: function() {
     fetch((REQUEST_URL + "/IsLoggedIn"), {
