@@ -43,10 +43,6 @@ public class App {
         System.out.println("Hello World! Main NFC Application")
         logger.info 'Simple sample to show log field is injected.'
         logger.info 'here is the url: ' + url
-
-
-
-//        App myApp = new App()
         apiClient = new ApiClient("http://api.localhost", "testing")
         //TODO add some waiting for the card and the terminal factory?
         for(;;){
@@ -56,7 +52,6 @@ public class App {
             }
             sleep(1000)
         }
-
     }
 
     private static void changeLock(def uid){
@@ -66,7 +61,6 @@ public class App {
             response = apiClient.unlock(uid)
         } else if (lockStatus == LOCK_STATUS.UNLOCKED){
             response = apiClient.lock(uid)
-
         } else {
             throw new IllegalStateException("Lock is is illegal state: " + lockStatus)
         }
@@ -107,7 +101,6 @@ public class App {
                 if (i <= reponseBytesArr.length - 3) {
                     // append uid
                     sb.append(String.format("%02X", b))
-//                    sb.append(String.format("%02X ", b));
                 }
             }
             println "Card read and waiting for disconnect"
@@ -119,11 +112,5 @@ public class App {
         }
         return null
     }
-
-//    @Bean
-//    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
-//        return new PropertySourcesPlaceholderConfigurer();
-//    }
-
 
 }
