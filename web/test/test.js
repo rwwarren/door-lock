@@ -25,10 +25,3 @@ describe('Constants Testing', function() {
   });
 });
 
-//describe('Constants Testing', function() {
-//  describe('Common File Testing', function () {
-//    it('should return Admin constant properly', function () {
-//      assert.equal(User.updateInfo(), "GetAllUsers");
-//    });
-//  });
-//});
