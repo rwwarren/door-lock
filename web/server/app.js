@@ -46,7 +46,7 @@ app.get('/config', function(req, res) {
 
 app.get('*', function(req, res) {
   res.status(404) 
-    .send('Not found');
+    .send('Not found. <a href="/">Back to home.</a>');
 });
 
 var serverPort = process.env.PORT || 3000;
