@@ -7,5 +7,5 @@ Written in python.
 ## Running the python script
 
 ```
-./wholeLock.py
+nohup ./wholeLock.py &
 ```
