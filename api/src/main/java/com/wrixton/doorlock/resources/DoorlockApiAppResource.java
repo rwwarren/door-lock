@@ -71,8 +71,6 @@ public class DoorlockApiAppResource {
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/login")
-//    @Api()
-//    @Api(value = "/pet", description = "Operations about pets")
     public LoginStatus login(@Valid LoginRequest body, @Context Jedis jedis) {
         try {
             String sid = body.getSid();
