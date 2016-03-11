@@ -1,6 +1,3 @@
-#Options -Indexes FollowSymLinks
-#Header set Access-Control-Allow-Origin "*"
-
 RewriteEngine on
 RewriteCond %{SCRIPT_FILENAME} !-f
 # check if the request is not an existing directory
@@ -11,5 +8,3 @@ RewriteCond %{SCRIPT_FILENAME} !-s
 RewriteRule .* index.html
 
 #ExpiresByType text/css "access 1 month"
-
-
