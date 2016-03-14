@@ -7,9 +7,7 @@ import io.dropwizard.java8.jdbi.DBIFactory;
 import io.dropwizard.setup.Environment;
 import org.flywaydb.core.Flyway;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.skife.jdbi.v2.DBI;
 
@@ -24,10 +22,10 @@ import java.util.stream.Collectors;
 import static com.google.common.io.Resources.getResource;
 import static com.google.common.io.Resources.readLines;
 import static com.wrixton.doorlock.ConfigurationMethods.saltPassword;
+import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.in;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertEquals;
@@ -36,6 +34,8 @@ import static org.junit.Assert.assertNotNull;
 public class QueryDAOTest {
 
     private static QueryDAO queryDAO;
+    private final String USER_UUID_STRING = "249c61eb-3b76-49ed-a2a7-8e70aa3cc7d9";
+    private UUID USER_UUID = UUID.fromString(USER_UUID_STRING);
 
     @Before
     public void setUp() {
@@ -53,6 +53,7 @@ public class QueryDAOTest {
         dataSourceFactory.setUrl("jdbc:postgresql://localhost:5432/test_application_data");
         dataSourceFactory.setUser("write");
         dataSourceFactory.setPassword("PASSWORD");
+        dataSourceFactory.setMaxSize(50);
         final DBI jdbi = factory.build(environment, dataSourceFactory, "postgres");
         queryDAO = jdbi.onDemand(QueryDAO.class);
         tearDown();
@@ -82,7 +83,7 @@ public class QueryDAOTest {
         String password = saltPassword("test", "password");
         DoorlockUserLoginCheck loginCheck = queryDAO.loginUser("test", password);
         assertNotNull(loginCheck);
-        DoorlockUserLoginCheck expected = new DoorlockUserLoginCheck("249c61eb-3b76-49ed-a2a7-8e70aa3cc7d9",
+        DoorlockUserLoginCheck expected = new DoorlockUserLoginCheck(USER_UUID_STRING,
                 "testing", "test", true);
         assertEquals(expected, loginCheck);
     }
@@ -91,9 +92,8 @@ public class QueryDAOTest {
     public void testGetUserInfo() throws Exception {
         DoorlockUser user = queryDAO.getUserInfo("test");
         assertThat(user, notNullValue());
-        String uuidString = "249c61eb-3b76-49ed-a2a7-8e70aa3cc7d9";
-        DoorlockUser doorlockUser = new DoorlockUser(UUID.fromString(uuidString),
-                "testing", "test", "asdf@s.com", 12l, "21", true);
+        DoorlockUser doorlockUser = new DoorlockUser(USER_UUID,
+                "testing", "test", "asdf@s.com", 12L, "21", true);
         assertEquals(doorlockUser, user);
     }
 
@@ -123,7 +123,7 @@ public class QueryDAOTest {
         String name = "asdf";
         String username = "ASDFFF";
         String email = "asdf@g.c";
-        long authyID = 1234l;
+        long authyID = 1234L;
         String cardID = "12345";
         boolean isAdmin = true;
         DoorlockUser user = new DoorlockUser(null, name, username, email, authyID, cardID, isAdmin);
@@ -146,11 +146,10 @@ public class QueryDAOTest {
         String name = "updatecurrentuser";
         String username = "updatecurrentusername";
         String email = "fdsa@g.c";
-        long authyID = 4312l;
+        long authyID = 4312L;
         String cardID = "234";
         boolean isAdmin = false;
-        String uuidString = "249a61eb-3b76-49ed-a2b7-8e70aa3cc7d9";
-        DoorlockUser user = new DoorlockUser(UUID.fromString(uuidString), name, username, email, authyID, cardID, isAdmin);
+        DoorlockUser user = new DoorlockUser(USER_UUID, name, username, email, authyID, cardID, isAdmin);
         int updatedRows = queryDAO.updateCurrentUser(name, email, authyID, cardID, isAdmin, username, "");
         assertNotNull(updatedRows);
         assertThat(updatedRows, equalTo(1));
@@ -192,12 +191,25 @@ public class QueryDAOTest {
     }
 
     @Test
+    public void testFindUserIdForName() {
+        {
+            UserID userFullId = queryDAO.findUserIdForName("test");
+            assertEquals(new UserID(1, USER_UUID), userFullId);
+        }
+        {
+            UserID userIdForName = queryDAO.findUserIdForName("test-my-username-not-exist");
+            assertNull(userIdForName);
+        }
+    }
+
+    @Test
     public void testResetPassword() throws Exception {
         String username = "updateuser";
-        int rowsUpdated = queryDAO.resetPassword(username, "test");
+        String password = "test";
+        int rowsUpdated = queryDAO.resetPassword(username, password);
         assertNotNull(rowsUpdated);
         assertThat(rowsUpdated, equalTo(1));
-        DoorlockUserLoginCheck doorlockUserLoginCheck = queryDAO.loginUser(username, "test");
+        DoorlockUserLoginCheck doorlockUserLoginCheck = queryDAO.loginUser(username, password);
         assertNotNull(doorlockUserLoginCheck);
         assertThat(doorlockUserLoginCheck.getUsername(), equalTo(username));
     }
@@ -216,14 +228,14 @@ public class QueryDAOTest {
     }
 
     @Test
-    public void testCheckResetUrl(){
+    public void testCheckResetUrl() {
         long userId = queryDAO.checkResetUrl("reset-url-first");
         assertNotNull(userId);
-        assertThat(userId, equalTo(1l));
+        assertThat(userId, equalTo(1L));
     }
 
     @Test
-    public void testDeactivateResetUrl(){
+    public void testDeactivateResetUrl() {
         int updatedRows = queryDAO.deactivateResetUrl("reset-url-second");
         assertNotNull(updatedRows);
         assertThat(updatedRows, equalTo(1));

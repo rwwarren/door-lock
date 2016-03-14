@@ -3,12 +3,14 @@ package com.wrixton.doorlock.DAO;
 import com.wrixton.doorlock.mappers.BasicDoorlockUserMapper;
 import com.wrixton.doorlock.mappers.DoorlockUserLoginMapper;
 import com.wrixton.doorlock.mappers.DoorlockUserMapper;
+import com.wrixton.doorlock.mappers.UserIDMapper;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface QueryDAO {
@@ -51,6 +53,10 @@ public interface QueryDAO {
 
     @SqlUpdate("INSERT INTO doorlock.ResetURLs (user_id, reset_url) VALUES (:userID, :resetURL)")
     int forgotPassword(@Bind("userID") long userID, @Bind("resetURL") String resetURL);
+
+    @RegisterMapper(UserIDMapper.class)
+    @SqlQuery("SELECT id, user_uuid FROM doorlock.users WHERE username = :username")
+    UserID findUserIdForName(@Bind("username") String username);
 
     @SqlUpdate("UPDATE doorlock.Users SET Password = digest(:password, 'sha256'), is_active = true WHERE username = :username")
     int resetPassword(@Bind("username") String username, @Bind("password") String password);

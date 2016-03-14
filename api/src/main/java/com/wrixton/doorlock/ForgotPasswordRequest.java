@@ -9,10 +9,13 @@ import javax.validation.constraints.NotNull;
 public class ForgotPasswordRequest {
 
     @NotNull
-    private final SessionRequest sessionRequest;
+    private final String username;
 
-    public ForgotPasswordRequest(@JsonProperty("sessionRequest") SessionRequest sessionRequest) {
-        this.sessionRequest = sessionRequest;
+    public ForgotPasswordRequest(@JsonProperty("username") String username) {
+        this.username = username;
     }
 
+    public String getUsername() {
+        return username;
+    }
 }

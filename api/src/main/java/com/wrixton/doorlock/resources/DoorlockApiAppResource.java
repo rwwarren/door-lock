@@ -7,6 +7,7 @@ import com.wrixton.doorlock.DAO.DoorlockUserLoginCheck;
 import com.wrixton.doorlock.DAO.LoginStatus;
 import com.wrixton.doorlock.DAO.QueryDAO;
 import com.wrixton.doorlock.DAO.Status;
+import com.wrixton.doorlock.DAO.UserID;
 import com.wrixton.doorlock.ForgotPasswordRequest;
 import com.wrixton.doorlock.LoginRequest;
 import com.wrixton.doorlock.OtherUserUpdate;
@@ -38,6 +39,7 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import static com.wrixton.doorlock.ConfigurationMethods.saltPassword;
@@ -246,8 +248,15 @@ public class DoorlockApiAppResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/ForgotPassword")
     public Status forgotPassword(@Valid ForgotPasswordRequest forgotPasswordRequest) {
-//        queriesDAO.forgotPassword()
-        return new Status(false);
+        UserID userIdForName = queriesDAO.findUserIdForName(forgotPasswordRequest.getUsername());
+
+        if (userIdForName == null) {
+            return new Status(false);
+
+        }
+        queriesDAO.forgotPassword(userIdForName.getId(), "");
+        queriesDAO.updateOtherUser(userIdForName.getUuid(), false, false);
+        return new Status(true);
     }
 
     @ApiOperation("Reset user password")

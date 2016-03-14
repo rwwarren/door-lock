@@ -12,7 +12,7 @@ public class DoorlockUserMapper implements ResultSetMapper<DoorlockUser> {
 
     @Override
     public DoorlockUser map(int i, ResultSet rs, StatementContext statementContext) throws SQLException {
-        String retreivedUsername = rs.getString("Username").trim();
+        String retreivedUsername = rs.getString("username").trim();
         String userID = rs.getString("user_uuid");
         String name = rs.getString("name").trim();
         String email = rs.getString("email").trim();
