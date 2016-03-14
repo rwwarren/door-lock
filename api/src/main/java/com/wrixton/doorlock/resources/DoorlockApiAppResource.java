@@ -7,7 +7,7 @@ import com.wrixton.doorlock.DAO.DoorlockUserLoginCheck;
 import com.wrixton.doorlock.DAO.LoginStatus;
 import com.wrixton.doorlock.DAO.QueryDAO;
 import com.wrixton.doorlock.DAO.Status;
-import com.wrixton.doorlock.DAO.UserID;
+import com.wrixton.doorlock.DAO.UserIDInfo;
 import com.wrixton.doorlock.ForgotPasswordRequest;
 import com.wrixton.doorlock.LoginRequest;
 import com.wrixton.doorlock.OtherUserUpdate;
@@ -20,6 +20,7 @@ import com.wrixton.doorlock.UpdateOtherUserRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.json.simple.parser.JSONParser;
 import redis.clients.jedis.Jedis;
 
@@ -39,7 +40,6 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 import static com.wrixton.doorlock.ConfigurationMethods.saltPassword;
@@ -248,14 +248,14 @@ public class DoorlockApiAppResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/ForgotPassword")
     public Status forgotPassword(@Valid ForgotPasswordRequest forgotPasswordRequest) {
-        UserID userIdForName = queriesDAO.findUserIdForName(forgotPasswordRequest.getUsername());
-
-        if (userIdForName == null) {
+        UserIDInfo userIdInfoForName = queriesDAO.findUserIdForName(forgotPasswordRequest.getUsername());
+        if (userIdInfoForName == null) {
             return new Status(false);
-
         }
-        queriesDAO.forgotPassword(userIdForName.getId(), "");
-        queriesDAO.updateOtherUser(userIdForName.getUuid(), false, false);
+        String random = RandomStringUtils.random(128, true, true);
+        queriesDAO.forgotPassword(userIdInfoForName.getId(), random);
+        queriesDAO.changeUserStatus(forgotPasswordRequest.getUsername(), false);
+//        queriesDAO.updateOtherUser(userIdInfoForName.getUuid(), userIdInfoForName.isAdmin(), false);
         return new Status(true);
     }
 
@@ -265,10 +265,14 @@ public class DoorlockApiAppResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/ResetPassword")
     public Status resetPassword(@Valid ResetPasswordRequest resetPasswordRequest) {
+        Long userId = queriesDAO.checkResetUrl(resetPasswordRequest.getResetUrl());
+        if(userId == null){
+            return new Status(false);
+        }
 //        queriesDAO.forgotPassword();
-//        queriesDAO.changeUserStatus();
-//        queriesDAO.resetPassword()
-        return new Status(false);
+        queriesDAO.changeUserStatus(resetPasswordRequest.getUsername(), true);
+        queriesDAO.resetPassword(resetPasswordRequest.getUsername(), resetPasswordRequest.getPassword());
+        return new Status(true);
     }
 
     @ApiOperation("Check lock status")

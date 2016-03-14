@@ -10,7 +10,6 @@ import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface QueryDAO {
@@ -55,8 +54,8 @@ public interface QueryDAO {
     int forgotPassword(@Bind("userID") long userID, @Bind("resetURL") String resetURL);
 
     @RegisterMapper(UserIDMapper.class)
-    @SqlQuery("SELECT id, user_uuid FROM doorlock.users WHERE username = :username")
-    UserID findUserIdForName(@Bind("username") String username);
+    @SqlQuery("SELECT id, user_uuid, is_admin FROM doorlock.users WHERE username = :username")
+    UserIDInfo findUserIdForName(@Bind("username") String username);
 
     @SqlUpdate("UPDATE doorlock.Users SET Password = digest(:password, 'sha256'), is_active = true WHERE username = :username")
     int resetPassword(@Bind("username") String username, @Bind("password") String password);
@@ -65,7 +64,7 @@ public interface QueryDAO {
     int changeUserStatus(@Bind("username") String username, @Bind("isActive") boolean isActive);
 
     @SqlQuery("SELECT user_id FROM doorlock.reseturls WHERE reset_url = :resetUrl AND is_valid = true AND expiration >= now()")
-    long checkResetUrl(@Bind("resetUrl") String resetUrl);
+    Long checkResetUrl(@Bind("resetUrl") String resetUrl);
 
     @SqlUpdate("UPDATE doorlock.reseturls SET is_valid = false WHERE reset_url = :resetUrl")
     int deactivateResetUrl(@Bind("resetUrl") String resetUrl);

@@ -5,6 +5,7 @@ import com.google.common.base.Charsets;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.java8.jdbi.DBIFactory;
 import io.dropwizard.setup.Environment;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.flywaydb.core.Flyway;
 import org.junit.After;
 import org.junit.Before;
@@ -185,6 +186,8 @@ public class QueryDAOTest {
         //make user inactive as well
         //make db trigger to mark user inactive
         //TODO change contains or something to make sure that it Contains a username not equals a user
+        String random = RandomStringUtils.random(128, true, true);
+        System.out.println(random);
         int rowsUpdated = queryDAO.forgotPassword(1, "reset-url");
         assertNotNull(rowsUpdated);
         assertThat(rowsUpdated, equalTo(1));
@@ -193,12 +196,12 @@ public class QueryDAOTest {
     @Test
     public void testFindUserIdForName() {
         {
-            UserID userFullId = queryDAO.findUserIdForName("test");
-            assertEquals(new UserID(1, USER_UUID), userFullId);
+            UserIDInfo userFullId = queryDAO.findUserIdForName("test");
+            assertEquals(new UserIDInfo(1, USER_UUID, true), userFullId);
         }
         {
-            UserID userIdForName = queryDAO.findUserIdForName("test-my-username-not-exist");
-            assertNull(userIdForName);
+            UserIDInfo userIdInfoForName = queryDAO.findUserIdForName("test-my-username-not-exist");
+            assertNull(userIdInfoForName);
         }
     }
 
@@ -229,9 +232,15 @@ public class QueryDAOTest {
 
     @Test
     public void testCheckResetUrl() {
-        long userId = queryDAO.checkResetUrl("reset-url-first");
-        assertNotNull(userId);
-        assertThat(userId, equalTo(1L));
+        {
+            Long userId = queryDAO.checkResetUrl("reset-url-first");
+            assertNotNull(userId);
+            assertThat(userId, equalTo(1L));
+        }
+        {
+            Long userId = queryDAO.checkResetUrl("some-fake-reset-url");
+            assertNull(userId);
+        }
     }
 
     @Test
