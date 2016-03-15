@@ -17,4 +17,5 @@ public class Healthcheck extends HealthCheck {
         }
         return Result.healthy();
     }
+    
 }
