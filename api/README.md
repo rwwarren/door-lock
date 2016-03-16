@@ -10,8 +10,7 @@ How to start the server:
 ./startServer.sh start
 ```
 
-
 How to start the dev server:
 ```
 ./run-api.sh
-```
+``
