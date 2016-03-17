@@ -120,7 +120,6 @@ var Admin = React.createClass({
     }
   },
   showAddUser: function(){
-    // document.getElementById('addUser').style.display = "block";
     $(".addUser").show();
     $("#addUserButton").text("Cancel Add User");
     console.log("test 1234");
@@ -129,7 +128,6 @@ var Admin = React.createClass({
     });
   },
   hideAddUser: function(){
-    // document.getElementById('addUser').style.display = "block";
     $("#addUserButton").text("Add User");
     $(".addUser").hide();
     this.setState({
