@@ -7,7 +7,6 @@ import org.skife.jdbi.v2.tweak.ResultSetMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 public class UserIDMapper implements ResultSetMapper<UserIDInfo> {
 
