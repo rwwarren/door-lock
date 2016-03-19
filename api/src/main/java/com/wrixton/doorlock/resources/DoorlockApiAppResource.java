@@ -266,7 +266,7 @@ public class DoorlockApiAppResource {
     @Path("/ResetPassword")
     public Status resetPassword(@Valid ResetPasswordRequest resetPasswordRequest) {
         Long userId = queriesDAO.checkResetUrl(resetPasswordRequest.getResetUrl());
-        if(userId == null){
+        if (userId == null) {
             return new Status(false);
         }
 //        queriesDAO.forgotPassword();
