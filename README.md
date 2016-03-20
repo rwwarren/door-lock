@@ -64,7 +64,3 @@ Servo -> use java api client
 ##Mobile Application
 [Mobile](mobile/)
 - react native
-
-
-
-
