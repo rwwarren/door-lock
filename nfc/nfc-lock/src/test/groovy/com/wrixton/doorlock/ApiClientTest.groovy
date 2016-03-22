@@ -87,4 +87,5 @@ class ApiClientTest {
         //TODO change this
         assertThat("Response should be locked", response, equalTo(LOCK_STATUS.LOCKED))
     }
+    
 }
