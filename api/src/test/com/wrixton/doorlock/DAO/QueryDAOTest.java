@@ -249,4 +249,5 @@ public class QueryDAOTest {
         assertNotNull(updatedRows);
         assertThat(updatedRows, equalTo(1));
     }
+    
 }
