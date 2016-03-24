@@ -1,7 +1,7 @@
 package com.wrixton.doorlock
 
 import groovyx.net.http.HttpResponseException
-import org.junit.Test;
+import org.junit.Test
 
 public class AppTest {
 
