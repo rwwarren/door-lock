@@ -85,6 +85,7 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
         ScannerFactory.setScanner(reflectiveJaxrsScanner);
 
         environment.servlets().addServletListeners(new ServletContextListener() {
+            
             @Override
             public void contextInitialized(ServletContextEvent servletContextEvent) {
                 servletContextEvent.getServletContext().setAttribute("swagger", swagger);
