@@ -3,7 +3,7 @@
 The goal of this is so that anyone with any type of nfc can open the door with proper access.
 
 Can use:
-- iPhone 6/6s + iPhone 6/6s Plus
+- Apple wallet
 - [nymi] (http://www.nymi.com)
 - nfc card
 - java 8
