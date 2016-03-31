@@ -24,4 +24,3 @@ describe('Constants Testing', function() {
     });
   });
 });
-
