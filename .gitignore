@@ -17,6 +17,7 @@ Bundle.js
 react.js
 salt.json
 newrelic.yml
+nfc/nfc-lock/src/main/groovy/com/wrixton/doorlock/mysqlLogin.groovy
 
 # Ignore directories
 backups/
