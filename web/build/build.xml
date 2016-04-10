@@ -10,7 +10,6 @@
       </filterchain>
     </copy>
     <exec command="sudo mv ${current.dir}/${apache.filename} ${apache.dir}/${apache.filename}"/>
-    <!--<exec command="sudo mv ${current.dir}/api-default-door-lock.conf ${current.dir}/${apache.filename}"/>-->
     <!-- <copy file="${current.dir}/${apache.filename}" tofile="${apache.dir}/${apache.filename}"/> -->
     <exec command="sudo a2ensite ${apache.name}"/>
     <exec command="sudo service apache2 reload"/>
@@ -33,7 +32,6 @@
     <phingcall target="clean"/>
     <phingcall target="properties"/>
     <phingcall target="update"/>
-    <!-- <phingcall target="prepare" /> -->
     <!-- <phingcall target="build" /> -->
     <!-- <phingcall target="runtests" /> -->
   </target>
