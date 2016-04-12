@@ -16,9 +16,7 @@ redis:
 
 database:
   driverClass: org.postgresql.Driver
-  # the username
   user: write
-  # the password
   password: PASSWORD
   url: jdbc:postgresql://localhost/application_data
   properties:
