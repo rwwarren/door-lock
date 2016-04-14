@@ -7,7 +7,7 @@ npm install
 
 how to run: 
 ```
-nodemon start
-gulp
-corsproxy
+nohup nodemon start &
+nohup gulp & 
+nohup corsproxy &
 ```
