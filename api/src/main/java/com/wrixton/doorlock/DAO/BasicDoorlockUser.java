@@ -2,8 +2,8 @@ package com.wrixton.doorlock.DAO;
 
 public class BasicDoorlockUser {
 
-    private String userID;
-    private String username;
+    private final String userID;
+    private final String username;
 
     public BasicDoorlockUser(String userID, String username) {
         this.userID = userID;
@@ -17,4 +17,5 @@ public class BasicDoorlockUser {
     public String getUsername() {
         return username;
     }
+    
 }
