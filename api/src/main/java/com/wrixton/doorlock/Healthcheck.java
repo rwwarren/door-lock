@@ -2,11 +2,11 @@ package com.wrixton.doorlock;
 
 import com.codahale.metrics.health.HealthCheck;
 
-public class Healthcheck extends HealthCheck {
+class Healthcheck extends HealthCheck {
 
     private final String appName;
 
-    public Healthcheck(String appName) {
+    Healthcheck(String appName) {
         this.appName = appName;
     }
 

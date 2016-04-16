@@ -25,8 +25,6 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
 
     private static final Logger LOG = Logger.getLogger(DoorlockApiApp.class.getName());
     private String VERSION = "0.08";
-    private static final String GOOD_ORIGIN = "allowed_host";
-    private static final String BAD_ORIGIN = "denied_host";
 
     public static void main(String[] args) {
         try {
@@ -85,7 +83,7 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
         ScannerFactory.setScanner(reflectiveJaxrsScanner);
 
         environment.servlets().addServletListeners(new ServletContextListener() {
-            
+
             @Override
             public void contextInitialized(ServletContextEvent servletContextEvent) {
                 servletContextEvent.getServletContext().setAttribute("swagger", swagger);
