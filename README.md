@@ -4,6 +4,8 @@
 [![Coverage Status](https://img.shields.io/coveralls/rwwarren/door-lock.svg)](https://coveralls.io/r/rwwarren/door-lock)
 [![Code Climate](https://codeclimate.com/github/rwwarren/door-lock/badges/gpa.svg)](https://codeclimate.com/github/rwwarren/door-lock)
 
+
+
 TODO:
 Using gulp
 setting up api -> dropwizard 
