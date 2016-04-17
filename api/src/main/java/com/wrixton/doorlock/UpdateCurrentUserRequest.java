@@ -12,4 +12,5 @@ public class UpdateCurrentUserRequest {
     public UpdateCurrentUserRequest(@JsonProperty("sid") SessionRequest sid) {
         this.sid = sid;
     }
+    
 }
