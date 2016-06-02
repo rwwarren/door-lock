@@ -3,7 +3,7 @@ package com.wrixton.doorlock.DAO;
 import com.codahale.metrics.MetricRegistry;
 import com.google.common.base.Charsets;
 import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.java8.jdbi.DBIFactory;
+import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Environment;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.flywaydb.core.Flyway;

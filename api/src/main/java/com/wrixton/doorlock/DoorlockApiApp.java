@@ -7,7 +7,7 @@ import com.wrixton.doorlock.resources.DoorlockApiAppResource;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.java8.Java8Bundle;
-import io.dropwizard.java8.jdbi.DBIFactory;
+import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.swagger.config.ScannerFactory;
@@ -67,8 +67,8 @@ public class DoorlockApiApp extends Application<DoorlockApiAppConfiguration> {
         final Healthcheck healthCheck =
                 new Healthcheck(doorlockApiAppConfiguration.getAppName());
         environment.healthChecks().register("template", healthCheck);
-        environment.jersey().setUrlPattern("/css/*");
-        environment.jersey().setUrlPattern("/lib/*");
+//        environment.jersey().setUrlPattern("/css/*");
+//        environment.jersey().setUrlPattern("/lib/*");
 
         final Swagger swagger = new Swagger();
         swagger.setBasePath("/");
