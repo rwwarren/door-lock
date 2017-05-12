@@ -11,6 +11,7 @@
 *.conf
 *.err
 *.pid
+*.out
 
 # Ignore specific files
 Bundle.js
