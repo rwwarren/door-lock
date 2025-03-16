@@ -40,7 +40,7 @@ Web
 NFC
 Servo -> use java api client
 
-##Api
+## Api
 [API](api/)
 - Java 8
 - dropwizard 1.0.0
@@ -49,20 +49,20 @@ Servo -> use java api client
 - jdbi -> postgresql (9.4.4) using jdbi dropwizard
 - swagger 1.5.4 api documentation
 
-##Web (+ mobile optimized)
+## Web (+ mobile optimized)
 [Web](web/)
 - nodejs
 - reactjs
 
-##NFC
+## NFC
 [NFC](nfc/)
 - Java 8
 
-##Servo
+## Servo
 [Servo](servo/)
 - Moves the deadbolt using a servo
 - python
 
-##Mobile Application
+## Mobile Application
 [Mobile](mobile/)
 - react native
