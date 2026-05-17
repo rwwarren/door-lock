@@ -1,0 +1,35 @@
+name: Auto Assign
+
+on:
+  pull_request:
+    types: [opened]
+  issues:
+    types: [opened]
+
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Assign to rwwarren
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const assignee = 'rwwarren';
+            if (context.eventName === 'issues') {
+              await github.rest.issues.addAssignees({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                assignees: [assignee],
+              });
+            } else if (context.eventName === 'pull_request') {
+              await github.rest.issues.addAssignees({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                assignees: [assignee],
+              });
+            }
