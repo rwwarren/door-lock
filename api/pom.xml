@@ -15,13 +15,13 @@
         <swagger.version>1.5.4</swagger.version>
         <dropwizard.modules.version>0.9.0-1</dropwizard.modules.version>
         <newrelic.version>3.22.1</newrelic.version>
-        <jackson-datatype.version>2.7.4</jackson-datatype.version>
+        <jackson-datatype.version>2.9.8</jackson-datatype.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13.1</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -210,7 +210,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.0.2</version>
+            <version>4.5.13</version>
             <exclusions>
                 <exclusion>
                     <artifactId>commons-logging</artifactId>
