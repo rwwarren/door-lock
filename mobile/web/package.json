@@ -16,7 +16,7 @@
     "gulp-uglify": "^1.2.0",
     "gulp-watch": "^4.3.3",
     "mocha": "^2.2.5",
-    "react": "^0.13.3",
+    "react": "^19.2.6",
     "react-jsx": "^0.13.0",
     "react-nested-status": "^0.1.2",
     "react-router": "^0.13.3",
